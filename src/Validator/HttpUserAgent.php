@@ -32,7 +32,7 @@ use Zend\Session\Validator as SessionValidator;
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class HTTPUserAgent implements SessionValidator
+class HttpUserAgent implements SessionValidator
 {
     /**
      * Constructor - get the current user agent and store it in the session
