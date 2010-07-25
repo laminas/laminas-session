@@ -25,8 +25,9 @@ namespace ZendTest\Session\SaveHandler;
 use Zend\Session\SaveHandler\DbTable,
     Zend\Session\SaveHandler\Exception as SaveHandlerException,
     Zend\Session\Manager,
-    Zend\DB\DB,
-    Zend\DB\Table\AbstractTable,
+    Zend\Db\Db,
+    Zend\Db\Adapter\AbstractAdapter,
+    Zend\Db\Table\AbstractTable,
     ZendTest\Session\TestAsset\TestManager;
 
 /**
@@ -529,7 +530,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('The pdo_sqlite extension must be available and enabled for this test');
         }
 
-        $this->_db = DB::factory('PDO\\SQLite', array('dbname' => ':memory:'));
+        $this->_db = Db::factory('Pdo\Sqlite', array('dbname' => ':memory:'));
         AbstractTable::setDefaultAdapter($this->_db);
         $query = array();
         $query[] = 'CREATE TABLE `Sessions` ( ';
@@ -555,7 +556,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
      */
     protected function _dropTable()
     {
-        if (!$this->_db instanceof \Zend_Db_Adapter_Abstract) {
+        if (!$this->_db instanceof AbstractAdapter) {
             return;
         }
         $this->_db->query('DROP TABLE Sessions');
