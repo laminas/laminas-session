@@ -18,10 +18,7 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/**
- * @namespace
- */
-namespace Zend\Session;
+namespace Zend\Session\Validator;
 
 /**
  * Session validator interface
@@ -31,7 +28,7 @@ namespace Zend\Session;
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Validator
+interface ValidatorInterface
 {
     /**
      * This method will be called at the beginning of

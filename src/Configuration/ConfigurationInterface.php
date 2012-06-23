@@ -18,10 +18,7 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/**
- * @namespace
- */
-namespace Zend\Session;
+namespace Zend\Session\Configuration;
 
 /**
  * Standard session configuration
@@ -31,7 +28,7 @@ namespace Zend\Session;
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Configuration
+interface ConfigurationInterface
 {
     public function setOptions(array $options);
     public function setOption($option, $value);
@@ -39,7 +36,7 @@ interface Configuration
     public function getOption($option);
     public function toArray();
 
-    public function setSavePath($path);
+    public function setSavePath($savePath);
     public function getSavePath();
 
     public function setName($name);
@@ -53,10 +50,10 @@ interface Configuration
     public function getCookieDomain();
     public function setCookieSecure($cookieSecure);
     public function getCookieSecure();
-    public function setCookieHttponly($cookieHTTPOnly);
-    public function getCookieHTTPOnly();
-    public function setUseCookies($flag);
+    public function setCookieHttpOnly($cookieHttpOnly);
+    public function getCookieHttpOnly();
+    public function setUseCookies($useCookies);
     public function getUseCookies();
-    public function setRememberMeSeconds($seconds);
+    public function setRememberMeSeconds($rememberMeSeconds);
     public function getRememberMeSeconds();
 }
