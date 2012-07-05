@@ -18,12 +18,12 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/**
- * @namespace
- */
 namespace Zend\Session;
 
-use Zend\EventManager\EventCollection;
+use Zend\EventManager\EventManagerInterface,
+    Zend\Session\Configuration\ConfigurationInterface as Configuration,
+    Zend\Session\Storage\StorageInterface as Storage,
+    Zend\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
 
 /**
  * Session manager interface
@@ -33,7 +33,7 @@ use Zend\EventManager\EventCollection;
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Manager
+interface ManagerInterface
 {
     public function __construct(Configuration $config = null, Storage $storage = null, SaveHandler $saveHandler = null);
 
@@ -56,7 +56,7 @@ interface Manager
     public function forgetMe();
     public function expireSessionCookie();
 
-    public function setValidatorChain(EventCollection $chain);
+    public function setValidatorChain(EventManagerInterface $chain);
     public function getValidatorChain();
     public function isValid();
 }
