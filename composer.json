@@ -33,8 +33,7 @@
         "zendframework/zend-eventmanager": "Zend\\EventManager component",
         "zendframework/zend-http": "Zend\\Http component",
         "zendframework/zend-servicemanager": "Zend\\ServiceManager component",
-        "zendframework/zend-validator": "Zend\\Validator component",
-        "zendframework/zend-filter": "Zend\\Filter component"
+        "zendframework/zend-validator": "Zend\\Validator component"
     },
     "extra": {
         "branch-alias": {
