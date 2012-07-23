@@ -1,27 +1,17 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework (http://framework.zend.com/)
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-webat this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Session
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Session
  */
 
-namespace Zend\Session\Configuration;
+namespace Zend\Session\Config;
 
-use Zend\Validator\Hostname as HostnameValidator,
-    Zend\Session\Exception;
+use Zend\Session\Exception;
+use Zend\Validator\Hostname as HostnameValidator;
 
 /**
  * Session configuration proxying to session INI options
@@ -29,10 +19,8 @@ use Zend\Validator\Hostname as HostnameValidator,
  * @category   Zend
  * @package    Zend_Session
  * @subpackage Configuration
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class SessionConfiguration extends StandardConfiguration
+class SessionConfig extends StandardConfig
 {
     /**
      * Used with {@link handleError()}; stores PHP error code
@@ -119,47 +107,22 @@ class SessionConfiguration extends StandardConfiguration
      */
     public function getStorageOption($storageOption)
     {
-        $key       = false;
-        $transform = false;
         switch ($storageOption) {
             case 'remember_me_seconds':
                 // No remote storage option; just return the current value
                 return $this->rememberMeSeconds;
             case 'url_rewriter_tags':
-                $key = 'url_rewriter.tags';
-                break;
+                return ini_get('url_rewriter.tags');
             // The following all need a transformation on the retrieved value;
             // however they use the same key naming scheme
             case 'use_cookies':
             case 'use_only_cookies':
             case 'use_trans_sid':
             case 'cookie_httponly':
-                $transform = function ($value) {
-                    return (bool) $value;
-                };
+                return (bool) ini_get('session.' . $storageOption);
             default:
-                $key = 'session.' . $storageOption;
-                break;
+                return ini_get('session.' . $storageOption);
         }
-
-        $value = ini_get($key);
-        if (false !== $transform) {
-            $value = $transform($value);
-        }
-        return $value;
-    }
-
-    /**
-     * Handle PHP errors
-     *
-     * @param  int $code
-     * @param  string $message
-     * @return void
-     */
-    protected function handleError($code, $message)
-    {
-        $this->phpErrorCode    = $code;
-        $this->phpErrorMessage = $message;
     }
 
     /**
@@ -176,7 +139,9 @@ class SessionConfiguration extends StandardConfiguration
         ini_set('session.save_handler', $phpSaveHandler);
         restore_error_handler();
         if ($this->phpErrorCode >= E_WARNING) {
-            throw new Exception\InvalidArgumentException('Invalid save handler specified');
+            throw new Exception\InvalidArgumentException(
+                'Invalid save handler specified: ' . $this->phpErrorMessage
+            );
         }
 
         $this->setOption('save_handler', $phpSaveHandler);
@@ -226,24 +191,6 @@ class SessionConfiguration extends StandardConfiguration
     }
 
     /**
-     * Retrieve list of valid hash functions
-     *
-     * @return array
-     */
-    protected function getHashFunctions()
-    {
-        if (empty($this->validHashFunctions)) {
-            /**
-             * @see http://php.net/manual/en/session.configuration.php#ini.session.hash-function
-             * "0" and "1" refer to MD5-128 and SHA1-160, respectively, and are
-             * valid in addition to whatever is reported by hash_algos()
-             */
-            $this->validHashFunctions = array('0', '1') + hash_algos();
-        }
-        return $this->validHashFunctions;
-    }
-
-    /**
      * Set session.hash_function
      *
      * @param  string|int $hashFunction
@@ -282,5 +229,36 @@ class SessionConfiguration extends StandardConfiguration
         $this->setOption('hash_bits_per_character', $hashBitsPerCharacter);
         ini_set('session.hash_bits_per_character', $hashBitsPerCharacter);
         return $this;
+    }
+
+    /**
+     * Retrieve list of valid hash functions
+     *
+     * @return array
+     */
+    protected function getHashFunctions()
+    {
+        if (empty($this->validHashFunctions)) {
+            /**
+             * @link http://php.net/manual/en/session.configuration.php#ini.session.hash-function
+             * "0" and "1" refer to MD5-128 and SHA1-160, respectively, and are
+             * valid in addition to whatever is reported by hash_algos()
+             */
+            $this->validHashFunctions = array('0', '1') + hash_algos();
+        }
+        return $this->validHashFunctions;
+    }
+
+    /**
+     * Handle PHP errors
+     *
+     * @param  int $code
+     * @param  string $message
+     * @return void
+     */
+    protected function handleError($code, $message)
+    {
+        $this->phpErrorCode    = $code;
+        $this->phpErrorMessage = $message;
     }
 }
