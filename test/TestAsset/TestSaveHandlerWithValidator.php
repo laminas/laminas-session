@@ -12,16 +12,18 @@ namespace ZendTest\Session\TestAsset;
 
 use Zend\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
 
-class TestSaveHandler implements SaveHandler
+class TestSaveHandlerWithValidator implements SaveHandler
 {
     public function open($save_path, $name)
-    {}
+    {return true;}
 
     public function close()
     {}
 
     public function read($id)
-    {}
+    {
+        return '__ZF|a:1:{s:6:"_VALID";a:1:{s:47:"ZendTest\Session\TestAsset\TestFailingValidator";s:0:"";}}';
+    }
 
     public function write($id, $data)
     {}
