@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Zend Framework (http://framework.zend.com/)
  *
@@ -10,25 +11,23 @@
 
 namespace ZendTest\Session\TestAsset;
 
-use Zend\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
+use Zend\Session\Validator\ValidatorInterface;
 
-class TestSaveHandler implements SaveHandler
+class TestFailingValidator implements ValidatorInterface
 {
-    public function open($save_path, $name)
-    {}
 
-    public function close()
-    {}
+    public function getData()
+    {
+        return false;
+    }
 
-    public function read($id)
-    {}
+    public function getName()
+    {
+        return __CLASS__;
+    }
 
-    public function write($id, $data)
-    {}
-
-    public function destroy($id)
-    {}
-
-    public function gc($maxlifetime)
-    {}
+    public function isValid()
+    {
+        return $this->getData();
+    }
 }

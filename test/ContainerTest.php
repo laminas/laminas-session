@@ -1,49 +1,45 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework (http://framework.zend.com/)
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Session
- * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id:$
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Session
  */
 
 namespace ZendTest\Session;
 
-use Zend\Session\Container,
-    Zend\Session\Configuration\StandardConfiguration,
-    Zend\Session\ManagerInterface as Manager,
-    Zend\Session;
+use Zend\Session\Container;
+use Zend\Session\Config\StandardConfig;
+use Zend\Session\ManagerInterface as Manager;
+use Zend\Session;
 
 /**
  * @category   Zend
  * @package    Zend_Session
  * @subpackage UnitTests
  * @group      Zend_Session
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Manager
+     */
+    protected $manager;
+
+    /**
+     * @var Container
+     */
+    protected $container;
+
     public function setUp()
     {
         $this->forceAutoloader();
         $_SESSION = array();
         Container::setDefaultManager(null);
 
-        $config = new StandardConfiguration(array(
+        $config = new StandardConfig(array(
             'storage' => 'Zend\\Session\\Storage\\ArrayStorage',
         ));
 
@@ -101,13 +97,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $container = new Container('Zend_Foo', $this->manager);
         $this->assertEquals('Zend_Foo', $container->getName());
     }
-    
+
     public function testUsingNewZF2NamespaceIsValid()
     {
         $container = new Container('Zend\Foo', $this->manager);
         $this->assertEquals('Zend\Foo', $container->getName());
     }
-    
+
     public function testPassingInvalidNameToConstructorRaisesException()
     {
         $tries = array(
@@ -181,14 +177,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $manager   = $container->getManager();
         $this->assertTrue($manager instanceof Manager);
         $config  = $manager->getConfig();
-        $this->assertTrue($config instanceof Session\Configuration\SessionConfiguration);
+        $this->assertTrue($config instanceof Session\Config\SessionConfig);
         $storage = $manager->getStorage();
         $this->assertTrue($storage instanceof Session\Storage\SessionStorage);
     }
 
     public function testContainerAllowsInjectingManagerViaConstructor()
     {
-        $config = new StandardConfiguration(array(
+        $config = new StandardConfig(array(
             'storage' => 'Zend\\Session\\Storage\\ArrayStorage',
         ));
         $manager = new TestAsset\TestManager($config);
@@ -297,6 +293,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(isset($this->container->bar));
     }
 
+    public function testKeyExistsWithContainerExpirationInPastWithSetExpirationSecondsReturnsFalse()
+    {
+        $this->container->foo = 'bar';
+        $storage = $this->manager->getStorage();
+        $storage->setMetadata('Default', array('EXPIRE' => $_SERVER['REQUEST_TIME'] - 18600));
+        $this->container->setExpirationSeconds(1);
+        $this->assertFalse(isset($this->container->foo));
+    }
+
     public function testSettingExpiredKeyOverwritesExpiryMetadataForThatKey()
     {
         $this->container->foo = 'bar';
@@ -316,7 +321,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $metadata = $storage->getMetadata('Default');
         $this->assertTrue(array_key_exists('EXPIRE_HOPS', $metadata));
         $this->assertEquals(
-            array('hops' => 2, 'ts' => $storage->getRequestAccessTime()), 
+            array('hops' => 2, 'ts' => $storage->getRequestAccessTime()),
             $metadata['EXPIRE_HOPS']
         );
     }
@@ -330,7 +335,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(array_key_exists('EXPIRE_HOPS_KEYS', $metadata));
         $this->assertTrue(array_key_exists('foo', $metadata['EXPIRE_HOPS_KEYS']));
         $this->assertEquals(
-            array('hops' => 2, 'ts' => $storage->getRequestAccessTime()), 
+            array('hops' => 2, 'ts' => $storage->getRequestAccessTime()),
             $metadata['EXPIRE_HOPS_KEYS']['foo']
         );
     }
@@ -349,11 +354,11 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $ts       = $storage->getRequestAccessTime();
         $expected = array(
             'foo' => array(
-                'hops' => 2, 
+                'hops' => 2,
                 'ts'   => $ts,
             ),
             'baz' => array(
-                'hops' => 2, 
+                'hops' => 2,
                 'ts'   => $ts,
             ),
         );
@@ -509,5 +514,16 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $session = new Container('test');
         $session->test = 42;
         $this->assertEquals(42, $session->test);
+    }
+
+    public function testExchangeArray()
+    {
+        $this->container->offsetSet('old', 'old');
+        $this->assertTrue($this->container->offsetExists('old'));
+
+        $old = $this->container->exchangeArray(array('new' => 'new'));
+        $this->assertArrayHasKey('old', $old, "'exchangeArray' doesn't return an array of old items");
+        $this->assertFalse($this->container->offsetExists('old'), "'exchangeArray' doesn't remove old items");
+        $this->assertTrue($this->container->offsetExists('new'), "'exchangeArray' doesn't add the new array items");
     }
 }

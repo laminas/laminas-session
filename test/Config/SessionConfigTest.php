@@ -1,43 +1,34 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework (http://framework.zend.com/)
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Session
- * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id:$
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Session
  */
 
 namespace ZendTest\Session;
 
-use Zend\Session\Configuration\SessionConfiguration;
+use Zend\Session\Config\SessionConfig;
 
 /**
  * @category   Zend
  * @package    Zend_Session
  * @subpackage UnitTests
  * @group      Zend_Session
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @runTestsInSeparateProcesses
  */
-class SessionConfigurationTest extends \PHPUnit_Framework_TestCase
+class SessionConfigTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var SessionConfig
+     */
+    protected $config;
+
     public function setUp()
     {
-        $this->config = new SessionConfiguration;
+        $this->config = new SessionConfig;
     }
 
     // session.save_path
@@ -63,6 +54,12 @@ class SessionConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $this->config->setSavePath(__DIR__);
         $this->assertEquals(__DIR__, ini_get('session.save_path'));
+    }
+
+    public function testSavePathCanBeNonDirectoryWhenSaveHandlerNotFiles()
+    {
+        $this->config->setPhpSaveHandler('user');
+        $this->config->setSavePath('/tmp/sessions.db');
     }
 
     // session.name
@@ -463,12 +460,6 @@ class SessionConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->config->setEntropyFile(__DIR__ . '/foobarboguspath');
     }
 
-    public function testSetEntropyFileErrorsOnDirectory()
-    {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid entropy_file provided');
-        $this->config->setEntropyFile(__DIR__);
-    }
-
     public function testEntropyFileDefaultsToIniSettings()
     {
         $this->assertSame(ini_get('session.entropy_file'), $this->config->getEntropyFile());
@@ -513,13 +504,15 @@ class SessionConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidEntropyLengthRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid entropy_length; must be numeric');
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Invalid entropy_length; must be numeric');
         $this->config->setEntropyLength('foobar_bogus');
     }
 
     public function testSettingInvalidEntropyLengthRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid entropy_length; must be a positive integer or zero');
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Invalid entropy_length; must be a positive integer or zero');
         $this->config->setEntropyLength(-1);
     }
 
@@ -693,7 +686,8 @@ class SessionConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidHashBitsPerCharacterRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid hash bits per character provided');
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Invalid hash bits per character provided');
         $this->config->setHashBitsPerCharacter('foobar_bogus');
     }
 
@@ -729,7 +723,57 @@ class SessionConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(604800, $this->config->getRememberMeSeconds());
     }
 
+    // setOption
+
+    /**
+     * @dataProvider optionsProvider
+     */
+    public function testSetOptionSetsIniSetting($option, $getter, $value)
+    {
+        // Leaving out special cases.
+        if ($option != 'remember_me_seconds' && $option != 'url_rewriter_tags') {
+            $this->config->setStorageOption($option, $value);
+            $this->assertEquals(ini_get('session.' . $option), $value);
+        }
+    }
+
+    public function testSetOptionUrlRewriterTagsGetsMunged()
+    {
+        $value = 'a=href';
+        $this->config->setStorageOption('url_rewriter_tags', $value);
+        $this->assertEquals(ini_get('url_rewriter.tags'), $value);
+    }
+
+    public function testSetOptionRememberMeSecondsDoesNothing()
+    {
+        // I have no idea how to test this.
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetOptionsThrowsExceptionOnInvalidKey()
+    {
+        $badKey = 'snarfblat';
+        $value = 'foobar';
+        $this->config->setStorageOption($badKey, $value);
+    }
+
     // setOptions
+
+    /**
+     * @dataProvider optionsProvider
+     */
+    public function testSetOptionsTranslatesUnderscoreSeparatedKeys($option, $getter, $value)
+    {
+        $options = array($option => $value);
+        $this->config->setOptions($options);
+        if ('getOption' == $getter) {
+            $this->assertSame($value, $this->config->getOption($option));
+        } else {
+            $this->assertSame($value, $this->config->$getter());
+        }
+    }
 
     public function optionsProvider()
     {
@@ -850,19 +894,5 @@ class SessionConfigurationTest extends \PHPUnit_Framework_TestCase
                 'a=href',
             ),
         );
-    }
-
-    /**
-     * @dataProvider optionsProvider
-     */
-    public function testSetOptionsTranslatesUnderscoreSeparatedKeys($option, $getter, $value)
-    {
-        $options = array($option => $value);
-        $this->config->setOptions($options);
-        if ('getOption' == $getter) {
-            $this->assertSame($value, $this->config->getOption($option));
-        } else {
-            $this->assertSame($value, $this->config->$getter());
-        }
     }
 }

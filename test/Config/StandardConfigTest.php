@@ -1,42 +1,33 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework (http://framework.zend.com/)
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Session
- * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id:$
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Session
  */
 
 namespace ZendTest\Session;
 
-use Zend\Session\Configuration\StandardConfiguration;
+use Zend\Session\Config\StandardConfig;
 
 /**
  * @category   Zend
  * @package    Zend_Session
  * @subpackage UnitTests
  * @group      Zend_Session
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
+class StandardConfigTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var StandardConfig
+     */
+    protected $config;
+
     public function setUp()
     {
-        $this->config = new StandardConfiguration;
+        $this->config = new StandardConfig;
     }
 
     // session.save_path
@@ -81,13 +72,13 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_probability; must be numeric');
         $this->config->setGcProbability('foobar_bogus');
     }
-    
+
     public function testSettingInvalidGcProbabilityRaisesException2()
     {
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_probability; must be a percentage');
         $this->config->setGcProbability(-1);
     }
-    
+
     public function testSettingInvalidGcProbabilityRaisesException3()
     {
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_probability; must be a percentage');
@@ -127,7 +118,7 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_maxlifetime; must be numeric');
         $this->config->setGcMaxlifetime('foobar_bogus');
     }
-    
+
     public function testSettingInvalidGcMaxlifetimeRaisesException2()
     {
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_maxlifetime; must be a positive integer');
@@ -162,7 +153,7 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie_lifetime; must be numeric');
         $this->config->setCookieLifetime('foobar_bogus');
     }
-    
+
     public function testSettingInvalidCookieLifetimeRaisesException2()
     {
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie_lifetime; must be a positive integer or zero');
@@ -182,13 +173,13 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie path');
         $this->config->setCookiePath(24);
     }
-    
+
     public function testSettingInvalidCookiePathRaisesException2()
     {
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie path');
         $this->config->setCookiePath('foo');
     }
-    
+
     public function testSettingInvalidCookiePathRaisesException3()
     {
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie path');
@@ -214,7 +205,7 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie domain: must be a string');
         $this->config->setCookieDomain(24);
     }
-    
+
     public function testSettingInvalidCookieDomainRaisesException2()
     {
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'does not match the expected structure for a DNS hostname');
@@ -275,12 +266,6 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->config->setEntropyFile(__DIR__ . '/foobarboguspath');
     }
 
-    public function testSetEntropyFileErrorsOnDirectory()
-    {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid entropy_file provided');
-        $this->config->setEntropyFile(__DIR__);
-    }
-
     public function testEntropyFileIsMutable()
     {
         $this->config->setEntropyFile(__FILE__);
@@ -306,7 +291,7 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid entropy_length; must be numeric');
         $this->config->setEntropyLength('foobar_bogus');
     }
-    
+
     public function testSettingInvalidEntropyLengthRaisesException2()
     {
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid entropy_length; must be a positive integer or zero');
@@ -344,13 +329,15 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCacheExpireRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cache_expire; must be numeric');
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Invalid cache_expire; must be numeric');
         $this->config->setCacheExpire('foobar_bogus');
     }
-    
+
     public function testSettingInvalidCacheExpireRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cache_expire; must be a positive integer');
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Invalid cache_expire; must be a positive integer');
         $this->config->setCacheExpire(-1);
     }
 
@@ -405,7 +392,8 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidHashBitsPerCharacterRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid hash bits per character provided');
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Invalid hash bits per character provided');
         $this->config->setHashBitsPerCharacter('foobar_bogus');
     }
 
@@ -427,17 +415,29 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidRememberMeSecondsRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid remember_me_seconds; must be numeric');
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Invalid remember_me_seconds; must be numeric');
         $this->config->setRememberMeSeconds('foobar_bogus');
     }
-    
+
     public function testSettingInvalidRememberMeSecondsRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid remember_me_seconds; must be a positive integer');
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Invalid remember_me_seconds; must be a positive integer');
         $this->config->setRememberMeSeconds(-1);
     }
 
     // setOptions
+
+    /**
+     * @dataProvider optionsProvider
+     */
+    public function testSetOptionsTranslatesUnderscoreSeparatedKeys($option, $getter, $value)
+    {
+        $options = array($option => $value);
+        $this->config->setOptions($options);
+        $this->assertSame($value, $this->config->$getter());
+    }
 
     public function optionsProvider()
     {
@@ -561,12 +561,18 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider optionsProvider
+     * Set entropy file /dev/urandom, see issue #3046
+     *
+     * @link https://github.com/zendframework/zf2/issues/3046
      */
-    public function testSetOptionsTranslatesUnderscoreSeparatedKeys($option, $getter, $value)
+    public function testSetEntropyDevUrandom()
     {
-        $options = array($option => $value);
-        $this->config->setOptions($options);
-        $this->assertSame($value, $this->config->$getter());
+        if (!file_exists('/dev/urandom')) {
+            $this->markTestSkipped(
+                "This test doesn't work because /dev/urandom file doesn't exist."
+            );
+        }
+        $result = $this->config->setEntropyFile('/dev/urandom');
+        $this->assertInstanceOf('Zend\Session\Config\StandardConfig', $result);
     }
 }

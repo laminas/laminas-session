@@ -1,38 +1,23 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework (http://framework.zend.com/)
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Session
- * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id:$
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Session
  */
 
 namespace ZendTest\Session;
 
-use Zend\Session\SessionManager,
-    Zend\Session,
-    Zend\Registry;
+use Zend\Session\SessionManager;
+use Zend\Session;
 
 /**
  * @category   Zend
  * @package    Zend_Session
  * @subpackage UnitTests
  * @group      Zend_Session
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @preserveGlobalState disabled
  */
 class SessionManagerTest extends \PHPUnit_Framework_TestCase
@@ -48,7 +33,6 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $this->forceAutoloader();
         $this->error   = false;
         $this->manager = new SessionManager();
-        Registry::_unsetInstance();
     }
 
     protected function forceAutoloader()
@@ -73,15 +57,15 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         return false;
     }
 
-    public function testManagerUsesSessionConfigurationByDefault()
+    public function testManagerUsesSessionConfigByDefault()
     {
         $config = $this->manager->getConfig();
-        $this->assertTrue($config instanceof Session\Configuration\SessionConfiguration);
+        $this->assertTrue($config instanceof Session\Config\SessionConfig);
     }
 
     public function testCanPassConfigurationToConstructor()
     {
-        $config = new Session\Configuration\StandardConfiguration();
+        $config = new Session\Config\StandardConfig();
         $manager = new SessionManager($config);
         $this->assertSame($config, $manager->getConfig());
     }
@@ -172,6 +156,18 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @runInSeparateProcess
      */
+    public function testStorageContentIsPreservedByWriteCloseOperation()
+    {
+        $this->manager->start();
+        $storage = $this->manager->getStorage();
+        $storage['foo'] = 'bar';
+        $this->manager->writeClose();
+        $this->assertTrue(isset($storage['foo']) && $storage['foo'] == 'bar');
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
     public function testStartCreatesNewSessionIfPreviousSessionHasBeenDestroyed()
     {
         $this->manager->start();
@@ -245,7 +241,8 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNameWhenAnActiveSessionExistsRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Cannot set session name after a session has already started');
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Cannot set session name after a session has already started');
         $this->manager->start();
         $this->manager->setName('foobar');
     }
@@ -258,7 +255,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         if (!extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
-        
+
         $config = $this->manager->getConfig();
         $config->setUseCookies(true);
         $this->manager->start();
@@ -283,7 +280,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         if (!extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
-        
+
         $config = $this->manager->getConfig();
         $config->setUseCookies(true);
         $this->manager->start();
@@ -326,7 +323,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $storage = $this->manager->getStorage();
         $storage['foo'] = 'bar';
         $this->manager->destroy(array('clear_storage' => true));
-        $this->assertSame(array(), (array) $storage);
+        $this->assertFalse(isset($storage['foo']));
     }
 
     /**
@@ -390,7 +387,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         if (!extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
-        
+
         $config = $this->manager->getConfig();
         $config->setUseCookies(true);
         $this->manager->start();
@@ -426,7 +423,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         if (!extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
-        
+
         $config = $this->manager->getConfig();
         $config->setUseCookies(true);
         $this->manager->start();
@@ -451,7 +448,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         if (!extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
-        
+
         $config = $this->manager->getConfig();
         $config->setUseCookies(true);
         $this->manager->start();
@@ -482,7 +479,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         if (!extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
-        
+
         $config = $this->manager->getConfig();
         $config->setUseCookies(true);
         $config->setRememberMeSeconds(3600);
@@ -517,7 +514,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         if (!extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
-        
+
         $config = $this->manager->getConfig();
         $config->setUseCookies(true);
         $this->manager->start();
@@ -540,16 +537,18 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     public function testStartingSessionThatFailsAValidatorShouldRaiseException()
     {
         $chain = $this->manager->getValidatorChain();
-        $chain->attach('session.validate', array($this, 'validateSession'));
+        $chain->attach('session.validate', array(new TestAsset\TestFailingValidator(), 'isValid'));
         $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'failed');
         $this->manager->start();
     }
 
     /**
-     * @see testStartingSessionThatFailsAValidatorShouldRaiseException()
+     * @runInSeparateProcess
      */
-    public static function validateSession()
+    public function testResumeSessionThatFailsAValidatorShouldRaiseException()
     {
-        return false;
+        $this->manager->setSaveHandler(new TestAsset\TestSaveHandlerWithValidator);
+        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'failed');
+        $this->manager->start();
     }
 }
