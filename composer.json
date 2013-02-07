@@ -12,7 +12,7 @@
             "Zend\\Session\\": "src/"
         },
         "files": [
-            "compatibility/autoload.php"
+            "Zend/Session/compatibility/autoload.php"
         ]
     },
     "require": {
