@@ -7,8 +7,11 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\Session\Exception;
+namespace Zend\Session\Storage;
 
-class BadMethodCallException extends \BadMethodCallException implements
-    ExceptionInterface
-{}
+/**
+ * PHP 5.3.3 variant of SessionArrayStorage
+ */
+class SessionArrayStorage extends AbstractSessionArrayStorage
+{
+}
