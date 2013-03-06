@@ -10,10 +10,7 @@
     "autoload": {
         "psr-4": {
             "Zend\\Session\\": "src/"
-        },
-        "files": [
-            "Zend/Session/compatibility/autoload.php"
-        ]
+        }
     },
     "require": {
         "php": ">=5.3.3",
