@@ -10,10 +10,7 @@
     "autoload": {
         "psr-4": {
             "Zend\\Session\\": "src/"
-        },
-        "files": [
-            "compatibility/autoload.php"
-        ]
+        }
     },
     "require": {
         "php": ">=5.3.3",
@@ -40,8 +37,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.4-dev",
-            "dev-develop": "2.5-dev"
+            "dev-master": "2.1-dev",
+            "dev-develop": "2.2-dev"
         }
     },
     "autoload-dev": {
