@@ -23,7 +23,6 @@
         "zendframework/zend-http": "self.version",
         "zendframework/zend-servicemanager": "self.version",
         "zendframework/zend-validator": "self.version",
-        "zendframework/zend-eventmanager": "self.version",
         "fabpot/php-cs-fixer": "1.7.*",
         "satooshi/php-coveralls": "dev-master",
         "phpunit/PHPUnit": "~4.0"
