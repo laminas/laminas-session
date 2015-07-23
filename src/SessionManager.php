@@ -443,13 +443,6 @@ class SessionManager extends AbstractManager
      */
     protected function registerSaveHandler(SaveHandler\SaveHandlerInterface $saveHandler)
     {
-        return session_set_save_handler(
-            [$saveHandler, 'open'],
-            [$saveHandler, 'close'],
-            [$saveHandler, 'read'],
-            [$saveHandler, 'write'],
-            [$saveHandler, 'destroy'],
-            [$saveHandler, 'gc']
-        );
+        return session_set_save_handler($saveHandler);
     }
 }
