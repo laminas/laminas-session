@@ -57,8 +57,10 @@ class MongoDB implements SaveHandlerInterface
     {
         if (!($mongo instanceof \MongoClient || $mongo instanceof \Mongo)) {
             throw new InvalidArgumentException(
-                'Parameter of type %s is invalid; must be MongoClient or Mongo',
-                (is_object($mongo) ? get_class($mongo) : gettype($mongo))
+                sprintf(
+                    'Parameter of type %s is invalid; must be MongoClient or Mongo',
+                    (is_object($mongo) ? get_class($mongo) : gettype($mongo))
+                )
             );
         }
 
