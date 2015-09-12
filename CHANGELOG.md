@@ -18,7 +18,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#7](https://github.com/zendframework/zend-session/pull/7) Mongo save handler
+  was using sprintf formatting without sprintf.
 
 ## 2.5.2 - 2015-07-29
 

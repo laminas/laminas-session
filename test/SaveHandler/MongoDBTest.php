@@ -69,6 +69,18 @@ class MongoDBTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testConstructorThrowsException()
+    {
+        $notMongo = new \stdClass();
+
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            'Parameter of type stdClass is invalid; must be MongoClient or Mongo'
+        );
+
+        $saveHandler = new MongoDB($notMongo, $this->options);
+    }
+
     public function testReadWrite()
     {
         $saveHandler = new MongoDB($this->mongo, $this->options);
