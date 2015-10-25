@@ -150,7 +150,7 @@ class SessionManager extends AbstractManager
             }
 
             $validator = new $validator(null);
-            $validatorChain->attach('session.validate', [$validator, 'isValid']);
+            $validatorChain->attach('session.validate', $validator);
         }
     }
 
@@ -373,9 +373,10 @@ class SessionManager extends AbstractManager
     public function isValid()
     {
         $validator = $this->getValidatorChain();
-        $responses = $validator->trigger('session.validate', $this, [$this], function ($test) {
+        $falseResult = function ($test) {
             return false === $test;
-        });
+        };
+        $responses = $validator->triggerUntil($falseResult, 'session.validate', $this, [$this]);
         if ($responses->stopped()) {
             // If execution was halted, validation failed
             return false;

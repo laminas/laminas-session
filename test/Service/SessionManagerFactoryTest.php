@@ -113,7 +113,10 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
 
         $manager->start();
 
-        $this->assertEquals(1, $manager->getValidatorChain()->getListeners('session.validate')->count());
+        $chain = $manager->getValidatorChain();
+        $r = new \ReflectionMethod($chain, 'getListenersByEventName');
+        $r->setAccessible(true);
+        $this->assertEquals(1, count($r->invoke($chain, 'session.validate')));
     }
 
     /**
@@ -195,6 +198,9 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
             // Ignore exception, because we are not interested whether session validation passes in this test
         }
 
-        $this->assertEquals(1, $manager->getValidatorChain()->getListeners('session.validate')->count());
+        $chain = $manager->getValidatorChain();
+        $r = new \ReflectionMethod($chain, 'getListenersByEventName');
+        $r->setAccessible(true);
+        $this->assertEquals(1, count($r->invoke($chain, 'session.validate')));
     }
 }

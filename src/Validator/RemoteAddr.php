@@ -62,12 +62,11 @@ class RemoteAddr implements SessionValidator
     }
 
     /**
-     * isValid() - this method will determine if the current user IP matches the
-     * IP we stored when we initialized this variable.
+     * This method will determine if the current user IP matches the IP we stored when we initialized this variable.
      *
      * @return bool
      */
-    public function isValid()
+    public function __invoke()
     {
         return ($this->getIpAddress() === $this->getData());
     }

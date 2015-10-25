@@ -25,7 +25,7 @@ class TestFailingValidator implements ValidatorInterface
         return __CLASS__;
     }
 
-    public function isValid()
+    public function __invoke()
     {
         return $this->getData();
     }
