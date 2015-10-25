@@ -9,6 +9,7 @@
 
 namespace Zend\Session;
 
+use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Stdlib\ArrayUtils;
 
@@ -356,7 +357,7 @@ class SessionManager extends AbstractManager
     public function getValidatorChain()
     {
         if (null === $this->validatorChain) {
-            $this->setValidatorChain(new ValidatorChain($this->getStorage()));
+            $this->setValidatorChain(new ValidatorChain($this->getStorage(), new Event()));
         }
         return $this->validatorChain;
     }

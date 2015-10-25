@@ -9,9 +9,9 @@
 
 namespace Zend\Session\Service;
 
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\Session\Config\ConfigInterface;
 
 class SessionConfigFactory implements FactoryInterface
@@ -24,14 +24,14 @@ class SessionConfigFactory implements FactoryInterface
      * you may also specify a specific implementation variant using the
      * "config_class" subkey.
      *
-     * @param  ServiceLocatorInterface    $services
+     * @param  ContainerInterface         $container
      * @return ConfigInterface
      * @throws ServiceNotCreatedException if session_config is missing, or an
      *         invalid config_class is used
      */
-    public function createService(ServiceLocatorInterface $services)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $services->get('Config');
+        $config = $container->get('config');
         if (!isset($config['session_config']) || !is_array($config['session_config'])) {
             throw new ServiceNotCreatedException(
                 'Configuration is missing a "session_config" key, or the value of that key is not an array'

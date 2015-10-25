@@ -9,7 +9,11 @@
 
 namespace Zend\Session\Service;
 
-use Zend\ServiceManager\AbstractFactoryInterface;
+use Interop\Container\ContainerInterface;
+use Interop\Container\Exception\ContainerException;
+use Zend\ServiceManager\Exception\ServiceNotCreatedException;
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
+use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Session\Container;
 
@@ -56,14 +60,13 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     protected $sessionManager;
 
     /**
-     * @param  ServiceLocatorInterface $services
-     * @param  string                  $name
+     * @param  ContainerInterface      $container
      * @param  string                  $requestedName
      * @return bool
      */
-    public function canCreateServiceWithName(ServiceLocatorInterface $services, $name, $requestedName)
+    public function canCreateServiceWithName(ContainerInterface $container, $requestedName)
     {
-        $config = $this->getConfig($services);
+        $config = $this->getConfig($container);
         if (empty($config)) {
             return false;
         }
@@ -73,35 +76,35 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     }
 
     /**
-     * @param  ServiceLocatorInterface $services
-     * @param  string                  $name
+     * @param  ContainerInterface      $container
      * @param  string                  $requestedName
      * @return Container
      */
-    public function createServiceWithName(ServiceLocatorInterface $services, $name, $requestedName)
+
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $manager = $this->getSessionManager($services);
+        $manager = $this->getSessionManager($container);
         return new Container($requestedName, $manager);
     }
 
     /**
      * Retrieve config from service locator, and cache for later
      *
-     * @param  ServiceLocatorInterface $services
+     * @param  ContainerInterface $container
      * @return false|array
      */
-    protected function getConfig(ServiceLocatorInterface $services)
+    protected function getConfig(ContainerInterface $container)
     {
         if (null !== $this->config) {
             return $this->config;
         }
 
-        if (!$services->has('Config')) {
+        if (!$container->has('config')) {
             $this->config = [];
             return $this->config;
         }
 
-        $config = $services->get('Config');
+        $config = $container->get('config');
         if (!isset($config[$this->configKey]) || !is_array($config[$this->configKey])) {
             $this->config = [];
             return $this->config;
@@ -118,17 +121,17 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Retrieve the session manager instance, if any
      *
-     * @param  ServiceLocatorInterface $services
+     * @param ContainerInterface $container
      * @return null|\Zend\Session\ManagerInterface
      */
-    protected function getSessionManager(ServiceLocatorInterface $services)
+    protected function getSessionManager(ContainerInterface $container)
     {
         if ($this->sessionManager !== null) {
             return $this->sessionManager;
         }
 
-        if ($services->has('Zend\Session\ManagerInterface')) {
-            $this->sessionManager = $services->get('Zend\Session\ManagerInterface');
+        if ($container->has('Zend\Session\ManagerInterface')) {
+            $this->sessionManager = $container->get('Zend\Session\ManagerInterface');
         }
 
         return $this->sessionManager;

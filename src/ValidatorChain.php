@@ -8,6 +8,7 @@
  */
 namespace Zend\Session;
 
+use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManager;
 use Zend\Session\Storage\StorageInterface as Storage;
 use Zend\Session\Validator\ValidatorInterface as Validator;
@@ -23,15 +24,22 @@ class ValidatorChain extends EventManager
     protected $storage;
 
     /**
+     * @var Event
+     */
+    protected $eventPrototype;
+
+    /**
      * Construct the validation chain
      *
      * Retrieves validators from session storage and attaches them.
      *
      * @param Storage $storage
+     * @param EventInterface $eventPrototype
      */
-    public function __construct(Storage $storage)
+    public function __construct(Storage $storage, EventInterface $eventPrototype)
     {
         $this->storage = $storage;
+        $this->eventPrototype = $eventPrototype;
 
         $validators = $storage->getMetadata('_VALID');
         if ($validators) {
@@ -44,12 +52,12 @@ class ValidatorChain extends EventManager
     /**
      * Attach a listener to the session validator chain
      *
-     * @param  string $event
+     * @param  string $eventName
      * @param  callable $callback
      * @param  int $priority
      * @return \Zend\Stdlib\CallbackHandler
      */
-    public function attach($event, $callback = null, $priority = 1)
+    public function attach($eventName, callable $callback, $priority = 1)
     {
         $context = null;
         if ($callback instanceof Validator) {
@@ -67,7 +75,7 @@ class ValidatorChain extends EventManager
             $this->getStorage()->setMetadata('_VALID', [$name => $data]);
         }
 
-        $listener = parent::attach($event, $callback, $priority);
+        $listener = parent::attach($eventName, $callback, $priority);
         return $listener;
     }
 
