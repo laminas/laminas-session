@@ -8,6 +8,7 @@
  */
 namespace Zend\Session;
 
+use Zend\EventManager\Event;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManager;
 use Zend\Session\Storage\StorageInterface as Storage;
@@ -36,10 +37,10 @@ class ValidatorChain extends EventManager
      * @param Storage $storage
      * @param EventInterface $eventPrototype
      */
-    public function __construct(Storage $storage, EventInterface $eventPrototype)
+    public function __construct(Storage $storage, EventInterface $eventPrototype = null)
     {
         $this->storage = $storage;
-        $this->eventPrototype = $eventPrototype;
+        $this->eventPrototype = $eventPrototype ?: new Event();
 
         $validators = $storage->getMetadata('_VALID');
         if ($validators) {

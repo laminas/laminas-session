@@ -357,7 +357,7 @@ class SessionManager extends AbstractManager
     public function getValidatorChain()
     {
         if (null === $this->validatorChain) {
-            $this->setValidatorChain(new ValidatorChain($this->getStorage(), new Event()));
+            $this->setValidatorChain(new ValidatorChain($this->getStorage()));
         }
         return $this->validatorChain;
     }
