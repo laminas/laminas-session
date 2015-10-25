@@ -48,7 +48,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
         $cacheStorage->setItem('242', Argument::type('string'))
-            ->will(function($args) {
+            ->will(function ($args) {
                 $this->getItem('242')->willReturn($args[1]);
                 return true;
             }
@@ -67,7 +67,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
         $cacheStorage->setItem('242', Argument::type('string'))
-            ->will(function($args) {
+            ->will(function ($args) {
                 $this->getItem('242')->willReturn($args[1]);
                 return true;
             });
@@ -85,7 +85,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
         $cacheStorage->setItem('242', Argument::type('string'))
-            ->will(function($args) {
+            ->will(function ($args) {
                 $this->getItem('242')->willReturn($args[1])->shouldBeCalledTimes(2);
                 return true;
             })
