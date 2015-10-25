@@ -18,7 +18,7 @@
         "zendframework/zend-stdlib": "~2.5"
     },
     "require-dev": {
-        "zendframework/zend-cache": "dev-feature/refactor-service-event-manager as 2.6-dev",
+        "zendframework/zend-cache": "~2.5",
         "zendframework/zend-db": "~2.5",
         "zendframework/zend-http": "~2.5",
         "zendframework/zend-servicemanager": "dev-develop as 2.5",
@@ -46,11 +46,5 @@
         "psr-4": {
             "ZendTest\\Session\\": "test/"
         }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ezimuel/zend-cache"
-        }
-    ]
+    }
 }
