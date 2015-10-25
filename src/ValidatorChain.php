@@ -59,19 +59,9 @@ class ValidatorChain extends EventManager
      */
     public function attach($eventName, callable $callback, $priority = 1)
     {
-        $context = null;
         if ($callback instanceof Validator) {
-            $context = $callback;
-        } elseif (is_array($callback)) {
-            $test = array_shift($callback);
-            if ($test instanceof Validator) {
-                $context = $test;
-            }
-            array_unshift($callback, $test);
-        }
-        if ($context instanceof Validator) {
-            $data = $context->getData();
-            $name = $context->getName();
+            $data = $callback->getData();
+            $name = $callback->getName();
             $this->getStorage()->setMetadata('_VALID', [$name => $data]);
         }
 
