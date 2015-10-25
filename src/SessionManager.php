@@ -9,7 +9,6 @@
 
 namespace Zend\Session;
 
-use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Stdlib\ArrayUtils;
 
