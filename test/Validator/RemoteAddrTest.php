@@ -65,7 +65,7 @@ class RemoteAddrTest extends \PHPUnit_Framework_TestCase
         $_SERVER['REMOTE_ADDR'] = '0.1.2.3';
         $validator = new RemoteAddr();
         $_SERVER['REMOTE_ADDR'] = '1.1.2.3';
-        $this->assertFalse($validator());
+        $this->assertFalse($validator->isValid());
         $this->restore();
     }
 

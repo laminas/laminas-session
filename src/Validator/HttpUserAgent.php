@@ -40,7 +40,7 @@ class HttpUserAgent implements ValidatorInterface
      *
      * @return bool
      */
-    public function __invoke()
+    public function isValid()
     {
         $userAgent = isset($_SERVER['HTTP_USER_AGENT'])
                    ? $_SERVER['HTTP_USER_AGENT']

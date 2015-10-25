@@ -21,7 +21,7 @@ interface ValidatorInterface
      *
      * @return bool
      */
-    public function __invoke();
+    public function isValid();
 
     /**
      * Get data from validator to be used for validation comparisons

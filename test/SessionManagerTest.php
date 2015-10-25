@@ -513,7 +513,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     public function testStartingSessionThatFailsAValidatorShouldRaiseException()
     {
         $chain = $this->manager->getValidatorChain();
-        $chain->attach('session.validate', new TestAsset\TestFailingValidator());
+        $chain->attach('session.validate', [new TestAsset\TestFailingValidator(), 'isValid']);
         $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'failed');
         $this->manager->start();
     }
@@ -576,7 +576,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $this
             ->manager
             ->getValidatorChain()
-            ->attach('session.validate', new RemoteAddr());
+            ->attach('session.validate', [new RemoteAddr(), 'isValid']);
 
         $this->assertFalse($this->manager->sessionExists());
 
@@ -598,7 +598,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $this
             ->manager
             ->getValidatorChain()
-            ->attach('session.validate', new RemoteAddr('123.123.123.123'));
+            ->attach('session.validate', [new RemoteAddr('123.123.123.123'), 'isValid']);
 
         $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'Session validation failed');
         $this->manager->start();

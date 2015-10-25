@@ -150,7 +150,7 @@ class SessionManager extends AbstractManager
             }
 
             $validator = new $validator(null);
-            $validatorChain->attach('session.validate', $validator);
+            $validatorChain->attach('session.validate', [$validator, 'isValid']);
         }
     }
 
