@@ -11,6 +11,7 @@ namespace Zend\Session;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManager;
+use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Session\Storage\StorageInterface as Storage;
 use Zend\Session\Validator\ValidatorInterface as Validator;
 
@@ -35,13 +36,14 @@ class ValidatorChain extends EventManager
      * Retrieves validators from session storage and attaches them.
      *
      * @param Storage $storage
-     * @param EventInterface $eventPrototype
+     * @param SharedEventManagerInterface $sharedEventManager
+     * @param array $identifiers
      */
-    public function __construct(Storage $storage, EventInterface $eventPrototype = null)
+    public function __construct(Storage $storage, SharedEventManagerInterface $sharedEventManager = null, array $identifiers = [])
     {
-        $this->storage = $storage;
-        $this->eventPrototype = $eventPrototype ?: new Event();
+        parent::__construct($sharedEventManager, $identifiers);
 
+        $this->storage = $storage;
         $validators = $storage->getMetadata('_VALID');
         if ($validators) {
             foreach ($validators as $validator => $data) {
