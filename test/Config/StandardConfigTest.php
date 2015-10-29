@@ -13,6 +13,7 @@ use Zend\Session\Config\StandardConfig;
 
 /**
  * @group      Zend_Session
+ * @covers Zend\Session\Config\StandardConfig
  */
 class StandardConfigTest extends \PHPUnit_Framework_TestCase
 {

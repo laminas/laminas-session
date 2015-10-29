@@ -20,6 +20,7 @@ use Zend\Db\TableGateway\TableGateway;
  *
  * @group      Zend_Session
  * @group      Zend_Db_Table
+ * @covers Zend\Session\SaveHandler\DbTableGateway
  */
 class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
 {

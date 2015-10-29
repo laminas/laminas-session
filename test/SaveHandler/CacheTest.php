@@ -19,6 +19,7 @@ use Zend\Cache\Storage\Adapter\AdapterInterface as CacheAdapter;
  *
  * @group      Zend_Session
  * @group      Zend_Cache
+ * @covers Zend\Session\SaveHandler\Cache
  */
 class CacheTest extends \PHPUnit_Framework_TestCase
 {

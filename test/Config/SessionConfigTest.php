@@ -14,6 +14,7 @@ use Zend\Session\Config\SessionConfig;
 /**
  * @group      Zend_Session
  * @runTestsInSeparateProcesses
+ * @covers Zend\Session\Config\SessionConfig
  */
 class SessionConfigTest extends \PHPUnit_Framework_TestCase
 {
