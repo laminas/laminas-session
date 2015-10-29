@@ -15,6 +15,7 @@ use Zend\Session\Storage\ArrayStorage;
 
 /**
  * @group      Zend_Session
+ * @covers Zend\Session\Service\SessionManagerFactory
  */
 class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
 {

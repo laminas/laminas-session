@@ -13,6 +13,7 @@ use Zend\ServiceManager\ServiceManager;
 
 /**
  * @group      Zend_Session
+ * @covers Zend\Session\Service\StorageFactory
  */
 class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 {

@@ -14,6 +14,7 @@ use Zend\Session\SaveHandler\MongoDBOptions;
 
 /**
  * @group      Zend_Session
+ * @covers Zend\Session\SaveHandler\MongoDbOptions
  */
 class MongoDBOptionsTest extends \PHPUnit_Framework_TestCase
 {

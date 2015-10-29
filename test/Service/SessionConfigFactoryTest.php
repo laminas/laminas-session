@@ -13,6 +13,7 @@ use Zend\ServiceManager\ServiceManager;
 
 /**
  * @group      Zend_Session
+ * @covers Zend\Session\Service\SessionConfigFactory
  */
 class SessionConfigFactoryTest extends \PHPUnit_Framework_TestCase
 {

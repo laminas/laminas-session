@@ -15,6 +15,7 @@ use Zend\Session\ManagerInterface as Manager;
 
 /**
  * @group      Zend_Session
+ * @covers Zend\Session\Container
  */
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {

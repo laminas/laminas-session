@@ -14,6 +14,7 @@ use Zend\Session\Storage\ArrayStorage;
 
 /**
  * @group      Zend_Session
+ * @covers Zend\Session\Service\ContainerAbstractServiceFactory
  */
 class ContainerAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 {
