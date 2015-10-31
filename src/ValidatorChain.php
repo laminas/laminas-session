@@ -9,7 +9,6 @@
 namespace Zend\Session;
 
 use Zend\EventManager\Event;
-use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Session\Storage\StorageInterface as Storage;
