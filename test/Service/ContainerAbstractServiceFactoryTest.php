@@ -30,13 +30,19 @@ class ContainerAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->services = new ServiceManager();
-
-        $this->services->setService('Zend\Session\Storage\StorageInterface', new ArrayStorage());
-        $this->services->setFactory('Zend\Session\ManagerInterface', 'Zend\Session\Service\SessionManagerFactory');
-        $this->services->addAbstractFactory('Zend\Session\Service\ContainerAbstractServiceFactory');
-
-        $this->services->setService('Config', $this->config);
+        $config = [
+            'services' => [
+                'config' => $this->config,
+                'Zend\Session\Storage\StorageInterface' => new ArrayStorage(),
+            ],
+            'factories' => [
+                'Zend\Session\ManagerInterface' => 'Zend\Session\Service\SessionManagerFactory',
+            ],
+            'abstract_factories' => [
+                'Zend\Session\Service\ContainerAbstractServiceFactory',
+            ],
+        ];
+        $this->services = new ServiceManager($config);
     }
 
     public function validContainers()
@@ -55,7 +61,7 @@ class ContainerAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCanRetrieveNamedContainers($serviceName, $containerName)
     {
-        $this->assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
+        $this->assertTrue($this->services->has($serviceName, true), "Container does not have service by name '$serviceName'");
         $container = $this->services->get($serviceName);
         $this->assertInstanceOf('Zend\Session\Container', $container);
         $this->assertEquals($containerName, $container->getName());
@@ -66,7 +72,7 @@ class ContainerAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testContainersAreInjectedWithSessionManagerService($serviceName, $containerName)
     {
-        $this->assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
+        $this->assertTrue($this->services->has($serviceName, true), "Container does not have service by name '$serviceName'");
         $container = $this->services->get($serviceName);
         $this->assertSame($this->services->get('Zend\Session\ManagerInterface'), $container->getManager());
     }
