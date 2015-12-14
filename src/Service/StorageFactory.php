@@ -9,9 +9,9 @@
 
 namespace Zend\Session\Service;
 
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\Session\Exception\ExceptionInterface as SessionException;
 use Zend\Session\Storage\Factory;
 use Zend\Session\Storage\StorageInterface;
@@ -26,14 +26,14 @@ class StorageFactory implements FactoryInterface
      * type to use, and optionally "options", containing any options to be used in
      * creating the StorageInterface instance.
      *
-     * @param  ServiceLocatorInterface    $services
+     * @param  ContainerInterface         $container
      * @return StorageInterface
      * @throws ServiceNotCreatedException if session_storage is missing, or the
      *         factory cannot create the storage instance.
      */
-    public function createService(ServiceLocatorInterface $services)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $services->get('Config');
+        $config = $container->get('config');
         if (!isset($config['session_storage']) || !is_array($config['session_storage'])) {
             throw new ServiceNotCreatedException(
                 'Configuration is missing a "session_storage" key, or the value of that key is not an array'

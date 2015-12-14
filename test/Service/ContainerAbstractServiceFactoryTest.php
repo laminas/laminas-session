@@ -30,13 +30,19 @@ class ContainerAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->services = new ServiceManager();
-
-        $this->services->setService('Zend\Session\Storage\StorageInterface', new ArrayStorage());
-        $this->services->setFactory('Zend\Session\ManagerInterface', 'Zend\Session\Service\SessionManagerFactory');
-        $this->services->addAbstractFactory('Zend\Session\Service\ContainerAbstractServiceFactory');
-
-        $this->services->setService('Config', $this->config);
+        $config = [
+            'services' => [
+                'config' => $this->config,
+                'Zend\Session\Storage\StorageInterface' => new ArrayStorage(),
+            ],
+            'factories' => [
+                'Zend\Session\ManagerInterface' => 'Zend\Session\Service\SessionManagerFactory',
+            ],
+            'abstract_factories' => [
+                'Zend\Session\Service\ContainerAbstractServiceFactory',
+            ],
+        ];
+        $this->services = new ServiceManager($config);
     }
 
     public function validContainers()
