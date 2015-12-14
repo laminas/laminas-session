@@ -29,20 +29,20 @@ class SessionConfigFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreatesSessionConfigByDefault()
     {
-        $services = $this->services->withConfig([
+        $this->services->configure([
             'services' => [
                 'config' => [
                     'session_config' => [],
                 ],
             ],
         ]);
-        $config = $services->get('Zend\Session\Config\ConfigInterface');
+        $config = $this->services->get('Zend\Session\Config\ConfigInterface');
         $this->assertInstanceOf('Zend\Session\Config\SessionConfig', $config);
     }
 
     public function testCanCreateAlternateSessionConfigTypeViaConfigClassKey()
     {
-        $services = $this->services->withConfig([
+        $this->services->configure([
             'services' => [
                 'config' => [
                     'session_config' => [
@@ -51,7 +51,7 @@ class SessionConfigFactoryTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
         ]);
-        $config = $services->get('Zend\Session\Config\ConfigInterface');
+        $config = $this->services->get('Zend\Session\Config\ConfigInterface');
         $this->assertInstanceOf('Zend\Session\Config\StandardConfig', $config);
         // Since SessionConfig extends StandardConfig, need to test that it's not that
         $this->assertNotInstanceOf('Zend\Session\Config\SessionConfig', $config);
@@ -59,7 +59,7 @@ class SessionConfigFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testServiceReceivesConfiguration()
     {
-        $services = $this->services->withConfig([
+        $this->services->configure([
             'services' => [
                 'config' => [
                     'session_config' => [
@@ -69,7 +69,7 @@ class SessionConfigFactoryTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
         ]);
-        $config = $services->get('Zend\Session\Config\ConfigInterface');
+        $config = $this->services->get('Zend\Session\Config\ConfigInterface');
         $this->assertEquals('zf2', $config->getName());
     }
 }

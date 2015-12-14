@@ -38,12 +38,12 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
     public function testConfigObjectIsInjectedIfPresentInServices()
     {
         $config = $this->getMock('Zend\Session\Config\ConfigInterface');
-        $services = $this->services->withConfig([
+        $this->services->configure([
             'services' => [
                 'Zend\Session\Config\ConfigInterface' => $config,
             ],
         ]);
-        $manager = $services->get('Zend\Session\ManagerInterface');
+        $manager = $this->services->get('Zend\Session\ManagerInterface');
         $test = $manager->getConfig();
         $this->assertSame($config, $test);
     }
@@ -52,12 +52,12 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
     {
         // Using concrete version here as mocking was too complex
         $storage = new ArrayStorage();
-        $services = $this->services->withConfig([
+        $this->services->configure([
             'services' => [
                 'Zend\Session\Storage\StorageInterface' => $storage,
             ],
         ]);
-        $manager = $services->get('Zend\Session\ManagerInterface');
+        $manager = $this->services->get('Zend\Session\ManagerInterface');
         $test = $manager->getStorage();
         $this->assertSame($storage, $test);
     }
@@ -65,12 +65,12 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
     public function testFactoryWillInjectSaveHandlerIfPresentInServices()
     {
         $saveHandler = $this->getMock('Zend\Session\SaveHandler\SaveHandlerInterface');
-        $services = $this->services->withConfig([
+        $this->services->configure([
             'services' => [
                 'Zend\Session\SaveHandler\SaveHandlerInterface' => $saveHandler,
             ],
         ]);
-        $manager = $services->get('Zend\Session\ManagerInterface');
+        $manager = $this->services->get('Zend\Session\ManagerInterface');
         $test = $manager->getSaveHandler();
         $this->assertSame($saveHandler, $test);
     }
@@ -86,12 +86,12 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
         $config = ['session_manager' => [
             'enable_default_container_manager' => false,
         ]];
-        $services = $this->services->withConfig([
+        $this->services->configure([
             'services' => [
                 'config' => $config,
             ],
         ]);
-        $manager = $services->get('Zend\Session\ManagerInterface');
+        $manager = $this->services->get('Zend\Session\ManagerInterface');
         $this->assertNotSame($manager, Container::getDefaultManager());
     }
 
@@ -105,12 +105,12 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
                 'Zend\Session\Validator\RemoteAddr',
             ],
         ]];
-        $services = $this->services->withConfig([
+        $this->services->configure([
             'services' => [
                 'config' => $config,
             ],
         ]);
-        $manager = $services->get('Zend\Session\ManagerInterface');
+        $manager = $this->services->get('Zend\Session\ManagerInterface');
 
         $manager->start();
 
@@ -126,13 +126,13 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
     public function testStartingSessionManagerFromFactoryDoesNotTriggerUndefinedVariable()
     {
         $storage = new ArrayStorage();
-        $services = $this->services->withConfig([
+        $this->services->configure([
             'services' => [
                 'Zend\Session\Storage\StorageInterface' => $storage
             ],
         ]);
 
-        $manager = $services->get('Zend\Session\ManagerInterface');
+        $manager = $this->services->get('Zend\Session\ManagerInterface');
         $manager->start();
 
         $this->assertSame($storage, $manager->getStorage());
@@ -148,7 +148,7 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
             'Zend\Session\Validator\HttpUserAgent' => 'Foo',
             'Zend\Session\Validator\RemoteAddr'    => '1.2.3.4',
         ]);
-        $services = $this->services->withConfig([
+        $this->services->configure([
             'services' => [
                 'Zend\Session\Storage\StorageInterface' => $storage,
                 'config' => [
@@ -163,7 +163,7 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
         ]);
 
         // This call is needed to make sure session storage data is not overwritten by the factory
-        $manager = $services->get('Zend\Session\ManagerInterface');
+        $manager = $this->services->get('Zend\Session\ManagerInterface');
 
         $validatorData = $storage->getMetaData('_VALID');
         $this->assertSame('Foo', $validatorData['Zend\Session\Validator\HttpUserAgent']);
@@ -179,7 +179,7 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
         $storage->setMetadata('_VALID', [
             'Zend\Session\Validator\RemoteAddr' => '1.2.3.4',
         ]);
-        $services = $this->services->withConfig([
+        $this->services->configure([
             'services' => [
                 'Zend\Session\Storage\StorageInterface' => $storage,
                 'config' => [
@@ -192,7 +192,7 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $manager = $services->get('Zend\Session\ManagerInterface');
+        $manager = $this->services->get('Zend\Session\ManagerInterface');
         try {
             $manager->start();
         } catch (\RuntimeException $e) {
