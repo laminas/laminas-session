@@ -1,0 +1,12 @@
+{
+    "title": "Zend\\Session",
+    "target": "html/",
+    "content": [
+        "book/zend.session.config.md",
+        "book/zend.session.container.md",
+        "book/zend.session.manager.md",
+        "book/zend.session.save-handler.md",
+        "book/zend.session.storage.md",
+        "book/zend.session.validator.md"
+    ]
+}
