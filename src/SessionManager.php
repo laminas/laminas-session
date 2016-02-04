@@ -30,9 +30,29 @@ class SessionManager extends AbstractManager
     ];
 
     /**
+     * @var array Default session manager options
+     */
+    protected $defaultOptions = [
+        'attach_default_validators' => true,
+    ];
+
+    /**
+     * @var array Default validators
+     */
+    protected $defaultValidators = [
+        'Zend\Session\Validator\Id',
+    ];
+
+    /**
      * @var string value returned by session_name()
      */
     protected $name;
+
+
+    /**
+     * @var array Session manager options
+     */
+    protected $options;
 
     /**
      * @var EventManagerInterface Validation chain to determine if session is valid
@@ -46,16 +66,25 @@ class SessionManager extends AbstractManager
      * @param  Storage\StorageInterface|null         $storage
      * @param  SaveHandler\SaveHandlerInterface|null $saveHandler
      * @param  array                                 $validators
+     * @param  array                                 $options
      * @throws Exception\RuntimeException
      */
     public function __construct(
         Config\ConfigInterface $config = null,
         Storage\StorageInterface $storage = null,
         SaveHandler\SaveHandlerInterface $saveHandler = null,
-        array $validators = []
+        array $validators = [],
+        array $options = []
     ) {
         parent::__construct($config, $storage, $saveHandler, $validators);
         register_shutdown_function([$this, 'writeClose']);
+
+        $options = array_merge($this->defaultOptions, $options);
+        if ($options['attach_default_validators']) {
+            $this->validators = array_merge($this->defaultValidators, $validators);
+        }
+
+        $this->options = $options;
     }
 
     /**
@@ -257,6 +286,28 @@ class SessionManager extends AbstractManager
             $this->name = session_name();
         }
         return $this->name;
+    }
+
+    /**
+     * Set session options
+     *
+     * @param array $options
+     * @return SessionManager
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = array_merge($this->defaultOptions, $options);
+        return $this;
+    }
+
+    /**
+     * Get session manager options
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options ?: $this->defaultOptions;
     }
 
     /**
