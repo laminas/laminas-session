@@ -79,8 +79,8 @@ class SessionManager extends AbstractManager
         parent::__construct($config, $storage, $saveHandler, $validators);
         register_shutdown_function([$this, 'writeClose']);
 
-        $options = array_merge($this->defaultOptions, $options);
-        if ($options['attach_default_validators']) {
+        $this->setOptions($options);
+        if ($this->options['attach_default_validators']) {
             $this->validators = array_merge($this->defaultValidators, $validators);
         }
 
