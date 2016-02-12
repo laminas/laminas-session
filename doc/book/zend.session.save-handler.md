@@ -46,7 +46,7 @@ you need.
 
 ### Creating the database table
 
-```php
+```sql
 CREATE TABLE `session` (
     `id` char(32),
     `name` char(32),
