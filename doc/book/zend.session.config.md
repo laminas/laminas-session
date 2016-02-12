@@ -4,8 +4,6 @@ Zend Framework comes with a standard set of config classes which are ready for y
 handles setting various configuration such as where a cookie lives, lifetime, including several bits
 to configure ext/session when using `Zend\Session\Config\SessionConfig`.
 
-orphan  
-
 ## Standard Config
 
 `Zend\Session\Config\StandardConfig` provides you a basic interface for implementing sessions when
@@ -133,8 +131,6 @@ $config->setOptions(array(
 ));
 $manager = new SessionManager($config);
 ```
-
-orphan  
 
 ## Session Config
 
