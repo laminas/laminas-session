@@ -9,7 +9,13 @@
 
 namespace ZendTest\Session\Service;
 
+use Zend\ServiceManager\Config;
+use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\ServiceManager;
+use Zend\Session\Service\StorageFactory;
+use Zend\Session\Storage\ArrayStorage;
+use Zend\Session\Storage\SessionArrayStorage;
+use Zend\Session\Storage\StorageInterface;
 
 /**
  * @group      Zend_Session
@@ -19,12 +25,13 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $config = [
+        $config = new Config([
             'factories' => [
-                'Zend\Session\Storage\StorageInterface' => 'Zend\Session\Service\StorageFactory',
+                StorageInterface::class => StorageFactory::class,
             ],
-        ];
-        $this->services = new ServiceManager($config);
+        ]);
+        $this->services = new ServiceManager();
+        $config->configureServiceManager($this->services);
     }
 
     public function sessionStorageConfig()
@@ -39,17 +46,17 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
                         ],
                     ],
                 ],
-            ], 'Zend\Session\Storage\ArrayStorage'],
+            ], ArrayStorage::class],
             'array-storage-fqcn' => [[
                 'session_storage' => [
-                    'type' => 'Zend\Session\Storage\ArrayStorage',
+                    'type' => ArrayStorage::class,
                     'options' => [
                         'input' => [
                             'foo' => 'bar',
                         ],
                     ],
                 ],
-            ], 'Zend\Session\Storage\ArrayStorage'],
+            ], ArrayStorage::class],
             'session-array-storage-short' => [[
                 'session_storage' => [
                     'type' => 'SessionArrayStorage',
@@ -59,17 +66,17 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
                         ],
                     ],
                 ],
-            ], 'Zend\Session\Storage\SessionArrayStorage'],
+            ], SessionArrayStorage::class],
             'session-array-storage-fqcn' => [[
                 'session_storage' => [
-                    'type' => 'Zend\Session\Storage\SessionArrayStorage',
+                    'type' => SessionArrayStorage::class,
                     'options' => [
                         'input' => [
                             'foo' => 'bar',
                         ],
                     ],
                 ],
-            ], 'Zend\Session\Storage\SessionArrayStorage'],
+            ], SessionArrayStorage::class],
         ];
     }
 
@@ -78,12 +85,8 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsesConfigurationToCreateStorage($config, $class)
     {
-        $this->services->configure([
-            'services' => [
-                'config' => $config
-            ]
-        ]);
-        $storage = $this->services->get('Zend\Session\Storage\StorageInterface');
+        $this->services->setService('config', $config);
+        $storage = $this->services->get(StorageInterface::class);
         $this->assertInstanceOf($class, $storage);
         $test = $storage->toArray();
         $this->assertEquals($config['session_storage']['options']['input'], $test);
@@ -126,12 +129,8 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidConfigurationRaisesServiceNotCreatedException($config)
     {
-        $this->services->configure([
-            'services' => [
-                'config' => $config
-            ]
-        ]);
-        $this->setExpectedException('Zend\ServiceManager\Exception\ServiceNotCreatedException');
-        $storage = $this->services->get('Zend\Session\Storage\StorageInterface');
+        $this->services->setService('config', $config);
+        $this->setExpectedException(ServiceNotCreatedException::class);
+        $storage = $this->services->get(StorageInterface::class);
     }
 }
