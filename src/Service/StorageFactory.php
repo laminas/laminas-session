@@ -11,7 +11,8 @@ namespace Zend\Session\Service;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Session\Exception\ExceptionInterface as SessionException;
 use Zend\Session\Storage\Factory;
 use Zend\Session\Storage\StorageInterface;
@@ -19,7 +20,7 @@ use Zend\Session\Storage\StorageInterface;
 class StorageFactory implements FactoryInterface
 {
     /**
-     * Create session storage object
+     * Create session storage object (v3 usage).
      *
      * Uses "session_storage" section of configuration to seed a StorageInterface
      * instance. That array should contain the key "type", specifying the storage
@@ -34,14 +35,14 @@ class StorageFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('config');
-        if (!isset($config['session_storage']) || !is_array($config['session_storage'])) {
+        if (! isset($config['session_storage']) || ! is_array($config['session_storage'])) {
             throw new ServiceNotCreatedException(
                 'Configuration is missing a "session_storage" key, or the value of that key is not an array'
             );
         }
 
         $config = $config['session_storage'];
-        if (!isset($config['type'])) {
+        if (! isset($config['type'])) {
             throw new ServiceNotCreatedException(
                 '"session_storage" configuration is missing a "type" key'
             );
@@ -59,5 +60,21 @@ class StorageFactory implements FactoryInterface
         }
 
         return $storage;
+    }
+
+    /**
+     * Create and return a storage instance (v2 usage).
+     *
+     * @param ServiceLocatorInterface $services
+     * @param null|string $canonicalName
+     * @param string $requestedName
+     * @return StorageInterface
+     */
+    public function createService(
+        ServiceLocatorInterface $services,
+        $canonicalName = null,
+        $requestedName = StorageInterface::class
+    ) {
+        return $this($services, $requestedName);
     }
 }
