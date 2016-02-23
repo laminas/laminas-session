@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.6.1 - TBD
+## 2.6.1 - 2016-02-23
 
 ### Added
 
@@ -18,7 +18,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#29](https://github.com/zendframework/zend-session/pull/29) extracts the
+  constructor defined in `Zend\Session\Validator\ValidatorChainTrait` and pushes
+  it into each of the `ValidatorChainEM2` and `ValidatorChainEM3`
+  implementations, to prevent colliding constructor definitions due to
+  inheritance + trait usage.
 
 ## 2.6.0 - 2016-02-23
 
