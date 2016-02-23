@@ -9,6 +9,7 @@
 namespace Zend\Session\Validator;
 
 use Zend\EventManager\EventManager;
+use Zend\Session\Storage\StorageInterface;
 
 /**
  * Validator chain for validating sessions (for use with zend-eventmanager v2)
@@ -16,6 +17,28 @@ use Zend\EventManager\EventManager;
 class ValidatorChainEM2 extends EventManager
 {
     use ValidatorChainTrait;
+
+    /**
+     * Construct the validation chain
+     *
+     * Retrieves validators from session storage and attaches them.
+     *
+     * Duplicated in ValidatorChainEM3 to prevent trait collision with parent.
+     *
+     * @param StorageInterface $storage
+     */
+    public function __construct(StorageInterface $storage)
+    {
+        parent::__construct();
+
+        $this->storage = $storage;
+        $validators = $storage->getMetadata('_VALID');
+        if ($validators) {
+            foreach ($validators as $validator => $data) {
+                $this->attachValidator('session.validate', [new $validator($data), 'isValid'], 1);
+            }
+        }
+    }
 
     /**
      * Attach a listener to the session validator chain.
