@@ -27,23 +27,6 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#29](https://github.com/zendframework/zend-session/pull/29) updates the code
   to be forwards compatible with the v3 releases of zend-eventmanager and
   zend-servicemanager.
-
-## 2.5.3 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
 - [#7](https://github.com/zendframework/zend-session/pull/7) Mongo save handler
   was using sprintf formatting without sprintf.
 
