@@ -9,9 +9,8 @@
 
 namespace ZendTest\Session\SaveHandler;
 
+use Prophecy\Argument;
 use Zend\Session\SaveHandler\Cache;
-use Zend\Cache\StorageFactory as CacheFactory;
-use Zend\Cache\Storage\Adapter\AdapterInterface as CacheAdapter;
 
 /**
  * Unit testing for DbTable include all tests for
@@ -19,6 +18,7 @@ use Zend\Cache\Storage\Adapter\AdapterInterface as CacheAdapter;
  *
  * @group      Zend_Session
  * @group      Zend_Cache
+ * @covers Zend\Session\SaveHandler\Cache
  */
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,13 +42,19 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->cache = CacheFactory::adapterFactory('memory', ['memory_limit' => 0]);
         $this->testArray = ['foo' => 'bar', 'bar' => ['foo' => 'bar']];
     }
 
     public function testReadWrite()
     {
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($this->cache);
+        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $cacheStorage->setItem('242', Argument::type('string'))
+            ->will(function ($args) {
+                $this->getItem('242')->willReturn($args[1]);
+                return true;
+            }
+        );
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
         $id = '242';
 
@@ -60,7 +66,13 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testReadWriteComplex()
     {
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($this->cache);
+        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $cacheStorage->setItem('242', Argument::type('string'))
+            ->will(function ($args) {
+                $this->getItem('242')->willReturn($args[1]);
+                return true;
+            });
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
         $saveHandler->open('savepath', 'sessionname');
 
         $id = '242';
@@ -72,7 +84,14 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testReadWriteTwice()
     {
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($this->cache);
+        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $cacheStorage->setItem('242', Argument::type('string'))
+            ->will(function ($args) {
+                $this->getItem('242')->willReturn($args[1])->shouldBeCalledTimes(2);
+                return true;
+            })
+            ->shouldBeCalledTimes(2);
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
         $id = '242';
 

@@ -11,13 +11,15 @@ namespace ZendTest\Session\TestAsset;
 
 use Zend\EventManager\EventManagerInterface;
 use Zend\Session\AbstractManager;
+use Zend\Session\Configuration\StandardConfig;
+use Zend\Session\Storage\ArrayStorage;
 
 class TestManager extends AbstractManager
 {
     public $started = false;
 
-    protected $configDefaultClass = 'Zend\\Session\\Configuration\\StandardConfig';
-    protected $storageDefaultClass = 'Zend\\Session\\Storage\\ArrayStorage';
+    protected $configDefaultClass = StandardConfig::class;
+    protected $storageDefaultClass = ArrayStorage::class;
 
     public function start()
     {
@@ -30,7 +32,8 @@ class TestManager extends AbstractManager
     }
 
     public function stop()
-    {}
+    {
+    }
 
     public function writeClose()
     {
@@ -38,40 +41,50 @@ class TestManager extends AbstractManager
     }
 
     public function getName()
-    {}
+    {
+    }
 
     public function setName($name)
-    {}
+    {
+    }
 
     public function getId()
-    {}
+    {
+    }
 
     public function setId($id)
-    {}
+    {
+    }
 
     public function regenerateId()
-    {}
+    {
+    }
 
     public function rememberMe($ttl = null)
-    {}
+    {
+    }
 
     public function forgetMe()
-    {}
-
+    {
+    }
 
     public function setValidatorChain(EventManagerInterface $chain)
-    {}
+    {
+    }
 
     public function getValidatorChain()
-    {}
+    {
+    }
 
     public function isValid()
-    {}
-
+    {
+    }
 
     public function sessionExists()
-    {}
+    {
+    }
 
     public function expireSessionCookie()
-    {}
+    {
+    }
 }

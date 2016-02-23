@@ -16,6 +16,7 @@ use Zend\Session\Validator\RemoteAddr;
 /**
  * @group      Zend_Session
  * @preserveGlobalState disabled
+ * @covers Zend\Session\SessionManager
  */
 class SessionManagerTest extends \PHPUnit_Framework_TestCase
 {

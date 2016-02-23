@@ -13,6 +13,7 @@ use Zend\Session\Storage\SessionStorage;
 
 /**
  * @group      Zend_Session
+ * @covers Zend\Session\Storage\SessionStorage
  */
 class SessionStorageTest extends \PHPUnit_Framework_TestCase
 {

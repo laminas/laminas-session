@@ -9,6 +9,7 @@
 
 namespace Zend\Session;
 
+use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Stdlib\ArrayUtils;
 
@@ -372,13 +373,23 @@ class SessionManager extends AbstractManager
     public function isValid()
     {
         $validator = $this->getValidatorChain();
-        $responses = $validator->trigger('session.validate', $this, [$this], function ($test) {
+
+        $event = new Event();
+        $event->setName('session.validate');
+        $event->setTarget($this);
+        $event->setParams($this);
+
+        $falseResult = function ($test) {
             return false === $test;
-        });
+        };
+
+        $responses = $validator->triggerEventUntil($falseResult, $event);
+
         if ($responses->stopped()) {
             // If execution was halted, validation failed
             return false;
         }
+
         // Otherwise, we're good to go
         return true;
     }
