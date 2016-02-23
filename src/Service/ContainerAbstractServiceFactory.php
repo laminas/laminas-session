@@ -10,13 +10,15 @@
 namespace Zend\Session\Service;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\AbstractFactoryInterface;
+use Zend\ServiceManager\AbstractFactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Session\Container;
+use Zend\Session\ManagerInterface;
 
 /**
  * Session container abstract service factory.
  *
- * Allows creating Container instances, using the Zend\Service\ManagerInterface
+ * Allows creating Container instances, using the ManagerInterface
  * if present. Containers are named in a "session_containers" array in the
  * Config service:
  *
@@ -51,16 +53,18 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     protected $configKey = 'session_containers';
 
     /**
-     * @var \Zend\Session\ManagerInterface
+     * @var ManagerInterface
      */
     protected $sessionManager;
 
     /**
-     * @param  ContainerInterface      $container
-     * @param  string                  $requestedName
+     * Can we create an instance of the given service? (v3 usage).
+     *
+     * @param ContainerInterface $container
+     * @param string $requestedName
      * @return bool
      */
-    public function canCreateServiceWithName(ContainerInterface $container, $requestedName)
+    public function canCreate(ContainerInterface $container, $requestedName)
     {
         $config = $this->getConfig($container);
         if (empty($config)) {
@@ -72,15 +76,41 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     }
 
     /**
-     * @param  ContainerInterface      $container
-     * @param  string                  $requestedName
+     * Can we create an instance of the given service? (v2 usage)
+     *
+     * @param ServiceLocatorInterface $container
+     * @param string $name
+     * @param string $requestedName
+     * @return bool
+     */
+    public function canCreateServiceWithName(ServiceLocatorInterface $container, $name, $requestedName)
+    {
+        return $this->canCreate($container, $requestedName);
+    }
+
+    /**
+     * Create and return a named container (v3 usage).
+     *
+     * @param ContainerInterface $container
+     * @param string $requestedName
      * @return Container
      */
-
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $manager = $this->getSessionManager($container);
         return new Container($requestedName, $manager);
+    }
+
+    /**
+     * Create and return a named container (v2 usage).
+     *
+     * @param  ContainerInterface      $container
+     * @param  string                  $requestedName
+     * @return Container
+     */
+    public function createServiceWithName(ServiceLocatorInterface $container, $name, $requestedName)
+    {
+        return $this($container, $requestedName);
     }
 
     /**
@@ -101,7 +131,7 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
         }
 
         $config = $container->get('config');
-        if (!isset($config[$this->configKey]) || !is_array($config[$this->configKey])) {
+        if (! isset($config[$this->configKey]) || ! is_array($config[$this->configKey])) {
             $this->config = [];
             return $this->config;
         }
@@ -118,7 +148,7 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
      * Retrieve the session manager instance, if any
      *
      * @param ContainerInterface $container
-     * @return null|\Zend\Session\ManagerInterface
+     * @return null|ManagerInterface
      */
     protected function getSessionManager(ContainerInterface $container)
     {
@@ -126,8 +156,8 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
             return $this->sessionManager;
         }
 
-        if ($container->has('Zend\Session\ManagerInterface')) {
-            $this->sessionManager = $container->get('Zend\Session\ManagerInterface');
+        if ($container->has(ManagerInterface::class)) {
+            $this->sessionManager = $container->get(ManagerInterface::class);
         }
 
         return $this->sessionManager;

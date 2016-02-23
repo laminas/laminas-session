@@ -6,88 +6,25 @@
  * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
+
 namespace Zend\Session;
 
-use Zend\EventManager\Event;
-use Zend\EventManager\EventManager;
-use Zend\EventManager\SharedEventManagerInterface;
-use Zend\Session\Storage\StorageInterface as Storage;
-use Zend\Session\Validator\ValidatorInterface as Validator;
+use Zend\EventManager\GlobalEventManager;
 
 /**
- * Validator chain for validating sessions
+ * Polyfill for ValidatorChain
+ *
+ * The definitions for EventManagerInterface::attach differ between versions 2
+ * and 3 of zend-eventmanager, which makes it impossible to override the method
+ * in a way that is compatible with both. To get around that, we define 2
+ * classes, one targeting each major version of zend-eventmanager, each
+ * sharing the same trait, and each defining attach() per the EM version they
+ * target. This file then aliases the appropriate one to `ValidatorChain`,
+ * based on which version of the EM is present. Since the `GlobalEventManager`
+ * is only present in v2, we can use that as our test.
  */
-class ValidatorChain extends EventManager
-{
-    /**
-     * @var Storage
-     */
-    protected $storage;
-
-    /**
-     * @var Event
-     */
-    protected $eventPrototype;
-
-    /**
-     * Construct the validation chain
-     *
-     * Retrieves validators from session storage and attaches them.
-     *
-     * @param Storage $storage
-     * @param SharedEventManagerInterface $sharedEventManager
-     * @param array $identifiers
-     */
-    public function __construct(Storage $storage, SharedEventManagerInterface $sharedEventManager = null, array $identifiers = [])
-    {
-        parent::__construct($sharedEventManager, $identifiers);
-
-        $this->storage = $storage;
-        $validators = $storage->getMetadata('_VALID');
-        if ($validators) {
-            foreach ($validators as $validator => $data) {
-                $this->attach('session.validate', [new $validator($data), 'isValid']);
-            }
-        }
-    }
-
-    /**
-     * Attach a listener to the session validator chain
-     *
-     * @param  string $eventName
-     * @param  callable $callback
-     * @param  int $priority
-     * @return \Zend\Stdlib\CallbackHandler
-     */
-    public function attach($eventName, callable $callback, $priority = 1)
-    {
-        $context = null;
-        if ($callback instanceof Validator) {
-            $context = $callback;
-        } elseif (is_array($callback)) {
-            $test = array_shift($callback);
-            if ($test instanceof Validator) {
-                $context = $test;
-            }
-            array_unshift($callback, $test);
-        }
-        if ($context instanceof Validator) {
-            $data = $context->getData();
-            $name = $context->getName();
-            $this->getStorage()->setMetadata('_VALID', [$name => $data]);
-        }
-
-        $listener = parent::attach($eventName, $callback, $priority);
-        return $listener;
-    }
-
-    /**
-     * Retrieve session storage object
-     *
-     * @return Storage
-     */
-    public function getStorage()
-    {
-        return $this->storage;
-    }
+if (class_exists(GlobalEventManager::class)) {
+    class_alias(Validator\ValidatorChainEM2::class, ValidatorChain::class);
+} else {
+    class_alias(Validator\ValidatorChainEM3::class, ValidatorChain::class);
 }

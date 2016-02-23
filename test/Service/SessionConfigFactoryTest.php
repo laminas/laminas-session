@@ -9,7 +9,12 @@
 
 namespace ZendTest\Session\Service;
 
+use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
+use Zend\Session\Config\ConfigInterface;
+use Zend\Session\Config\SessionConfig;
+use Zend\Session\Config\StandardConfig;
+use Zend\Session\Service\SessionConfigFactory;
 
 /**
  * @group      Zend_Session
@@ -19,57 +24,46 @@ class SessionConfigFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $config = [
+        $config = new Config([
             'factories' => [
-                'Zend\Session\Config\ConfigInterface' => 'Zend\Session\Service\SessionConfigFactory',
+                ConfigInterface::class => SessionConfigFactory::class,
             ],
-        ];
-        $this->services = new ServiceManager($config);
+        ]);
+        $this->services = new ServiceManager();
+        $config->configureServiceManager($this->services);
     }
 
     public function testCreatesSessionConfigByDefault()
     {
-        $this->services->configure([
-            'services' => [
-                'config' => [
-                    'session_config' => [],
-                ],
-            ],
+        $this->services->setService('config', [
+            'session_config' => [],
         ]);
-        $config = $this->services->get('Zend\Session\Config\ConfigInterface');
-        $this->assertInstanceOf('Zend\Session\Config\SessionConfig', $config);
+        $config = $this->services->get(ConfigInterface::class);
+        $this->assertInstanceOf(SessionConfig::class, $config);
     }
 
     public function testCanCreateAlternateSessionConfigTypeViaConfigClassKey()
     {
-        $this->services->configure([
-            'services' => [
-                'config' => [
-                    'session_config' => [
-                        'config_class' => 'Zend\Session\Config\StandardConfig',
-                    ],
-                ],
+        $this->services->setService('config', [
+            'session_config' => [
+                'config_class' => StandardConfig::class,
             ],
         ]);
-        $config = $this->services->get('Zend\Session\Config\ConfigInterface');
-        $this->assertInstanceOf('Zend\Session\Config\StandardConfig', $config);
-        // Since SessionConfig extends StandardConfig, need to test that it's not that
-        $this->assertNotInstanceOf('Zend\Session\Config\SessionConfig', $config);
+        $config = $this->services->get(ConfigInterface::class);
+        $this->assertInstanceOf(StandardConfig::class, $config);
+        // Since SessionConfig extends StandardConfig, need to assert not SessionConfig
+        $this->assertNotInstanceOf(SessionConfig::class, $config);
     }
 
     public function testServiceReceivesConfiguration()
     {
-        $this->services->configure([
-            'services' => [
-                'config' => [
-                    'session_config' => [
-                        'config_class' => 'Zend\Session\Config\StandardConfig',
-                        'name'         => 'zf2',
-                    ],
-                ],
+        $this->services->setService('config', [
+            'session_config' => [
+                'config_class' => StandardConfig::class,
+                'name'         => 'zf2',
             ],
         ]);
-        $config = $this->services->get('Zend\Session\Config\ConfigInterface');
+        $config = $this->services->get(ConfigInterface::class);
         $this->assertEquals('zf2', $config->getName());
     }
 }
