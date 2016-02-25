@@ -12,9 +12,9 @@ use Zend\EventManager\EventManager;
 use Zend\Session\Storage\StorageInterface;
 
 /**
- * Validator chain for validating sessions (for use with zend-eventmanager v3)
+ * Abstract validator chain for validating sessions (for use with zend-eventmanager v3)
  */
-class ValidatorChainEM3 extends EventManager
+abstract class AbstractValidatorChainEM3 extends EventManager
 {
     use ValidatorChainTrait;
 
