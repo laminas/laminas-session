@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.6.2 - TBD
+## 2.6.2 - 2016-02-25
 
 ### Added
 
@@ -18,7 +18,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#32](https://github.com/zendframework/zend-session/pull/32) provides a better
+  polfill for the `ValidatorChain` to ensure it can be represented in
+  auto-generated classmaps (e.g., via `composer dump-autoload --optimize` and/or
+  `composer dump-autoload --classmap-authoritative`).
 
 ## 2.6.1 - 2016-02-23
 
