@@ -9,20 +9,22 @@
 
 namespace ZendTest\Session\SaveHandler;
 
-use Mongo;
+use MongoDB\Client as MongoClient;
+use MongoDB\Collection as MongoCollection;
 use Zend\Session\SaveHandler\MongoDB;
 use Zend\Session\SaveHandler\MongoDBOptions;
 
 /**
  * @group      Zend_Session
  * @covers Zend\Session\SaveHandler\MongoDb
+ * @requires extension mongodb
  */
 class MongoDBTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mongo|MongoClient
+     * @var MongoClient
      */
-    protected $mongo;
+    protected $mongoClient;
 
     /**
      * MongoCollection instance
@@ -43,19 +45,16 @@ class MongoDBTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        if (!extension_loaded('mongo')) {
-            $this->markTestSkipped('Zend\Session\SaveHandler\MongoDB tests are not enabled due to missing Mongo extension');
-        }
-
         $this->options = new MongoDBOptions([
             'database' => 'zf2_tests',
             'collection' => 'sessions',
         ]);
 
-        $mongoClass = (version_compare(phpversion('mongo'), '1.3.0', '<')) ? '\Mongo' : '\MongoClient';
-
-        $this->mongo = new $mongoClass();
-        $this->mongoCollection = $this->mongo->selectCollection($this->options->getDatabase(), $this->options->getCollection());
+        $this->mongoClient = new MongoClient();
+        $this->mongoCollection = $this->mongoClient->selectCollection(
+            $this->options->getDatabase(),
+            $this->options->getCollection()
+        );
     }
 
     /**
@@ -70,21 +69,9 @@ class MongoDBTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testConstructorThrowsException()
-    {
-        $notMongo = new \stdClass();
-
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            'Parameter of type stdClass is invalid; must be MongoClient or Mongo'
-        );
-
-        $saveHandler = new MongoDB($notMongo, $this->options);
-    }
-
     public function testReadWrite()
     {
-        $saveHandler = new MongoDB($this->mongo, $this->options);
+        $saveHandler = new MongoDB($this->mongoClient, $this->options);
         $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
 
         $id = '242';
@@ -108,7 +95,7 @@ class MongoDBTest extends \PHPUnit_Framework_TestCase
         $oldMaxlifetime = ini_get('session.gc_maxlifetime');
         ini_set('session.gc_maxlifetime', 0);
 
-        $saveHandler = new MongoDB($this->mongo, $this->options);
+        $saveHandler = new MongoDB($this->mongoClient, $this->options);
         $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
 
         $id = '242';
@@ -126,7 +113,7 @@ class MongoDBTest extends \PHPUnit_Framework_TestCase
 
     public function testGarbageCollection()
     {
-        $saveHandler = new MongoDB($this->mongo, $this->options);
+        $saveHandler = new MongoDB($this->mongoClient, $this->options);
         $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
 
         $data = ['foo' => 'bar'];
@@ -146,11 +133,11 @@ class MongoDBTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException MongoCursorException
+     * @expectedException \MongoDB\Driver\Exception\RuntimeException
      */
     public function testWriteExceptionEdgeCaseForChangedSessionName()
     {
-        $saveHandler = new MongoDB($this->mongo, $this->options);
+        $saveHandler = new MongoDB($this->mongoClient, $this->options);
         $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
 
         $id = '242';
