@@ -92,6 +92,59 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($validators, 'validators', $manager);
     }
 
+    public function testCanPassOptionsToConstructorAndOverrideDefaultValues()
+    {
+        $options = [
+            'attach_default_validators' => false,
+        ];
+        $manager = new SessionManager(null, null, null, [], $options);
+        $this->assertAttributeEquals($options, 'options', $manager);
+    }
+
+    public function testCanPassOptionsToConstructorAndMergeWithDefault()
+    {
+        $defaultOptions = [
+            'attach_default_validators' => true,
+        ];
+        $options = [
+            'foo' => false,
+        ];
+        $manager = new SessionManager(null, null, null, [], $options);
+        $this->assertAttributeEquals(array_merge($defaultOptions, $options), 'options', $manager);
+    }
+
+    public function testAttachDefaultValidatorsByDefault()
+    {
+        $defaultValidators = [
+            'Zend\Session\Validator\Id',
+        ];
+        $manager = new SessionManager();
+        $this->assertAttributeEquals($defaultValidators, 'validators', $manager);
+    }
+
+    public function testCanMergeValidatorsWithDefault()
+    {
+        $defaultValidators = [
+            'Zend\Session\Validator\Id',
+        ];
+        $validators = [
+            'foo',
+            'bar'
+        ];
+        $manager = new SessionManager(null, null, null, $validators);
+        $this->assertAttributeEquals(array_merge($defaultValidators, $validators), 'validators', $manager);
+    }
+
+    public function testCanDisableAttachDefaultValidators()
+    {
+        $options = [
+            'attach_default_validators' => false,
+        ];
+        $validators = [];
+        $manager = new SessionManager(null, null, null, $validators, $options);
+        $this->assertAttributeEquals($validators, 'validators', $manager);
+    }
+
     // Session-related functionality
 
     /**
@@ -631,6 +684,20 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
                 '_VALID' => ['Zend\Session\Validator\RemoteAddr' => '123.123.123.123'],
             ],
         ];
+
+        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'Session validation failed');
+        $this->manager->start();
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testIdValidationWillFailOnInvalidData()
+    {
+        $this
+            ->manager
+            ->getValidatorChain()
+            ->attach('session.validate', [new Session\Validator\Id('null'), 'isValid']);
 
         $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'Session validation failed');
         $this->manager->start();
