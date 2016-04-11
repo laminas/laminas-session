@@ -68,6 +68,7 @@ class SessionManagerFactory implements FactoryInterface
         $saveHandler   = null;
         $validators    = [];
         $managerConfig = $this->defaultManagerConfig;
+        $options       = [];
 
         if ($container->has(ConfigInterface::class)) {
             $config = $container->get(ConfigInterface::class);
@@ -117,9 +118,13 @@ class SessionManagerFactory implements FactoryInterface
             if (isset($managerConfig['validators'])) {
                 $validators = $managerConfig['validators'];
             }
+
+            if (isset($managerConfig['options'])) {
+                $options = $managerConfig['options'];
+            }
         }
 
-        $manager = new SessionManager($config, $storage, $saveHandler, $validators);
+        $manager = new SessionManager($config, $storage, $saveHandler, $validators, $options);
 
         // If configuration enables the session manager as the default manager for container
         // instances, do so.

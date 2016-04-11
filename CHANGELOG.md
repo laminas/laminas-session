@@ -6,7 +6,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#23](https://github.com/zendframework/zend-session/pull/23) provides a new
+  `Id` validator to ensure that the session identifier is not malformed. This
+  validator is now enabled by default; to disable it, pass
+  `['attach_default_validators' => false]` as the fifth argument to
+  `SessionManager`, or pass an `options` array with that value under the
+  `session_manager` configuration key.
 
 ### Deprecated
 

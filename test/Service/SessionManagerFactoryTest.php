@@ -108,7 +108,7 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
 
         $chain = $manager->getValidatorChain();
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
-        $this->assertCount(1, $listeners);
+        $this->assertCount(2, $listeners);
     }
 
     /**
@@ -180,6 +180,32 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
 
         $chain = $manager->getValidatorChain();
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
-        $this->assertCount(1, $listeners);
+        $this->assertCount(2, $listeners);
+
+        $found = false;
+        foreach ($listeners as $listener) {
+            // Listeners are all [$validator, 'isValid'] callbacks
+            if ($listener[0] instanceof Validator\RemoteAddr) {
+                $found = true;
+                break;
+            }
+        }
+        $this->assertTrue($found, 'Did not find RemoteAddr validator in listeners');
+    }
+
+    public function testFactoryAllowsOverridingOptions()
+    {
+        $storage = new ArrayStorage();
+        $this->services->setService(StorageInterface::class, $storage);
+        $this->services->setService('config', [
+            'session_manager' => [
+                'options' => [
+                    'attach_default_validators' => false,
+                ],
+            ],
+        ]);
+
+        $manager = $this->services->get(ManagerInterface::class);
+        $this->assertAttributeSame([], 'validators', $manager);
     }
 }
