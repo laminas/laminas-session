@@ -40,19 +40,13 @@ class SessionManager extends AbstractManager
      * @var array Default validators
      */
     protected $defaultValidators = [
-        'Zend\Session\Validator\Id',
+        Validator\Id::class,
     ];
 
     /**
      * @var string value returned by session_name()
      */
     protected $name;
-
-
-    /**
-     * @var array Session manager options
-     */
-    protected $options;
 
     /**
      * @var EventManagerInterface Validation chain to determine if session is valid
@@ -76,15 +70,13 @@ class SessionManager extends AbstractManager
         array $validators = [],
         array $options = []
     ) {
-        parent::__construct($config, $storage, $saveHandler, $validators);
-        register_shutdown_function([$this, 'writeClose']);
-
-        $this->setOptions($options);
-        if ($this->options['attach_default_validators']) {
-            $this->validators = array_merge($this->defaultValidators, $validators);
+        $options = array_merge($this->defaultOptions, $options);
+        if ($options['attach_default_validators']) {
+            $validators = array_merge($this->defaultValidators, $validators);
         }
 
-        $this->options = $options;
+        parent::__construct($config, $storage, $saveHandler, $validators);
+        register_shutdown_function([$this, 'writeClose']);
     }
 
     /**
@@ -286,28 +278,6 @@ class SessionManager extends AbstractManager
             $this->name = session_name();
         }
         return $this->name;
-    }
-
-    /**
-     * Set session options
-     *
-     * @param array $options
-     * @return SessionManager
-     */
-    public function setOptions(array $options)
-    {
-        $this->options = array_merge($this->defaultOptions, $options);
-        return $this;
-    }
-
-    /**
-     * Get session manager options
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options ?: $this->defaultOptions;
     }
 
     /**

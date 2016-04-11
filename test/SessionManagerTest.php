@@ -9,12 +9,19 @@
 
 namespace ZendTest\Session;
 
+use DateTime;
+use stdClass;
+use Zend\Session\Config\SessionConfig;
+use Zend\Session\Config\StandardConfig;
+use Zend\Session\Exception\InvalidArgumentException;
+use Zend\Session\Exception\RuntimeException;
 use Zend\Session\SessionManager;
-use Zend\Session;
+use Zend\Session\Storage\ArrayStorage;
+use Zend\Session\Storage\SessionArrayStorage;
+use Zend\Session\Validator\Id;
 use Zend\Session\Validator\RemoteAddr;
 
 /**
- * @group      Zend_Session
  * @preserveGlobalState disabled
  * @covers Zend\Session\SessionManager
  */
@@ -43,7 +50,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     public function getTimestampFromCookie($cookie)
     {
         if (preg_match('/expires=([^;]+)/', $cookie, $matches)) {
-            $ts = new \DateTime($matches[1]);
+            $ts = new DateTime($matches[1]);
             return $ts;
         }
         return false;
@@ -52,12 +59,12 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     public function testManagerUsesSessionConfigByDefault()
     {
         $config = $this->manager->getConfig();
-        $this->assertInstanceOf('Zend\Session\Config\SessionConfig', $config);
+        $this->assertInstanceOf(SessionConfig::class, $config);
     }
 
     public function testCanPassConfigurationToConstructor()
     {
-        $config = new Session\Config\StandardConfig();
+        $config = new StandardConfig();
         $manager = new SessionManager($config);
         $this->assertSame($config, $manager->getConfig());
     }
@@ -65,12 +72,12 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     public function testManagerUsesSessionStorageByDefault()
     {
         $storage = $this->manager->getStorage();
-        $this->assertInstanceOf('Zend\Session\Storage\SessionArrayStorage', $storage);
+        $this->assertInstanceOf(SessionArrayStorage::class, $storage);
     }
 
     public function testCanPassStorageToConstructor()
     {
-        $storage = new Session\Storage\ArrayStorage();
+        $storage = new ArrayStorage();
         $manager = new SessionManager(null, $storage);
         $this->assertSame($storage, $manager->getStorage());
     }
@@ -89,43 +96,21 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
             'bar',
         ];
         $manager = new SessionManager(null, null, null, $validators);
-        $this->assertAttributeEquals($validators, 'validators', $manager);
-    }
-
-    public function testCanPassOptionsToConstructorAndOverrideDefaultValues()
-    {
-        $options = [
-            'attach_default_validators' => false,
-        ];
-        $manager = new SessionManager(null, null, null, [], $options);
-        $this->assertAttributeEquals($options, 'options', $manager);
-    }
-
-    public function testCanPassOptionsToConstructorAndMergeWithDefault()
-    {
-        $defaultOptions = [
-            'attach_default_validators' => true,
-        ];
-        $options = [
-            'foo' => false,
-        ];
-        $manager = new SessionManager(null, null, null, [], $options);
-        $this->assertAttributeEquals(array_merge($defaultOptions, $options), 'options', $manager);
+        foreach ($validators as $validator) {
+            $this->assertAttributeContains($validator, 'validators', $manager);
+        }
     }
 
     public function testAttachDefaultValidatorsByDefault()
     {
-        $defaultValidators = [
-            'Zend\Session\Validator\Id',
-        ];
         $manager = new SessionManager();
-        $this->assertAttributeEquals($defaultValidators, 'validators', $manager);
+        $this->assertAttributeEquals([Id::class], 'validators', $manager);
     }
 
     public function testCanMergeValidatorsWithDefault()
     {
         $defaultValidators = [
-            'Zend\Session\Validator\Id',
+            Id::class,
         ];
         $validators = [
             'foo',
@@ -140,9 +125,8 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $options = [
             'attach_default_validators' => false,
         ];
-        $validators = [];
-        $manager = new SessionManager(null, null, null, $validators, $options);
-        $this->assertAttributeEquals($validators, 'validators', $manager);
+        $manager = new SessionManager(null, null, null, [], $options);
+        $this->assertAttributeEquals([], 'validators', $manager);
     }
 
     // Session-related functionality
@@ -266,7 +250,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetNameRaisesExceptionOnInvalidName()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Name provided contains invalid characters; must be alphanumeric only');
+        $this->setExpectedException(InvalidArgumentException::class, 'Name provided contains invalid characters; must be alphanumeric only');
         $this->manager->setName('foo bar!');
     }
 
@@ -297,8 +281,10 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNameWhenAnActiveSessionExistsRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Cannot set session name after a session has already started');
+        $this->setExpectedException(
+            InvalidArgumentException::class,
+            'Cannot set session name after a session has already started'
+        );
         $this->manager->start();
         $this->manager->setName('foobar');
     }
@@ -427,8 +413,10 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testIdShouldNotBeMutableAfterSessionStarted()
     {
-        $this->setExpectedException('RuntimeException',
-            'Session has already been started, to change the session ID call regenerateId()');
+        $this->setExpectedException(
+            RuntimeException::class,
+            'Session has already been started, to change the session ID call regenerateId()'
+        );
         $this->manager->start();
         $origId = $this->manager->getId();
         $this->manager->setId(__METHOD__);
@@ -568,7 +556,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     {
         $chain = $this->manager->getValidatorChain();
         $chain->attach('session.validate', [new TestAsset\TestFailingValidator(), 'isValid']);
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'failed');
+        $this->setExpectedException(RuntimeException::class, 'failed');
         $this->manager->start();
     }
 
@@ -578,7 +566,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     public function testResumeSessionThatFailsAValidatorShouldRaiseException()
     {
         $this->manager->setSaveHandler(new TestAsset\TestSaveHandlerWithValidator);
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'failed');
+        $this->setExpectedException(RuntimeException::class, 'failed');
         $this->manager->start();
     }
 
@@ -600,7 +588,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSessionValidationDoesNotHaltOnNoopListener()
     {
-        $validator = $this->getMock('stdClass', ['__invoke']);
+        $validator = $this->getMock(stdClass::class, ['__invoke']);
 
         $validator->expects($this->once())->method('__invoke');
 
@@ -636,12 +624,9 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->manager->start();
 
-        $this->assertSame(
-            [
-                'Zend\Session\Validator\RemoteAddr' => '',
-            ],
-            $_SESSION['__ZF']['_VALID']
-        );
+        $this->assertInternalType('array', $_SESSION['__ZF']['_VALID']);
+        $this->assertArrayHasKey(RemoteAddr::class, $_SESSION['__ZF']['_VALID']);
+        $this->assertEquals('', $_SESSION['__ZF']['_VALID'][RemoteAddr::class]);
     }
 
     /**
@@ -654,7 +639,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
             ->getValidatorChain()
             ->attach('session.validate', [new RemoteAddr('123.123.123.123'), 'isValid']);
 
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'Session validation failed');
+        $this->setExpectedException(RuntimeException::class, 'Session validation failed');
         $this->manager->start();
     }
 
@@ -665,7 +650,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     {
         $_SESSION = [
             '__ZF' => [
-                '_VALID' => ['Zend\Session\Validator\RemoteAddr' => ''],
+                '_VALID' => [RemoteAddr::class => ''],
             ],
         ];
 
@@ -681,11 +666,11 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     {
         $_SESSION = [
             '__ZF' => [
-                '_VALID' => ['Zend\Session\Validator\RemoteAddr' => '123.123.123.123'],
+                '_VALID' => [RemoteAddr::class => '123.123.123.123'],
             ],
         ];
 
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'Session validation failed');
+        $this->setExpectedException(RuntimeException::class, 'Session validation failed');
         $this->manager->start();
     }
 
@@ -697,9 +682,9 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $this
             ->manager
             ->getValidatorChain()
-            ->attach('session.validate', [new Session\Validator\Id('null'), 'isValid']);
+            ->attach('session.validate', [new Id('invalid-value'), 'isValid']);
 
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'Session validation failed');
+        $this->setExpectedException(RuntimeException::class, 'Session validation failed');
         $this->manager->start();
     }
 }
