@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file, in reverse 
   `['attach_default_validators' => false]` as the fifth argument to
   `SessionManager`, or pass an `options` array with that value under the
   `session_manager` configuration key.
+- [#34](https://github.com/zendframework/zend-session/pull/34) adds the option
+  to use `exporeAfterSeconds` with the `MongoDB` save handler.
 
 ### Deprecated
 
@@ -23,7 +25,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#34](https://github.com/zendframework/zend-session/pull/34) updates the
+  component to use ext/mongodb + the MongoDB PHP client library, instead of
+  ext/mongo, for purposes of the `MongoDB` save handler, allowing the component
+  to be used with modern MongoDB installations.
 
 ## 2.6.3 - TBD
 
