@@ -118,7 +118,11 @@ class SessionArrayStorageTest extends \PHPUnit_Framework_TestCase
 
     public function testSessionWorksWithContainer()
     {
-        $container = new Container('test');
+        // Run without any validators; session ID is often invalid in CLI
+        $container = new Container(
+            'test',
+            new SessionManager(null, null, null, [], ['attach_default_validators' => false])
+        );
         $container->foo = 'bar';
 
         $this->assertSame($container->foo, $_SESSION['test']['foo']);
