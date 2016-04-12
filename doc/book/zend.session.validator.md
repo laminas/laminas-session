@@ -8,8 +8,8 @@ request either by a web browser extension OR an upgrade that retains session coo
 ## Http User Agent
 
 `Zend\Session\Validator\HttpUserAgent` provides a validator to check the session against the
-originally stored $\_SERVER\['HTTP\_USER\_AGENT'\] variable. Validation will fail in the event that
-this does not match and throws an exception in `Zend\Session\SessionManager` after session\_start()
+originally stored `$_SERVER['HTTP_USER_AGENT']` variable. Validation will fail in the event that
+this does not match and throws an exception in `Zend\Session\SessionManager` after `session_start()`
 has been called.
 
 ### Basic Usage
@@ -27,8 +27,8 @@ $manager->getValidatorChain()->attach('session.validate', array(new HttpUserAgen
 ## Remote Addr
 
 `Zend\Session\Validator\RemoteAddr` provides a validator to check the session against the originally
-stored $\_SERVER\['REMOTE\_ADDR'\] variable. Validation will fail in the event that this does not
-match and throws an exception in `Zend\Session\SessionManager` after session\_start() has been
+stored `$_SERVER['REMOTE_ADDR']` variable. Validation will fail in the event that this does not
+match and throws an exception in `Zend\Session\SessionManager` after `session_start()` has been
 called.
 
 ### Basic Usage
