@@ -4,8 +4,6 @@ Zend Framework comes with a standard set of storage classes which are ready for 
 handlers is the intermediary between when the session starts and when the session writes and closes.
 The default session storage is `Zend\Session\Storage\SessionArrayStorage`.
 
-orphan  
-
 ## Array Storage
 
 `Zend\Session\Storage\ArrayStorage` provides a facility to store all information in an ArrayObject.
@@ -28,8 +26,6 @@ $manager         = new SessionManager();
 $manager->setStorage($storage);
 ```
 
-orphan  
-
 ## Session Storage
 
 `Zend\Session\Storage\SessionStorage` replaces $\_SESSION providing a facility to store all
@@ -47,8 +43,6 @@ use Zend\Session\SessionManager;
 $manager = new SessionManager();
 $manager->setStorage(new SessionStorage());
 ```
-
-orphan  
 
 ## Session Array Storage
 
