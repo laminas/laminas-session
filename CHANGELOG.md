@@ -14,6 +14,11 @@ All notable changes to this project will be documented in this file, in reverse 
   `session_manager` configuration key.
 - [#34](https://github.com/zendframework/zend-session/pull/34) adds the option
   to use `exporeAfterSeconds` with the `MongoDB` save handler.
+- [#37](https://github.com/zendframework/zend-session/pull/37) exposes the
+  package as a standalone config-provider/component, adding:
+  - `Zend\Session\ConfigProvider`, which maps the default services offered by
+    the package, including the `ContainerAbstractServiceFactory`.
+  - `Zend\Session\Module`, which does the same, but for zend-mvc contexts.
 
 ### Deprecated
 
