@@ -8,7 +8,7 @@ The default session storage is `Zend\Session\Storage\SessionArrayStorage`.
 
 `Zend\Session\Storage\ArrayStorage` provides a facility to store all information in an ArrayObject.
 This storage method is likely incompatible with 3rd party libraries and all properties will be
-inaccessible through the $\_SESSION property. Additionally ArrayStorage will not automatically
+inaccessible through the `$_SESSION` property. Additionally ArrayStorage will not automatically
 repopulate the storage container in the case of each new request and would have to manually be
 re-populated.
 
@@ -28,9 +28,9 @@ $manager->setStorage($storage);
 
 ## Session Storage
 
-`Zend\Session\Storage\SessionStorage` replaces $\_SESSION providing a facility to store all
+`Zend\Session\Storage\SessionStorage` replaces `$_SESSION` providing a facility to store all
 information in an ArrayObject. This means that it may not be compatible with 3rd party libraries.
-Although information stored in the $\_SESSION superglobal should be available in other scopes.
+Although information stored in the `$_SESSION` superglobal should be available in other scopes.
 
 ### Basic Usage
 
@@ -47,8 +47,8 @@ $manager->setStorage(new SessionStorage());
 ## Session Array Storage
 
 `Zend\Session\Storage\SessionArrayStorage` provides a facility to store all information directly in
-the $\_SESSION superglobal. This storage class provides the most compatibility with 3rd party
-libraries and allows for directly storing information into $\_SESSION.
+the `$_SESSION` superglobal. This storage class provides the most compatibility with 3rd party
+libraries and allows for directly storing information into `$_SESSION`.
 
 ### Basic Usage
 
