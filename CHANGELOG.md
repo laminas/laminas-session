@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.7.0 - TBD
+## 2.7.0 - 2016-04-12
 
 ### Added
 
@@ -34,24 +34,6 @@ All notable changes to this project will be documented in this file, in reverse 
   component to use ext/mongodb + the MongoDB PHP client library, instead of
   ext/mongo, for purposes of the `MongoDB` save handler, allowing the component
   to be used with modern MongoDB installations.
-
-## 2.6.3 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
 
 ## 2.6.2 - 2016-02-25
 
