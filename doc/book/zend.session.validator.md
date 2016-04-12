@@ -5,8 +5,6 @@ particular has various drawbacks when you are protecting against it. Such as an 
 change from the end user depending on their ISP; or a browsers user agent may change during the
 request either by a web browser extension OR an upgrade that retains session cookies.
 
-orphan  
-
 ## Http User Agent
 
 `Zend\Session\Validator\HttpUserAgent` provides a validator to check the session against the
@@ -25,8 +23,6 @@ use Zend\Session\SessionManager;
 $manager = new SessionManager();
 $manager->getValidatorChain()->attach('session.validate', array(new HttpUserAgent(), 'isValid'));
 ```
-
-orphan  
 
 ## Remote Addr
 

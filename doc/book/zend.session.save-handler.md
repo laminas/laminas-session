@@ -4,8 +4,6 @@ Zend Framework comes with a standard set of save handler classes which are ready
 Save Handlers themselves are decoupled from PHP's save handler functions and are *only* implemented
 as a PHP save handler when utilized in conjunction with `Zend\Session\SessionManager`.
 
-orphan  
-
 ## Cache
 
 `Zend\Session\SaveHandler\Cache` allows you to provide an instance of `Zend\Cache` to be utilized as
@@ -33,8 +31,6 @@ $saveHandler = new Cache($cache);
 $manager = new SessionManager();
 $manager->setSaveHandler($saveHandler);
 ```
-
-orphan  
 
 ## DbTableGateway
 
@@ -72,8 +68,6 @@ $saveHandler  = new DbTableGateway($tableGateway, new DbTableGatewayOptions());
 $manager      = new SessionManager();
 $manager->setSaveHandler($saveHandler);
 ```
-
-orphan  
 
 ## MongoDB
 
