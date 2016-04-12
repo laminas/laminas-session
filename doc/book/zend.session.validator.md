@@ -9,7 +9,7 @@ request either by a web browser extension OR an upgrade that retains session coo
 
 `Zend\Session\Validator\HttpUserAgent` provides a validator to check the session against the
 originally stored `$_SERVER['HTTP_USER_AGENT']` variable. Validation will fail in the event that
-this does not match and throws an exception in `Zend\Session\SessionManager` after `session\_start()`
+this does not match and throws an exception in `Zend\Session\SessionManager` after `session_start()`
 has been called.
 
 ### Basic Usage
