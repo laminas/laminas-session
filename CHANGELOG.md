@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.7.0 - TBD
+
+### Added
+
+- [#23](https://github.com/zendframework/zend-session/pull/23) provides a new
+  `Id` validator to ensure that the session identifier is not malformed. This
+  validator is now enabled by default; to disable it, pass
+  `['attach_default_validators' => false]` as the fifth argument to
+  `SessionManager`, or pass an `options` array with that value under the
+  `session_manager` configuration key.
+- [#34](https://github.com/zendframework/zend-session/pull/34) adds the option
+  to use `exporeAfterSeconds` with the `MongoDB` save handler.
+- [#37](https://github.com/zendframework/zend-session/pull/37) exposes the
+  package as a standalone config-provider/component, adding:
+  - `Zend\Session\ConfigProvider`, which maps the default services offered by
+    the package, including the `ContainerAbstractServiceFactory`.
+  - `Zend\Session\Module`, which does the same, but for zend-mvc contexts.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#34](https://github.com/zendframework/zend-session/pull/34) updates the
+  component to use ext/mongodb + the MongoDB PHP client library, instead of
+  ext/mongo, for purposes of the `MongoDB` save handler, allowing the component
+  to be used with modern MongoDB installations.
+
 ## 2.6.3 - TBD
 
 ### Added

@@ -73,24 +73,25 @@ $manager->setSaveHandler($saveHandler);
 
 `Zend\Session\SaveHandler\MongoDB` allows you to provide a MongoDB instance to be utilized as a
 session save handler. You provide the options in the `Zend\Session\SaveHandler\MongoDBOptions`
-class.
+class. You must install the [mongodb PHP extensions](http://php.net/manual/en/set.mongodb.php) and the 
+[MongoDB PHP library](https://github.com/mongodb/mongo-php-library).
 
 ### Basic Usage
 
 A basic example is one like the following:
 
 ```php
-use Mongo;
+use MongoDB\Client;
 use Zend\Session\SaveHandler\MongoDB;
 use Zend\Session\SaveHandler\MongoDBOptions;
 use Zend\Session\SessionManager;
 
-$mongo = new Mongo();
+$mongoClient = new Client();
 $options = new MongoDBOptions(array(
     'database'   => 'myapp',
     'collection' => 'sessions',
 ));
-$saveHandler = new MongoDB($mongo, $options);
+$saveHandler = new MongoDB($mongoClient, $options);
 $manager     = new SessionManager();
 $manager->setSaveHandler($saveHandler);
 ```
