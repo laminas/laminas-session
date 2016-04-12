@@ -6,7 +6,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#37](https://github.com/zendframework/zend-session/pull/37) exposes the
+  package as a standalone config-provider/component, adding:
+  - `Zend\Session\ConfigProvider`, which maps the default services offered by
+    the package, including the `ContainerAbstractServiceFactory`.
+  - `Zend\Session\Module`, which does the same, but for zend-mvc contexts.
 
 ### Deprecated
 
