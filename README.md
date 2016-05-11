@@ -8,4 +8,4 @@ interface.
 
 
 - File issues at https://github.com/zendframework/zend-session/issues
-- Documentation is at http://framework.zend.com/manual/current/en/index.html#zend-session
+- Documentation is at https://zendframework.github.io/zend-session/
