@@ -18,7 +18,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#38](https://github.com/zendframework/zend-session/pull/38) ensures that the
+  value from `session.gc_maxlifetime` is cast to an integer before assigning
+  it as the `lifetime` value in the `MongoDB` adapter, ensuring sessions may be
+  deleted.
 
 ## 2.7.0 - 2016-04-12
 
