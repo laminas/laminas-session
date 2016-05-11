@@ -87,7 +87,7 @@ class MongoDB implements SaveHandlerInterface
     {
         // Note: session save path is not used
         $this->sessionName = $name;
-        $this->lifetime    = ini_get('session.gc_maxlifetime');
+        $this->lifetime    = (int) ini_get('session.gc_maxlifetime');
 
         $this->mongoCollection = $this->mongoClient->selectCollection(
             $this->options->getDatabase(),
