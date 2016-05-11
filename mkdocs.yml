@@ -2,7 +2,6 @@ docs_dir: doc/book
 site_dir: doc/html
 pages:
     - index.md
-    - Intro: intro.md
     - Reference:
         - "Session Config": config.md
         - "Session Container": container.md
