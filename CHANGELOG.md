@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.7.1 - TBD
+## 2.7.1 - 2016-05-11
 
 ### Added
 
-- Nothing.
+- [#40](https://github.com/zendframework/zend-session/pull/40) adds and
+  publishes the documentation to https://zendframework.github.io/zend-session/
 
 ### Deprecated
 

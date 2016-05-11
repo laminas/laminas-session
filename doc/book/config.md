@@ -1,14 +1,15 @@
 # Session Config
 
-Zend Framework comes with a standard set of config classes which are ready for you to use. Config
-handles setting various configuration such as where a cookie lives, lifetime, including several bits
-to configure ext/session when using `Zend\Session\Config\SessionConfig`.
+zend-session comes with a standard set of config classes, allowing setting where
+a cookie lives, session lifetime, and even configuration of ext/session when
+using `Zend\Session\Config\SessionConfig`.
 
 ## Standard Config
 
-`Zend\Session\Config\StandardConfig` provides you a basic interface for implementing sessions when
-*not* leveraging ext/session. This is utilized more for specialized cases such as when you might
-have session management done by another system.
+`Zend\Session\Config\StandardConfig` provides the base interface for
+configuring sessions when *not* leveraging ext/session. This is utilized more
+for specialized cases, such as when you might have session management done by
+another system, or when testing.
 
 ### Basic Configuration Options
 
@@ -35,8 +36,6 @@ Option                    | Data Type | Description
 
 ### Basic Usage
 
-A basic example is one like the following:
-
 ```php
 use Zend\Session\Config\StandardConfig;
 use Zend\Session\SessionManager;
@@ -51,14 +50,15 @@ $manager = new SessionManager($config);
 
 ## Session Config
 
-`Zend\Session\Config\SessionConfig` provides you a basic interface for implementing sessions when
-that leverage PHP's ext/session. Most configuration options configure either the
-`Zend\Session\Storage` OR configure ext/session directly.
+`Zend\Session\Config\SessionConfig` provides an interface for configuring
+sessions that leverage PHP's ext/session. Most configuration options configure
+either the `Zend\Session\Storage` OR configure ext/session directly.
 
 ### Basic Configuration Options
 
-The following configuration options are defined by `Zend\Session\Config\SessionConfig`, note that it
-inherits all configuration from `Zend\Session\Config\StandardConfig`.
+The following configuration options are defined by `Zend\Session\Config\SessionConfig`;
+note that it inherits all configuration from
+`Zend\Session\Config\StandardConfig`.
 
 Option              | Data Type | Description
 ------------------- | --------- | -----------
@@ -70,8 +70,6 @@ Option              | Data Type | Description
 `use_trans_sid`     | `boolean` | Whether transparent sid support is enabled or not.
 
 ### Basic Usage
-
-A basic example is one like the following:
 
 ```php
 use Zend\Session\Config\SessionConfig;
@@ -87,11 +85,12 @@ $manager = new SessionManager($config);
 
 ### Service Manager Factory
 
-`Zend\Session` ships with a Service Manager &lt;zend.service-manager.intro&gt; factory which reads
-configuration data from the application configuration and injects a corresponding instance of
-`Zend\Session\Config\SessionConfig` into the session manager automatically.
+zend-session ships with a [zend-servicemanager](https://zendframework.github.io/zend-servicemanager/)
+factory which reads configuration data from the application configuration and
+injects a corresponding instance of `Zend\Session\Config\SessionConfig` into the
+session manager automatically.
 
-To use this factory, you first need to register it with the Service Manager by adding the
+To use this factory, you first need to register it with the service manager by adding the
 appropriate factory definition:
 
 ```php
@@ -102,8 +101,14 @@ appropriate factory definition:
 ],
 ```
 
-Then place your application's session configuration in the root-level configuration key
-`session_config`:
+> #### Automated factory registration
+>
+> Starting with zend-mvc v3, if you are using the [component installer](https://zendframework.github.io/zend-component-installer)
+> in your application, the above registration will be made automatically for
+> you when you install zend-session.
+
+Then place your application's session configuration in the root-level
+configuration key `session_config`:
 
 ```php
 'session_config' => [
@@ -121,7 +126,8 @@ Option         | Data Type | Description
 
 ## Custom Configuration
 
-In the event that you prefer to create your own session configuration; you *must* implement
-`Zend\Session\Config\ConfigInterface` which contains the basic interface for items needed when
-implementing a session. This includes cookie configuration, lifetime, session name, save path and an
-interface for getting and setting options.
+In the event that you prefer to create your own session configuration; you
+*must* implement `Zend\Session\Config\ConfigInterface` which contains the basic
+interface for items needed when implementing a session. This includes cookie
+configuration, lifetime, session name, save path, and an interface for getting
+and setting options.
