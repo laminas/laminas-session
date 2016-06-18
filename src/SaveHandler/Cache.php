@@ -81,7 +81,7 @@ class Cache implements SaveHandlerInterface
      */
     public function read($id)
     {
-        return $this->getCacheStorage()->getItem($id);
+        return (string) $this->getCacheStorage()->getItem($id);
     }
 
     /**

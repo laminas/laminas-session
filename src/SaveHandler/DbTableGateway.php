@@ -102,7 +102,7 @@ class DbTableGateway implements SaveHandlerInterface
         if ($row = $rows->current()) {
             if ($row->{$this->options->getModifiedColumn()} +
                 $row->{$this->options->getLifetimeColumn()} > time()) {
-                return $row->{$this->options->getDataColumn()};
+                return (string) $row->{$this->options->getDataColumn()};
             }
             $this->destroy($id);
         }

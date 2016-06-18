@@ -123,6 +123,18 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->testArray, unserialize($saveHandler->read($id)));
     }
 
+    public function testReadShouldAlwaysReturnString()
+    {
+        $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
+        $saveHandler->open('savepath', 'sessionname');
+
+        $id = '242';
+
+        $data = $saveHandler->read($id);
+
+        $this->assertTrue(is_string($data));
+    }
+
     /**
      * Sets up the database connection and creates the table for session data
      *

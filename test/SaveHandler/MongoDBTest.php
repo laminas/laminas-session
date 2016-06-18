@@ -153,4 +153,17 @@ class MongoDBTest extends \PHPUnit_Framework_TestCase
         $saveHandler->open('savepath', 'sessionname_changed');
         $saveHandler->write($id, serialize($data));
     }
+
+    public function testReadShouldAlwaysReturnString()
+    {
+        $saveHandler = new MongoDB($this->mongoClient, $this->options);
+        $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
+
+        $id = '242';
+
+        $data = $saveHandler->read($id);
+
+        $this->assertTrue(is_string($data));
+    }
+
 }
