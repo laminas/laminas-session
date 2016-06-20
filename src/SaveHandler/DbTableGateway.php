@@ -150,12 +150,12 @@ class DbTableGateway implements SaveHandlerInterface
     public function destroy($id)
     {
         $exists = (bool) $this->read($id);
-        
+
         $deleted = (bool) $this->tableGateway->delete([
             $this->options->getIdColumn()   => $id,
             $this->options->getNameColumn() => $this->sessionName,
-        ]); 
-        
+        ]);
+
         return $exists ? $deleted : true;
     }
 
