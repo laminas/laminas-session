@@ -48,6 +48,13 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
     protected $usedSaveHandlers = [];
 
     /**
+     * Test data container.
+     *
+     * @var array
+     */
+    private $testArray;
+
+    /**
      * Setup performed prior to each test method
      *
      * @return void
@@ -123,10 +130,48 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->testArray, unserialize($saveHandler->read($id)));
     }
 
+    public function testReadShouldAlwaysReturnString()
+    {
+        $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
+        $saveHandler->open('savepath', 'sessionname');
+
+        $id = '242';
+
+        $data = $saveHandler->read($id);
+
+        $this->assertTrue(is_string($data));
+    }
+
+    public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist()
+    {
+        $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
+        $saveHandler->open('savepath', 'sessionname');
+
+        $id = '242';
+
+        $result = $saveHandler->destroy($id);
+
+        $this->assertTrue($result);
+    }
+
+    public function testDestroyReturnsTrueWhenSessionIsDeleted()
+    {
+        $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
+        $saveHandler->open('savepath', 'sessionname');
+
+        $id = '242';
+
+        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+
+        $result = $saveHandler->destroy($id);
+
+        $this->assertTrue($result);
+    }
+
     /**
      * Sets up the database connection and creates the table for session data
      *
-     * @param  Zend\Session\SaveHandler\DbTableGatewayOptions $options
+     * @param  \Zend\Session\SaveHandler\DbTableGatewayOptions $options
      * @return void
      */
     protected function setupDb(DbTableGatewayOptions $options)

@@ -20,7 +20,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 2.7.2 - TBD
+## 2.7.2 - 2016-06-24
 
 ### Added
 
@@ -36,7 +36,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#46](https://github.com/zendframework/zend-session/pull/46) provides fixes to
+  each of the `Cache` and `DbTaleGateway` save handlers to ensure they work
+  when used under PHP 7.
 
 ## 2.7.1 - 2016-05-11
 
