@@ -102,7 +102,7 @@ class DbTableGateway implements SaveHandlerInterface
         if ($row = $rows->current()) {
             if ($row->{$this->options->getModifiedColumn()} +
                 $row->{$this->options->getLifetimeColumn()} > time()) {
-                return $row->{$this->options->getDataColumn()};
+                return (string) $row->{$this->options->getDataColumn()};
             }
             $this->destroy($id);
         }
@@ -149,10 +149,14 @@ class DbTableGateway implements SaveHandlerInterface
      */
     public function destroy($id)
     {
-        return (bool) $this->tableGateway->delete([
+        $exists = (bool) $this->read($id);
+
+        $deleted = (bool) $this->tableGateway->delete([
             $this->options->getIdColumn()   => $id,
             $this->options->getNameColumn() => $this->sessionName,
         ]);
+
+        return $exists ? $deleted : true;
     }
 
     /**
