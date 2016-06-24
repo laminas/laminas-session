@@ -103,4 +103,17 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($this->testArray, unserialize($saveHandler->read($id)));
     }
+
+    public function testReadShouldAlwaysReturnString()
+    {
+        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $cacheStorage->getItem('242')->willReturn(null);
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
+
+        $id = '242';
+
+        $data = $saveHandler->read($id);
+
+        $this->assertTrue(is_string($data));
+    }
 }
