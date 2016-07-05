@@ -13,6 +13,7 @@ use Zend\Session\SaveHandler\DbTableGateway;
 use Zend\Session\SaveHandler\DbTableGatewayOptions;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\TableGateway\TableGateway;
+use ZendTest\Session\TestAsset\TestDbTableGatewaySaveHandler;
 
 /**
  * Unit testing for DbTableGateway include all tests for
@@ -166,6 +167,38 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
         $result = $saveHandler->destroy($id);
 
         $this->assertTrue($result);
+    }
+
+    public function testExpiredSessionDoesNotCauseARecursion()
+    {
+        // puts an expired session in the db
+        $query = "
+INSERT INTO `sessions` (
+    `{$this->options->getIdColumn()}`,
+    `{$this->options->getNameColumn()}`,
+    `{$this->options->getModifiedColumn()}`,
+    `{$this->options->getLifetimeColumn()}`,
+    `{$this->options->getDataColumn()}`
+) VALUES (
+    '123', 'zend-session-test', ".(time() - 31).", 30, 'foobar'
+);
+";
+        $this->adapter->query($query, Adapter::QUERY_MODE_EXECUTE);
+
+        $this->usedSaveHandlers[] = $saveHandler = new TestDbTableGatewaySaveHandler($this->tableGateway, $this->options);
+        $saveHandler->open('savepath', 'zend-session-test');
+
+        $this->assertSame(0, $saveHandler->getNumReadCalls());
+        $this->assertSame(0, $saveHandler->getNumDestroyCalls());
+
+        $success = (boolean) $saveHandler->read('123');
+        $this->assertFalse($success);
+
+        $this->assertSame(2, $saveHandler->getNumReadCalls());
+        $this->assertSame(1, $saveHandler->getNumDestroyCalls());
+
+        // cleans the test record from the db
+        $this->adapter->query("DELETE FROM `sessions` WHERE `{$this->options->getIdColumn()}` = '123';");
     }
 
     /**
