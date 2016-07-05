@@ -168,7 +168,7 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($result);
     }
-    
+
     public function testExpiredSessionDoesNotCauseARecursion()
     {
         // puts an expired session in the db
