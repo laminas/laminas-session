@@ -90,9 +90,10 @@ class DbTableGateway implements SaveHandlerInterface
      * Read session data
      *
      * @param string $id
+     * @param bool $destroyExpired Optional; true by default
      * @return string
      */
-    public function read($id)
+    public function read($id, $destroyExpired = true)
     {
         $rows = $this->tableGateway->select([
             $this->options->getIdColumn()   => $id,
@@ -104,7 +105,9 @@ class DbTableGateway implements SaveHandlerInterface
                 $row->{$this->options->getLifetimeColumn()} > time()) {
                 return (string) $row->{$this->options->getDataColumn()};
             }
-            $this->destroy($id);
+            if ($destroyExpired) {
+                $this->destroy($id);
+            }
         }
         return '';
     }
@@ -149,7 +152,7 @@ class DbTableGateway implements SaveHandlerInterface
      */
     public function destroy($id)
     {
-        if (! (bool) $this->read($id)) {
+        if (! (bool) $this->read($id, false)) {
             return true;
         }
 
