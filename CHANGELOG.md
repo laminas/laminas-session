@@ -21,6 +21,9 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#51](https://github.com/zendframework/zend-session/pull/51) provides a fix to
   the `DbTableGateway` save handler to prevent infinite recursion when
   attempting to destroy an expired record during initial read operations.
+- [#45](https://github.com/zendframework/zend-session/pull/45) updates the
+  `SessionManager::regenerateId()` method to only regenerate the identifier if a
+  session already exists.
 
 ## 2.7.2 - 2016-06-24
 
