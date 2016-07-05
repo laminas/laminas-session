@@ -320,7 +320,10 @@ class SessionManager extends AbstractManager
      */
     public function regenerateId($deleteOldSession = true)
     {
-        session_regenerate_id((bool) $deleteOldSession);
+        if ($this->sessionExists()) {
+            session_regenerate_id((bool) $deleteOldSession);
+        }
+
         return $this;
     }
 
