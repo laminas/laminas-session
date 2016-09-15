@@ -25,7 +25,6 @@ services:
   - mongodb
 
 matrix:
-  fast_finish: true
   include:
     - php: 5.5
       env:
