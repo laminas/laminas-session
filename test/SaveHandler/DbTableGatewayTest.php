@@ -62,7 +62,7 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        if (!extension_loaded('pdo_sqlite')) {
+        if (! extension_loaded('pdo_sqlite')) {
             $this->markTestSkipped('Zend\Session\SaveHandler\DbTableGateway tests are not enabled due to missing PDO_Sqlite extension');
         }
 
@@ -236,7 +236,7 @@ EOD;
      */
     protected function dropTable()
     {
-        if (!$this->adapter) {
+        if (! $this->adapter) {
             return;
         }
         $this->adapter->query('DROP TABLE sessions', Adapter::QUERY_MODE_EXECUTE);

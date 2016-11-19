@@ -52,8 +52,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->will(function ($args) {
                 $this->getItem('242')->willReturn($args[1]);
                 return true;
-            }
-        );
+            });
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
         $id = '242';

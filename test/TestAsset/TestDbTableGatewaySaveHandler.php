@@ -16,12 +16,12 @@ class TestDbTableGatewaySaveHandler extends DbTableGateway
     protected $numReadCalls = 0;
 
     protected $numDestroyCalls = 0;
-    
+
     public function getNumReadCalls()
     {
         return $this->numReadCalls;
     }
-    
+
     public function getNumDestroyCalls()
     {
         return $this->numDestroyCalls;
@@ -32,7 +32,7 @@ class TestDbTableGatewaySaveHandler extends DbTableGateway
         $this->numReadCalls++;
         return parent::read($id, $destroyExpired);
     }
-    
+
     public function destroy($id)
     {
         $this->numDestroyCalls++;

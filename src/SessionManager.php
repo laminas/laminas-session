@@ -141,7 +141,7 @@ class SessionManager extends AbstractManager
         // Since session is starting, we need to potentially repopulate our
         // session storage
         if ($storage instanceof Storage\SessionStorage && $_SESSION !== $storage) {
-            if (!$preserveStorage) {
+            if (! $preserveStorage) {
                 $storage->fromArray($_SESSION);
             }
             $_SESSION = $storage;
@@ -151,7 +151,7 @@ class SessionManager extends AbstractManager
 
         $this->initializeValidatorChain();
 
-        if (!$this->isValid()) {
+        if (! $this->isValid()) {
             throw new Exception\RuntimeException('Session validation failed');
         }
     }
@@ -183,7 +183,7 @@ class SessionManager extends AbstractManager
      */
     public function destroy(array $options = null)
     {
-        if (!$this->sessionExists()) {
+        if (! $this->sessionExists()) {
             return;
         }
 
@@ -224,7 +224,7 @@ class SessionManager extends AbstractManager
         // flushed to the session handler. As such, we now mark the storage
         // object isImmutable.
         $storage  = $this->getStorage();
-        if (!$storage->isImmutable()) {
+        if (! $storage->isImmutable()) {
             $_SESSION = $storage->toArray(true);
             session_write_close();
             $storage->fromArray($_SESSION);
@@ -250,7 +250,7 @@ class SessionManager extends AbstractManager
             );
         }
 
-        if (!preg_match('/^[a-zA-Z0-9]+$/', $name)) {
+        if (! preg_match('/^[a-zA-Z0-9]+$/', $name)) {
             throw new Exception\InvalidArgumentException(
                 'Name provided contains invalid characters; must be alphanumeric only'
             );
@@ -428,7 +428,7 @@ class SessionManager extends AbstractManager
     public function expireSessionCookie()
     {
         $config = $this->getConfig();
-        if (!$config->getUseCookies()) {
+        if (! $config->getUseCookies()) {
             return;
         }
         setcookie(
@@ -454,7 +454,7 @@ class SessionManager extends AbstractManager
     protected function setSessionCookieLifetime($ttl)
     {
         $config = $this->getConfig();
-        if (!$config->getUseCookies()) {
+        if (! $config->getUseCookies()) {
             return;
         }
 

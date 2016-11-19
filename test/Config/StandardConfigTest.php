@@ -332,15 +332,19 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCacheExpireRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid cache_expire; must be numeric');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid cache_expire; must be numeric'
+        );
         $this->config->setCacheExpire('foobar_bogus');
     }
 
     public function testSettingInvalidCacheExpireRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid cache_expire; must be a positive integer');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid cache_expire; must be a positive integer'
+        );
         $this->config->setCacheExpire(-1);
     }
 
@@ -395,8 +399,10 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidHashBitsPerCharacterRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid hash bits per character provided');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid hash bits per character provided'
+        );
         $this->config->setHashBitsPerCharacter('foobar_bogus');
     }
 
@@ -418,15 +424,19 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidRememberMeSecondsRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid remember_me_seconds; must be numeric');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid remember_me_seconds; must be numeric'
+        );
         $this->config->setRememberMeSeconds('foobar_bogus');
     }
 
     public function testSettingInvalidRememberMeSecondsRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid remember_me_seconds; must be a positive integer');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid remember_me_seconds; must be a positive integer'
+        );
         $this->config->setRememberMeSeconds(-1);
     }
 
@@ -570,7 +580,7 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetEntropyDevUrandom()
     {
-        if (!file_exists('/dev/urandom')) {
+        if (! file_exists('/dev/urandom')) {
             $this->markTestSkipped(
                 "This test doesn't work because /dev/urandom file doesn't exist."
             );

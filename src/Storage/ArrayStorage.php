@@ -141,7 +141,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
         $locks    = $this->getMetadata('_LOCKS');
         $readOnly = $this->getMetadata('_READONLY');
 
-        if ($readOnly && !$locks) {
+        if ($readOnly && ! $locks) {
             // global lock in play; all keys are locked
             return true;
         } elseif ($readOnly && $locks) {
@@ -149,7 +149,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
         }
 
         // test for individual locks
-        if (!$locks) {
+        if (! $locks) {
             return false;
         }
 
@@ -173,8 +173,8 @@ class ArrayStorage extends ArrayObject implements StorageInterface
         }
 
         $locks = $this->getMetadata('_LOCKS');
-        if (!$locks) {
-            if (!$this->getMetadata('_READONLY')) {
+        if (! $locks) {
+            if (! $this->getMetadata('_READONLY')) {
                 return $this;
             }
             $array = $this->toArray();
@@ -237,7 +237,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
             );
         }
 
-        if (!isset($this['__ZF'])) {
+        if (! isset($this['__ZF'])) {
             $this['__ZF'] = [];
         }
 
@@ -275,7 +275,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      */
     public function getMetadata($key = null)
     {
-        if (!isset($this['__ZF'])) {
+        if (! isset($this['__ZF'])) {
             return false;
         }
 
@@ -283,7 +283,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
             return $this['__ZF'];
         }
 
-        if (!array_key_exists($key, $this['__ZF'])) {
+        if (! array_key_exists($key, $this['__ZF'])) {
             return false;
         }
 
@@ -308,7 +308,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
             return $this;
         }
 
-        if (!isset($this[$key])) {
+        if (! isset($this[$key])) {
             return $this;
         }
 

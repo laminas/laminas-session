@@ -125,7 +125,7 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
             return $this->config;
         }
 
-        if (!$container->has('config')) {
+        if (! $container->has('config')) {
             $this->config = [];
             return $this->config;
         }

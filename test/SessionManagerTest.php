@@ -294,7 +294,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDestroyByDefaultSendsAnExpireCookie()
     {
-        if (!extension_loaded('xdebug')) {
+        if (! extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
 
@@ -319,7 +319,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendingFalseToSendExpireCookieWhenCallingDestroyShouldNotSendCookie()
     {
-        if (!extension_loaded('xdebug')) {
+        if (! extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
 
@@ -449,7 +449,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegeneratingIdAfterSessionStartedShouldSendExpireCookie()
     {
-        if (!extension_loaded('xdebug')) {
+        if (! extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
 
@@ -474,7 +474,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRememberMeShouldSendNewSessionCookieWithUpdatedTimestamp()
     {
-        if (!extension_loaded('xdebug')) {
+        if (! extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
 
@@ -487,14 +487,14 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $sName   = $this->manager->getName();
         $cookie  = false;
         foreach ($headers as $header) {
-            if (stristr($header, 'Set-Cookie:') && stristr($header, $sName) && !stristr($header, '=deleted')) {
+            if (stristr($header, 'Set-Cookie:') && stristr($header, $sName) && ! stristr($header, '=deleted')) {
                 $found  = true;
                 $cookie = $header;
             }
         }
         $this->assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
         $ts = $this->getTimestampFromCookie($cookie);
-        if (!$ts) {
+        if (! $ts) {
             $this->fail('Cookie did not contain expiry? ' . var_export($headers, true));
         }
         $this->assertGreaterThan($_SERVER['REQUEST_TIME'], $ts->getTimestamp(), 'Session cookie: ' . var_export($headers, 1));
@@ -505,7 +505,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRememberMeShouldSetTimestampBasedOnConfigurationByDefault()
     {
-        if (!extension_loaded('xdebug')) {
+        if (! extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
 
@@ -520,14 +520,14 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $sName  = $this->manager->getName();
         $cookie = false;
         foreach ($headers as $header) {
-            if (stristr($header, 'Set-Cookie:') && stristr($header, $sName) && !stristr($header, '=deleted')) {
+            if (stristr($header, 'Set-Cookie:') && stristr($header, $sName) && ! stristr($header, '=deleted')) {
                 $found  = true;
                 $cookie = $header;
             }
         }
         $this->assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
         $ts = $this->getTimestampFromCookie($cookie);
-        if (!$ts) {
+        if (! $ts) {
             $this->fail('Cookie did not contain expiry? ' . var_export($headers, true));
         }
         $compare = $_SERVER['REQUEST_TIME'] + $ttl;
@@ -540,7 +540,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testForgetMeShouldSendCookieWithZeroTimestamp()
     {
-        if (!extension_loaded('xdebug')) {
+        if (! extension_loaded('xdebug')) {
             $this->markTestSkipped('Xdebug required for this test');
         }
 
@@ -552,7 +552,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $found  = false;
         $sName  = $this->manager->getName();
         foreach ($headers as $header) {
-            if (stristr($header, 'Set-Cookie:') && stristr($header, $sName) && !stristr($header, '=deleted')) {
+            if (stristr($header, 'Set-Cookie:') && stristr($header, $sName) && ! stristr($header, '=deleted')) {
                 $found  = true;
             }
         }
