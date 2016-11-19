@@ -60,7 +60,11 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
         $data = unserialize($saveHandler->read($id));
-        $this->assertEquals($this->testArray, $data, 'Expected ' . var_export($this->testArray, 1) . "\nbut got: " . var_export($data, 1));
+        $this->assertEquals(
+            $this->testArray,
+            $data,
+            'Expected ' . var_export($this->testArray, 1) . "\nbut got: " . var_export($data, 1)
+        );
     }
 
     public function testReadWriteComplex()

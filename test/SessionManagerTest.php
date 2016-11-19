@@ -250,7 +250,10 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetNameRaisesExceptionOnInvalidName()
     {
-        $this->setExpectedException(InvalidArgumentException::class, 'Name provided contains invalid characters; must be alphanumeric only');
+        $this->setExpectedException(
+            InvalidArgumentException::class,
+            'Name provided contains invalid characters; must be alphanumeric only'
+        );
         $this->manager->setName('foo bar!');
     }
 
@@ -497,7 +500,11 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         if (! $ts) {
             $this->fail('Cookie did not contain expiry? ' . var_export($headers, true));
         }
-        $this->assertGreaterThan($_SERVER['REQUEST_TIME'], $ts->getTimestamp(), 'Session cookie: ' . var_export($headers, 1));
+        $this->assertGreaterThan(
+            $_SERVER['REQUEST_TIME'],
+            $ts->getTimestamp(),
+            'Session cookie: ' . var_export($headers, 1)
+        );
     }
 
     /**

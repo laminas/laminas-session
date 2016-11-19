@@ -107,7 +107,10 @@ abstract class Factory
                 throw new Exception\InvalidArgumentException(sprintf(
                     '%s expects the "iterator_class" option to be a valid class; received "%s"',
                     $type,
-                    (is_object($options['iterator_class']) ? get_class($options['iterator_class']) : gettype($options['iterator_class']))
+                    (is_object($options['iterator_class'])
+                        ? get_class($options['iterator_class'])
+                        : gettype($options['iterator_class'])
+                    )
                 ));
             }
             $iteratorClass = $options['iterator_class'];

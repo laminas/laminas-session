@@ -5,4 +5,6 @@
     <!-- Paths to check -->
     <file>src</file>
     <file>test</file>
+    <!-- Needs to get excluded due it executing code AND declaring symbols -->
+    <exclude-pattern>/src/ValidatorChain.php</exclude-pattern>
 </ruleset>

@@ -291,7 +291,9 @@ class SessionManager extends AbstractManager
     public function setId($id)
     {
         if ($this->sessionExists()) {
-            throw new Exception\RuntimeException('Session has already been started, to change the session ID call regenerateId()');
+            throw new Exception\RuntimeException(
+                'Session has already been started, to change the session ID call regenerateId()'
+            );
         }
         session_id($id);
         return $this;
