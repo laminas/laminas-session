@@ -116,4 +116,30 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_string($data));
     }
+
+    public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist()
+    {
+        $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
+        $saveHandler->open('savepath', 'sessionname');
+
+        $id = '242';
+
+        $result = $saveHandler->destroy($id);
+
+        $this->assertTrue($result);
+    }
+
+    public function testDestroyReturnsTrueWhenSessionIsDeleted()
+    {
+        $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
+        $saveHandler->open('savepath', 'sessionname');
+
+        $id = '242';
+
+        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+
+        $result = $saveHandler->destroy($id);
+
+        $this->assertTrue($result);
+    }
 }
