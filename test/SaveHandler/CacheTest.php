@@ -119,8 +119,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist()
     {
-        $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
-        $saveHandler->open('savepath', 'sessionname');
+        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
         $id = '242';
 
@@ -131,8 +131,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testDestroyReturnsTrueWhenSessionIsDeleted()
     {
-        $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
-        $saveHandler->open('savepath', 'sessionname');
+        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
         $id = '242';
 
