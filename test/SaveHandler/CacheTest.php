@@ -132,6 +132,11 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testDestroyReturnsTrueWhenSessionIsDeleted()
     {
         $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $cacheStorage->setItem('242', Argument::type('string'))
+            ->will(function ($args) {
+                $this->getItem('242')->willReturn($args[1]);
+                return true;
+            });
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
         $id = '242';
