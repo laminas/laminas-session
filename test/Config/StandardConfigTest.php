@@ -735,6 +735,11 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
             ];
         } else {
             $commonOptions[] = [
+                'sid_length',
+                'getSidLength',
+                40,
+            ];
+            $commonOptions[] = [
                 'sid_bits_per_character',
                 'getSidBitsPerCharacter',
                 5,

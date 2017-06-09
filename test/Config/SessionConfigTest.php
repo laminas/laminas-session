@@ -1145,6 +1145,17 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
                 'getOption',
                 5,
             ];
+        } else {
+            $commonOptions[] = [
+                'sid_length',
+                'getSidLength',
+                40,
+            ];
+            $commonOptions[] = [
+                'sid_bits_per_character',
+                'getSidBitsPerCharacter',
+                5,
+            ];
         }
 
         return $commonOptions;
