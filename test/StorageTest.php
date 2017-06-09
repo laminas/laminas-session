@@ -249,7 +249,7 @@ class StorageTest extends TestCase
         $this->storage['foo'] = ['bar' => ['baz' => 'boo']];
         unset($this->storage['foo']['bar']['baz']);
         unset($this->storage['foo']['bar']);
-        
+
         $this->assertFalse(isset($this->storage['foo']['bar']));
     }
 }

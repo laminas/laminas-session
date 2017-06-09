@@ -11,7 +11,6 @@ namespace ZendTest\Session;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\Config\StandardConfig;
 use Zend\Session\Exception\InvalidArgumentException;
@@ -599,13 +598,15 @@ class SessionManagerTest extends TestCase
      */
     public function testSessionValidationDoesNotHaltOnNoopListener()
     {
-        $validator = $this->createMock(stdClass::class, ['__invoke']);
-
-        $validator->expects($this->once())->method('__invoke');
+        $validatorCalled = false;
+        $validator = function () use (& $validatorCalled) {
+            $validatorCalled = true;
+        };
 
         $this->manager->getValidatorChain()->attach('session.validate', $validator);
 
         $this->assertTrue($this->manager->isValid());
+        $this->assertTrue($validatorCalled);
     }
 
     /**

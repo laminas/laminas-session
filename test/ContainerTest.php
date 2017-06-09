@@ -10,7 +10,6 @@
 namespace ZendTest\Session;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\TestResult;
 use Zend\Session\Container;
 use Zend\Session\Config\StandardConfig;
 use Zend\Session\ManagerInterface as Manager;
