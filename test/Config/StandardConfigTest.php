@@ -302,19 +302,19 @@ class StandardConfigTest extends TestCase
 
     /**
      * @requires PHP 7.1
-     * @expectedException PHPUnit_Framework_Error
      */
     public function testSetEntropyFileError()
     {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
         $this->config->getEntropyFile();
     }
 
     /**
      * @requires PHP 7.1
-     * @expectedException PHPUnit_Framework_Error
      */
     public function testGetEntropyFileError()
     {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
         $this->config->setEntropyFile(__FILE__);
     }
 
@@ -364,19 +364,19 @@ class StandardConfigTest extends TestCase
 
     /**
      * @requires PHP 7.1
-     * @expectedException PHPUnit_Framework_Error
      */
     public function testGetEntropyLengthError()
     {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
         $this->config->getEntropyLength();
     }
 
     /**
      * @requires PHP 7.1
-     * @expectedException PHPUnit_Framework_Error
      */
     public function testSetEntropyLengthError()
     {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
         $this->config->setEntropyLength(0);
     }
 
@@ -458,19 +458,19 @@ class StandardConfigTest extends TestCase
 
     /**
      * @requires PHP 7.1
-     * @expectedException PHPUnit_Framework_Error
      */
     public function testGetHashFunctionError()
     {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
         $this->config->getHashFunction();
     }
 
     /**
      * @requires PHP 7.1
-     * @expectedException PHPUnit_Framework_Error
      */
     public function testSetHashFunctionError()
     {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
         $this->config->setHashFunction('foobar_bogus');
     }
 
@@ -511,19 +511,19 @@ class StandardConfigTest extends TestCase
 
     /**
      * @requires PHP 7.1
-     * @expectedException PHPUnit_Framework_Error
      */
     public function testGetHashBitsPerCharacterError()
     {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
         $this->config->getHashBitsPerCharacter();
     }
 
     /**
      * @requires PHP 7.1
-     * @expectedException PHPUnit_Framework_Error
      */
     public function testSetHashBitsPerCharacterError()
     {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
         $this->config->setHashBitsPerCharacter(5);
     }
 

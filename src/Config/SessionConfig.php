@@ -247,7 +247,7 @@ class SessionConfig extends StandardConfig
     public function setHashBitsPerCharacter($hashBitsPerCharacter)
     {
         if (PHP_VERSION_ID >= 70100) {
-            trigger_error('session.hash_function is removed starting with PHP 7.1', E_USER_DEPRECATED);
+            trigger_error('session.hash_bits_per_character is removed starting with PHP 7.1', E_USER_DEPRECATED);
         }
 
         if (!is_numeric($hashBitsPerCharacter)
