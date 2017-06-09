@@ -10,6 +10,7 @@
 namespace ZendTest\Session;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\Config\StandardConfig;
@@ -25,7 +26,7 @@ use Zend\Session\Validator\RemoteAddr;
  * @preserveGlobalState disabled
  * @covers Zend\Session\SessionManager
  */
-class SessionManagerTest extends \PHPUnit_Framework_TestCase
+class SessionManagerTest extends TestCase
 {
     public $error;
 
@@ -250,7 +251,8 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetNameRaisesExceptionOnInvalidName()
     {
-        $this->setExpectedException(InvalidArgumentException::class, 'Name provided contains invalid characters; must be alphanumeric only');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Name provided contains invalid characters; must be alphanumeric only');
         $this->manager->setName('foo bar!');
     }
 
@@ -281,10 +283,8 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNameWhenAnActiveSessionExistsRaisesException()
     {
-        $this->setExpectedException(
-            InvalidArgumentException::class,
-            'Cannot set session name after a session has already started'
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Cannot set session name after a session has already started');
         $this->manager->start();
         $this->manager->setName('foobar');
     }
@@ -413,10 +413,8 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testIdShouldNotBeMutableAfterSessionStarted()
     {
-        $this->setExpectedException(
-            RuntimeException::class,
-            'Session has already been started, to change the session ID call regenerateId()'
-        );
+        $this->expectException(RuntimeException::class, 'Session has already been started);
+        $this->expectExceptionMessage(to change the session ID call regenerateId()');
         $this->manager->start();
         $origId = $this->manager->getId();
         $this->manager->setId(__METHOD__);
@@ -567,7 +565,8 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     {
         $chain = $this->manager->getValidatorChain();
         $chain->attach('session.validate', [new TestAsset\TestFailingValidator(), 'isValid']);
-        $this->setExpectedException(RuntimeException::class, 'failed');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('failed');
         $this->manager->start();
     }
 
@@ -577,7 +576,8 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     public function testResumeSessionThatFailsAValidatorShouldRaiseException()
     {
         $this->manager->setSaveHandler(new TestAsset\TestSaveHandlerWithValidator);
-        $this->setExpectedException(RuntimeException::class, 'failed');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('failed');
         $this->manager->start();
     }
 
@@ -599,7 +599,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSessionValidationDoesNotHaltOnNoopListener()
     {
-        $validator = $this->getMock(stdClass::class, ['__invoke']);
+        $validator = $this->createMock(stdClass::class, ['__invoke']);
 
         $validator->expects($this->once())->method('__invoke');
 
@@ -650,7 +650,8 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
             ->getValidatorChain()
             ->attach('session.validate', [new RemoteAddr('123.123.123.123'), 'isValid']);
 
-        $this->setExpectedException(RuntimeException::class, 'Session validation failed');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Session validation failed');
         $this->manager->start();
     }
 
@@ -681,7 +682,8 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $this->setExpectedException(RuntimeException::class, 'Session validation failed');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Session validation failed');
         $this->manager->start();
     }
 
@@ -695,7 +697,8 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
             ->getValidatorChain()
             ->attach('session.validate', [new Id('invalid-value'), 'isValid']);
 
-        $this->setExpectedException(RuntimeException::class, 'Session validation failed');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Session validation failed');
         $this->manager->start();
     }
 }

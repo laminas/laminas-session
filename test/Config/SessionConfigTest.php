@@ -9,6 +9,7 @@
 
 namespace ZendTest\Session\Config;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Session\Config\SessionConfig;
 
 /**
@@ -16,7 +17,7 @@ use Zend\Session\Config\SessionConfig;
  * @runTestsInSeparateProcesses
  * @covers Zend\Session\Config\SessionConfig
  */
-class SessionConfigTest extends \PHPUnit_Framework_TestCase
+class SessionConfigTest extends TestCase
 {
     /**
      * @var SessionConfig
@@ -32,7 +33,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSetSavePathErrorsOnInvalidPath()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid save_path provided');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid save_path provided');
         $this->config->setSavePath(__DIR__ . '/foobarboguspath');
     }
 
@@ -57,6 +59,7 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->config->setPhpSaveHandler('user');
         $this->config->setSavePath('/tmp/sessions.db');
+        $this->assertEquals('/tmp/sessions.db', ini_get('session.save_path'));
     }
 
     // session.name
@@ -99,7 +102,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidSaveHandlerRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid save handler specified');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid save handler specified');
         $this->config->setPhpSaveHandler('foobar_bogus');
     }
 
@@ -124,19 +128,22 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidGcProbabilityRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_probability; must be numeric');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_probability; must be numeric');
         $this->config->setGcProbability('foobar_bogus');
     }
 
     public function testSettingInvalidGcProbabilityRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_probability; must be a percentage');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_probability; must be a percentage');
         $this->config->setGcProbability(-1);
     }
 
     public function testSettingInvalidGcProbabilityRaisesException3()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_probability; must be a percentage');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_probability; must be a percentage');
         $this->config->setGcProbability(101);
     }
 
@@ -161,13 +168,15 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidGcDivisorRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_divisor; must be numeric');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_divisor; must be numeric');
         $this->config->setGcDivisor('foobar_bogus');
     }
 
     public function testSettingInvalidGcDivisorRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_divisor; must be a positive integer');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_divisor; must be a positive integer');
         $this->config->setGcDivisor(-1);
     }
 
@@ -192,13 +201,15 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidGcMaxlifetimeRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_maxlifetime; must be numeric');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_maxlifetime; must be numeric');
         $this->config->setGcMaxlifetime('foobar_bogus');
     }
 
     public function testSettingInvalidGcMaxlifetimeRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_maxlifetime; must be a positive integer');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_maxlifetime; must be a positive integer');
         $this->config->setGcMaxlifetime(-1);
     }
 
@@ -225,7 +236,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidSerializeHandlerRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid serialize handler specified');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid serialize handler specified');
         $this->config->setSerializeHandler('foobar_bogus');
     }
 
@@ -256,13 +268,15 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCookieLifetimeRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie_lifetime; must be numeric');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cookie_lifetime; must be numeric');
         $this->config->setCookieLifetime('foobar_bogus');
     }
 
     public function testSettingInvalidCookieLifetimeRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie_lifetime; must be a positive integer or zero');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cookie_lifetime; must be a positive integer or zero');
         $this->config->setCookieLifetime(-1);
     }
 
@@ -287,19 +301,22 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCookiePathRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie path');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath(24);
     }
 
     public function testSettingInvalidCookiePathRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie path');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath('foo');
     }
 
     public function testSettingInvalidCookiePathRaisesException3()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie path');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath('D:\\WINDOWS\\System32\\drivers\\etc\\hosts');
     }
 
@@ -330,13 +347,15 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCookieDomainRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie domain: must be a string');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cookie domain: must be a string');
         $this->config->setCookieDomain(24);
     }
 
     public function testSettingInvalidCookieDomainRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'does not match the expected structure for a DNS hostname');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('does not match the expected structure for a DNS hostname');
         $this->config->setCookieDomain('D:\\WINDOWS\\System32\\drivers\\etc\\hosts');
     }
 
@@ -457,7 +476,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('session.entropy_file directive removed in PHP 7.1');
         }
 
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid entropy_file provided');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid entropy_file provided');
         $this->config->setEntropyFile(__DIR__ . '/foobarboguspath');
     }
 
@@ -555,8 +575,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('session.entropy_length directive removed in PHP 7.1');
         }
 
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid entropy_length; must be numeric');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid entropy_length; must be numeric');
         $this->config->setEntropyLength('foobar_bogus');
     }
 
@@ -566,8 +586,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('session.entropy_length directive removed in PHP 7.1');
         }
 
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid entropy_length; must be a positive integer or zero');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid entropy_length; must be a positive integer or zero');
         $this->config->setEntropyLength(-1);
     }
 
@@ -627,7 +647,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCacheLimiterRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cache limiter provided');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cache limiter provided');
         $this->config->setCacheLimiter('foobar_bogus');
     }
 
@@ -652,13 +673,15 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCacheExpireRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cache_expire; must be numeric');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cache_expire; must be numeric');
         $this->config->setCacheExpire('foobar_bogus');
     }
 
     public function testSettingInvalidCacheExpireRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cache_expire; must be a positive integer');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cache_expire; must be a positive integer');
         $this->config->setCacheExpire(-1);
     }
 
@@ -736,7 +759,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('session.hash_function directive removed in PHP 7.1');
         }
 
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid hash function provided');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid hash function provided');
         $this->config->setHashFunction('foobar_bogus');
     }
 
@@ -810,8 +834,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('session.hash_bits_per_character directive removed in PHP 7.1');
         }
 
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid hash bits per character provided');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid hash bits per character provided');
         $this->config->setHashBitsPerCharacter('foobar_bogus');
     }
 
@@ -866,8 +890,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingInvalidSidLengthRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid length provided');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid length provided');
         $this->config->setSidLength('foobar_bogus');
     }
 
@@ -876,8 +900,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingOutOfRangeSidLengthRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid length provided');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid length provided');
         $this->config->setSidLength(999);
     }
 
@@ -925,8 +949,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingInvalidSidBitsPerCharacterRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid sid bits per character provided');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid sid bits per character provided');
         $this->config->setSidBitsPerCharacter('foobar_bogus');
     }
 
@@ -935,8 +959,8 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingOutOfBoundSidBitsPerCharacterRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid sid bits per character provided');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid sid bits per character provided');
         $this->config->setSidBitsPerCharacter(999);
     }
 
@@ -980,10 +1004,12 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
     public function testSetOptionSetsIniSetting($option, $getter, $value)
     {
         // Leaving out special cases.
-        if ($option != 'remember_me_seconds' && $option != 'url_rewriter_tags') {
-            $this->config->setStorageOption($option, $value);
-            $this->assertEquals(ini_get('session.' . $option), $value);
+        if ($option == 'remember_me_seconds' || $option == 'url_rewriter_tags') {
+            $this->markTestSkipped('remember_me_seconds && url_rewriter_tags');
         }
+
+        $this->config->setStorageOption($option, $value);
+        $this->assertEquals(ini_get('session.' . $option), $value);
     }
 
     public function testSetOptionUrlRewriterTagsGetsMunged()
@@ -995,7 +1021,7 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSetOptionRememberMeSecondsDoesNothing()
     {
-        // I have no idea how to test this.
+        $this->markTestIncomplete('I have no idea how to test this.');
     }
 
     /**

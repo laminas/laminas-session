@@ -9,6 +9,7 @@
 
 namespace ZendTest\Session\SaveHandler;
 
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Zend\Session\SaveHandler\Cache;
 
@@ -20,7 +21,7 @@ use Zend\Session\SaveHandler\Cache;
  * @group      Zend_Cache
  * @covers Zend\Session\SaveHandler\Cache
  */
-class CacheTest extends \PHPUnit_Framework_TestCase
+class CacheTest extends TestCase
 {
     /**
      * @var CacheAdapter

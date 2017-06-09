@@ -9,13 +9,14 @@
 
 namespace ZendTest\Session;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Session\Storage\ArrayStorage;
 
 /**
  * @group      Zend_Session
  * @covers Zend\Session\Storage\ArrayStorage
  */
-class StorageTest extends \PHPUnit_Framework_TestCase
+class StorageTest extends TestCase
 {
     /**
      * @var ArrayStorage
@@ -71,7 +72,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     {
         $this->storage->foo = 'bar';
         $this->storage->lock();
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'Cannot set key "foo" due to locking');
+        $this->expectException('Zend\Session\Exception\RuntimeException');
+        $this->expectExceptionMessage('Cannot set key "foo" due to locking');
         $this->storage->foo = 'baz';
     }
 
@@ -93,7 +95,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->storage->bar = 'baz';
         $this->assertEquals('baz', $this->storage->bar);
 
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'Cannot set key "foo" due to locking');
+        $this->expectException('Zend\Session\Exception\RuntimeException');
+        $this->expectExceptionMessage('Cannot set key "foo" due to locking');
         $this->storage->foo = 'baz';
     }
 
@@ -213,8 +216,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->storage->foo = 'bar';
         $this->storage->bar = 'baz';
         $this->storage->markImmutable();
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException',
-                                    'Cannot clear storage as it is marked immutable');
+        $this->expectException('Zend\Session\Exception\RuntimeException');
+        $this->expectExceptionMessage('Cannot clear storage as it is marked immutable');
         $this->storage->clear();
     }
 
@@ -246,5 +249,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->storage['foo'] = ['bar' => ['baz' => 'boo']];
         unset($this->storage['foo']['bar']['baz']);
         unset($this->storage['foo']['bar']);
+        
+        $this->assertFalse(isset($this->storage['foo']['bar']));
     }
 }

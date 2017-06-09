@@ -9,6 +9,7 @@
 
 namespace ZendTest\Session\Service;
 
+use PHPUnit\Framework\TestCase;
 use Zend\EventManager\Test\EventListenerIntrospectionTrait;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
@@ -26,7 +27,7 @@ use Zend\Session\Validator;
  * @group      Zend_Session
  * @covers Zend\Session\Service\SessionManagerFactory
  */
-class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
+class SessionManagerFactoryTest extends TestCase
 {
     use EventListenerIntrospectionTrait;
 
@@ -49,7 +50,7 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testConfigObjectIsInjectedIfPresentInServices()
     {
-        $config = $this->getMock(ConfigInterface::class);
+        $config = $this->createMock(ConfigInterface::class);
         $this->services->setService(ConfigInterface::class, $config);
         $manager = $this->services->get(ManagerInterface::class);
         $test = $manager->getConfig();
@@ -68,7 +69,7 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testFactoryWillInjectSaveHandlerIfPresentInServices()
     {
-        $saveHandler = $this->getMock(SaveHandlerInterface::class);
+        $saveHandler = $this->createMock(SaveHandlerInterface::class);
         $this->services->setService(SaveHandlerInterface::class, $saveHandler);
         $manager = $this->services->get(ManagerInterface::class);
         $test = $manager->getSaveHandler();

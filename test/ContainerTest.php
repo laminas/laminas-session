@@ -9,6 +9,8 @@
 
 namespace ZendTest\Session;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestResult;
 use Zend\Session\Container;
 use Zend\Session\Config\StandardConfig;
 use Zend\Session\ManagerInterface as Manager;
@@ -17,8 +19,15 @@ use Zend\Session\ManagerInterface as Manager;
  * @group      Zend_Session
  * @covers Zend\Session\Container
  */
-class ContainerTest extends \PHPUnit_Framework_TestCase
+class ContainerTest extends TestCase
 {
+    /**
+     * Hack to allow running tests in separate processes
+     *
+     * @see    http://matthewturland.com/2010/08/19/process-isolation-in-phpunit/
+     */
+    protected $preserveGlobalState = false;
+
     /**
      * @var Manager
      */
@@ -46,20 +55,6 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $_SESSION = [];
         Container::setDefaultManager(null);
-    }
-
-    /**
-     * Hack to allow running tests in separate processes
-     *
-     * @see    http://matthewturland.com/2010/08/19/process-isolation-in-phpunit/
-     * @param  \PHPUnit_Framework_TestResult $result
-     * @return void
-     */
-    public function run(\PHPUnit_Framework_TestResult $result = null)
-    {
-        $this->setPreserveGlobalState(false);
-
-        return parent::run($result);
     }
 
     public function testInstantiationStartsSession()
