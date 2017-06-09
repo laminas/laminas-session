@@ -41,11 +41,6 @@ matrix:
         - PATH="$HOME/.local/bin:$PATH"
     - php: 5.6
       env:
-        - EXECUTE_TEST_COVERALLS=true
-        - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
-        - PATH="$HOME/.local/bin:$PATH"
-    - php: 5.6
-      env:
         - EVENT_MANAGER_VERSION="^2.6.2"
         - SERVICE_MANAGER_VERSION="^2.7.5"
     - php: 7
