@@ -453,54 +453,108 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSetEntropyFileErrorsOnInvalidPath()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_file directive removed in PHP 7.1');
+        }
+
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid entropy_file provided');
         $this->config->setEntropyFile(__DIR__ . '/foobarboguspath');
     }
 
     public function testEntropyFileDefaultsToIniSettings()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_file directive removed in PHP 7.1');
+        }
+
         $this->assertSame(ini_get('session.entropy_file'), $this->config->getEntropyFile());
     }
 
     public function testEntropyFileIsMutable()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_file directive removed in PHP 7.1');
+        }
+
         $this->config->setEntropyFile(__FILE__);
         $this->assertEquals(__FILE__, $this->config->getEntropyFile());
     }
 
     public function testEntropyFileAltersIniSetting()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_file directive removed in PHP 7.1');
+        }
+
         $this->config->setEntropyFile(__FILE__);
         $this->assertEquals(__FILE__, ini_get('session.entropy_file'));
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testSetEntropyFileError()
+    {
+        $this->config->getEntropyFile();
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testGetEntropyFileError()
+    {
+        $this->config->setEntropyFile(__FILE__);
     }
 
     // session.entropy_length
 
     public function testEntropyLengthDefaultsToIniSettings()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_length directive removed in PHP 7.1');
+        }
+
         $this->assertSame(ini_get('session.entropy_length'), $this->config->getEntropyLength());
     }
 
     public function testEntropyLengthIsMutable()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_length directive removed in PHP 7.1');
+        }
+
         $this->config->setEntropyLength(20);
         $this->assertEquals(20, $this->config->getEntropyLength());
     }
 
     public function testEntropyLengthAltersIniSetting()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_length directive removed in PHP 7.1');
+        }
+
         $this->config->setEntropyLength(24);
         $this->assertEquals(24, ini_get('session.entropy_length'));
     }
 
     public function testEntropyLengthCanBeZero()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_length directive removed in PHP 7.1');
+        }
+
         $this->config->setEntropyLength(0);
         $this->assertEquals(0, ini_get('session.entropy_length'));
     }
 
     public function testSettingInvalidEntropyLengthRaisesException()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_length directive removed in PHP 7.1');
+        }
+
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
                                     'Invalid entropy_length; must be numeric');
         $this->config->setEntropyLength('foobar_bogus');
@@ -508,9 +562,31 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidEntropyLengthRaisesException2()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_length directive removed in PHP 7.1');
+        }
+
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
                                     'Invalid entropy_length; must be a positive integer or zero');
         $this->config->setEntropyLength(-1);
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testGetEntropyLengthError()
+    {
+        $this->config->getEntropyLength();
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testSetEntropyLengthError()
+    {
+        $this->config->setEntropyLength(0);
     }
 
     // session.cache_limiter
@@ -621,6 +697,10 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testHashFunctionDefaultsToIniSettings()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.hash_function directive removed in PHP 7.1');
+        }
+
         $this->assertSame(ini_get('session.hash_function'), $this->config->getHashFunction());
     }
 
@@ -629,6 +709,10 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testHashFunctionIsMutable($hashFunction)
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.hash_function directive removed in PHP 7.1');
+        }
+
         $this->config->setHashFunction($hashFunction);
         $this->assertEquals($hashFunction, $this->config->getHashFunction());
     }
@@ -638,13 +722,39 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testHashFunctionAltersIniSetting($hashFunction)
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.hash_function directive removed in PHP 7.1');
+        }
+
         $this->config->setHashFunction($hashFunction);
         $this->assertEquals($hashFunction, ini_get('session.hash_function'));
     }
 
     public function testSettingInvalidHashFunctionRaisesException()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.hash_function directive removed in PHP 7.1');
+        }
+
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid hash function provided');
+        $this->config->setHashFunction('foobar_bogus');
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testGetHashFunctionError()
+    {
+        $this->config->getHashFunction();
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testSetHashFunctionError()
+    {
         $this->config->setHashFunction('foobar_bogus');
     }
 
@@ -661,6 +771,10 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testHashBitsPerCharacterDefaultsToIniSettings()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.hash_bits_per_character directive removed in PHP 7.1');
+        }
+
         $this->assertSame(ini_get('session.hash_bits_per_character'), $this->config->getHashBitsPerCharacter());
     }
 
@@ -669,6 +783,10 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testHashBitsPerCharacterIsMutable($hashBitsPerCharacter)
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.hash_bits_per_character directive removed in PHP 7.1');
+        }
+
         $this->config->setHashBitsPerCharacter($hashBitsPerCharacter);
         $this->assertEquals($hashBitsPerCharacter, $this->config->getHashBitsPerCharacter());
     }
@@ -678,15 +796,148 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testHashBitsPerCharacterAltersIniSetting($hashBitsPerCharacter)
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.hash_bits_per_character directive removed in PHP 7.1');
+        }
+
         $this->config->setHashBitsPerCharacter($hashBitsPerCharacter);
         $this->assertEquals($hashBitsPerCharacter, ini_get('session.hash_bits_per_character'));
     }
 
     public function testSettingInvalidHashBitsPerCharacterRaisesException()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.hash_bits_per_character directive removed in PHP 7.1');
+        }
+
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
                                     'Invalid hash bits per character provided');
         $this->config->setHashBitsPerCharacter('foobar_bogus');
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testGetHashBitsPerCharacterError()
+    {
+        $this->config->getHashBitsPerCharacter();
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testSetHashBitsPerCharacterError()
+    {
+        $this->config->setHashBitsPerCharacter(5);
+    }
+
+    // session.sid_length
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSidLengthDefaultsToIniSettings()
+    {
+        $this->assertSame(ini_get('session.sid_length'), $this->config->getSidLength());
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSidLengthIsMutable()
+    {
+        $this->config->setSidLength(40);
+        $this->assertEquals(40, $this->config->getSidLength());
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSidLengthAltersIniSetting()
+    {
+        $this->config->setSidLength(40);
+        $this->assertEquals(40, ini_get('session.sid_length'));
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSettingInvalidSidLengthRaisesException()
+    {
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Invalid length provided');
+        $this->config->setSidLength('foobar_bogus');
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSettingOutOfRangeSidLengthRaisesException()
+    {
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Invalid length provided');
+        $this->config->setSidLength(999);
+    }
+
+    // session.sid_bits_per_character
+
+    public function sidSidPerCharacters()
+    {
+        return [
+            [4],
+            [5],
+            [6],
+        ];
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSidBitsPerCharacterDefaultsToIniSettings()
+    {
+        $this->assertSame(ini_get('session.sid_bits_per_character'), $this->config->getSidBitsPerCharacter());
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @dataProvider sidSidPerCharacters
+     */
+    public function testSidBitsPerCharacterIsMutable($sidBitsPerCharacter)
+    {
+        $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
+        $this->assertEquals($sidBitsPerCharacter, $this->config->getSidBitsPerCharacter());
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @dataProvider sidSidPerCharacters
+     */
+    public function testSidBitsPerCharacterAltersIniSetting($sidBitsPerCharacter)
+    {
+        $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
+        $this->assertEquals($sidBitsPerCharacter, ini_get('session.sid_bits_per_character'));
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSettingInvalidSidBitsPerCharacterRaisesException()
+    {
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Invalid sid bits per character provided');
+        $this->config->setSidBitsPerCharacter('foobar_bogus');
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSettingOutOfBoundSidBitsPerCharacterRaisesException()
+    {
+        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+                                    'Invalid sid bits per character provided');
+        $this->config->setSidBitsPerCharacter(999);
     }
 
     // url_rewriter.tags
@@ -775,7 +1026,7 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function optionsProvider()
     {
-        return [
+        $commonOptions = [
             [
                 'save_path',
                 'getSavePath',
@@ -852,16 +1103,6 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
                 'foobar',
             ],
             [
-                'entropy_file',
-                'getEntropyFile',
-                __FILE__,
-            ],
-            [
-                'entropy_length',
-                'getEntropyLength',
-                42,
-            ],
-            [
                 'cache_limiter',
                 'getCacheLimiter',
                 'private',
@@ -877,20 +1118,35 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
                 true,
             ],
             [
-                'hash_function',
-                'getHashFunction',
-                'md5',
-            ],
-            [
-                'hash_bits_per_character',
-                'getOption',
-                5,
-            ],
-            [
                 'url_rewriter_tags',
                 'getUrlRewriterTags',
                 'a=href',
             ],
         ];
+
+        if (PHP_VERSION_ID < 70100) {
+            $commonOptions[] = [
+                'entropy_file',
+                'getEntropyFile',
+                __FILE__,
+            ];
+            $commonOptions[] = [
+                'entropy_length',
+                'getEntropyLength',
+                42,
+            ];
+            $commonOptions[] = [
+                'hash_function',
+                'getHashFunction',
+                'md5',
+            ];
+            $commonOptions[] = [
+                'hash_bits_per_character',
+                'getOption',
+                5,
+            ];
+        }
+
+        return $commonOptions;
     }
 }
