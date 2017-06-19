@@ -119,4 +119,39 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_string($data));
     }
+
+    public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist()
+    {
+        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
+
+        $id = '242';
+
+        $result = $saveHandler->destroy($id);
+
+        $this->assertTrue($result);
+    }
+
+    public function testDestroyReturnsTrueWhenSessionIsDeleted()
+    {
+        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $cacheStorage->setItem('242', Argument::type('string'))
+            ->will(function ($args) {
+                $this->getItem('242', Argument::any())
+                    ->will(function ($args) {
+                        $return =& $args[1];
+                        return $return;
+                    });
+                return true;
+            });
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
+
+        $id = '242';
+
+        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+
+        $result = $saveHandler->destroy($id);
+
+        $this->assertTrue($result);
+    }
 }

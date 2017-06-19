@@ -18,7 +18,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#66](https://github.com/zendframework/zend-session/pull/66) fixes how the
+  `Cache` save handler's `destroy()` method works, ensuring it does not attempt
+  to remove an item by `$id` if it does not already exist in the cache.
 
 ## 2.7.3 - 2016-07-05
 
