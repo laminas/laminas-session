@@ -196,7 +196,7 @@ class SessionConfig extends StandardConfig
     public function setCacheLimiter($cacheLimiter)
     {
         $cacheLimiter = (string) $cacheLimiter;
-        if (!in_array($cacheLimiter, $this->validCacheLimiters)) {
+        if (! in_array($cacheLimiter, $this->validCacheLimiters)) {
             throw new Exception\InvalidArgumentException('Invalid cache limiter provided');
         }
         $this->setOption('cache_limiter', $cacheLimiter);
@@ -215,7 +215,7 @@ class SessionConfig extends StandardConfig
     {
         $hashFunction = (string) $hashFunction;
         $validHashFunctions = $this->getHashFunctions();
-        if (!in_array($hashFunction, $validHashFunctions, true)) {
+        if (! in_array($hashFunction, $validHashFunctions, true)) {
             throw new Exception\InvalidArgumentException('Invalid hash function provided');
         }
 
@@ -233,8 +233,8 @@ class SessionConfig extends StandardConfig
      */
     public function setHashBitsPerCharacter($hashBitsPerCharacter)
     {
-        if (!is_numeric($hashBitsPerCharacter)
-            || !in_array($hashBitsPerCharacter, $this->validHashBitsPerCharacters)
+        if (! is_numeric($hashBitsPerCharacter)
+            || ! in_array($hashBitsPerCharacter, $this->validHashBitsPerCharacters)
         ) {
             throw new Exception\InvalidArgumentException('Invalid hash bits per character provided');
         }
