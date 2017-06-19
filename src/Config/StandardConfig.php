@@ -586,6 +586,10 @@ class StandardConfig implements ConfigInterface
      */
     public function setEntropyFile($entropyFile)
     {
+        if (PHP_VERSION_ID >= 70100) {
+            trigger_error('session.entropy_file is removed starting with PHP 7.1', E_USER_DEPRECATED);
+        }
+
         if (! is_readable($entropyFile)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 "Invalid entropy_file provided: '%s'; doesn't exist or not readable",
@@ -605,6 +609,10 @@ class StandardConfig implements ConfigInterface
      */
     public function getEntropyFile()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            trigger_error('session.entropy_file is removed starting with PHP 7.1', E_USER_DEPRECATED);
+        }
+
         if (! isset($this->options['entropy_file'])) {
             $this->options['entropy_file'] = $this->getStorageOption('entropy_file');
         }
@@ -621,6 +629,10 @@ class StandardConfig implements ConfigInterface
      */
     public function setEntropyLength($entropyLength)
     {
+        if (PHP_VERSION_ID >= 70100) {
+            trigger_error('session.entropy_length is removed starting with PHP 7.1', E_USER_DEPRECATED);
+        }
+
         if (! is_numeric($entropyLength)) {
             throw new Exception\InvalidArgumentException('Invalid entropy_length; must be numeric');
         }
@@ -640,6 +652,10 @@ class StandardConfig implements ConfigInterface
      */
     public function getEntropyLength()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            trigger_error('session.entropy_length is removed starting with PHP 7.1', E_USER_DEPRECATED);
+        }
+
         if (! isset($this->options['entropy_length'])) {
             $this->options['entropy_length'] = $this->getStorageOption('entropy_length');
         }
@@ -685,6 +701,35 @@ class StandardConfig implements ConfigInterface
     }
 
     /**
+     * Set session.hash_function
+     *
+     * @param  string $hashFunction
+     * @return mixed
+     */
+    public function setHashFunction($hashFunction)
+    {
+        if (PHP_VERSION_ID >= 70100) {
+            trigger_error('session.hash_function is removed starting with PHP 7.1', E_USER_DEPRECATED);
+        }
+
+        return $this->setOption('hash_function', $hashFunction);
+    }
+
+    /**
+     * Get session.hash_function
+     *
+     * @return string
+     */
+    public function getHashFunction()
+    {
+        if (PHP_VERSION_ID >= 70100) {
+            trigger_error('session.hash_function is removed starting with PHP 7.1', E_USER_DEPRECATED);
+        }
+
+        return $this->getOption('hash_function');
+    }
+
+    /**
      * Set session.hash_bits_per_character
      *
      * @param  int $hashBitsPerCharacter
@@ -693,6 +738,10 @@ class StandardConfig implements ConfigInterface
      */
     public function setHashBitsPerCharacter($hashBitsPerCharacter)
     {
+        if (PHP_VERSION_ID >= 70100) {
+            trigger_error('session.hash_bits_per_character is removed starting with PHP 7.1', E_USER_DEPRECATED);
+        }
+
         if (! is_numeric($hashBitsPerCharacter)) {
             throw new Exception\InvalidArgumentException('Invalid hash bits per character provided');
         }
@@ -709,11 +758,79 @@ class StandardConfig implements ConfigInterface
      */
     public function getHashBitsPerCharacter()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            trigger_error('session.hash_bits_per_character is removed starting with PHP 7.1', E_USER_DEPRECATED);
+        }
+
         if (! isset($this->options['hash_bits_per_character'])) {
             $this->options['hash_bits_per_character'] = $this->getStorageOption('hash_bits_per_character');
         }
 
         return $this->options['hash_bits_per_character'];
+    }
+
+    /**
+     * Set session.sid_length
+     *
+     * @param  int $sidLength
+     * @return StandardConfig
+     * @throws Exception\InvalidArgumentException
+     */
+    public function setSidLength($sidLength)
+    {
+        if (! is_numeric($sidLength) || $sidLength < 22 || $sidLength > 256) {
+            throw new Exception\InvalidArgumentException('Invalid length provided');
+        }
+        $sidLength = (int) $sidLength;
+        $this->setOption('sid_length', $sidLength);
+        $this->setStorageOption('sid_length', $sidLength);
+        return $this;
+    }
+
+    /**
+     * Get session.sid_length
+     *
+     * @return string
+     */
+    public function getSidLength()
+    {
+        if (! isset($this->options['sid_length'])) {
+            $this->options['sid_length'] = $this->getStorageOption('sid_length');
+        }
+
+        return $this->options['sid_length'];
+    }
+
+    /**
+     * Set session.sid_bits_per_character
+     *
+     * @param  int $sidBitsPerCharacter
+     * @return StandardConfig
+     * @throws Exception\InvalidArgumentException
+     */
+    public function setSidBitsPerCharacter($sidBitsPerCharacter)
+    {
+        if (! is_numeric($sidBitsPerCharacter)) {
+            throw new Exception\InvalidArgumentException('Invalid sid bits per character provided');
+        }
+        $sidBitsPerCharacter = (int) $sidBitsPerCharacter;
+        $this->setOption('sid_bits_per_character', $sidBitsPerCharacter);
+        $this->setStorageOption('sid_bits_per_character', $sidBitsPerCharacter);
+        return $this;
+    }
+
+    /**
+     * Get session.sid_bits_per_character
+     *
+     * @return string
+     */
+    public function getSidBitsPerCharacter()
+    {
+        if (! isset($this->options['sid_bits_per_character'])) {
+            $this->options['sid_bits_per_character'] = $this->getStorageOption('sid_bits_per_character');
+        }
+
+        return $this->options['sid_bits_per_character'];
     }
 
     /**

@@ -9,6 +9,7 @@
 
 namespace ZendTest\Session\SaveHandler;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Session\SaveHandler\DbTableGateway;
 use Zend\Session\SaveHandler\DbTableGatewayOptions;
 use Zend\Db\Adapter\Adapter;
@@ -23,7 +24,7 @@ use ZendTest\Session\TestAsset\TestDbTableGatewaySaveHandler;
  * @group      Zend_Db_Table
  * @covers Zend\Session\SaveHandler\DbTableGateway
  */
-class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
+class DbTableGatewayTest extends TestCase
 {
     /**
      * @var Adapter

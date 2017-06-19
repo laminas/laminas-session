@@ -9,6 +9,7 @@
 
 namespace ZendTest\Session\Service;
 
+use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\ServiceManager;
@@ -21,7 +22,7 @@ use Zend\Session\Storage\StorageInterface;
  * @group      Zend_Session
  * @covers Zend\Session\Service\StorageFactory
  */
-class StorageFactoryTest extends \PHPUnit_Framework_TestCase
+class StorageFactoryTest extends TestCase
 {
     public function setUp()
     {
@@ -130,7 +131,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     public function testInvalidConfigurationRaisesServiceNotCreatedException($config)
     {
         $this->services->setService('config', $config);
-        $this->setExpectedException(ServiceNotCreatedException::class);
+        $this->expectException(ServiceNotCreatedException::class);
         $storage = $this->services->get(StorageInterface::class);
     }
 }
