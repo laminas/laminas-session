@@ -137,12 +137,11 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
         $cacheStorage->setItem('242', Argument::type('string'))
             ->will(function ($args) {
-                $this->getItem('242', Argument::any())->will(
-                    function ($key, &$success) use ($args) {
-                        $success = true;
-                        return $args[1];
-                    }
-                );
+                $this->getItem('242', Argument::any())
+                    ->will(function ($args) {
+                        $return =& $args[1];
+                        return $return;
+                    });
                 return true;
             });
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
