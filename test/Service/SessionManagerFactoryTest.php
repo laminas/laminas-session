@@ -214,13 +214,13 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeSame([], 'validators', $manager);
     }
 
-    public function testFactorySupportsExtendedSessionManager()
+    public function testFactoryWillUseRequestedNameAsSessionManagerIfItImplementsManagerInterface()
     {
         $manager = $this->services->get(TestManager::class);
         $this->assertInstanceOf(TestManager::class, $manager);
     }
 
-    public function testFactoryRaisesServiceNotCreatedException()
+    public function testFactoryWillRaiseServiceNotCreatedExceptionIfRequestedNameIsNotAManagerInterfaceSubclass()
     {
         $this->setExpectedException(ServiceNotCreatedException::class);
         $manager = $this->services->get(TestSaveHandler::class);

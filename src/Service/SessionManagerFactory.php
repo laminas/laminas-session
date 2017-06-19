@@ -125,17 +125,16 @@ class SessionManagerFactory implements FactoryInterface
             }
         }
 
-        if (!class_exists($requestedName)) {
-            $requestedName = SessionManager::class;
-        } elseif (!is_subclass_of($requestedName, ManagerInterface::class)) {
+        $managerClass = class_exists($requestedName) ? $requestedName : SessionManager::class;
+        if (! is_subclass_of($managerClass, ManagerInterface::class)) {
             throw new ServiceNotCreatedException(sprintf(
                 'SessionManager requires that the %s service implement %s',
-                $requestedName,
+                $managerClass,
                 ManagerInterface::class
             ));
         }
 
-        $manager = new $requestedName($config, $storage, $saveHandler, $validators, $options);
+        $manager = new $managerClass($config, $storage, $saveHandler, $validators, $options);
 
         // If configuration enables the session manager as the default manager for container
         // instances, do so.
