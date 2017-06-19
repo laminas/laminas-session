@@ -127,7 +127,7 @@ class MongoDB implements SaveHandlerInterface
 
         if (null !== $session) {
             // check if session has expired if index is not used
-            if (!$this->options->useExpireAfterSecondsIndex()) {
+            if (! $this->options->useExpireAfterSecondsIndex()) {
                 $timestamp = $session[$this->options->getLifetimeField()];
                 $timestamp += floor(((string)$session[$this->options->getModifiedField()]) / 1000);
 

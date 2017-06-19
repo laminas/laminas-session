@@ -62,8 +62,10 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        if (!extension_loaded('pdo_sqlite')) {
-            $this->markTestSkipped('Zend\Session\SaveHandler\DbTableGateway tests are not enabled due to missing PDO_Sqlite extension');
+        if (! extension_loaded('pdo_sqlite')) {
+            $this->markTestSkipped(
+                'Zend\Session\SaveHandler\DbTableGateway tests are not enabled due to missing PDO_Sqlite extension'
+            );
         }
 
         $this->options = new DbTableGatewayOptions([
@@ -100,7 +102,11 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
         $data = unserialize($saveHandler->read($id));
-        $this->assertEquals($this->testArray, $data, 'Expected ' . var_export($this->testArray, 1) . "\nbut got: " . var_export($data, 1));
+        $this->assertEquals(
+            $this->testArray,
+            $data,
+            'Expected ' . var_export($this->testArray, 1) . "\nbut got: " . var_export($data, 1)
+        );
     }
 
     public function testReadWriteComplex()
@@ -185,7 +191,10 @@ INSERT INTO `sessions` (
 ";
         $this->adapter->query($query, Adapter::QUERY_MODE_EXECUTE);
 
-        $this->usedSaveHandlers[] = $saveHandler = new TestDbTableGatewaySaveHandler($this->tableGateway, $this->options);
+        $this->usedSaveHandlers[] = $saveHandler = new TestDbTableGatewaySaveHandler(
+            $this->tableGateway,
+            $this->options
+        );
         $saveHandler->open('savepath', 'zend-session-test');
 
         $this->assertSame(0, $saveHandler->getNumReadCalls());
@@ -236,7 +245,7 @@ EOD;
      */
     protected function dropTable()
     {
-        if (!$this->adapter) {
+        if (! $this->adapter) {
             return;
         }
         $this->adapter->query('DROP TABLE sessions', Adapter::QUERY_MODE_EXECUTE);

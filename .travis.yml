@@ -25,23 +25,22 @@ services:
   - mongodb
 
 matrix:
-  fast_finish: true
   include:
     - php: 5.5
       env:
-        - EXECUTE_CS_CHECK=true
+        - CS_CHECK=true
     - php: 5.5
       env:
         - EVENT_MANAGER_VERSION="^2.6.2"
         - SERVICE_MANAGER_VERSION="^2.7.5"
     - php: 5.6
       env:
-        - EXECUTE_TEST_COVERALLS=true
+        - TEST_COVERAGE=true
         - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
         - PATH="$HOME/.local/bin:$PATH"
     - php: 5.6
       env:
-        - EXECUTE_TEST_COVERALLS=true
+        - TEST_COVERAGE=true
         - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
         - PATH="$HOME/.local/bin:$PATH"
     - php: 5.6
@@ -61,15 +60,11 @@ matrix:
   allow_failures:
     - php: hhvm
 
-notifications:
-  irc: "irc.freenode.org#zftalk.dev"
-  email: false
-
 before_install:
   - pecl -q install mongodb
-  - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
+  - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - composer self-update
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then composer require --dev --no-update satooshi/php-coveralls ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer require --dev --no-update satooshi/php-coveralls ; fi
   - if [[ $EVENT_MANAGER_VERSION != '' ]]; then composer require --no-update "zendframework/zend-eventmanager:$EVENT_MANAGER_VERSION" ; fi
   - if [[ $EVENT_MANAGER_VERSION == '' ]]; then composer require --no-update "zendframework/zend-eventmanager:^3.0" ; fi
   - if [[ $SERVICE_MANAGER_VERSION != '' ]]; then composer require --dev --no-update "zendframework/zend-servicemanager:$SERVICE_MANAGER_VERSION" ; fi
@@ -79,13 +74,20 @@ install:
   - travis_retry composer install --no-interaction --ignore-platform-reqs
 
 script:
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-clover clover.xml ; fi
-  - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then ./vendor/bin/phpunit ; fi
-  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/php-cs-fixer fix -v --diff --dry-run ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
+  - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
   - if [[ $DEPLOY_DOCS == "true" && "$TRAVIS_TEST_RESULT" == "0" ]]; then wget -O theme-installer.sh "https://raw.githubusercontent.com/zendframework/zf-mkdoc-theme/master/theme-installer.sh" ; chmod 755 theme-installer.sh ; ./theme-installer.sh ; fi
 
 after_success:
   - if [[ $DEPLOY_DOCS == "true" ]]; then echo "Preparing to build and deploy documentation" ; ./zf-mkdoc-theme/deploy.sh ; echo "Completed deploying documentation" ; fi
 
 after_script:
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/coveralls ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer upload-coverage ; fi
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      - secure:  "MlhbWQ2bxDu9dmQ7o2v/WwwAedl57SVVew0XN/Wvbnt1Q8DY+kBGVxmV7DzurOG0iiq7pzYySNgdyqKpE/2g1IhWD7txrT9BCSq0xPk4i+AUn4xMViZKCVkPYhaFo9K3Z1HnPJPfcnDz075umGKWhfip12LSIMkXRqkNANgKLZ3ouDFRRG1NL7bOmW8GDIAcF3TpIDCy9L+awnGMHTtSO6M1jtueksQpBH7ESosrtkferzNVeV2USvzZbzI04PQ9vsrOOZnkqXgNsk3+gMvZNw6PbCk3eOmgGyFaygpL1NXi3VV6sK6SFtwiuwAiEhiFudOnovpE/90HKtWyCISSSGMlUHF6trEVGR0tQxuw+Du1HNrBhiWZHj6vdMpNdZSEqwBEbCeO5LAHM9fKDIT2utQQXrk62julZCvnAupImgBl5IswlO6f/cGv8/cesLulyc9t6L0LCuuXG2xK/WPSCOtkFB4nuOgNNNXhkljyrYxi8poXGa+4SupqCMA0iNPeUB6NnyCMrBCbUnjEjNIGMezx7ELIoepJuw66py6smigYGyrVXhodlGPvr7jaXVjYHNbDadHA55Vk6tRgYwTZclnrSn8sU3jI3xW/a6APkwQMd40yc+GAy5F72jpONiXeB7f8UG+d4qoWH4doBJii+cb/tVroH1tFDlfTSa5XRec="
+    on_success: change
+    on_failure: always

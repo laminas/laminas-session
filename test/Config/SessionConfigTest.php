@@ -82,7 +82,11 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveHandlerDefaultsToIniSettings()
     {
-        $this->assertSame(ini_get('session.save_handler'), $this->config->getSaveHandler(), var_export($this->config->toArray(), 1));
+        $this->assertSame(
+            ini_get('session.save_handler'),
+            $this->config->getSaveHandler(),
+            var_export($this->config->toArray(), 1)
+        );
     }
 
     public function testSaveHandlerIsMutable()
@@ -99,7 +103,10 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidSaveHandlerRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid save handler specified');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid save handler specified'
+        );
         $this->config->setPhpSaveHandler('foobar_bogus');
     }
 
@@ -124,19 +131,28 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidGcProbabilityRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_probability; must be numeric');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid gc_probability; must be numeric'
+        );
         $this->config->setGcProbability('foobar_bogus');
     }
 
     public function testSettingInvalidGcProbabilityRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_probability; must be a percentage');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid gc_probability; must be a percentage'
+        );
         $this->config->setGcProbability(-1);
     }
 
     public function testSettingInvalidGcProbabilityRaisesException3()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_probability; must be a percentage');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid gc_probability; must be a percentage'
+        );
         $this->config->setGcProbability(101);
     }
 
@@ -161,13 +177,19 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidGcDivisorRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_divisor; must be numeric');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid gc_divisor; must be numeric'
+        );
         $this->config->setGcDivisor('foobar_bogus');
     }
 
     public function testSettingInvalidGcDivisorRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_divisor; must be a positive integer');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid gc_divisor; must be a positive integer'
+        );
         $this->config->setGcDivisor(-1);
     }
 
@@ -192,13 +214,19 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidGcMaxlifetimeRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_maxlifetime; must be numeric');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid gc_maxlifetime; must be numeric'
+        );
         $this->config->setGcMaxlifetime('foobar_bogus');
     }
 
     public function testSettingInvalidGcMaxlifetimeRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid gc_maxlifetime; must be a positive integer');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid gc_maxlifetime; must be a positive integer'
+        );
         $this->config->setGcMaxlifetime(-1);
     }
 
@@ -225,7 +253,10 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidSerializeHandlerRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid serialize handler specified');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid serialize handler specified'
+        );
         $this->config->setSerializeHandler('foobar_bogus');
     }
 
@@ -256,13 +287,19 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCookieLifetimeRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie_lifetime; must be numeric');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid cookie_lifetime; must be numeric'
+        );
         $this->config->setCookieLifetime('foobar_bogus');
     }
 
     public function testSettingInvalidCookieLifetimeRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie_lifetime; must be a positive integer or zero');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid cookie_lifetime; must be a positive integer or zero'
+        );
         $this->config->setCookieLifetime(-1);
     }
 
@@ -330,13 +367,19 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCookieDomainRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie domain: must be a string');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid cookie domain: must be a string'
+        );
         $this->config->setCookieDomain(24);
     }
 
     public function testSettingInvalidCookieDomainRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'does not match the expected structure for a DNS hostname');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'does not match the expected structure for a DNS hostname'
+        );
         $this->config->setCookieDomain('D:\\WINDOWS\\System32\\drivers\\etc\\hosts');
     }
 
@@ -349,14 +392,14 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testCookieSecureIsMutable()
     {
-        $value = !ini_get('session.cookie_secure');
+        $value = ! ini_get('session.cookie_secure');
         $this->config->setCookieSecure($value);
         $this->assertEquals($value, $this->config->getCookieSecure());
     }
 
     public function testCookieSecureAltersIniSetting()
     {
-        $value = !ini_get('session.cookie_secure');
+        $value = ! ini_get('session.cookie_secure');
         $this->config->setCookieSecure($value);
         $this->assertEquals($value, ini_get('session.cookie_secure'));
     }
@@ -370,14 +413,14 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testCookieHttpOnlyIsMutable()
     {
-        $value = !ini_get('session.cookie_httponly');
+        $value = ! ini_get('session.cookie_httponly');
         $this->config->setCookieHttpOnly($value);
         $this->assertEquals($value, $this->config->getCookieHttpOnly());
     }
 
     public function testCookieHttpOnlyAltersIniSetting()
     {
-        $value = !ini_get('session.cookie_httponly');
+        $value = ! ini_get('session.cookie_httponly');
         $this->config->setCookieHttpOnly($value);
         $this->assertEquals($value, ini_get('session.cookie_httponly'));
     }
@@ -391,14 +434,14 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testUseCookiesIsMutable()
     {
-        $value = !ini_get('session.use_cookies');
+        $value = ! ini_get('session.use_cookies');
         $this->config->setUseCookies($value);
         $this->assertEquals($value, $this->config->getUseCookies());
     }
 
     public function testUseCookiesAltersIniSetting()
     {
-        $value = !ini_get('session.use_cookies');
+        $value = ! ini_get('session.use_cookies');
         $this->config->setUseCookies($value);
         $this->assertEquals($value, (bool) ini_get('session.use_cookies'));
     }
@@ -412,14 +455,14 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testUseOnlyCookiesIsMutable()
     {
-        $value = !ini_get('session.use_only_cookies');
+        $value = ! ini_get('session.use_only_cookies');
         $this->config->setOption('use_only_cookies', $value);
         $this->assertEquals($value, (bool) $this->config->getOption('use_only_cookies'));
     }
 
     public function testUseOnlyCookiesAltersIniSetting()
     {
-        $value = !ini_get('session.use_only_cookies');
+        $value = ! ini_get('session.use_only_cookies');
         $this->config->setOption('use_only_cookies', $value);
         $this->assertEquals($value, (bool) ini_get('session.use_only_cookies'));
     }
@@ -501,15 +544,19 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidEntropyLengthRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid entropy_length; must be numeric');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid entropy_length; must be numeric'
+        );
         $this->config->setEntropyLength('foobar_bogus');
     }
 
     public function testSettingInvalidEntropyLengthRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid entropy_length; must be a positive integer or zero');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid entropy_length; must be a positive integer or zero'
+        );
         $this->config->setEntropyLength(-1);
     }
 
@@ -551,7 +598,10 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCacheLimiterRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cache limiter provided');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid cache limiter provided'
+        );
         $this->config->setCacheLimiter('foobar_bogus');
     }
 
@@ -576,13 +626,19 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCacheExpireRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cache_expire; must be numeric');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid cache_expire; must be numeric'
+        );
         $this->config->setCacheExpire('foobar_bogus');
     }
 
     public function testSettingInvalidCacheExpireRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cache_expire; must be a positive integer');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid cache_expire; must be a positive integer'
+        );
         $this->config->setCacheExpire(-1);
     }
 
@@ -595,14 +651,14 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testUseTransSidIsMutable()
     {
-        $value = !ini_get('session.use_trans_sid');
+        $value = ! ini_get('session.use_trans_sid');
         $this->config->setOption('use_trans_sid', $value);
         $this->assertEquals($value, (bool) $this->config->getOption('use_trans_sid'));
     }
 
     public function testUseTransSidAltersIniSetting()
     {
-        $value = !ini_get('session.use_trans_sid');
+        $value = ! ini_get('session.use_trans_sid');
         $this->config->setOption('use_trans_sid', $value);
         $this->assertEquals($value, (bool) ini_get('session.use_trans_sid'));
     }
@@ -644,7 +700,10 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidHashFunctionRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid hash function provided');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid hash function provided'
+        );
         $this->config->setHashFunction('foobar_bogus');
     }
 
@@ -684,8 +743,10 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidHashBitsPerCharacterRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
-                                    'Invalid hash bits per character provided');
+        $this->setExpectedException(
+            'Zend\Session\Exception\InvalidArgumentException',
+            'Invalid hash bits per character provided'
+        );
         $this->config->setHashBitsPerCharacter('foobar_bogus');
     }
 
