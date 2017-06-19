@@ -9,6 +9,7 @@
 
 namespace ZendTest\Session\SaveHandler;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Session\SaveHandler\DbTableGatewayOptions;
 
 /**
@@ -17,7 +18,7 @@ use Zend\Session\SaveHandler\DbTableGatewayOptions;
  * @group      Zend_Session
  * @covers Zend\Session\SaveHandler\DbTableGatewayOptions
  */
-class DbTableGatewayOptionsTest extends \PHPUnit_Framework_TestCase
+class DbTableGatewayOptionsTest extends TestCase
 {
     public function testDefaults()
     {

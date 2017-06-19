@@ -11,6 +11,7 @@ namespace ZendTest\Session\SaveHandler;
 
 use MongoDB\Client as MongoClient;
 use MongoDB\Collection as MongoCollection;
+use PHPUnit\Framework\TestCase;
 use Zend\Session\SaveHandler\MongoDB;
 use Zend\Session\SaveHandler\MongoDBOptions;
 
@@ -19,7 +20,7 @@ use Zend\Session\SaveHandler\MongoDBOptions;
  * @covers Zend\Session\SaveHandler\MongoDb
  * @requires extension mongodb
  */
-class MongoDBTest extends \PHPUnit_Framework_TestCase
+class MongoDBTest extends TestCase
 {
     /**
      * @var MongoClient

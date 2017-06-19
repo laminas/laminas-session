@@ -9,6 +9,7 @@
 
 namespace ZendTest\Session\Service;
 
+use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Session\Container;
@@ -22,7 +23,7 @@ use Zend\Session\Storage\StorageInterface;
  * @group      Zend_Session
  * @covers Zend\Session\Service\ContainerAbstractServiceFactory
  */
-class ContainerAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
+class ContainerAbstractServiceFactoryTest extends TestCase
 {
     public $config = [
         'session_containers' => [

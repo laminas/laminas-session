@@ -9,13 +9,14 @@
 
 namespace ZendTest\Session\Config;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Session\Config\StandardConfig;
 
 /**
  * @group      Zend_Session
  * @covers Zend\Session\Config\StandardConfig
  */
-class StandardConfigTest extends \PHPUnit_Framework_TestCase
+class StandardConfigTest extends TestCase
 {
     /**
      * @var StandardConfig
@@ -31,7 +32,8 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSetSavePathErrorsOnInvalidPath()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid save_path provided');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid save_path provided');
         $this->config->setSavePath(__DIR__ . '/foobarboguspath');
     }
 
@@ -72,28 +74,22 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidGcProbabilityRaisesException()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid gc_probability; must be numeric'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_probability; must be numeric');
         $this->config->setGcProbability('foobar_bogus');
     }
 
     public function testSettingInvalidGcProbabilityRaisesException2()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid gc_probability; must be a percentage'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_probability; must be a percentage');
         $this->config->setGcProbability(-1);
     }
 
     public function testSettingInvalidGcProbabilityRaisesException3()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid gc_probability; must be a percentage'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_probability; must be a percentage');
         $this->config->setGcProbability(101);
     }
 
@@ -107,19 +103,15 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidGcDivisorRaisesException()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid gc_divisor; must be numeric'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_divisor; must be numeric');
         $this->config->setGcDivisor('foobar_bogus');
     }
 
     public function testSettingInvalidGcDivisorRaisesException2()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid gc_divisor; must be a positive integer'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_divisor; must be a positive integer');
         $this->config->setGcDivisor(-1);
     }
 
@@ -133,19 +125,15 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidGcMaxlifetimeRaisesException()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid gc_maxlifetime; must be numeric'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_maxlifetime; must be numeric');
         $this->config->setGcMaxlifetime('foobar_bogus');
     }
 
     public function testSettingInvalidGcMaxlifetimeRaisesException2()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid gc_maxlifetime; must be a positive integer'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid gc_maxlifetime; must be a positive integer');
         $this->config->setGcMaxlifetime(-1);
     }
 
@@ -174,19 +162,15 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCookieLifetimeRaisesException()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid cookie_lifetime; must be numeric'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cookie_lifetime; must be numeric');
         $this->config->setCookieLifetime('foobar_bogus');
     }
 
     public function testSettingInvalidCookieLifetimeRaisesException2()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid cookie_lifetime; must be a positive integer or zero'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cookie_lifetime; must be a positive integer or zero');
         $this->config->setCookieLifetime(-1);
     }
 
@@ -200,19 +184,22 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCookiePathRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie path');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath(24);
     }
 
     public function testSettingInvalidCookiePathRaisesException2()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie path');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath('foo');
     }
 
     public function testSettingInvalidCookiePathRaisesException3()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid cookie path');
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath('D:\\WINDOWS\\System32\\drivers\\etc\\hosts');
     }
 
@@ -232,19 +219,15 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCookieDomainRaisesException()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid cookie domain: must be a string'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cookie domain: must be a string');
         $this->config->setCookieDomain(24);
     }
 
     public function testSettingInvalidCookieDomainRaisesException2()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'does not match the expected structure for a DNS hostname'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('does not match the expected structure for a DNS hostname');
         $this->config->setCookieDomain('D:\\WINDOWS\\System32\\drivers\\etc\\hosts');
     }
 
@@ -298,46 +281,103 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSetEntropyFileErrorsOnInvalidPath()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid entropy_file provided');
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_file directive removed in PHP 7.1');
+        }
+
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid entropy_file provided');
         $this->config->setEntropyFile(__DIR__ . '/foobarboguspath');
     }
 
     public function testEntropyFileIsMutable()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_file directive removed in PHP 7.1');
+        }
+
         $this->config->setEntropyFile(__FILE__);
         $this->assertEquals(__FILE__, $this->config->getEntropyFile());
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSetEntropyFileError()
+    {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->config->getEntropyFile();
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testGetEntropyFileError()
+    {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->config->setEntropyFile(__FILE__);
     }
 
     // session.entropy_length
 
     public function testEntropyLengthIsMutable()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_length directive removed in PHP 7.1');
+        }
+
         $this->config->setEntropyLength(20);
         $this->assertEquals(20, $this->config->getEntropyLength());
     }
 
     public function testEntropyLengthCanBeZero()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_length directive removed in PHP 7.1');
+        }
+
         $this->config->setEntropyLength(0);
         $this->assertEquals(0, $this->config->getEntropyLength());
     }
 
     public function testSettingInvalidEntropyLengthRaisesException()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid entropy_length; must be numeric'
-        );
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_length directive removed in PHP 7.1');
+        }
+
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid entropy_length; must be numeric');
         $this->config->setEntropyLength('foobar_bogus');
     }
 
     public function testSettingInvalidEntropyLengthRaisesException2()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid entropy_length; must be a positive integer or zero'
-        );
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_length directive removed in PHP 7.1');
+        }
+
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid entropy_length; must be a positive integer or zero');
         $this->config->setEntropyLength(-1);
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testGetEntropyLengthError()
+    {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->config->getEntropyLength();
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSetEntropyLengthError()
+    {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->config->setEntropyLength(0);
     }
 
     // session.cache_limiter
@@ -371,19 +411,15 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidCacheExpireRaisesException()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid cache_expire; must be numeric'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cache_expire; must be numeric');
         $this->config->setCacheExpire('foobar_bogus');
     }
 
     public function testSettingInvalidCacheExpireRaisesException2()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid cache_expire; must be a positive integer'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid cache_expire; must be a positive integer');
         $this->config->setCacheExpire(-1);
     }
 
@@ -412,8 +448,30 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testHashFunctionIsMutable($hashFunction)
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.hash_function directive removed in PHP 7.1');
+        }
+
         $this->config->setHashFunction($hashFunction);
         $this->assertEquals($hashFunction, $this->config->getHashFunction());
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testGetHashFunctionError()
+    {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->config->getHashFunction();
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSetHashFunctionError()
+    {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->config->setHashFunction('foobar_bogus');
     }
 
     // session.hash_bits_per_character
@@ -432,17 +490,103 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testHashBitsPerCharacterIsMutable($hashBitsPerCharacter)
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.hash_bits_per_character directive removed in PHP 7.1');
+        }
+
         $this->config->setHashBitsPerCharacter($hashBitsPerCharacter);
         $this->assertEquals($hashBitsPerCharacter, $this->config->getHashBitsPerCharacter());
     }
 
     public function testSettingInvalidHashBitsPerCharacterRaisesException()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid hash bits per character provided'
-        );
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.hash_bits_per_character directive removed in PHP 7.1');
+        }
+
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid hash bits per character provided');
         $this->config->setHashBitsPerCharacter('foobar_bogus');
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testGetHashBitsPerCharacterError()
+    {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->config->getHashBitsPerCharacter();
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSetHashBitsPerCharacterError()
+    {
+        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->config->setHashBitsPerCharacter(5);
+    }
+
+    // session.sid_length
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSidLengthIsMutable()
+    {
+        $this->config->setSidLength(40);
+        $this->assertEquals(40, $this->config->getSidLength());
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSettingInvalidSidLengthRaisesException()
+    {
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid length provided');
+        $this->config->setSidLength('foobar_bogus');
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSettingOutOfRangeSidLengthRaisesException()
+    {
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid length provided');
+        $this->config->setSidLength(999);
+    }
+
+    // session.sid_bits_per_character
+
+    public function sidBitsPerCharacters()
+    {
+        return [
+            [4],
+            [5],
+            [6],
+        ];
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @dataProvider sidBitsPerCharacters
+     */
+    public function testSidBitsPerCharacterIsMutable($sidBitsPerCharacter)
+    {
+        $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
+        $this->assertEquals($sidBitsPerCharacter, $this->config->getSidBitsPerCharacter());
+    }
+
+    /**
+     * @requires PHP 7.1
+     */
+    public function testSettingInvalidSidBitsPerCharacterRaisesException()
+    {
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid sid bits per character provided');
+        $this->config->setSidBitsPerCharacter('foobar_bogus');
     }
 
     // url_rewriter.tags
@@ -463,19 +607,15 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidRememberMeSecondsRaisesException()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid remember_me_seconds; must be numeric'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid remember_me_seconds; must be numeric');
         $this->config->setRememberMeSeconds('foobar_bogus');
     }
 
     public function testSettingInvalidRememberMeSecondsRaisesException2()
     {
-        $this->setExpectedException(
-            'Zend\Session\Exception\InvalidArgumentException',
-            'Invalid remember_me_seconds; must be a positive integer'
-        );
+        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid remember_me_seconds; must be a positive integer');
         $this->config->setRememberMeSeconds(-1);
     }
 
@@ -493,7 +633,7 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
 
     public function optionsProvider()
     {
-        return [
+        $commonOptions = [
             [
                 'save_path',
                 'getSavePath',
@@ -570,16 +710,6 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
                 'foobar',
             ],
             [
-                'entropy_file',
-                'getEntropyFile',
-                __FILE__,
-            ],
-            [
-                'entropy_length',
-                'getEntropyLength',
-                42,
-            ],
-            [
                 'cache_limiter',
                 'getCacheLimiter',
                 'private',
@@ -595,21 +725,47 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
                 true,
             ],
             [
-                'hash_function',
-                'getHashFunction',
-                'md5',
-            ],
-            [
-                'hash_bits_per_character',
-                'getHashBitsPerCharacter',
-                5,
-            ],
-            [
                 'url_rewriter_tags',
                 'getUrlRewriterTags',
                 'a=href',
             ],
         ];
+
+        if (PHP_VERSION_ID < 70100) {
+            $commonOptions[] = [
+                'entropy_file',
+                'getEntropyFile',
+                __FILE__,
+            ];
+            $commonOptions[] = [
+                'entropy_length',
+                'getEntropyLength',
+                42,
+            ];
+            $commonOptions[] = [
+                'hash_function',
+                'getHashFunction',
+                'md5',
+            ];
+            $commonOptions[] = [
+                'hash_bits_per_character',
+                'getHashBitsPerCharacter',
+                5,
+            ];
+        } else {
+            $commonOptions[] = [
+                'sid_length',
+                'getSidLength',
+                40,
+            ];
+            $commonOptions[] = [
+                'sid_bits_per_character',
+                'getSidBitsPerCharacter',
+                5,
+            ];
+        }
+
+        return $commonOptions;
     }
 
     /**
@@ -619,6 +775,10 @@ class StandardConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetEntropyDevUrandom()
     {
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('session.entropy_file directive removed in PHP 7.1');
+        }
+
         if (! file_exists('/dev/urandom')) {
             $this->markTestSkipped(
                 "This test doesn't work because /dev/urandom file doesn't exist."

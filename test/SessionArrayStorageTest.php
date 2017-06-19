@@ -9,6 +9,7 @@
 
 namespace ZendTest\Session;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Session\Storage\SessionArrayStorage;
 use Zend\Session\SessionManager;
 use Zend\Session\Container;
@@ -17,7 +18,7 @@ use Zend\Session\Container;
  * @group      Zend_Session
  * @covers Zend\Session\Storage\SessionArrayStorage
  */
-class SessionArrayStorageTest extends \PHPUnit_Framework_TestCase
+class SessionArrayStorageTest extends TestCase
 {
     public function setUp()
     {

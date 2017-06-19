@@ -9,13 +9,14 @@
 
 namespace ZendTest\Session\Validator;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Session\Validator\RemoteAddr;
 
 /**
  * @group      Zend_Session
  * @covers Zend\Session\Validator\RemoteAddr
  */
-class RemoteAddrTest extends \PHPUnit_Framework_TestCase
+class RemoteAddrTest extends TestCase
 {
     protected $backup;
 
