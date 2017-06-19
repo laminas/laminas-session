@@ -12,6 +12,7 @@ namespace ZendTest\Session\Service;
 use Zend\EventManager\Test\EventListenerIntrospectionTrait;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\Session\Config\ConfigInterface;
 use Zend\Session\Container;
 use Zend\Session\ManagerInterface;
@@ -21,6 +22,8 @@ use Zend\Session\SessionManager;
 use Zend\Session\Storage\ArrayStorage;
 use Zend\Session\Storage\StorageInterface;
 use Zend\Session\Validator;
+use ZendTest\Session\TestAsset\TestManager;
+use ZendTest\Session\TestAsset\TestSaveHandler;
 
 /**
  * @group      Zend_Session
@@ -35,6 +38,8 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
         $config = new Config([
             'factories' => [
                 ManagerInterface::class => SessionManagerFactory::class,
+                TestManager::class => SessionManagerFactory::class,
+                TestSaveHandler::class => SessionManagerFactory::class,
             ],
         ]);
         $this->services = new ServiceManager();
@@ -207,5 +212,17 @@ class SessionManagerFactoryTest extends \PHPUnit_Framework_TestCase
 
         $manager = $this->services->get(ManagerInterface::class);
         $this->assertAttributeSame([], 'validators', $manager);
+    }
+
+    public function testFactorySupportsExtendedSessionManager()
+    {
+        $manager = $this->services->get(TestManager::class);
+        $this->assertInstanceOf(TestManager::class, $manager);
+    }
+
+    public function testFactoryRaisesServiceNotCreatedException()
+    {
+        $this->setExpectedException(ServiceNotCreatedException::class);
+        $manager = $this->services->get(TestSaveHandler::class);
     }
 }

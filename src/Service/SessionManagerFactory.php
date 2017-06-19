@@ -18,6 +18,7 @@ use Zend\Session\Container;
 use Zend\Session\SaveHandler\SaveHandlerInterface;
 use Zend\Session\SessionManager;
 use Zend\Session\Storage\StorageInterface;
+use Zend\Session\ManagerInterface;
 
 class SessionManagerFactory implements FactoryInterface
 {
@@ -124,7 +125,17 @@ class SessionManagerFactory implements FactoryInterface
             }
         }
 
-        $manager = new SessionManager($config, $storage, $saveHandler, $validators, $options);
+        if (!class_exists($requestedName)) {
+            $requestedName = SessionManager::class;
+        } elseif (!is_subclass_of($requestedName, ManagerInterface::class)) {
+            throw new ServiceNotCreatedException(sprintf(
+                'SessionManager requires that the %s service implement %s',
+                $requestedName,
+                ManagerInterface::class
+            ));
+        }
+
+        $manager = new $requestedName($config, $storage, $saveHandler, $validators, $options);
 
         // If configuration enables the session manager as the default manager for container
         // instances, do so.
