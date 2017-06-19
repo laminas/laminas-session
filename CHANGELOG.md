@@ -8,6 +8,14 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
+### Changed
+
+- [#73](https://github.com/zendframework/zend-session/pull/73) modifies the
+  `SessionManagerFactory` to take into account the `$requestedName`; if the
+  `$requestedName` is the name of a class that implements `ManagerInterface`,
+  that class will be instantiated instead of `SessionManager`, but using the
+  same arguments (`$config, $storage, $savehandler, $validators, $options`).
+
 ### Deprecated
 
 - Nothing.
