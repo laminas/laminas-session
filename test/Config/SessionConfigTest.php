@@ -28,6 +28,14 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
         $this->config = new SessionConfig;
     }
 
+    public function assertPhpLessThan71()
+    {
+        if (version_compare(PHP_VERSION, '7.1.0', '<')) {
+            return true;
+        }
+        $this->markTestSkipped('This test requires a PHP version less than 7.1.0');
+    }
+
     // session.save_path
 
     public function testSetSavePathErrorsOnInvalidPath()
@@ -496,23 +504,27 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSetEntropyFileErrorsOnInvalidPath()
     {
+        $this->assertPhpLessThan71();
         $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Invalid entropy_file provided');
         $this->config->setEntropyFile(__DIR__ . '/foobarboguspath');
     }
 
     public function testEntropyFileDefaultsToIniSettings()
     {
+        $this->assertPhpLessThan71();
         $this->assertSame(ini_get('session.entropy_file'), $this->config->getEntropyFile());
     }
 
     public function testEntropyFileIsMutable()
     {
+        $this->assertPhpLessThan71();
         $this->config->setEntropyFile(__FILE__);
         $this->assertEquals(__FILE__, $this->config->getEntropyFile());
     }
 
     public function testEntropyFileAltersIniSetting()
     {
+        $this->assertPhpLessThan71();
         $this->config->setEntropyFile(__FILE__);
         $this->assertEquals(__FILE__, ini_get('session.entropy_file'));
     }
@@ -521,29 +533,34 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testEntropyLengthDefaultsToIniSettings()
     {
+        $this->assertPhpLessThan71();
         $this->assertSame(ini_get('session.entropy_length'), $this->config->getEntropyLength());
     }
 
     public function testEntropyLengthIsMutable()
     {
+        $this->assertPhpLessThan71();
         $this->config->setEntropyLength(20);
         $this->assertEquals(20, $this->config->getEntropyLength());
     }
 
     public function testEntropyLengthAltersIniSetting()
     {
+        $this->assertPhpLessThan71();
         $this->config->setEntropyLength(24);
         $this->assertEquals(24, ini_get('session.entropy_length'));
     }
 
     public function testEntropyLengthCanBeZero()
     {
+        $this->assertPhpLessThan71();
         $this->config->setEntropyLength(0);
         $this->assertEquals(0, ini_get('session.entropy_length'));
     }
 
     public function testSettingInvalidEntropyLengthRaisesException()
     {
+        $this->assertPhpLessThan71();
         $this->setExpectedException(
             'Zend\Session\Exception\InvalidArgumentException',
             'Invalid entropy_length; must be numeric'
@@ -553,6 +570,7 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidEntropyLengthRaisesException2()
     {
+        $this->assertPhpLessThan71();
         $this->setExpectedException(
             'Zend\Session\Exception\InvalidArgumentException',
             'Invalid entropy_length; must be a positive integer or zero'
@@ -677,6 +695,7 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testHashFunctionDefaultsToIniSettings()
     {
+        $this->assertPhpLessThan71();
         $this->assertSame(ini_get('session.hash_function'), $this->config->getHashFunction());
     }
 
@@ -685,6 +704,7 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testHashFunctionIsMutable($hashFunction)
     {
+        $this->assertPhpLessThan71();
         $this->config->setHashFunction($hashFunction);
         $this->assertEquals($hashFunction, $this->config->getHashFunction());
     }
@@ -694,12 +714,14 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testHashFunctionAltersIniSetting($hashFunction)
     {
+        $this->assertPhpLessThan71();
         $this->config->setHashFunction($hashFunction);
         $this->assertEquals($hashFunction, ini_get('session.hash_function'));
     }
 
     public function testSettingInvalidHashFunctionRaisesException()
     {
+        $this->assertPhpLessThan71();
         $this->setExpectedException(
             'Zend\Session\Exception\InvalidArgumentException',
             'Invalid hash function provided'
@@ -728,6 +750,7 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testHashBitsPerCharacterIsMutable($hashBitsPerCharacter)
     {
+        $this->assertPhpLessThan71();
         $this->config->setHashBitsPerCharacter($hashBitsPerCharacter);
         $this->assertEquals($hashBitsPerCharacter, $this->config->getHashBitsPerCharacter());
     }
@@ -737,12 +760,14 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testHashBitsPerCharacterAltersIniSetting($hashBitsPerCharacter)
     {
+        $this->assertPhpLessThan71();
         $this->config->setHashBitsPerCharacter($hashBitsPerCharacter);
         $this->assertEquals($hashBitsPerCharacter, ini_get('session.hash_bits_per_character'));
     }
 
     public function testSettingInvalidHashBitsPerCharacterRaisesException()
     {
+        $this->assertPhpLessThan71();
         $this->setExpectedException(
             'Zend\Session\Exception\InvalidArgumentException',
             'Invalid hash bits per character provided'
@@ -836,7 +861,7 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
 
     public function optionsProvider()
     {
-        return [
+        $options = [
             [
                 'save_path',
                 'getSavePath',
@@ -913,16 +938,6 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
                 'foobar',
             ],
             [
-                'entropy_file',
-                'getEntropyFile',
-                __FILE__,
-            ],
-            [
-                'entropy_length',
-                'getEntropyLength',
-                42,
-            ],
-            [
                 'cache_limiter',
                 'getCacheLimiter',
                 'private',
@@ -938,20 +953,42 @@ class SessionConfigTest extends \PHPUnit_Framework_TestCase
                 true,
             ],
             [
-                'hash_function',
-                'getHashFunction',
-                'md5',
-            ],
-            [
-                'hash_bits_per_character',
-                'getOption',
-                5,
-            ],
-            [
                 'url_rewriter_tags',
                 'getUrlRewriterTags',
                 'a=href',
             ],
         ];
+
+        // These options are no longer present as of PHP 7.1.0
+        if (version_compare(PHP_VERSION, '7.1.0', '<')) {
+            $options[] = [
+                'entropy_file',
+                'getEntropyFile',
+                __FILE__,
+            ];
+            $options[] = [
+                'entropy_length',
+                'getEntropyLength',
+                42,
+            ];
+            $options[] = [
+                'hash_bits_per_character',
+                'getOption',
+                5,
+            ];
+            // The docs do not say this was removed for 7.1.0, but tests fail
+            // on 7.1.0 due to this one.
+            $options[] = [
+                'hash_function',
+                'getHashFunction',
+                'md5',
+            ];
+        }
+
+        // At some point, need to add support for session.sid_bits_per_character
+        if (version_compare(PHP_VERSION, '7.1.0', '>=')) {
+        }
+
+        return $options;
     }
 }
