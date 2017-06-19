@@ -72,7 +72,7 @@ class SessionManagerFactory implements FactoryInterface
 
         if ($container->has(ConfigInterface::class)) {
             $config = $container->get(ConfigInterface::class);
-            if (!$config instanceof ConfigInterface) {
+            if (! $config instanceof ConfigInterface) {
                 throw new ServiceNotCreatedException(sprintf(
                     'SessionManager requires that the %s service implement %s; received "%s"',
                     ConfigInterface::class,
@@ -84,7 +84,7 @@ class SessionManagerFactory implements FactoryInterface
 
         if ($container->has(StorageInterface::class)) {
             $storage = $container->get(StorageInterface::class);
-            if (!$storage instanceof StorageInterface) {
+            if (! $storage instanceof StorageInterface) {
                 throw new ServiceNotCreatedException(sprintf(
                     'SessionManager requires that the %s service implement %s; received "%s"',
                     StorageInterface::class,
@@ -96,7 +96,7 @@ class SessionManagerFactory implements FactoryInterface
 
         if ($container->has(SaveHandlerInterface::class)) {
             $saveHandler = $container->get(SaveHandlerInterface::class);
-            if (!$saveHandler instanceof SaveHandlerInterface) {
+            if (! $saveHandler instanceof SaveHandlerInterface) {
                 throw new ServiceNotCreatedException(sprintf(
                     'SessionManager requires that the %s service implement %s; received "%s"',
                     SaveHandlerInterface::class,

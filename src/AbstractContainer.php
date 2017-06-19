@@ -63,7 +63,7 @@ abstract class AbstractContainer extends ArrayObject
      */
     public function __construct($name = 'Default', Manager $manager = null)
     {
-        if (!preg_match('/^[a-z0-9][a-z0-9_\\\\]+$/i', $name)) {
+        if (! preg_match('/^[a-z0-9][a-z0-9_\\\\]+$/i', $name)) {
             throw new Exception\InvalidArgumentException(
                 'Name passed to container is invalid; must consist of alphanumerics, backslashes and underscores only'
             );
@@ -101,7 +101,7 @@ abstract class AbstractContainer extends ArrayObject
     {
         if (null === static::$defaultManager) {
             $manager = new static::$managerDefaultClass();
-            if (!$manager instanceof Manager) {
+            if (! $manager instanceof Manager) {
                 throw new Exception\InvalidArgumentException(
                     'Invalid default manager type provided; must implement ManagerInterface'
                 );
@@ -133,7 +133,7 @@ abstract class AbstractContainer extends ArrayObject
     {
         if (null === $manager) {
             $manager = static::getDefaultManager();
-            if (!$manager instanceof Manager) {
+            if (! $manager instanceof Manager) {
                 throw new Exception\InvalidArgumentException(
                     'Manager provided is invalid; must implement ManagerInterface'
                 );
@@ -192,13 +192,13 @@ abstract class AbstractContainer extends ArrayObject
     {
         $storage = $this->getStorage();
         $name    = $this->getName();
-        if (!isset($storage[$name])) {
-            if (!$createContainer) {
+        if (! isset($storage[$name])) {
+            if (! $createContainer) {
                 return;
             }
             $storage[$name] = $this->createContainer();
         }
-        if (!is_array($storage[$name]) && !$storage[$name] instanceof Traversable) {
+        if (! is_array($storage[$name]) && ! $storage[$name] instanceof Traversable) {
             throw new Exception\RuntimeException('Container cannot write to storage due to type mismatch');
         }
 
@@ -219,7 +219,7 @@ abstract class AbstractContainer extends ArrayObject
         $name    = $this->getName();
 
         // Return early if key not found
-        if ((null !== $key) && !isset($storage[$name][$key])) {
+        if ((null !== $key) && ! isset($storage[$name][$key])) {
             return true;
         }
 
@@ -407,13 +407,13 @@ abstract class AbstractContainer extends ArrayObject
         $name = $this->getName();
 
         // Return early if the key isn't set
-        if (!isset($storage[$name][$key])) {
+        if (! isset($storage[$name][$key])) {
             return false;
         }
 
         $expired = $this->expireKeys($key);
 
-        return !$expired;
+        return ! $expired;
     }
 
     /**
@@ -424,7 +424,7 @@ abstract class AbstractContainer extends ArrayObject
      */
     public function offsetGet($key)
     {
-        if (!$this->offsetExists($key)) {
+        if (! $this->offsetExists($key)) {
             return;
         }
         $storage = $this->getStorage();
@@ -441,7 +441,7 @@ abstract class AbstractContainer extends ArrayObject
      */
     public function offsetUnset($key)
     {
-        if (!$this->offsetExists($key)) {
+        if (! $this->offsetExists($key)) {
             return;
         }
         $storage = $this->getStorage();
@@ -462,7 +462,7 @@ abstract class AbstractContainer extends ArrayObject
         if (is_object($input) && ($input instanceof ArrayObject || $input instanceof \ArrayObject)) {
             $input = $input->getArrayCopy();
         }
-        if (!is_array($input)) {
+        if (! is_array($input)) {
             $input = (array) $input;
         }
 

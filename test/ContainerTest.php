@@ -229,8 +229,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $storage = $this->manager->getStorage();
         $metadata = $storage->getMetadata($this->container->getName());
         $this->assertEquals($_SERVER['REQUEST_TIME'] + 1800, $metadata['EXPIRE_KEYS']['foo']);
-        $this->assertEquals($_SERVER['REQUEST_TIME'] +  900, $metadata['EXPIRE_KEYS']['baz']);
-        $this->assertEquals($_SERVER['REQUEST_TIME'] +  900, $metadata['EXPIRE_KEYS']['bat']);
+        $this->assertEquals($_SERVER['REQUEST_TIME'] + 900, $metadata['EXPIRE_KEYS']['baz']);
+        $this->assertEquals($_SERVER['REQUEST_TIME'] + 900, $metadata['EXPIRE_KEYS']['bat']);
         $this->assertEquals($_SERVER['REQUEST_TIME'] + 3600, $metadata['EXPIRE']);
     }
 
@@ -494,7 +494,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $expected = ['bar' => 'baz'];
         $test     = [];
         foreach ($this->container as $key => $value) {
-            $test[$key] =  $value;
+            $test[$key] = $value;
         }
         $this->assertSame($expected, $test);
     }
@@ -551,7 +551,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetArrayCopyAfterExchangeArray()
     {
-        $this->container->exchangeArray(['foo'=>'bar']);
+        $this->container->exchangeArray(['foo' => 'bar']);
 
         $contents = $this->container->getArrayCopy();
 
