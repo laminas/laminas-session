@@ -29,7 +29,7 @@ options in your local or global config:
 use Zend\Session;
 
 return [
-    'session' => [
+    'session_manager' => [
         'config' => [
             'class' => Session\Config\SessionConfig::class,
             'options' => [
