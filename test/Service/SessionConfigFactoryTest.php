@@ -9,6 +9,7 @@
 
 namespace ZendTest\Session\Service;
 
+use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Session\Config\ConfigInterface;
@@ -20,7 +21,7 @@ use Zend\Session\Service\SessionConfigFactory;
  * @group      Zend_Session
  * @covers Zend\Session\Service\SessionConfigFactory
  */
-class SessionConfigFactoryTest extends \PHPUnit_Framework_TestCase
+class SessionConfigFactoryTest extends TestCase
 {
     public function setUp()
     {

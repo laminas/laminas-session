@@ -59,6 +59,15 @@ class SessionConfig extends StandardConfig
     ];
 
     /**
+     * @var array Valid sid bits per character (per session.sid_bits_per_character)
+     */
+    protected $validSidBitsPerCharacters = [
+        4,
+        5,
+        6,
+    ];
+
+    /**
      * @var array Valid hash functions (per session.hash_function)
      */
     protected $validHashFunctions;
@@ -213,6 +222,10 @@ class SessionConfig extends StandardConfig
      */
     public function setHashFunction($hashFunction)
     {
+        if (PHP_VERSION_ID >= 70100) {
+            trigger_error('session.hash_function is removed starting with PHP 7.1', E_USER_DEPRECATED);
+        }
+
         $hashFunction = (string) $hashFunction;
         $validHashFunctions = $this->getHashFunctions();
         if (! in_array($hashFunction, $validHashFunctions, true)) {
@@ -233,6 +246,10 @@ class SessionConfig extends StandardConfig
      */
     public function setHashBitsPerCharacter($hashBitsPerCharacter)
     {
+        if (PHP_VERSION_ID >= 70100) {
+            trigger_error('session.hash_bits_per_character is removed starting with PHP 7.1', E_USER_DEPRECATED);
+        }
+
         if (! is_numeric($hashBitsPerCharacter)
             || ! in_array($hashBitsPerCharacter, $this->validHashBitsPerCharacters)
         ) {
@@ -242,6 +259,27 @@ class SessionConfig extends StandardConfig
         $hashBitsPerCharacter = (int) $hashBitsPerCharacter;
         $this->setOption('hash_bits_per_character', $hashBitsPerCharacter);
         ini_set('session.hash_bits_per_character', $hashBitsPerCharacter);
+        return $this;
+    }
+
+    /**
+     * Set session.sid_bits_per_character
+     *
+     * @param  int $sidBitsPerCharacter
+     * @return SessionConfig
+     * @throws Exception\InvalidArgumentException
+     */
+    public function setSidBitsPerCharacter($sidBitsPerCharacter)
+    {
+        if (! is_numeric($sidBitsPerCharacter)
+            || ! in_array($sidBitsPerCharacter, $this->validSidBitsPerCharacters)
+        ) {
+            throw new Exception\InvalidArgumentException('Invalid sid bits per character provided');
+        }
+
+        $sidBitsPerCharacter = (int) $sidBitsPerCharacter;
+        $this->setOption('sid_bits_per_character', $sidBitsPerCharacter);
+        ini_set('session.sid_bits_per_character', $sidBitsPerCharacter);
         return $this;
     }
 

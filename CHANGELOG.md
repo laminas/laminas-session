@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.8.0 - 2017-06-19
+
+### Added
+
+- [#78](https://github.com/zendframework/zend-session/pull/78) adds support for
+  PHP 7.1, and specifically the following options:
+  - `session.sid_length`
+  - `session.sid_bits_per_character`
+
+### Changed
+
+- [#73](https://github.com/zendframework/zend-session/pull/73) modifies the
+  `SessionManagerFactory` to take into account the `$requestedName`; if the
+  `$requestedName` is the name of a class that implements `ManagerInterface`,
+  that class will be instantiated instead of `SessionManager`, but using the
+  same arguments (`$config, $storage, $savehandler, $validators, $options`).
+
+- [#78](https://github.com/zendframework/zend-session/pull/78) updates the
+  `SessionConfig` class to emit deprecation notices under PHP 7.1+ when a user
+  attempts to set INI options no longer supported by PHP 7.1+, including:
+  - `session.entropy_file`
+  - `session.entropy_length`
+  - `session.hash_function`
+  - `session.hash_bits_per_character`
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#78](https://github.com/zendframework/zend-session/pull/78) removes support
+  for PHP 5.5.
+
+- [#78](https://github.com/zendframework/zend-session/pull/78) removes support
+  for HHVM.
+
+### Fixed
+
+- Nothing.
+
 ## 2.7.4 - 2017-06-19
 
 ### Added

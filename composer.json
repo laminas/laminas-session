@@ -13,28 +13,28 @@
         }
     },
     "require": {
-        "php": "^5.5 || ^7.0",
+        "php": "^7.0 || ^5.6",
         "zendframework/zend-eventmanager": "^2.6.2 || ^3.0",
         "zendframework/zend-stdlib": "^2.7 || ^3.0"
     },
     "require-dev": {
+        "container-interop/container-interop": "^1.1",
+        "mongodb/mongodb": "^1.0.1",
+        "phpunit/phpunit": "^6.0.8 || ^5.7.15",
         "zendframework/zend-cache": "^2.6.1",
+        "zendframework/zend-coding-standard": "~1.0.0",
         "zendframework/zend-db": "^2.7",
         "zendframework/zend-http": "^2.5.4",
         "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
-        "zendframework/zend-validator": "^2.6",
-        "container-interop/container-interop": "^1.1",
-        "mongodb/mongodb": "^1.0.1",
-        "phpunit/PHPUnit": "~4.0",
-        "zendframework/zend-coding-standard": "~1.0.0"
+        "zendframework/zend-validator": "^2.6"
     },
     "suggest": {
+        "mongodb/mongodb": "If you want to use the MongoDB session save handler",
         "zendframework/zend-cache": "Zend\\Cache component",
         "zendframework/zend-db": "Zend\\Db component",
         "zendframework/zend-http": "Zend\\Http component",
         "zendframework/zend-servicemanager": "Zend\\ServiceManager component",
-        "zendframework/zend-validator": "Zend\\Validator component",
-        "mongodb/mongodb": "If you want to use the MongoDB session save handler"
+        "zendframework/zend-validator": "Zend\\Validator component"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -48,7 +48,13 @@
             "config-provider": "Zend\\Session\\ConfigProvider"
         }
     },
+    "config": {
+        "sort-packages": true
+    },
     "autoload-dev": {
+        "files": [
+            "test/autoload.php"
+        ],
         "psr-4": {
             "ZendTest\\Session\\": "test/"
         }
