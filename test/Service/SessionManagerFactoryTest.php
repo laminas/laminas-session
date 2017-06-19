@@ -223,7 +223,7 @@ class SessionManagerFactoryTest extends TestCase
 
     public function testFactoryWillRaiseServiceNotCreatedExceptionIfRequestedNameIsNotAManagerInterfaceSubclass()
     {
-        $this->setExpectedException(ServiceNotCreatedException::class);
+        $this->expectException(ServiceNotCreatedException::class);
         $manager = $this->services->get(TestSaveHandler::class);
     }
 }
