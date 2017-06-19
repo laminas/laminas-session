@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.7.4 - TBD
+## 2.7.4 - 2017-06-19
 
 ### Added
 
@@ -21,6 +21,10 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#66](https://github.com/zendframework/zend-session/pull/66) fixes how the
   `Cache` save handler's `destroy()` method works, ensuring it does not attempt
   to remove an item by `$id` if it does not already exist in the cache.
+- [#79](https://github.com/zendframework/zend-session/pull/79) updates the
+  signature of `AbstractContainer::offsetGet()` to match
+  `Zend\Stdlib\ArrayObject` and return by reference, fixing an issue when
+  running under PHP 7.1+.
 
 ## 2.7.3 - 2016-07-05
 
