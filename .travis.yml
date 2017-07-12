@@ -47,7 +47,7 @@ matrix:
     - php: 7
       env:
         - DEPS=locked
-        - EXECUTE_CS_CHECK=true
+        - CS_CHECK=true
     - php: 7
       env:
         - DEPS=latest
