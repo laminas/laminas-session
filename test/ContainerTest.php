@@ -231,6 +231,14 @@ class ContainerTest extends TestCase
         $this->assertEquals($currentTimestamp + 3600, $metadata['EXPIRE']);
     }
 
+    public function testSettingExpirationSecondsUsesCurrentTime()
+    {
+        sleep(3);
+        $this->container->setExpirationSeconds(2);
+        $this->container->foo = 'bar';
+        $this->assertEquals('bar', $this->container->foo);
+    }
+
     public function testPassingUnsetKeyToSetExpirationSecondsDoesNothing()
     {
         $this->container->setExpirationSeconds(3600, 'foo');
