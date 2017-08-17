@@ -509,7 +509,7 @@ abstract class AbstractContainer extends ArrayObject
     public function setExpirationSeconds($ttl, $vars = null)
     {
         $storage = $this->getStorage();
-        $ts      = $_SERVER['REQUEST_TIME'] + $ttl;
+        $ts      = time() + $ttl;
         if (is_scalar($vars) && null !== $vars) {
             $vars = (array) $vars;
         }
