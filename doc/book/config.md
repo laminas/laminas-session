@@ -28,6 +28,7 @@ Option                    | Data Type | Description
 `gc_maxlifetime`          | `integer` | Specifies the number of seconds after which data will be seen as ‘garbage’.
 `gc_divisor`              | `integer` | Defines the probability that the gc process is started on every session initialization.
 `gc_probability`          | `integer` | Defines the probability that the gc process is started on every session initialization.
+`hash_function`           | `integer` | Defines which built-in hash algorithm is used. Removed in PHP 7.1.0.
 `hash_bits_per_character` | `integer` | Defines how many bits are stored in each character when converting the binary hash data. Removed in PHP 7.1.0.
 `name`                    | `string`  | Specifies the name of the session which is used as cookie name.
 `remember_me_seconds`     | `integer` | Specifies how long to remember the session before clearing data.
