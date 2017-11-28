@@ -18,7 +18,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#57](https://github.com/zendframework/zend-session/pull/57) provides a fix
+- [#57](https://github.com/zendframework/zend-session/pull/57) and
+  [#93](https://github.com/zendframework/zend-session/pull/93) provide a fix
   for when data found in the session is a `Traversable`; such data is now cast
   to an array before merging with new data.
 
