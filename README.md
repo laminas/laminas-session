@@ -6,4 +6,4 @@
 zend-session manages PHP sessions using an object oriented interface. 
 
 - File issues at https://github.com/zendframework/zend-session/issues
-- Documentation is at https://zendframework.github.io/zend-session/
+- Documentation is at https://docs.zendframework.com/zend-session/
