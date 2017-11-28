@@ -132,16 +132,12 @@ class SessionManager extends AbstractManager
             // ArrayUtils::merge parameter
             if ($oldSessionData instanceof Storage\StorageInterface) {
                 $oldSessionData = $oldSessionData->toArray();
-            } elseif ($oldSessionData instanceof \Traversable) {
+            } elseif ($oldSessionData instanceof Traversable) {
                 $oldSessionData = iterator_to_array($oldSessionData);
             }
         }
 
         session_start();
-
-        if ($oldSessionData instanceof Traversable) {
-            $oldSessionData = $oldSessionData->toArray();
-        }
 
         if (! empty($oldSessionData) && is_array($oldSessionData)) {
             $_SESSION = ArrayUtils::merge($oldSessionData, $_SESSION, true);
