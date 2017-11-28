@@ -139,10 +139,6 @@ class SessionManager extends AbstractManager
 
         session_start();
 
-        if ($oldSessionData instanceof Traversable) {
-            $oldSessionData = $oldSessionData->toArray();
-        }
-
         if (! empty($oldSessionData) && is_array($oldSessionData)) {
             $_SESSION = ArrayUtils::merge($oldSessionData, $_SESSION, true);
         }
