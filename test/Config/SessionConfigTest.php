@@ -10,10 +10,11 @@
 namespace ZendTest\Session\Config;
 
 use PHPUnit\Framework\TestCase;
+use SessionHandlerInterface;
 use Zend\Session\Config\SessionConfig;
+use ZendTest\Session\TestAsset\TestSaveHandler;
 
 /**
- * @group      Zend_Session
  * @runTestsInSeparateProcesses
  * @covers Zend\Session\Config\SessionConfig
  */
@@ -65,7 +66,7 @@ class SessionConfigTest extends TestCase
 
     public function testSavePathCanBeNonDirectoryWhenSaveHandlerNotFiles()
     {
-        $this->config->setPhpSaveHandler('user');
+        $this->config->setPhpSaveHandler(TestSaveHandler::class);
         $this->config->setSavePath('/tmp/sessions.db');
         $this->assertEquals('/tmp/sessions.db', ini_get('session.save_path'));
     }
@@ -102,14 +103,14 @@ class SessionConfigTest extends TestCase
 
     public function testSaveHandlerIsMutable()
     {
-        $this->config->setSaveHandler('user');
-        $this->assertEquals('user', $this->config->getSaveHandler());
+        $this->config->setSaveHandler(TestSaveHandler::class);
+        $this->assertSame(TestSaveHandler::class, $this->config->getSaveHandler());
     }
 
-    public function testSaveHandlerAltersIniSetting()
+    public function testSaveHandlerDoesNotAlterIniSetting()
     {
-        $this->config->setSaveHandler('user');
-        $this->assertEquals('user', ini_get('session.save_handler'));
+        $this->config->setSaveHandler(TestSaveHandler::class);
+        $this->assertNotSame(TestSaveHandler::class, ini_get('session.save_handler'));
     }
 
     public function testSettingInvalidSaveHandlerRaisesException()
@@ -1023,10 +1024,10 @@ class SessionConfigTest extends TestCase
                 'getName',
                 'FOOBAR',
             ],
-            [
+            'UserDefinedSaveHandler' => [
                 'save_handler',
                 'getOption',
-                'user',
+                'files',
             ],
             [
                 'gc_probability',

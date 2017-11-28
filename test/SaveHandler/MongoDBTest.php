@@ -87,6 +87,9 @@ class MongoDBTest extends TestCase
         $this->assertEquals($data, unserialize($saveHandler->read($id)));
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testReadDestroysExpiredSession()
     {
         /* Note: due to the session save handler's open() method reading the

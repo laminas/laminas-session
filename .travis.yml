@@ -51,21 +51,20 @@ matrix:
     - php: 7.1
       env:
         - DEPS=latest
-    - php: nightly
+    - php: 7.2
       env:
         - DEPS=lowest
-    - php: nightly
+    - php: 7.2
       env:
         - DEPS=locked
-    - php: nightly
+    - php: 7.2
       env:
         - DEPS=latest
-  allow_failures:
-    - php: nightly
 
 before_install:
-  - pecl -q install mongodb
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
+  - pecl -q upgrade mongodb
+  - $(php -m | grep -q mongodb) || echo "extension=mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - travis_retry composer self-update
 
 install:

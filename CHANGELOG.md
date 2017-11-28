@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#92](https://github.com/zendframework/zend-session/pull/92) adds PHP 7.2
+  support.
 
 ### Deprecated
 
