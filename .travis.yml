@@ -2,20 +2,14 @@ sudo: false
 
 language: php
 
-branches:
-  except:
-    - /^release-.*$/
-    - /^ghgfk-.*$/
-
 cache:
   directories:
-    - $HOME/.composer/
+    - $HOME/.composer/cache
 
 env:
   global:
     - COMPOSER_ARGS="--no-interaction"
     - COVERAGE_DEPS="satooshi/php-coveralls"
-    - LEGACY_DEPS="phpunit/phpunit"
 
 services:
   - mongodb
@@ -28,7 +22,7 @@ matrix:
     - php: 5.6
       env:
         - DEPS=locked
-        - TEST_COVERAGE=true
+        - LEGACY_DEPS="phpunit/phpunit"
     - php: 5.6
       env:
         - DEPS=latest
@@ -38,7 +32,7 @@ matrix:
     - php: 7
       env:
         - DEPS=locked
-        - CS_CHECK=true
+        - LEGACY_DEPS="phpunit/phpunit"
     - php: 7
       env:
         - DEPS=latest
@@ -48,6 +42,8 @@ matrix:
     - php: 7.1
       env:
         - DEPS=locked
+        - CS_CHECK=true
+        - TEST_COVERAGE=true
     - php: 7.1
       env:
         - DEPS=latest
@@ -65,16 +61,14 @@ before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - pecl -q upgrade mongodb
   - $(php -m | grep -q mongodb) || echo "extension=mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - travis_retry composer self-update
 
 install:
   - travis_retry composer install $COMPOSER_ARGS --ignore-platform-reqs
-  - if [[ $TRAVIS_PHP_VERSION =~ ^5.6 ]]; then travis_retry composer update $COMPOSER_ARGS --with-dependencies $LEGACY_DEPS ; fi
+  - if [[ $LEGACY_DEPS != '' ]]; then travis_retry composer update --with-dependencies $COMPOSER_ARGS $LEGACY_DEPS ; fi
+  - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
-  - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update $COMPOSER_ARGS --prefer-lowest --prefer-stable ; fi
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS $COVERAGE_DEPS ; fi
-  - stty cols 120
-  - COLUMNS=120 composer show
+  - stty cols 120 && composer show
 
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi

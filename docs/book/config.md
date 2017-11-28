@@ -86,7 +86,7 @@ $manager = new SessionManager($config);
 
 ### Service Manager Factory
 
-zend-session ships with a [zend-servicemanager](https://zendframework.github.io/zend-servicemanager/)
+zend-session ships with a [zend-servicemanager](https://docs.zendframework.com/zend-servicemanager/)
 factory which reads configuration data from the application configuration and
 injects a corresponding instance of `Zend\Session\Config\SessionConfig` into the
 session manager automatically.
@@ -104,7 +104,7 @@ appropriate factory definition:
 
 > #### Automated factory registration
 >
-> Starting with zend-mvc v3, if you are using the [component installer](https://zendframework.github.io/zend-component-installer)
+> Starting with zend-mvc v3, if you are using the [component installer](https://docs.zendframework.com/zend-component-installer)
 > in your application, the above registration will be made automatically for
 > you when you install zend-session.
 
