@@ -223,12 +223,31 @@ class SessionManagerTest extends TestCase
     /**
      * @runInSeparateProcess
      */
-    public function testStartConvertsSessionDataToArrayBeforeMerging()
+    public function testStartConvertsSessionDataFromStorageInterfaceToArrayBeforeMerging()
     {
+        $key = 'testData';
+        $data = [$key => 'test'];
         $sessionStorage = $this->prophesize(StorageInterface::class);
         $_SESSION = $sessionStorage->reveal();
-        $sessionStorage->toArray()->shouldBeCalledTimes(1)->willReturn([]);
+        $sessionStorage->toArray()->shouldBeCalledTimes(1)->willReturn($data);
         $this->manager->start();
+        $this->assertInternalType('array', $_SESSION);
+        $this->assertArrayHasKey($key, $_SESSION);
+        $this->assertSame($data[$key], $_SESSION[$key]);
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testStartConvertsSessionDataFromTraversableToArrayBeforeMerging()
+    {
+        $key = 'testData';
+        $data = [$key => 'test'];
+        $_SESSION = new \ArrayIterator($data);
+        $this->manager->start();
+        $this->assertInternalType('array', $_SESSION);
+        $this->assertArrayHasKey($key, $_SESSION);
+        $this->assertSame($data[$key], $_SESSION[$key]);
     }
 
     /**
