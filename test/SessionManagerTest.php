@@ -7,6 +7,7 @@
 
 namespace ZendTest\Session;
 
+use ArrayIterator;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 use Zend\Session\Config\SessionConfig;
@@ -17,6 +18,7 @@ use Zend\Session\SessionManager;
 use Zend\Session\Storage\ArrayStorage;
 use Zend\Session\Storage\SessionStorage;
 use Zend\Session\Storage\SessionArrayStorage;
+use Zend\Session\Storage\StorageInterface;
 use Zend\Session\Validator\Id;
 use Zend\Session\Validator\RemoteAddr;
 
@@ -245,6 +247,44 @@ class SessionManagerTest extends TestCase
         $id2 = session_id();
         $this->assertTrue($this->manager->sessionExists());
         $this->assertNotEquals($id1, $id2);
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testStartConvertsSessionDataFromStorageInterfaceToArrayBeforeMerging()
+    {
+        $this->manager = new SessionManager();
+
+        $key            = 'testData';
+        $data           = [$key => 'test'];
+        $sessionStorage = $this->prophesize(StorageInterface::class);
+        $_SESSION       = $sessionStorage->reveal();
+        $sessionStorage->toArray()->shouldBeCalledTimes(1)->willReturn($data);
+
+        $this->manager->start();
+
+        $this->assertInternalType('array', $_SESSION);
+        $this->assertArrayHasKey($key, $_SESSION);
+        $this->assertSame($data[$key], $_SESSION[$key]);
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testStartConvertsSessionDataFromTraversableToArrayBeforeMerging()
+    {
+        $this->manager = new SessionManager();
+
+        $key      = 'testData';
+        $data     = [$key => 'test'];
+        $_SESSION = new ArrayIterator($data);
+
+        $this->manager->start();
+
+        $this->assertInternalType('array', $_SESSION);
+        $this->assertArrayHasKey($key, $_SESSION);
+        $this->assertSame($data[$key], $_SESSION[$key]);
     }
 
     /**
