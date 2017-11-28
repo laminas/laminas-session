@@ -18,6 +18,7 @@ use Zend\Session\Exception\RuntimeException;
 use Zend\Session\SessionManager;
 use Zend\Session\Storage\ArrayStorage;
 use Zend\Session\Storage\SessionArrayStorage;
+use Zend\Session\Storage\StorageInterface;
 use Zend\Session\Validator\Id;
 use Zend\Session\Validator\RemoteAddr;
 
@@ -217,6 +218,17 @@ class SessionManagerTest extends TestCase
         $id2 = session_id();
         $this->assertTrue($this->manager->sessionExists());
         $this->assertNotEquals($id1, $id2);
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testStartConvertsSessionDataToArrayBeforeMerging()
+    {
+        $sessionStorage = $this->prophesize(StorageInterface::class);
+        $_SESSION = $sessionStorage->reveal();
+        $sessionStorage->toArray()->shouldBeCalledTimes(1)->willReturn([]);
+        $this->manager->start();
     }
 
     /**
