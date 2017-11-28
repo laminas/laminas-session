@@ -6,7 +6,6 @@
 .*.sw*
 .*.un~
 nbproject
-doc/html/
 tmp/
 vendor/
 zf-mkdoc-theme/
@@ -14,3 +13,4 @@ zf-mkdoc-theme/
 clover.xml
 coveralls-upload.json
 phpunit.xml
+/docs/html/
