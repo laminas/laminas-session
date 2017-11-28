@@ -52,7 +52,6 @@ create the session manager:
 use Zend\Session\SessionManager;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
-use Zend\Session\SessionManager;
 use Zend\Session\Validator;
 
 class Module
