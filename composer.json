@@ -23,6 +23,7 @@
     "require-dev": {
         "container-interop/container-interop": "^1.1",
         "mongodb/mongodb": "^1.0.1",
+        "php-mock/php-mock-phpunit": "^1.1.2 || ^2.0",
         "phpunit/phpunit": "^5.7.15 || ^6.0.8",
         "zendframework/zend-cache": "^2.6.1",
         "zendframework/zend-coding-standard": "~1.0.0",

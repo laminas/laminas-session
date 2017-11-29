@@ -9,6 +9,7 @@
 
 namespace ZendTest\Session\Config;
 
+use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use SessionHandlerInterface;
@@ -23,6 +24,8 @@ use ZendTest\Session\TestAsset\TestSaveHandler;
  */
 class SessionConfigTest extends TestCase
 {
+    use PHPMock;
+
     /**
      * @var SessionConfig
      */
@@ -1186,5 +1189,21 @@ class SessionConfigTest extends TestCase
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('("stdClass"); must implement SessionHandlerInterface');
         $this->config->setPhpSaveHandler($handler);
+    }
+
+    public function testProvidingValidKnownSessionHandlerToSetPhpSaveHandlerResultsInNoErrors()
+    {
+        $phpinfo = $this->getFunctionMock('Zend\Session\Config', 'phpinfo');
+        $phpinfo
+            ->expects($this->once())
+            ->will($this->returnCallback(function () {
+                echo "Registered save handlers => user files unittest";
+            }));
+
+        $sessionModuleName = $this->getFunctionMock('Zend\Session\Config', 'session_module_name');
+        $sessionModuleName->expects($this->once());
+
+        $this->assertSame($this->config, $this->config->setPhpSaveHandler('unittest'));
+        $this->assertEquals('unittest', $this->config->getOption('save_handler'));
     }
 }
