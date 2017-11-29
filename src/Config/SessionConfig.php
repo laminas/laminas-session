@@ -18,6 +18,13 @@ use Zend\Session\Exception;
 class SessionConfig extends StandardConfig
 {
     /**
+     * List of known PHP save handlers.
+     *
+     * @var null|array
+     */
+    protected $knownSaveHandlers;
+
+    /**
      * Used with {@link handleError()}; stores PHP error code
      * @var int
      */
@@ -139,7 +146,7 @@ class SessionConfig extends StandardConfig
             case 'save_handler':
                 // Save handlers must be treated differently due to changes
                 // introduced in PHP 7.2.
-                return $this->saveHandler ?: ini_get('session.save_handler');
+                return $this->saveHandler ?: session_module_name();
             default:
                 return ini_get('session.' . $storageOption);
         }
@@ -169,15 +176,16 @@ class SessionConfig extends StandardConfig
      */
     public function setPhpSaveHandler($phpSaveHandler)
     {
-        if ('files' === $phpSaveHandler
-            || ('user' === $phpSaveHandler && \PHP_MAJOR_VERSION > 5 && \PHP_MINOR_VERSION < 2)
-        ) {
+        $knownHandlers = $this->locateRegisteredSaveHandlers();
+
+        if (in_array($phpSaveHandler, $knownHandlers, true)) {
             set_error_handler([$this, 'handleError']);
-            ini_set('session.save_handler', $phpSaveHandler);
+            session_module_name($phpSaveHandler);
             restore_error_handler();
             if ($this->phpErrorCode >= E_WARNING) {
                 throw new Exception\InvalidArgumentException(sprintf(
-                    'Invalid save handler specified: %s',
+                    'Error setting session save handler module "%s": %s',
+                    $phpSaveHandler,
                     $this->phpErrorMessage
                 ));
             }
@@ -193,9 +201,10 @@ class SessionConfig extends StandardConfig
             )
         ) {
             throw new Exception\InvalidArgumentException(sprintf(
-                'Invalid save handler specified ("%s"); must be one of "files"'
+                'Invalid save handler specified ("%s"); must be one of [%s]'
                 . ' or a class implementing %s',
                 $phpSaveHandler,
+                implode(', ', $knownHandlers),
                 SessionHandlerInterface::class,
                 SessionHandlerInterface::class
             ));
@@ -378,5 +387,93 @@ class SessionConfig extends StandardConfig
     {
         $this->phpErrorCode    = $code;
         $this->phpErrorMessage = $message;
+    }
+
+    /**
+     * Determine what save handlers are available.
+     *
+     * The only way to get at this information is via phpinfo(), and the output
+     * of that function varies based on the SAPI.
+     *
+     * Strips the handler "user" from the list, as PHP 7.2 does not allow
+     * setting that as a handler, because it essentially requires you to have
+     * already set a custom handler via `session_set_save_handler()`. It
+     * wasn't really valid in prior versions, either; the language simply did
+     * not complain previously.
+     *
+     * @return array
+     */
+    private function locateRegisteredSaveHandlers()
+    {
+        if (null !== $this->knownSaveHandlers) {
+            return $this->knownSaveHandlers;
+        }
+
+        if (! preg_match('#Registered save handlers.*#m', $this->getPhpInfoForModules(), $matches)) {
+            $this->knownSaveHandlers = [];
+            return $this->knownSaveHandlers;
+        }
+
+        $content = array_shift($matches);
+
+        $handlers = strstr($content, '</td>')
+            ? $this->parseSaveHandlersFromHtml($content)
+            : $this->parseSaveHandlersFromPlainText($content);
+
+        if (false !== ($index = array_search('user', $handlers, true))) {
+            unset($handlers[$index]);
+        }
+
+        $this->knownSaveHandlers = $handlers;
+
+        return $this->knownSaveHandlers;
+    }
+
+    /**
+     * Grab module information from phpinfo.
+     *
+     * Requires capturing an output buffer, as phpinfo does not have an option
+     * to return the value as a string.
+     *
+     * @return string
+     */
+    private function getPhpInfoForModules()
+    {
+        ob_start();
+        phpinfo(INFO_MODULES);
+        return ob_get_clean();
+    }
+
+    /**
+     * Parse a list of PHP session save handlers from HTML.
+     *
+     * Format is "<tr><td class="e">Registered save handlers</td><td class="v">{handlers}</td></tr>".
+     *
+     * @param string $content
+     * @return array
+     */
+    private function parseSaveHandlersFromHtml($content)
+    {
+        if (! preg_match('#<td class="v">(?P<handlers>[^<]+)</td>#', $content, $matches)) {
+            return [];
+        }
+
+        $handlers = trim($matches['handlers']);
+        return preg_split('#\s+#', $handlers);
+    }
+
+    /**
+     * Parse a list of PHP session save handlers from plain text.
+     *
+     * Format is "Registered save handlers => <handlers>".
+     *
+     * @param string $content
+     * @return array
+     */
+    private function parseSaveHandlersFromPlainText($content)
+    {
+        list($prefix, $handlers) = explode('=>', $content);
+        $handlers = trim($handlers);
+        return preg_split('#\s+#', $handlers);
     }
 }
