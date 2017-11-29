@@ -193,22 +193,24 @@ class ContainerTest extends TestCase
 
     public function testSettingExpirationSecondsUpdatesStorageMetadataForFullContainer()
     {
+        $currentTimestamp = time();
         $this->container->setExpirationSeconds(3600);
         $storage = $this->manager->getStorage();
         $metadata = $storage->getMetadata($this->container->getName());
         $this->assertArrayHasKey('EXPIRE', $metadata);
-        $this->assertEquals($_SERVER['REQUEST_TIME'] + 3600, $metadata['EXPIRE']);
+        $this->assertEquals($currentTimestamp + 3600, $metadata['EXPIRE']);
     }
 
     public function testSettingExpirationSecondsForIndividualKeyUpdatesStorageMetadataForThatKey()
     {
         $this->container->foo = 'bar';
+        $currentTimestamp = time();
         $this->container->setExpirationSeconds(3600, 'foo');
         $storage = $this->manager->getStorage();
         $metadata = $storage->getMetadata($this->container->getName());
         $this->assertArrayHasKey('EXPIRE_KEYS', $metadata);
         $this->assertArrayHasKey('foo', $metadata['EXPIRE_KEYS']);
-        $this->assertEquals($_SERVER['REQUEST_TIME'] + 3600, $metadata['EXPIRE_KEYS']['foo']);
+        $this->assertEquals($currentTimestamp + 3600, $metadata['EXPIRE_KEYS']['foo']);
     }
 
     public function testMultipleCallsToExpirationSecondsAggregates()
@@ -217,15 +219,29 @@ class ContainerTest extends TestCase
         $this->container->bar = 'baz';
         $this->container->baz = 'bat';
         $this->container->bat = 'bas';
+        $currentTimestamp     = time();
         $this->container->setExpirationSeconds(3600);
         $this->container->setExpirationSeconds(1800, 'foo');
         $this->container->setExpirationSeconds(900, ['baz', 'bat']);
         $storage = $this->manager->getStorage();
         $metadata = $storage->getMetadata($this->container->getName());
-        $this->assertEquals($_SERVER['REQUEST_TIME'] + 1800, $metadata['EXPIRE_KEYS']['foo']);
-        $this->assertEquals($_SERVER['REQUEST_TIME'] + 900, $metadata['EXPIRE_KEYS']['baz']);
-        $this->assertEquals($_SERVER['REQUEST_TIME'] + 900, $metadata['EXPIRE_KEYS']['bat']);
-        $this->assertEquals($_SERVER['REQUEST_TIME'] + 3600, $metadata['EXPIRE']);
+        $this->assertEquals($currentTimestamp + 1800, $metadata['EXPIRE_KEYS']['foo']);
+        $this->assertEquals($currentTimestamp + 900, $metadata['EXPIRE_KEYS']['baz']);
+        $this->assertEquals($currentTimestamp + 900, $metadata['EXPIRE_KEYS']['bat']);
+        $this->assertEquals($currentTimestamp + 3600, $metadata['EXPIRE']);
+    }
+
+    public function testSettingExpirationSecondsUsesCurrentTime()
+    {
+        sleep(3);
+        $this->container->setExpirationSeconds(2);
+        $this->container->foo = 'bar';
+
+        // Simulate a second request: overwrite the request time with current time()
+        $_SERVER['REQUEST_TIME']       = time();
+        $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
+
+        $this->assertEquals('bar', $this->container->foo);
     }
 
     public function testPassingUnsetKeyToSetExpirationSecondsDoesNothing()

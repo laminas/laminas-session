@@ -44,6 +44,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- [#85](https://github.com/zendframework/zend-session/pull/85) fixes an issue
+  with how the expiration seconds are handled when a long-running request
+  occurs. Previously, when called, it would use the value of
+  `$_SERVER['REQUEST_TIME']` to calculate the expiration time; this would cause
+  failures if the expiration seconds had been reached by the time the value was
+  set. It now correctly uses the current `time()`.
+
 - [#99](https://github.com/zendframework/zend-session/pull/99) fixes how
   `Zend\Session\Config\SessionConfig` handles attaching save handlers to ensure
   it will honor any handlers registered with the PHP engine (e.g., redis,
