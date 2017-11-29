@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.8.2 - TBD
+## 2.8.2 - 2017-11-29
 
 ### Added
 
@@ -22,7 +22,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#99](https://github.com/zendframework/zend-session/pull/99) fixes how
+  `Zend\Session\Config\SessionConfig` handles attaching save handlers to ensure
+  it will honor any handlers registered with the PHP engine (e.g., redis,
+  rediscluster, etc.).
 
 ## 2.8.1 - 2017-11-28
 
