@@ -10,8 +10,11 @@
 namespace ZendTest\Session\Config;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 use SessionHandlerInterface;
+use stdClass;
 use Zend\Session\Config\SessionConfig;
+use Zend\Session\Exception;
 use ZendTest\Session\TestAsset\TestSaveHandler;
 
 /**
@@ -1156,5 +1159,32 @@ class SessionConfigTest extends TestCase
         }
 
         return $commonOptions;
+    }
+
+    public function testSetPhpSaveHandlerRaisesExceptionForAttemptsToSetUserModule()
+    {
+        $this->expectException(Exception\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid save handler specified ("user")');
+        $this->config->setPhpSaveHandler('user');
+    }
+
+    public function testErrorSettingKnownSaveHandlerResultsInException()
+    {
+        $r = new ReflectionProperty($this->config, 'knownSaveHandlers');
+        $r->setAccessible(true);
+        $r->setValue($this->config, ['files', 'notreallyredis']);
+
+        $this->expectException(Exception\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Error setting session save handler module "notreallyredis"');
+        $this->config->setPhpSaveHandler('notreallyredis');
+    }
+
+    public function testProvidingNonSessionHandlerToSetPhpSaveHandlerResultsInException()
+    {
+        $handler = new stdClass();
+
+        $this->expectException(Exception\InvalidArgumentException::class);
+        $this->expectExceptionMessage('("stdClass"); must implement SessionHandlerInterface');
+        $this->config->setPhpSaveHandler($handler);
     }
 }
