@@ -236,7 +236,23 @@ class ContainerTest extends TestCase
         sleep(3);
         $this->container->setExpirationSeconds(2);
         $this->container->foo = 'bar';
-        $this->assertEquals('bar', $this->container->foo);
+
+        // Simulate a second request, backup the request time and overwrite it with current time()
+        $requestTimeBackup      = $_SERVER['REQUEST_TIME'];
+        $requestTimeFloatBackup = $_SERVER['REQUEST_TIME_FLOAT'] ?? null;
+
+        $_SERVER['REQUEST_TIME']       = time();
+        $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
+
+        try {
+            $this->assertEquals('bar', $this->container->foo);
+        } catch (\Throwable $e) {
+            // Restore the original values
+            $_SERVER['REQUEST_TIME']       = $requestTimeBackup;
+            $_SERVER['REQUEST_TIME_FLOAT'] = $requestTimeFloatBackup;
+
+            throw $e;
+        }
     }
 
     public function testPassingUnsetKeyToSetExpirationSecondsDoesNothing()
