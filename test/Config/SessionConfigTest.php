@@ -1206,4 +1206,26 @@ class SessionConfigTest extends TestCase
         $this->assertSame($this->config, $this->config->setPhpSaveHandler('unittest'));
         $this->assertEquals('unittest', $this->config->getOption('save_handler'));
     }
+
+    public function testCanProvidePathWhenUsingRedisSaveHandler()
+    {
+        $phpinfo = $this->getFunctionMock('Zend\Session\Config', 'phpinfo');
+        $phpinfo
+            ->expects($this->once())
+            ->will($this->returnCallback(function () {
+                echo "Registered save handlers => user files redis";
+            }));
+
+        $sessionModuleName = $this->getFunctionMock('Zend\Session\Config', 'session_module_name');
+        $sessionModuleName
+            ->expects($this->once())
+            ->with($this->equalTo('redis'));
+
+        $url = 'tcp://localhost:6379?auth=foobar&database=1';
+
+        $this->config->setOption('save_handler', 'redis');
+        $this->config->setOption('save_path', $url);
+
+        $this->assertSame($url, $this->config->getOption('save_path'));
+    }
 }

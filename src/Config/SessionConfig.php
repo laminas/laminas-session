@@ -42,7 +42,11 @@ class SessionConfig extends StandardConfig
     protected $rememberMeSeconds = 1209600; // 2 weeks
 
     /**
-     * @var string
+     * Name of the save handler currently in use. This will either be a PHP
+     * built-in save handler name, or the name of a SessionHandlerInterface
+     * class being used as a save handler.
+     *
+     * @var null|string
      */
     protected $saveHandler;
 
@@ -84,6 +88,24 @@ class SessionConfig extends StandardConfig
      * @var array Valid hash functions (per session.hash_function)
      */
     protected $validHashFunctions;
+
+    /**
+     * Override standard option setting.
+     *
+     * Provides an overload for setting the save handler.
+     *
+     * {@inheritDoc}
+     */
+    public function setOption($option, $value)
+    {
+        switch (strtolower($option)) {
+            case 'save_handler':
+                $this->setPhpSaveHandler($value);
+                return $this;
+            default:
+                return parent::setOption($option, $value);
+        }
+    }
 
     /**
      * Set storage option in backend configuration store
@@ -176,56 +198,8 @@ class SessionConfig extends StandardConfig
      */
     public function setPhpSaveHandler($phpSaveHandler)
     {
-        $knownHandlers = $this->locateRegisteredSaveHandlers();
-
-        if (in_array($phpSaveHandler, $knownHandlers, true)) {
-            set_error_handler([$this, 'handleError']);
-            session_module_name($phpSaveHandler);
-            restore_error_handler();
-            if ($this->phpErrorCode >= E_WARNING) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    'Error setting session save handler module "%s": %s',
-                    $phpSaveHandler,
-                    $this->phpErrorMessage
-                ));
-            }
-
-            $this->saveHandler = $phpSaveHandler;
-            $this->setOption('save_handler', $phpSaveHandler);
-            return $this;
-        }
-
-        if (is_string($phpSaveHandler)
-            && (! class_exists($phpSaveHandler)
-                || ! (in_array(SessionHandlerInterface::class, class_implements($phpSaveHandler)))
-            )
-        ) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Invalid save handler specified ("%s"); must be one of [%s]'
-                . ' or a class implementing %s',
-                $phpSaveHandler,
-                implode(', ', $knownHandlers),
-                SessionHandlerInterface::class,
-                SessionHandlerInterface::class
-            ));
-        }
-
-        if (is_string($phpSaveHandler)) {
-            $phpSaveHandler = new $phpSaveHandler();
-        }
-
-        if (! $phpSaveHandler instanceof SessionHandlerInterface) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Invalid save handler specified ("%s"); must implement %s',
-                get_class($phpSaveHandler),
-                SessionHandlerInterface::class
-            ));
-        }
-
-        session_set_save_handler($phpSaveHandler);
-
-        $this->saveHandler = get_class($phpSaveHandler);
-        $this->setOption('save_handler', $this->saveHandler);
+        $this->saveHandler = $this->performSaveHandlerUpdate($phpSaveHandler);
+        $this->options['save_handler'] = $this->saveHandler;
         return $this;
     }
 
@@ -427,6 +401,83 @@ class SessionConfig extends StandardConfig
         $this->knownSaveHandlers = $handlers;
 
         return $this->knownSaveHandlers;
+    }
+
+    /**
+     * Perform a session.save_handler update.
+     *
+     * Determines if the save handler represents a PHP built-in
+     * save handler, and, if so, passes that value to session_module_name
+     * in order to activate it. The save handler name is then returned.
+     *
+     * If it is not, it tests to see if it is a SessionHandlerInterface
+     * implementation. If the string is a class implementing that interface,
+     * it creates an instance of it. In such cases, it then calls
+     * session_set_save_handler to activate it. The class name of the
+     * handler is returned.
+     *
+     * In all other cases, an exception is raised.
+     *
+     * @param string|SessionHandlerInterface $phpSaveHandler
+     * @return string
+     * @throws Exception\InvalidArgumentException if an error occurs when
+     *     setting a PHP session save handler module.
+     * @throws Exception\InvalidArgumentException if the $phpSaveHandler
+     *     is a string that does not represent a class implementing
+     *     SessionHandlerInterface.
+     * @throws Exception\InvalidArgumentException if $phpSaveHandler is
+     *     a non-string value that does not implement SessionHandlerInterface.
+     */
+    private function performSaveHandlerUpdate($phpSaveHandler)
+    {
+        $knownHandlers = $this->locateRegisteredSaveHandlers();
+
+        if (in_array($phpSaveHandler, $knownHandlers, true)) {
+            $phpSaveHandler = strtolower($phpSaveHandler);
+            set_error_handler([$this, 'handleError']);
+            session_module_name($phpSaveHandler);
+            restore_error_handler();
+            if ($this->phpErrorCode >= E_WARNING) {
+                throw new Exception\InvalidArgumentException(sprintf(
+                    'Error setting session save handler module "%s": %s',
+                    $phpSaveHandler,
+                    $this->phpErrorMessage
+                ));
+            }
+
+            return $phpSaveHandler;
+        }
+
+        if (is_string($phpSaveHandler)
+            && (! class_exists($phpSaveHandler)
+                || ! (in_array(SessionHandlerInterface::class, class_implements($phpSaveHandler)))
+            )
+        ) {
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Invalid save handler specified ("%s"); must be one of [%s]'
+                . ' or a class implementing %s',
+                $phpSaveHandler,
+                implode(', ', $knownHandlers),
+                SessionHandlerInterface::class,
+                SessionHandlerInterface::class
+            ));
+        }
+
+        if (is_string($phpSaveHandler)) {
+            $phpSaveHandler = new $phpSaveHandler();
+        }
+
+        if (! $phpSaveHandler instanceof SessionHandlerInterface) {
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Invalid save handler specified ("%s"); must implement %s',
+                get_class($phpSaveHandler),
+                SessionHandlerInterface::class
+            ));
+        }
+
+        session_set_save_handler($phpSaveHandler);
+
+        return get_class($phpSaveHandler);
     }
 
     /**

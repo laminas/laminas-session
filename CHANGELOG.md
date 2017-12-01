@@ -24,7 +24,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 2.8.3 - TBD
+## 2.8.3 - 2017-12-01
 
 ### Added
 
@@ -44,7 +44,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#101](https://github.com/zendframework/zend-session/pull/101) fixes an issue
+  created with the 2.8.2 release with regards to setting a session save path for
+  non-files save handlers; prior to this patch, incorrect validations were run
+  on the path provided, leading to unexpected exceptions being raised.
 
 ## 2.8.2 - 2017-11-29
 
