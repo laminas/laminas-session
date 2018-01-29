@@ -133,7 +133,18 @@ class SessionConfig extends StandardConfig
                 break;
         }
 
+        $sessionAlreadyStarted = false;
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            $sessionAlreadyStarted = true;
+            session_write_close();
+        }
+
         $result = ini_set($key, (string) $storageValue);
+
+        if (session_status() !== PHP_SESSION_ACTIVE && $sessionAlreadyStarted) {
+            session_start();
+        }
+
         if (false === $result) {
             throw new Exception\InvalidArgumentException(
                 "'{$key}' is not a valid sessions-related ini setting."
