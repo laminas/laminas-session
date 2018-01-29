@@ -133,15 +133,15 @@ class SessionConfig extends StandardConfig
                 break;
         }
 
-        $sessionAlreadyStarted = false;
+        $sessionRequiresRestart = false;
         if (session_status() == PHP_SESSION_ACTIVE) {
-            $sessionAlreadyStarted = true;
+            $sessionRequiresRestart = true;
             session_write_close();
         }
 
         $result = ini_set($key, (string) $storageValue);
 
-        if (session_status() !== PHP_SESSION_ACTIVE && $sessionAlreadyStarted) {
+        if (session_status() !== PHP_SESSION_ACTIVE && $sessionRequiresRestart) {
             session_start();
         }
 
