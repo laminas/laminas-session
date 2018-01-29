@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#107](https://github.com/zendframework/zend-session/pull/107) fix error `ini_set()` can't be called when session is active.
+- [#107](https://github.com/zendframework/zend-session/pull/107) fix error `ini_set()` can't be called when session is active at PHP 7.2 environment.
 
 ## 2.8.3 - 2017-12-01
 
