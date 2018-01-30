@@ -133,8 +133,9 @@ class SessionConfig extends StandardConfig
                 break;
         }
 
-        $iniGet = ini_get($key);
-        if ($iniGet && (string) $iniGet === (string) $storageValue) {
+        $iniGet       = ini_get($key);
+        $storageValue = (string) $storageValue;
+        if ($iniGet && (string) $iniGet === $storageValue) {
             return $this;
         }
 
@@ -144,7 +145,7 @@ class SessionConfig extends StandardConfig
             $sessionRequiresRestart = true;
         }
 
-        $result = ini_set($key, (string) $storageValue);
+        $result = ini_set($key, $storageValue);
 
         if ($sessionRequiresRestart) {
             session_start();
