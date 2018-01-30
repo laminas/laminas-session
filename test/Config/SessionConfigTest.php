@@ -104,11 +104,11 @@ class SessionConfigTest extends TestCase
         $this->assertEquals('FOOBAR', ini_get('session.name'));
     }
 
-    public function testIdempotentNameAltersIniSettingAfterSessionStart()
+    public function testIdempotentNameAltersIniSettingWithSameValueAfterSessionStart()
     {
+        $this->config->setName('FOOBAR');
         session_start();
 
-        $this->config->setName('FOOBAR');
         $this->config->setName('FOOBAR');
         $this->assertEquals('FOOBAR', ini_get('session.name'));
     }
