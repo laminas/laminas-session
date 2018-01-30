@@ -135,8 +135,8 @@ class SessionConfig extends StandardConfig
 
         $sessionRequiresRestart = false;
         if (session_status() == PHP_SESSION_ACTIVE) {
-            $sessionRequiresRestart = true;
             session_write_close();
+            $sessionRequiresRestart = true;
         }
 
         $result = ini_set($key, (string) $storageValue);
