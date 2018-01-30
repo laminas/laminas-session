@@ -141,7 +141,7 @@ class SessionConfig extends StandardConfig
 
         $result = ini_set($key, (string) $storageValue);
 
-        if (session_status() !== PHP_SESSION_ACTIVE && $sessionRequiresRestart) {
+        if ($sessionRequiresRestart) {
             session_start();
         }
 
