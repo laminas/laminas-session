@@ -135,7 +135,7 @@ class SessionConfig extends StandardConfig
 
         $iniGet       = ini_get($key);
         $storageValue = (string) $storageValue;
-        if ($iniGet && (string) $iniGet === $storageValue) {
+        if (false !== $iniGet && (string) $iniGet === $storageValue) {
             return $this;
         }
 
