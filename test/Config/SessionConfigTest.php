@@ -96,6 +96,23 @@ class SessionConfigTest extends TestCase
         $this->assertEquals('FOOBAR', ini_get('session.name'));
     }
 
+    public function testNameAltersIniSettingAfterSessionStart()
+    {
+        session_start();
+
+        $this->config->setName('FOOBAR');
+        $this->assertEquals('FOOBAR', ini_get('session.name'));
+    }
+
+    public function testIdempotentNameAltersIniSettingWithSameValueAfterSessionStart()
+    {
+        $this->config->setName('FOOBAR');
+        session_start();
+
+        $this->config->setName('FOOBAR');
+        $this->assertEquals('FOOBAR', ini_get('session.name'));
+    }
+
     // session.save_handler
 
     public function testSaveHandlerDefaultsToIniSettings()
