@@ -358,6 +358,9 @@ abstract class AbstractSessionArrayStorage implements
         if (! isset($_SESSION['__ZF'])) {
             $_SESSION['__ZF'] = [];
         }
+        if(! is_array($_SESSION['__ZF'])) {
+            $_SESSION['__ZF'] = [];
+        }
         if (isset($_SESSION['__ZF'][$key]) && is_array($value)) {
             if ($overwriteArray) {
                 $_SESSION['__ZF'][$key] = $value;
