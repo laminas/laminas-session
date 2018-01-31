@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.8.4 - TBD
+## 2.8.4 - 2018-01-31
 
 ### Added
 
@@ -33,6 +33,12 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#105](https://github.com/zendframework/zend-session/pull/105) fixes an edge
   case whereby if the special `__ZF` session value is a non-array value,
   initializing the session would result in errors.
+
+- [#102](https://github.com/zendframework/zend-session/pull/102) fixes an issue
+  introduced with 2.8.0 with `AbstractContainer::offsetGet`. Starting in 2.8.0,
+  if the provided `$key` did not exist, the method would raise an error
+  regarding an invalid variable reference; this release provides a fix that
+  resolves that issue.
 
 ## 2.8.3 - 2017-12-01
 
