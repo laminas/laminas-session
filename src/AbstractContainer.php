@@ -53,6 +53,11 @@ abstract class AbstractContainer extends ArrayObject
     protected static $defaultManager;
 
     /**
+     * Default value to return by reference from offsetGet
+     */
+    private $defaultValue = null;
+
+    /**
      * Constructor
      *
      * Provide a name ('Default' if none provided) and a ManagerInterface instance.
@@ -425,7 +430,7 @@ abstract class AbstractContainer extends ArrayObject
     public function &offsetGet($key)
     {
         if (! $this->offsetExists($key)) {
-            return;
+            return $this->defaultValue;
         }
         $storage = $this->getStorage();
         $name = $this->getName();
