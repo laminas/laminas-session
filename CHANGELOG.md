@@ -52,6 +52,10 @@ All notable changes to this project will be documented in this file, in reverse 
   either set production INI values in your production `php.ini`, and/or always
   pass your fully configured session manager to container instances you create.
 
+- [#105](https://github.com/zendframework/zend-session/pull/105) fixes an edge
+  case whereby if the special `__ZF` session value is a non-array value,
+  initializing the session would result in errors.
+
 ## 2.8.3 - 2017-12-01
 
 ### Added
