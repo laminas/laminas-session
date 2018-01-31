@@ -22,7 +22,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#107](https://github.com/zendframework/zend-session/pull/107) fix error `ini_set()` can't be called when session is active at PHP 7.2 environment.
+- [#107](https://github.com/zendframework/zend-session/pull/107) fixes an error
+  raised by `ini_set()` within `SessionConfig::setStorageOption()` that occurs
+  for certain INI values that cannot be set if the session is active. When this
+  situation occurs, the class performs a `session_write_close()`, sets the new
+  INI value, and then restarts the session. As such, we recommend that you
+  either set production INI values in your production `php.ini`, and/or always
+  pass your fully configured session manager to container instances you create.
 
 ## 2.8.3 - 2017-12-01
 
