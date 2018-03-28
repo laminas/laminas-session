@@ -106,6 +106,7 @@ class DbTableGateway implements SaveHandlerInterface
                 return (string) $row->{$this->options->getDataColumn()};
             }
             if ($destroyExpired) {
+                $rows = null;
                 $this->destroy($id);
             }
         }
