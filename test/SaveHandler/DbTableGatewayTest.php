@@ -211,61 +211,6 @@ INSERT INTO `sessions` (
         $this->adapter->query("DELETE FROM `sessions` WHERE `{$this->options->getIdColumn()}` = '123';");
     }
 
-    public function testSssionDestroyWhenLifetimeExceeded()
-    {
-        $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
-        $saveHandler->open('savepath', 'sessionname');
-
-        $id = '345';
-
-        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
-
-        // set lifetime to 0
-        $query = <<<EOD
-UPDATE `sessions`
-    SET `{$this->options->getLifetimeColumn()}` = 0
-WHERE
-    `{$this->options->getIdColumn()}` = {$id}
-    AND `{$this->options->getNameColumn()}` = 'sessionname'
-EOD;
-        $this->adapter->query($query, Adapter::QUERY_MODE_EXECUTE);
-
-        // check destroy session
-        $result = $saveHandler->read($id);
-        $this->assertEquals($result, '');
-
-        // cleans the test record from the db
-        $this->adapter->query("DELETE FROM `sessions` WHERE `{$this->options->getIdColumn()}` = {$id};");
-    }
-
-    /**
-     * Sets up the database connection and creates the table for session data
-     *
-     * @param  \Zend\Session\SaveHandler\DbTableGatewayOptions $options
-     * @return void
-     */
-    protected function setupDb(DbTableGatewayOptions $options)
-    {
-        $this->adapter = new Adapter([
-            'driver' => 'pdo_sqlite',
-            'database' => ':memory:',
-        ]);
-
-
-        $query = <<<EOD
-CREATE TABLE `sessions` (
-    `{$options->getIdColumn()}` text NOT NULL,
-    `{$options->getNameColumn()}` text NOT NULL,
-    `{$options->getModifiedColumn()}` int(11) default NULL,
-    `{$options->getLifetimeColumn()}` int(11) default NULL,
-    `{$options->getDataColumn()}` text,
-    PRIMARY KEY (`{$options->getIdColumn()}`, `{$options->getNameColumn()}`)
-);
-EOD;
-        $this->adapter->query($query, Adapter::QUERY_MODE_EXECUTE);
-        $this->tableGateway = new TableGateway('sessions', $this->adapter);
-    }
-
     /**
      * Drops the database table for session data
      *
