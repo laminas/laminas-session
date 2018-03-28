@@ -213,17 +213,23 @@ INSERT INTO `sessions` (
 
     public function testSssionDestroyWhenLifetimeExceeded()
     {
-        $lifeTime = ini_get('session.gc_maxlifetime');
-        ini_set('session.gc_maxlifetime', 0);
+        //$lifeTime = ini_get('session.gc_maxlifetime');
+        //ini_set('session.gc_maxlifetime', 0);
 
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
 
-        ini_set('session.gc_maxlifetime', $lifeTime);
-
+        //ini_set('session.gc_maxlifetime', $lifeTime);
         $id = '242';
 
         $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+
+        $query = <<<EOD
+UPDATE `sessions`
+SET `{$this->options->getLifetimeColumn()}` = 0
+WHERE `{$this->options->getIdColumn()}` = {$id}
+EOD;
+        $this->adapter->query($query, Adapter::QUERY_MODE_EXECUTE);
 
         // check destroy session
         $result = $saveHandler->read($id);
