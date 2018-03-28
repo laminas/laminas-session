@@ -211,6 +211,23 @@ INSERT INTO `sessions` (
         $this->adapter->query("DELETE FROM `sessions` WHERE `{$this->options->getIdColumn()}` = '123';");
     }
 
+    public function testSssionDestroyWhenLifetimeExceeded()
+    {
+        // set lifetime
+        ini_set('session.gc_maxlifetime', 0);
+
+        $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
+        $saveHandler->open('savepath', 'sessionname');
+
+        $id = '242';
+
+        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+
+        // check session destroy
+        $result = $saveHandler->read($id);
+        $this->assertEquals($result, '');
+    }
+
     /**
      * Sets up the database connection and creates the table for session data
      *
