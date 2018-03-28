@@ -211,31 +211,21 @@ INSERT INTO `sessions` (
         $this->adapter->query("DELETE FROM `sessions` WHERE `{$this->options->getIdColumn()}` = '123';");
     }
 
-    public function testSessionDestroyWhenLifetimeExceeded()
+    public function testReadDestroysExpiredSession()
     {
+        $oldMaxlifetime = ini_get('session.gc_maxlifetime');
+        ini_set('session.gc_maxlifetime', 0);
+
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
 
         $id = '345';
 
         $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
-
-        // set lifetime to 0
-        $query = <<<EOD
-UPDATE `sessions`
-    SET `{$this->options->getLifetimeColumn()}` = 0
-WHERE
-    `{$this->options->getIdColumn()}` = {$id}
-    AND `{$this->options->getNameColumn()}` = 'sessionname'
-EOD;
-        $this->adapter->query($query, Adapter::QUERY_MODE_EXECUTE);
-
         // check destroy session
-        $result = $saveHandler->read($id);
-        $this->assertEquals($result, '');
+        $this->assertEquals('', $saveHandler->read($id));
 
-        // cleans the test record from the db
-        $this->adapter->query("DELETE FROM `sessions` WHERE `{$this->options->getIdColumn()}` = {$id};");
+        ini_set('session.gc_maxlifetime', $oldMaxlifetime);
     }
 
     /**
