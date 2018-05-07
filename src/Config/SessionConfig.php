@@ -407,7 +407,7 @@ class SessionConfig extends StandardConfig
 
         $content = array_shift($matches);
 
-        $handlers = strstr($content, '</td>')
+        $handlers = false !== strpos($content, '</td>')
             ? $this->parseSaveHandlersFromHtml($content)
             : $this->parseSaveHandlersFromPlainText($content);
 
