@@ -129,9 +129,9 @@ class DbTableGateway implements SaveHandlerInterface
         $rows = $this->tableGateway->select([
             $this->options->getIdColumn()   => $id,
             $this->options->getNameColumn() => $this->sessionName,
-        ]);
+        ])->current();
 
-        if ($rows->current()) {
+        if ($rows) {
             return (bool) $this->tableGateway->update($data, [
                 $this->options->getIdColumn()   => $id,
                 $this->options->getNameColumn() => $this->sessionName,
