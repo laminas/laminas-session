@@ -16,6 +16,7 @@ use SessionHandlerInterface;
 use stdClass;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\Exception;
+use Zend\Session\SaveHandler\SaveHandlerInterface;
 use ZendTest\Session\TestAsset\TestSaveHandler;
 
 /**
@@ -1244,5 +1245,15 @@ class SessionConfigTest extends TestCase
         $this->config->setOption('save_path', $url);
 
         $this->assertSame($url, $this->config->getOption('save_path'));
+    }
+
+    public function testNotCallLocateRegisteredSaveHandlersMethodIfSessionHandlerInterfaceWasPassed()
+    {
+        $phpinfo = $this->getFunctionMock('Zend\Session\Config', 'phpinfo');
+        $phpinfo
+            ->expects($this->never());
+
+        $saveHandler = $this->createMock(SessionHandlerInterface::class);
+        $this->config->setPhpSaveHandler($saveHandler);
     }
 }
