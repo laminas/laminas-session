@@ -465,9 +465,9 @@ class SessionConfig extends StandardConfig
 
                 return $phpSaveHandler;
             }
-
+            //(in_array(SessionHandlerInterface::class, class_implements($phpSaveHandler))
             if (! class_exists($phpSaveHandler)
-                    || ! (in_array(SessionHandlerInterface::class, class_implements($phpSaveHandler)))
+                    || ! is_a($phpSaveHandler, SessionHandlerInterface::class)
 
             ) {
                 throw new Exception\InvalidArgumentException(sprintf(
