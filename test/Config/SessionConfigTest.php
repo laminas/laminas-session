@@ -21,7 +21,7 @@ use ZendTest\Session\TestAsset\TestSaveHandler;
 
 /**
  * @runTestsInSeparateProcesses
- * @covers Zend\Session\Config\SessionConfig
+ * @covers \Zend\Session\Config\SessionConfig
  */
 class SessionConfigTest extends TestCase
 {
@@ -32,9 +32,14 @@ class SessionConfigTest extends TestCase
      */
     protected $config;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->config = new SessionConfig;
+    }
+
+    protected function tearDown()
+    {
+        $this->config = null;
     }
 
     public function assertPhpLessThan71($message = 'This test requires a PHP version less than 7.1.0')
