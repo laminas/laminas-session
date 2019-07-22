@@ -474,7 +474,6 @@ class SessionConfig extends StandardConfig
                     . ' or a class implementing %s',
                     $phpSaveHandler,
                     implode(', ', $knownHandlers),
-                    SessionHandlerInterface::class,
                     SessionHandlerInterface::class
                 ));
             }
