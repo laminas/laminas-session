@@ -467,8 +467,7 @@ class SessionConfig extends StandardConfig
             }
 
             if (! class_exists($phpSaveHandler)
-                    || ! (in_array(SessionHandlerInterface::class, class_implements($phpSaveHandler)))
-
+                || ! is_a($phpSaveHandler, SessionHandlerInterface::class, true)
             ) {
                 throw new Exception\InvalidArgumentException(sprintf(
                     'Invalid save handler specified ("%s"); must be one of [%s]'
