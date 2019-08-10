@@ -136,6 +136,26 @@ class MongoDBTest extends TestCase
         $this->assertEquals(0, $this->mongoCollection->count());
     }
 
+    public function testGarbageCollectionMaxlifetimeIsInSeconds()
+    {
+        $saveHandler = new MongoDB($this->mongoClient, $this->options);
+        $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
+
+        $data = ['foo' => 'bar'];
+
+        $this->assertTrue($saveHandler->write(123, serialize($data)));
+        sleep(1);
+        $this->assertTrue($saveHandler->write(456, serialize($data)));
+        $this->assertEquals(2, $this->mongoCollection->count());
+
+        // Clear everything what is at least 1 second old.
+        $saveHandler->gc(1);
+        $this->assertEquals(1, $this->mongoCollection->count());
+
+        $this->assertEmpty($saveHandler->read(123));
+        $this->assertNotEmpty($saveHandler->read(456));
+    }
+
     /**
      * @expectedException \MongoDB\Driver\Exception\RuntimeException
      */
