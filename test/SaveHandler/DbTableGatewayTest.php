@@ -24,7 +24,7 @@ use ZendTest\Session\TestAsset\TestDbTableGatewaySaveHandler;
  * @group      Zend_Db_Table
  * @covers Zend\Session\SaveHandler\DbTableGateway
  */
-class DbTableGatewayTest extends TestCase
+abstract class DbTableGatewayTest extends TestCase
 {
     /**
      * @var Adapter
@@ -57,17 +57,18 @@ class DbTableGatewayTest extends TestCase
     private $testArray;
 
     /**
+     * @return Adapter
+     */
+    abstract protected function getAdapter();
+
+    /**
      * Setup performed prior to each test method
      *
      * @return void
      */
-    public function setUp()
+    protected function setUp()
     {
-        if (! extension_loaded('pdo_sqlite')) {
-            $this->markTestSkipped(
-                'Zend\Session\SaveHandler\DbTableGateway tests are not enabled due to missing PDO_Sqlite extension'
-            );
-        }
+        $this->adapter = $this->getAdapter();
 
         $this->options = new DbTableGatewayOptions([
             'nameColumn' => 'name',
@@ -133,9 +134,10 @@ class DbTableGatewayTest extends TestCase
 
         $this->assertEquals($this->testArray, unserialize($saveHandler->read($id)));
 
-        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+        $updateData = $this->testArray + ['time' => microtime(true)];
+        $this->assertTrue($saveHandler->write($id, serialize($updateData)));
 
-        $this->assertEquals($this->testArray, unserialize($saveHandler->read($id)));
+        $this->assertEquals($updateData, unserialize($saveHandler->read($id)));
     }
 
     public function testReadShouldAlwaysReturnString()
@@ -180,12 +182,12 @@ class DbTableGatewayTest extends TestCase
     {
         // puts an expired session in the db
         $query = "
-INSERT INTO `sessions` (
-    `{$this->options->getIdColumn()}`,
-    `{$this->options->getNameColumn()}`,
-    `{$this->options->getModifiedColumn()}`,
-    `{$this->options->getLifetimeColumn()}`,
-    `{$this->options->getDataColumn()}`
+INSERT INTO sessions (
+    {$this->options->getIdColumn()},
+    {$this->options->getNameColumn()},
+    {$this->options->getModifiedColumn()},
+    {$this->options->getLifetimeColumn()},
+    {$this->options->getDataColumn()}
 ) VALUES (
     '123', 'zend-session-test', ".(time() - 31).", 30, 'foobar'
 );
@@ -208,7 +210,34 @@ INSERT INTO `sessions` (
         $this->assertSame(1, $saveHandler->getNumDestroyCalls());
 
         // cleans the test record from the db
-        $this->adapter->query("DELETE FROM `sessions` WHERE `{$this->options->getIdColumn()}` = '123';");
+        $this->adapter->query("DELETE FROM sessions WHERE {$this->options->getIdColumn()} = '123';");
+    }
+
+    public function testReadDestroysExpiredSession()
+    {
+        $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
+        $saveHandler->open('savepath', 'sessionname');
+
+        $id = '345';
+
+        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+
+        // set lifetime to 0
+        $query = <<<EOD
+UPDATE sessions
+    SET {$this->options->getLifetimeColumn()} = 0
+WHERE
+    {$this->options->getIdColumn()} = {$id}
+    AND {$this->options->getNameColumn()} = 'sessionname'
+EOD;
+        $this->adapter->query($query, Adapter::QUERY_MODE_EXECUTE);
+
+        // check destroy session
+        $result = $saveHandler->read($id);
+        $this->assertEquals($result, '');
+
+        // cleans the test record from the db
+        $this->adapter->query("DELETE FROM sessions WHERE {$this->options->getIdColumn()} = {$id};");
     }
 
     /**
@@ -219,20 +248,14 @@ INSERT INTO `sessions` (
      */
     protected function setupDb(DbTableGatewayOptions $options)
     {
-        $this->adapter = new Adapter([
-            'driver' => 'pdo_sqlite',
-            'database' => ':memory:',
-        ]);
-
-
         $query = <<<EOD
-CREATE TABLE `sessions` (
-    `{$options->getIdColumn()}` text NOT NULL,
-    `{$options->getNameColumn()}` text NOT NULL,
-    `{$options->getModifiedColumn()}` int(11) default NULL,
-    `{$options->getLifetimeColumn()}` int(11) default NULL,
-    `{$options->getDataColumn()}` text,
-    PRIMARY KEY (`{$options->getIdColumn()}`, `{$options->getNameColumn()}`)
+CREATE TABLE sessions (
+    {$options->getIdColumn()} int NOT NULL,
+    {$options->getNameColumn()} varchar(255) NOT NULL,
+    {$options->getModifiedColumn()} int default NULL,
+    {$options->getLifetimeColumn()} int default NULL,
+    {$options->getDataColumn()} text,
+    PRIMARY KEY ({$options->getIdColumn()}, {$options->getNameColumn()})
 );
 EOD;
         $this->adapter->query($query, Adapter::QUERY_MODE_EXECUTE);
