@@ -30,5 +30,16 @@
              in order to work. -->
         <env name="TESTS_ZEND_OB_ENABLED" value="false" />
 
+        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL" value="false" />
+        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="localhost" />
+        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL_USERNAME" value="travis" />
+        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL_PASSWORD" value="" />
+        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL_DATABASE" value="zend_session_test" />
+
+        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_PGSQL" value="false" />
+        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="localhost" />
+        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_PGSQL_USERNAME" value="travis" />
+        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_PGSQL_PASSWORD" value="" />
+        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_PGSQL_DATABASE" value="zend_session_test" />
     </php>
 </phpunit>

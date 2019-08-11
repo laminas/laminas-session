@@ -10,9 +10,13 @@ env:
   global:
     - COMPOSER_ARGS="--no-interaction"
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
+    - TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL=true
+    - TESTS_ZEND_SESSION_ADAPTER_DRIVER_PGSQL=true
 
 services:
   - mongodb
+  - mysql
+  - postgresql
 
 matrix:
   include:
@@ -59,8 +63,11 @@ matrix:
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
+  - pecl channel-update pecl.php.net
   - pecl -q upgrade mongodb
   - $(php -m | grep -q mongodb) || echo "extension=mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - psql -c 'create database zend_session_test;' -U postgres
+  - mysql -e 'CREATE DATABASE zend_session_test;'
 
 install:
   - travis_retry composer install $COMPOSER_ARGS --ignore-platform-reqs
