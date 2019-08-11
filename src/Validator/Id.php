@@ -54,8 +54,11 @@ class Id implements ValidatorInterface
             }
         }
 
-        // Get the hash_bits_per_character INI setting, using 5 if unavailable
-        $hashBitsPerChar = ini_get('session.hash_bits_per_character') ?: 5;
+        // Get the session id bits per character INI setting, using 5 if unavailable
+        $bitsPerCharacter = PHP_VERSION_ID >= 70100
+            ? 'session.sid_bits_per_character'
+            : 'session.hash_bits_per_character';
+        $hashBitsPerChar = ini_get($bitsPerCharacter) ?: 5;
 
         switch ($hashBitsPerChar) {
             case 4:

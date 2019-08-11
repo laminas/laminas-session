@@ -30,6 +30,11 @@ All notable changes to this project will be documented in this file, in reverse 
   with Garbage collection of MongoDB save handler where maxlifetime
   is provided in seconds.
 
+- [#114](https://github.com/zendframework/zend-session/pull/114) fixes
+  Validator\Id compatibility with PHP 7.1. INI setting `session.sid_bits_per_character`
+  can be now used with PHP 7.1+ instead of `session.hash_bits_per_character`
+  (used with PHP versions prior to 7.1).
+
 ## 2.8.5 - 2018-02-22
 
 ### Added
