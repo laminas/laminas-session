@@ -24,7 +24,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 2.8.6 - TBD
+## 2.8.6 - 2019-08-11
 
 ### Added
 

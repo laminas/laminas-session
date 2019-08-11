@@ -1,7 +1,7 @@
 docs_dir: docs/book
 site_dir: docs/html
 pages:
-    - index.md
+    - Home: index.md
     - Reference:
         - "Session Config": config.md
         - "Session Container": container.md
@@ -10,6 +10,5 @@ pages:
         - "Session Storage": storage.md
         - "Session Validators": validator.md
 site_name: zend-session
-site_description: zend-session
+site_description: 'Object-oriented interface to PHP sessions and storage.'
 repo_url: 'https://github.com/zendframework/zend-session'
-copyright: 'Copyright (c) 2005-2017 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
