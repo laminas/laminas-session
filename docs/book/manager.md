@@ -49,6 +49,8 @@ The following illustrates how you might utilize the above configuration to
 create the session manager:
 
 ```php
+use Zend\Mvc\ModuleRouteListener;
+use Zend\Mvc\MvcEvent;
 use Zend\Session\SessionManager;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
@@ -56,7 +58,7 @@ use Zend\Session\Validator;
 
 class Module
 {
-    public function onBootstrap($e)
+    public function onBootstrap(MvcEvent $e)
     {
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
@@ -64,7 +66,7 @@ class Module
         $this->bootstrapSession($e);
     }
 
-    public function bootstrapSession($e)
+    public function bootstrapSession(MvcEvent $e)
     {
         $session = $e->getApplication()
             ->getServiceManager()
@@ -100,14 +102,15 @@ class Module
 
         foreach ($sessionConfig['validators'] as $validator) {
             switch ($validator) {
-            case Validator\HttpUserAgent::class:
+                case Validator\HttpUserAgent::class:
                     $validator = new $validator($container->httpUserAgent);
                     break;
-                    case Validator\RemoteAddr::class:
+                case Validator\RemoteAddr::class:
                     $validator  = new $validator($container->remoteAddr);
                     break;
                 default:
                     $validator = new $validator();
+                    break;
             }
 
             $chain->attach('session.validate', array($validator, 'isValid'));

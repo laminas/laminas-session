@@ -58,8 +58,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.8-dev",
-            "dev-develop": "2.9-dev"
+            "dev-master": "2.8.x-dev",
+            "dev-develop": "2.9.x-dev"
         },
         "zf": {
             "component": "Zend\\Session",
