@@ -48,6 +48,10 @@ All notable changes to this project will be documented in this file, in reverse 
   "Commands out of sync; you can't run this command now" with DbTableGateway
   save handler while using Mysqli adapter.
 
+- [#106](https://github.com/zendframework/zend-session/pull/106) fixes issue
+  with Garbage collection of MongoDB save handler where maxlifetime
+  is provided in seconds.
+
 ## 2.8.5 - 2018-02-22
 
 ### Added
