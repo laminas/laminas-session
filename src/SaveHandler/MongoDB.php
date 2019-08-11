@@ -219,7 +219,7 @@ class MongoDB implements SaveHandlerInterface
          * each document. Doing so would require a $where query to work with the
          * computed value (modified + lifetime) and be very inefficient.
          */
-        $microseconds = floor(microtime(true) * 1000) - $maxlifetime;
+        $microseconds = floor(microtime(true) * 1000) - $maxlifetime * 1000;
 
         $result = $this->mongoCollection->deleteMany(
             [
