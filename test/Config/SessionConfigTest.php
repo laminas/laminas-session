@@ -16,11 +16,12 @@ use SessionHandlerInterface;
 use stdClass;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\Exception;
+use Zend\Session\SaveHandler\SaveHandlerInterface;
 use ZendTest\Session\TestAsset\TestSaveHandler;
 
 /**
  * @runTestsInSeparateProcesses
- * @covers Zend\Session\Config\SessionConfig
+ * @covers \Zend\Session\Config\SessionConfig
  */
 class SessionConfigTest extends TestCase
 {
@@ -31,9 +32,14 @@ class SessionConfigTest extends TestCase
      */
     protected $config;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->config = new SessionConfig;
+    }
+
+    protected function tearDown()
+    {
+        $this->config = null;
     }
 
     public function assertPhpLessThan71($message = 'This test requires a PHP version less than 7.1.0')
@@ -1244,5 +1250,15 @@ class SessionConfigTest extends TestCase
         $this->config->setOption('save_path', $url);
 
         $this->assertSame($url, $this->config->getOption('save_path'));
+    }
+
+    public function testNotCallLocateRegisteredSaveHandlersMethodIfSessionHandlerInterfaceWasPassed()
+    {
+        $phpinfo = $this->getFunctionMock('Zend\Session\Config', 'phpinfo');
+        $phpinfo
+            ->expects($this->never());
+
+        $saveHandler = $this->createMock(SessionHandlerInterface::class);
+        $this->config->setPhpSaveHandler($saveHandler);
     }
 }
