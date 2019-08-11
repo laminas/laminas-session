@@ -24,7 +24,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 2.8.5 - TBD
+## 2.8.6 - TBD
 
 ### Added
 
@@ -44,7 +44,33 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- [#120](https://github.com/zendframework/zend-session/pull/120) fixes issue
+  "Commands out of sync; you can't run this command now" with DbTableGateway
+  save handler while using Mysqli adapter.
+
+## 2.8.5 - 2018-02-22
+
+### Added
+
 - Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#108](https://github.com/zendframework/zend-session/pull/108) fixes a dependency
+  conflict in `composer.json` which prevented `phpunit/phpunit` 6.5 or newer from 
+  being installed together with `zendframework/zend-session`.
 
 ## 2.8.4 - 2018-01-31
 
