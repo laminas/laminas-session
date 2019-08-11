@@ -95,18 +95,17 @@ class DbTableGateway implements SaveHandlerInterface
      */
     public function read($id, $destroyExpired = true)
     {
-        $rows = $this->tableGateway->select([
+        $row = $this->tableGateway->select([
             $this->options->getIdColumn()   => $id,
             $this->options->getNameColumn() => $this->sessionName,
-        ]);
+        ])->current();
 
-        if ($row = $rows->current()) {
+        if ($row) {
             if ($row->{$this->options->getModifiedColumn()} +
                 $row->{$this->options->getLifetimeColumn()} > time()) {
                 return (string) $row->{$this->options->getDataColumn()};
             }
             if ($destroyExpired) {
-                $rows = null;
                 $this->destroy($id);
             }
         }
