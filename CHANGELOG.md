@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.8.7 - TBD
+## 2.8.6 - TBD
 
 ### Added
 
@@ -35,28 +35,8 @@ All notable changes to this project will be documented in this file, in reverse 
   can be now used with PHP 7.1+ instead of `session.hash_bits_per_character`
   (used with PHP versions prior to 7.1).
 
-## 2.8.6 - 2019-08-10
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
 - [#118](https://github.com/zendframework/zend-session/pull/118) avoid unnecessary phpinfo() call
-   when register own save handler which is an object.
+  when register own save handler which is an object.
 
 ## 2.8.5 - 2018-02-22
 
