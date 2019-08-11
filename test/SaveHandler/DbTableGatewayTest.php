@@ -224,11 +224,11 @@ INSERT INTO sessions (
 
         // set lifetime to 0
         $query = <<<EOD
-UPDATE `sessions`
-    SET `{$this->options->getLifetimeColumn()}` = 0
+UPDATE sessions
+    SET {$this->options->getLifetimeColumn()} = 0
 WHERE
-    `{$this->options->getIdColumn()}` = {$id}
-    AND `{$this->options->getNameColumn()}` = 'sessionname'
+    {$this->options->getIdColumn()} = {$id}
+    AND {$this->options->getNameColumn()} = 'sessionname'
 EOD;
         $this->adapter->query($query, Adapter::QUERY_MODE_EXECUTE);
 
@@ -237,7 +237,7 @@ EOD;
         $this->assertEquals($result, '');
 
         // cleans the test record from the db
-        $this->adapter->query("DELETE FROM `sessions` WHERE `{$this->options->getIdColumn()}` = {$id};");
+        $this->adapter->query("DELETE FROM sessions WHERE {$this->options->getIdColumn()} = {$id};");
     }
 
     /**
