@@ -138,7 +138,7 @@ abstract class Factory
                 throw new Exception\InvalidArgumentException(sprintf(
                     '%s expects the "input" option to be null, an array, or to implement ArrayAccess; received "%s"',
                     $type,
-                    (is_object($input) ? get_class($input) : gettype($input))
+                    is_object($input) ? get_class($input) : gettype($input)
                 ));
             }
         }
