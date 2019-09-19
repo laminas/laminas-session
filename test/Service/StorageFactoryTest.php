@@ -9,6 +9,7 @@
 
 namespace ZendTest\Session\Service;
 
+use ArrayObject;
 use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
@@ -72,7 +73,7 @@ class StorageFactoryTest extends TestCase
                 'session_storage' => [
                     'type' => 'SessionArrayStorage',
                     'options' => [
-                        'input' => new \ArrayObject([
+                        'input' => new ArrayObject([
                             'foo' => 'bar',
                         ]),
                     ],
