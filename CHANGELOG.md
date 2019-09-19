@@ -22,7 +22,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#122](https://github.com/zendframework/zend-session/pull/122) fixes
+  type check for configuration of session storage. Allows input to be
+  an instance of ArrayAccess or an array.
 
 ## 2.8.6 - 2019-08-11
 
