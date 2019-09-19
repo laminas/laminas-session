@@ -132,8 +132,7 @@ abstract class Factory
         $input = null;
         if (isset($options['input'])) {
             $input = $options['input'];
-            if (null !== $input
-                && ! is_array($input)
+            if (! is_array($input)
                 && ! $input instanceof ArrayAccess
             ) {
                 throw new Exception\InvalidArgumentException(sprintf(
