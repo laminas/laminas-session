@@ -79,6 +79,9 @@ All notable changes to this project will be documented in this file, in reverse 
   can be now used with PHP 7.1+ instead of `session.hash_bits_per_character`
   (used with PHP versions prior to 7.1).
 
+  In some very specific situations this can lead to an issue with previously generated sessions.
+  See issue [#121](https://github.com/zendframework/zend-session/issues/121).
+
 - [#118](https://github.com/zendframework/zend-session/pull/118) avoid unnecessary phpinfo() call
   when register own save handler which is an object.
 
