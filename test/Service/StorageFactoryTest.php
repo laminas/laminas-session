@@ -9,6 +9,7 @@
 
 namespace ZendTest\Session\Service;
 
+use ArrayObject;
 use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
@@ -68,6 +69,16 @@ class StorageFactoryTest extends TestCase
                     ],
                 ],
             ], SessionArrayStorage::class],
+            'session-array-storage-arrayobject' => [[
+                'session_storage' => [
+                    'type' => 'SessionArrayStorage',
+                    'options' => [
+                        'input' => new ArrayObject([
+                            'foo' => 'bar',
+                        ]),
+                    ],
+                ],
+            ], SessionArrayStorage::class],
             'session-array-storage-fqcn' => [[
                 'session_storage' => [
                     'type' => SessionArrayStorage::class,
@@ -91,6 +102,21 @@ class StorageFactoryTest extends TestCase
         $this->assertInstanceOf($class, $storage);
         $test = $storage->toArray();
         $this->assertEquals($config['session_storage']['options']['input'], $test);
+    }
+
+    public function testConfigurationWithoutInputIsValid()
+    {
+        $this->services->setService('config', [
+            'session_storage' => [
+                'type' => SessionArrayStorage::class,
+                'options' => [],
+            ],
+        ]);
+
+        $storage = $this->services->get(StorageInterface::class);
+
+        $this->assertInstanceOf(SessionArrayStorage::class, $storage);
+        $this->assertSame([], $storage->toArray());
     }
 
     public function invalidSessionStorageConfig()
