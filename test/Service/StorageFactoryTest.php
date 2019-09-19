@@ -108,14 +108,14 @@ class StorageFactoryTest extends TestCase
     {
         $this->services->setService('config', [
             'session_storage' => [
-                'type' => SessionArrayStorage::class,
+                'type' => ArrayStorage::class,
                 'options' => [],
             ],
         ]);
 
         $storage = $this->services->get(StorageInterface::class);
 
-        $this->assertInstanceOf(SessionArrayStorage::class, $storage);
+        $this->assertInstanceOf(ArrayStorage::class, $storage);
         $this->assertSame([], $storage->toArray());
     }
 
