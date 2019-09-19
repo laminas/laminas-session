@@ -131,17 +131,16 @@ abstract class Factory
     {
         $input = null;
         if (isset($options['input'])) {
-            if (null !== $options['input']
-                && ! is_array($options['input'])
+            $input = $options['input'];
+            if (! is_array($input)
                 && ! $input instanceof ArrayAccess
             ) {
                 throw new Exception\InvalidArgumentException(sprintf(
                     '%s expects the "input" option to be null, an array, or to implement ArrayAccess; received "%s"',
                     $type,
-                    (is_object($options['input']) ? get_class($options['input']) : gettype($options['input']))
+                    is_object($input) ? get_class($input) : gettype($input)
                 ));
             }
-            $input = $options['input'];
         }
 
         return new $type($input);
