@@ -104,6 +104,21 @@ class StorageFactoryTest extends TestCase
         $this->assertEquals($config['session_storage']['options']['input'], $test);
     }
 
+    public function testConfigurationWithoutInputIsValid()
+    {
+        $this->services->setService('config', [
+            'session_storage' => [
+                'type' => SessionArrayStorage::class,
+                'options' => [],
+            ],
+        ]);
+
+        $storage = $this->services->get(StorageInterface::class);
+
+        $this->assertInstanceOf(SessionArrayStorage::class, $storage);
+        $this->assertSame([], $storage->toArray());
+    }
+
     public function invalidSessionStorageConfig()
     {
         return [
