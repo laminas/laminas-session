@@ -68,6 +68,16 @@ class StorageFactoryTest extends TestCase
                     ],
                 ],
             ], SessionArrayStorage::class],
+            'session-array-storage-arrayobject' => [[
+                'session_storage' => [
+                    'type' => 'SessionArrayStorage',
+                    'options' => [
+                        'input' => new \ArrayObject([
+                            'foo' => 'bar',
+                        ]),
+                    ],
+                ],
+            ], SessionArrayStorage::class],
             'session-array-storage-fqcn' => [[
                 'session_storage' => [
                     'type' => SessionArrayStorage::class,
