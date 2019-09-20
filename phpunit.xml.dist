@@ -16,8 +16,12 @@
     </groups>
 
     <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true">
+        <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>
+            <exclude>
+                <file>src/compatibility/autoload.php</file>
+                <file>src/Validator/AbstractValidatorChainEM2.php</file>
+            </exclude>
         </whitelist>
     </filter>
 

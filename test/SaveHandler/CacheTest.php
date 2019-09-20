@@ -1,10 +1,8 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-session for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Session\SaveHandler;
@@ -17,9 +15,7 @@ use Zend\Session\SaveHandler\Cache;
  * Unit testing for DbTable include all tests for
  * regular session handling
  *
- * @group      Zend_Session
- * @group      Zend_Cache
- * @covers Zend\Session\SaveHandler\Cache
+ * @covers \Zend\Session\SaveHandler\Cache
  */
 class CacheTest extends TestCase
 {
@@ -41,7 +37,7 @@ class CacheTest extends TestCase
      */
     protected $usedSaveHandlers = [];
 
-    public function setUp()
+    protected function setUp()
     {
         $this->testArray = ['foo' => 'bar', 'bar' => ['foo' => 'bar']];
     }

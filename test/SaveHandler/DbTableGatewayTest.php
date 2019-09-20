@@ -1,10 +1,8 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-session for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Session\SaveHandler;
@@ -20,9 +18,7 @@ use ZendTest\Session\TestAsset\TestDbTableGatewaySaveHandler;
  * Unit testing for DbTableGateway include all tests for
  * regular session handling
  *
- * @group      Zend_Session
- * @group      Zend_Db_Table
- * @covers Zend\Session\SaveHandler\DbTableGateway
+ * @covers \Zend\Session\SaveHandler\DbTableGateway
  */
 abstract class DbTableGatewayTest extends TestCase
 {
@@ -87,7 +83,7 @@ abstract class DbTableGatewayTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    protected function tearDown()
     {
         if ($this->adapter) {
             $this->dropTable();
