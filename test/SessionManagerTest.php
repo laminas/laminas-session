@@ -24,7 +24,7 @@ use Zend\Session\Validator\RemoteAddr;
 
 /**
  * @preserveGlobalState disabled
- * @covers Zend\Session\SessionManager
+ * @covers \Zend\Session\SessionManager
  */
 class SessionManagerTest extends TestCase
 {
@@ -37,7 +37,7 @@ class SessionManagerTest extends TestCase
      */
     protected $manager;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->error = false;
     }

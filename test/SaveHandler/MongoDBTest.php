@@ -17,7 +17,7 @@ use Zend\Session\SaveHandler\MongoDBOptions;
 
 /**
  * @group      Zend_Session
- * @covers Zend\Session\SaveHandler\MongoDb
+ * @covers \Zend\Session\SaveHandler\MongoDb
  * @requires extension mongodb
  */
 class MongoDBTest extends TestCase
@@ -44,7 +44,7 @@ class MongoDBTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->options = new MongoDBOptions([
             'database' => 'zf2_tests',
@@ -63,7 +63,7 @@ class MongoDBTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    protected function tearDown()
     {
         if ($this->mongoCollection) {
             $this->mongoCollection->drop();

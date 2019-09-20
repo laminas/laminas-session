@@ -22,7 +22,7 @@ use ZendTest\Session\TestAsset\TestDbTableGatewaySaveHandler;
  *
  * @group      Zend_Session
  * @group      Zend_Db_Table
- * @covers Zend\Session\SaveHandler\DbTableGateway
+ * @covers \Zend\Session\SaveHandler\DbTableGateway
  */
 abstract class DbTableGatewayTest extends TestCase
 {
@@ -87,7 +87,7 @@ abstract class DbTableGatewayTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    protected function tearDown()
     {
         if ($this->adapter) {
             $this->dropTable();

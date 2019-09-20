@@ -14,7 +14,7 @@ use Zend\Session\Config\StandardConfig;
 
 /**
  * @group      Zend_Session
- * @covers Zend\Session\Config\StandardConfig
+ * @covers \Zend\Session\Config\StandardConfig
  */
 class StandardConfigTest extends TestCase
 {
@@ -23,7 +23,7 @@ class StandardConfigTest extends TestCase
      */
     protected $config;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->config = new StandardConfig;
     }

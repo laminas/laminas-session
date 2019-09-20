@@ -19,11 +19,11 @@ use Zend\Session\Service\SessionConfigFactory;
 
 /**
  * @group      Zend_Session
- * @covers Zend\Session\Service\SessionConfigFactory
+ * @covers \Zend\Session\Service\SessionConfigFactory
  */
 class SessionConfigFactoryTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $config = new Config([
             'factories' => [

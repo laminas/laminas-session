@@ -16,17 +16,17 @@ use Zend\Session\Container;
 
 /**
  * @group      Zend_Session
- * @covers Zend\Session\Storage\SessionArrayStorage
+ * @covers \Zend\Session\Storage\SessionArrayStorage
  */
 class SessionArrayStorageTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $_SESSION = [];
         $this->storage = new SessionArrayStorage;
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $_SESSION = [];
     }

@@ -16,7 +16,7 @@ use Zend\Session\ManagerInterface as Manager;
 
 /**
  * @group      Zend_Session
- * @covers Zend\Session\Container
+ * @covers \Zend\Session\Container
  */
 class ContainerTest extends TestCase
 {
@@ -37,7 +37,7 @@ class ContainerTest extends TestCase
      */
     protected $container;
 
-    public function setUp()
+    protected function setUp()
     {
         $_SESSION = [];
         Container::setDefaultManager(null);
@@ -50,7 +50,7 @@ class ContainerTest extends TestCase
         $this->container = new Container('Default', $manager);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $_SESSION = [];
         Container::setDefaultManager(null);

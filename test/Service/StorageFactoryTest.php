@@ -21,11 +21,11 @@ use Zend\Session\Storage\StorageInterface;
 
 /**
  * @group      Zend_Session
- * @covers Zend\Session\Service\StorageFactory
+ * @covers \Zend\Session\Service\StorageFactory
  */
 class StorageFactoryTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $config = new Config([
             'factories' => [

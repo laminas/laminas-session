@@ -14,17 +14,17 @@ use Zend\Session\Storage\SessionStorage;
 
 /**
  * @group      Zend_Session
- * @covers Zend\Session\Storage\SessionStorage
+ * @covers \Zend\Session\Storage\SessionStorage
  */
 class SessionStorageTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $_SESSION = [];
         $this->storage = new SessionStorage;
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $_SESSION = [];
     }

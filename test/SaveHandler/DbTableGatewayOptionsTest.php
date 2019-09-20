@@ -16,7 +16,7 @@ use Zend\Session\SaveHandler\DbTableGatewayOptions;
  * Unit testing for DbTableGatewayOptions
  *
  * @group      Zend_Session
- * @covers Zend\Session\SaveHandler\DbTableGatewayOptions
+ * @covers \Zend\Session\SaveHandler\DbTableGatewayOptions
  */
 class DbTableGatewayOptionsTest extends TestCase
 {

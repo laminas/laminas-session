@@ -28,13 +28,13 @@ use ZendTest\Session\TestAsset\TestSaveHandler;
 
 /**
  * @group      Zend_Session
- * @covers Zend\Session\Service\SessionManagerFactory
+ * @covers \Zend\Session\Service\SessionManagerFactory
  */
 class SessionManagerFactoryTest extends TestCase
 {
     use EventListenerIntrospectionTrait;
 
-    public function setUp()
+    protected function setUp()
     {
         $config = new Config([
             'factories' => [

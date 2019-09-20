@@ -19,7 +19,7 @@ use Zend\Session\SaveHandler\Cache;
  *
  * @group      Zend_Session
  * @group      Zend_Cache
- * @covers Zend\Session\SaveHandler\Cache
+ * @covers \Zend\Session\SaveHandler\Cache
  */
 class CacheTest extends TestCase
 {
@@ -41,7 +41,7 @@ class CacheTest extends TestCase
      */
     protected $usedSaveHandlers = [];
 
-    public function setUp()
+    protected function setUp()
     {
         $this->testArray = ['foo' => 'bar', 'bar' => ['foo' => 'bar']];
     }

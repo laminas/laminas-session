@@ -14,7 +14,7 @@ use Zend\Session\Storage\ArrayStorage;
 
 /**
  * @group      Zend_Session
- * @covers Zend\Session\Storage\ArrayStorage
+ * @covers \Zend\Session\Storage\ArrayStorage
  */
 class StorageTest extends TestCase
 {
@@ -23,7 +23,7 @@ class StorageTest extends TestCase
      */
     protected $storage;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->storage = new ArrayStorage;
     }

@@ -21,7 +21,7 @@ use Zend\Session\Storage\StorageInterface;
 
 /**
  * @group      Zend_Session
- * @covers Zend\Session\Service\ContainerAbstractServiceFactory
+ * @covers \Zend\Session\Service\ContainerAbstractServiceFactory
  */
 class ContainerAbstractServiceFactoryTest extends TestCase
 {
@@ -35,7 +35,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
         ],
     ];
 
-    public function setUp()
+    protected function setUp()
     {
         $config = new Config([
             'services' => [

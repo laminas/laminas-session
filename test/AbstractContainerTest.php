@@ -17,7 +17,7 @@ use ZendTest\Session\TestAsset\TestContainer;
 
 /**
  * @group      Zend_Session
- * @covers Zend\Session\AbstractContainer
+ * @covers \Zend\Session\AbstractContainer
  */
 class AbstractContainerTest extends TestCase
 {
@@ -38,7 +38,7 @@ class AbstractContainerTest extends TestCase
      */
     protected $container;
 
-    public function setUp()
+    protected function setUp()
     {
         $_SESSION = [];
         Container::setDefaultManager(null);
@@ -51,7 +51,7 @@ class AbstractContainerTest extends TestCase
         $this->container = new TestContainer('Default', $manager);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $_SESSION = [];
         Container::setDefaultManager(null);
