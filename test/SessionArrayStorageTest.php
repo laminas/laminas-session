@@ -13,7 +13,6 @@ use Zend\Session\SessionManager;
 use Zend\Session\Container;
 
 /**
- * @group      Zend_Session
  * @covers \Zend\Session\Storage\SessionArrayStorage
  */
 class SessionArrayStorageTest extends TestCase

@@ -14,7 +14,6 @@ use Zend\Session\SaveHandler\MongoDB;
 use Zend\Session\SaveHandler\MongoDBOptions;
 
 /**
- * @group      Zend_Session
  * @covers \Zend\Session\SaveHandler\MongoDb
  * @requires extension mongodb
  */

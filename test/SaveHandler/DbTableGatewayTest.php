@@ -18,8 +18,6 @@ use ZendTest\Session\TestAsset\TestDbTableGatewaySaveHandler;
  * Unit testing for DbTableGateway include all tests for
  * regular session handling
  *
- * @group      Zend_Session
- * @group      Zend_Db_Table
  * @covers \Zend\Session\SaveHandler\DbTableGateway
  */
 abstract class DbTableGatewayTest extends TestCase

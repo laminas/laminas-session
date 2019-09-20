@@ -25,7 +25,6 @@ use ZendTest\Session\TestAsset\TestManager;
 use ZendTest\Session\TestAsset\TestSaveHandler;
 
 /**
- * @group      Zend_Session
  * @covers \Zend\Session\Service\SessionManagerFactory
  */
 class SessionManagerFactoryTest extends TestCase

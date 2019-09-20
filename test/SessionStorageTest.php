@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 use Zend\Session\Storage\SessionStorage;
 
 /**
- * @group      Zend_Session
  * @covers \Zend\Session\Storage\SessionStorage
  */
 class SessionStorageTest extends TestCase

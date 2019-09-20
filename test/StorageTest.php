@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 use Zend\Session\Storage\ArrayStorage;
 
 /**
- * @group      Zend_Session
  * @covers \Zend\Session\Storage\ArrayStorage
  */
 class StorageTest extends TestCase

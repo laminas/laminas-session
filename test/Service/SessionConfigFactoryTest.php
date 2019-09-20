@@ -16,7 +16,6 @@ use Zend\Session\Config\StandardConfig;
 use Zend\Session\Service\SessionConfigFactory;
 
 /**
- * @group      Zend_Session
  * @covers \Zend\Session\Service\SessionConfigFactory
  */
 class SessionConfigFactoryTest extends TestCase

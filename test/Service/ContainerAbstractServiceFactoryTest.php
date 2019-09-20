@@ -18,7 +18,6 @@ use Zend\Session\Storage\ArrayStorage;
 use Zend\Session\Storage\StorageInterface;
 
 /**
- * @group      Zend_Session
  * @covers \Zend\Session\Service\ContainerAbstractServiceFactory
  */
 class ContainerAbstractServiceFactoryTest extends TestCase

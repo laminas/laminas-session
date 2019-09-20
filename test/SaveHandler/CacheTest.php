@@ -15,8 +15,6 @@ use Zend\Session\SaveHandler\Cache;
  * Unit testing for DbTable include all tests for
  * regular session handling
  *
- * @group      Zend_Session
- * @group      Zend_Cache
  * @covers \Zend\Session\SaveHandler\Cache
  */
 class CacheTest extends TestCase

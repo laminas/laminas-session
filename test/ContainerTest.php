@@ -13,7 +13,6 @@ use Zend\Session\Config\StandardConfig;
 use Zend\Session\ManagerInterface as Manager;
 
 /**
- * @group      Zend_Session
  * @covers \Zend\Session\Container
  */
 class ContainerTest extends TestCase
@@ -507,9 +506,6 @@ class ContainerTest extends TestCase
         $this->assertSame($expected, $test);
     }
 
-    /**
-     * @group ZF-10706
-     */
     public function testValidationShouldNotRaiseErrorForMissingResponseObject()
     {
         $session = new Container('test');

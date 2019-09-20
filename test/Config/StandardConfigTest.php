@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 use Zend\Session\Config\StandardConfig;
 
 /**
- * @group      Zend_Session
  * @covers \Zend\Session\Config\StandardConfig
  */
 class StandardConfigTest extends TestCase

@@ -14,7 +14,6 @@ use Zend\Session\ManagerInterface as Manager;
 use ZendTest\Session\TestAsset\TestContainer;
 
 /**
- * @group      Zend_Session
  * @covers \Zend\Session\AbstractContainer
  */
 class AbstractContainerTest extends TestCase

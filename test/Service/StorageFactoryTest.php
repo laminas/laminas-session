@@ -18,7 +18,6 @@ use Zend\Session\Storage\SessionArrayStorage;
 use Zend\Session\Storage\StorageInterface;
 
 /**
- * @group      Zend_Session
  * @covers \Zend\Session\Service\StorageFactory
  */
 class StorageFactoryTest extends TestCase

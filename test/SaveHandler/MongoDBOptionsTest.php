@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 use Zend\Session\SaveHandler\MongoDBOptions;
 
 /**
- * @group      Zend_Session
  * @covers \Zend\Session\SaveHandler\MongoDbOptions
  */
 class MongoDBOptionsTest extends TestCase
