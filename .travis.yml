@@ -1,5 +1,3 @@
-sudo: false
-
 language: php
 
 cache:
@@ -60,6 +58,15 @@ matrix:
     - php: 7.2
       env:
         - DEPS=latest
+    - php: 7.3
+      env:
+        - DEPS=lowest
+    - php: 7.3
+      env:
+        - DEPS=locked
+    - php: 7.3
+      env:
+        - DEPS=latest
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
@@ -72,7 +79,6 @@ before_install:
 install:
   - travis_retry composer install $COMPOSER_ARGS --ignore-platform-reqs
   - if [[ $LEGACY_DEPS != '' ]]; then travis_retry composer update --with-dependencies $COMPOSER_ARGS $LEGACY_DEPS ; fi
-  - if [[ $DEPS == 'lowest' && $TRAVIS_PHP_VERSION =~ ^7.2 ]]; then travis_retry composer require --dev --no-update phpunit/phpunit:^6.0.13 php-mock/php-mock-phpunit:^2.0; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS $COVERAGE_DEPS ; fi
