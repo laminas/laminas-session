@@ -1,6 +1,6 @@
 {
     "name": "zendframework/zend-session",
-    "description": "manage and preserve session data, a logical complement of cookie data, across multiple page requests by the same client",
+    "description": "Object-oriented interface to PHP sessions and storage",
     "license": "BSD-3-Clause",
     "keywords": [
         "zf",
@@ -12,7 +12,7 @@
         "issues": "https://github.com/zendframework/zend-session/issues",
         "source": "https://github.com/zendframework/zend-session",
         "rss": "https://github.com/zendframework/zend-session/releases.atom",
-        "slack": "https://zendframework-slack.herokuapp.com",
+        "chat": "https://zendframework-slack.herokuapp.com",
         "forum": "https://discourse.zendframework.com/c/questions/components"
     },
     "require": {
@@ -58,8 +58,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.8.x-dev",
-            "dev-develop": "2.9.x-dev"
+            "dev-master": "2.9.x-dev",
+            "dev-develop": "2.10.x-dev"
         },
         "zf": {
             "component": "Zend\\Session",
