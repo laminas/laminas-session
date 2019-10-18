@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- Fix a bug preventing two hash functions in hash_algos() (md2 and md4) from being used in SessionConfig->setHashFunction
 
 ## 2.9.0 - 2019-09-20
 
@@ -130,7 +130,7 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Fixed
 
 - [#108](https://github.com/zendframework/zend-session/pull/108) fixes a dependency
-  conflict in `composer.json` which prevented `phpunit/phpunit` 6.5 or newer from 
+  conflict in `composer.json` which prevented `phpunit/phpunit` 6.5 or newer from
   being installed together with `zendframework/zend-session`.
 
 ## 2.8.4 - 2018-01-31
