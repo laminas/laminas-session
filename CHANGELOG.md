@@ -22,7 +22,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Fix a bug preventing two hash functions in hash_algos() (md2 and md4) from being used in SessionConfig->setHashFunction
+- [#123](https://github.com/zendframework/zend-session/pull/123) fixes a bug preventing two first hash functions from `hash_algos()`
+  (usually `md2` and `md4`) from being used in `SessionConfig::setHashFunction`.
 
 ## 2.9.0 - 2019-09-20
 
