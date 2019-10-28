@@ -432,7 +432,7 @@ class StandardConfigTest extends TestCase
 
     public function hashFunctions()
     {
-        $hashFunctions = [0, 1] + hash_algos();
+        $hashFunctions = array_merge([0, 1], hash_algos());
         $provider      = [];
         foreach ($hashFunctions as $function) {
             $provider[] = [$function];

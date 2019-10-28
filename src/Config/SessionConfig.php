@@ -360,7 +360,7 @@ class SessionConfig extends StandardConfig
              * "0" and "1" refer to MD5-128 and SHA1-160, respectively, and are
              * valid in addition to whatever is reported by hash_algos()
              */
-            $this->validHashFunctions = ['0', '1'] + hash_algos();
+            $this->validHashFunctions = array_merge(['0', '1'], hash_algos());
         }
         return $this->validHashFunctions;
     }
