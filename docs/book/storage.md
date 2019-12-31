@@ -1,13 +1,13 @@
 # Session Storage
 
-zend-session comes with a standard set of storage handlers. Storage handlers are
+laminas-session comes with a standard set of storage handlers. Storage handlers are
 the intermediary between when the session starts and when the session writes and
 closes.  The default session storage is
-`Zend\Session\Storage\SessionArrayStorage`.
+`Laminas\Session\Storage\SessionArrayStorage`.
 
 ## Array Storage
 
-`Zend\Session\Storage\ArrayStorage` provides a facility to store all information
+`Laminas\Session\Storage\ArrayStorage` provides a facility to store all information
 in an `ArrayObject`. This storage method is likely incompatible with 3rd party
 libraries and all properties will be inaccessible through the `$_SESSION`
 superglobal. Additionally `ArrayStorage` will not automatically repopulate the
@@ -17,8 +17,8 @@ re-populated.
 ### Basic Usage
 
 ```php
-use Zend\Session\Storage\ArrayStorage;
-use Zend\Session\SessionManager;
+use Laminas\Session\Storage\ArrayStorage;
+use Laminas\Session\SessionManager;
 
 $populateStorage = ['foo' => 'bar'];
 $storage         = new ArrayStorage($populateStorage);
@@ -28,7 +28,7 @@ $manager->setStorage($storage);
 
 ## Session Storage
 
-`Zend\Session\Storage\SessionStorage` replaces `$_SESSION,` providing a facility
+`Laminas\Session\Storage\SessionStorage` replaces `$_SESSION,` providing a facility
 to store all information in an `ArrayObject`. This means that it may not be
 compatible with 3rd party libraries, although information stored in the
 `$_SESSION` superglobal should be available in other scopes.
@@ -36,8 +36,8 @@ compatible with 3rd party libraries, although information stored in the
 ### Basic Usage
 
 ```php
-use Zend\Session\Storage\SessionStorage;
-use Zend\Session\SessionManager;
+use Laminas\Session\Storage\SessionStorage;
+use Laminas\Session\SessionManager;
 
 $manager = new SessionManager();
 $manager->setStorage(new SessionStorage());
@@ -45,7 +45,7 @@ $manager->setStorage(new SessionStorage());
 
 ## Session Array Storage
 
-`Zend\Session\Storage\SessionArrayStorage` provides a facility to store all
+`Laminas\Session\Storage\SessionArrayStorage` provides a facility to store all
 information directly in the `$_SESSION` superglobal. This storage class provides
 the most compatibility with 3rd party libraries and allows for directly storing
 information into `$_SESSION`.
@@ -53,8 +53,8 @@ information into `$_SESSION`.
 ### Basic Usage
 
 ```php
-use Zend\Session\Storage\SessionArrayStorage;
-use Zend\Session\SessionManager;
+use Laminas\Session\Storage\SessionArrayStorage;
+use Laminas\Session\SessionManager;
 
 $manager = new SessionManager();
 $manager->setStorage(new SessionArrayStorage());
@@ -63,7 +63,7 @@ $manager->setStorage(new SessionArrayStorage());
 ## Custom Storage
 
 To create a custom storage container, you *must* implement
-`Zend\Session\Storage\StorageInterface`. This interface extends each of
+`Laminas\Session\Storage\StorageInterface`. This interface extends each of
 `ArrayAccess`, `Traversable`, `Serializable`, and `Countable`, and it is in the
 methods those define that the majority of implementation occurs. The following
 methods must also be implemented:
