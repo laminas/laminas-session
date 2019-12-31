@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session;
+namespace LaminasTest\Session;
 
+use Laminas\Session\Storage\SessionStorage;
 use PHPUnit\Framework\TestCase;
-use Zend\Session\Storage\SessionStorage;
 
 /**
- * @group      Zend_Session
- * @covers Zend\Session\Storage\SessionStorage
+ * @group      Laminas_Session
+ * @covers Laminas\Session\Storage\SessionStorage
  */
 class SessionStorageTest extends TestCase
 {
@@ -31,8 +30,8 @@ class SessionStorageTest extends TestCase
 
     public function testSessionStorageInheritsFromArrayStorage()
     {
-        $this->assertInstanceOf('Zend\Session\Storage\SessionStorage', $this->storage);
-        $this->assertInstanceOf('Zend\Session\Storage\ArrayStorage', $this->storage);
+        $this->assertInstanceOf('Laminas\Session\Storage\SessionStorage', $this->storage);
+        $this->assertInstanceOf('Laminas\Session\Storage\ArrayStorage', $this->storage);
     }
 
     public function testStorageWritesToSessionSuperglobal()
@@ -50,7 +49,7 @@ class SessionStorageTest extends TestCase
         $storage = new SessionStorage($array);
         $expected = [
             'foo' => 'FOO',
-            '__ZF' => [
+            '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $storage->getRequestAccessTime(),
             ],
         ];
@@ -67,7 +66,7 @@ class SessionStorageTest extends TestCase
     {
         $this->storage->foo = 'bar';
         $expected = [
-            '__ZF' => [
+            '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $this->storage->getRequestAccessTime(),
             ],
             'foo' => 'bar',

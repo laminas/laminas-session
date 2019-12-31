@@ -1,6 +1,6 @@
 docs_dir: docs/book
 site_dir: docs/html
-pages:
+nav:
     - Home: index.md
     - Reference:
         - "Session Config": config.md
@@ -9,6 +9,6 @@ pages:
         - "Session Save Handlers": save-handler.md
         - "Session Storage": storage.md
         - "Session Validators": validator.md
-site_name: zend-session
+site_name: laminas-session
 site_description: 'Object-oriented interface to PHP sessions and storage.'
-repo_url: 'https://github.com/zendframework/zend-session'
+repo_url: 'https://github.com/laminas/laminas-session'

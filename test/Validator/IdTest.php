@@ -1,15 +1,16 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-session for the canonical source repository
- * @copyright Copyright (c) 2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\Validator;
+namespace LaminasTest\Session\Validator;
 
 use Generator;
+use Laminas\Session\Validator\Id;
 use PHPUnit\Framework\TestCase;
-use Zend\Session\Validator\Id;
 
 class IdTest extends TestCase
 {
