@@ -1,24 +1,23 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session\Service;
+namespace Laminas\Session\Service;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Session\Config\ConfigInterface;
-use Zend\Session\Container;
-use Zend\Session\SaveHandler\SaveHandlerInterface;
-use Zend\Session\SessionManager;
-use Zend\Session\Storage\StorageInterface;
-use Zend\Session\ManagerInterface;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Session\Config\ConfigInterface;
+use Laminas\Session\Container;
+use Laminas\Session\ManagerInterface;
+use Laminas\Session\SaveHandler\SaveHandlerInterface;
+use Laminas\Session\SessionManager;
+use Laminas\Session\Storage\StorageInterface;
 
 class SessionManagerFactory implements FactoryInterface
 {
@@ -37,16 +36,16 @@ class SessionManagerFactory implements FactoryInterface
      * Will consume any combination (or zero) of the following services, when
      * present, to construct the SessionManager instance:
      *
-     * - Zend\Session\Config\ConfigInterface
-     * - Zend\Session\Storage\StorageInterface
-     * - Zend\Session\SaveHandler\SaveHandlerInterface
+     * - Laminas\Session\Config\ConfigInterface
+     * - Laminas\Session\Storage\StorageInterface
+     * - Laminas\Session\SaveHandler\SaveHandlerInterface
      *
      * The first two have corresponding factories inside this namespace. The
      * last, however, does not, due to the differences in implementations, and
      * the fact that save handlers will often be written in userland. As such
      * if you wish to attach a save handler to the manager, you will need to
      * write your own factory, and assign it to the service name
-     * "Zend\Session\SaveHandler\SaveHandlerInterface", (or alias that name
+     * "Laminas\Session\SaveHandler\SaveHandlerInterface", (or alias that name
      * to your own service).
      *
      * You can configure limited behaviors via the "session_manager" key of the

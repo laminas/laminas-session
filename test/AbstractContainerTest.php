@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session;
+namespace LaminasTest\Session;
 
+use Laminas\Session\Config\StandardConfig;
+use Laminas\Session\Container;
+use Laminas\Session\ManagerInterface as Manager;
+use LaminasTest\Session\TestAsset\TestContainer;
 use PHPUnit\Framework\TestCase;
-use Zend\Session\Container;
-use Zend\Session\Config\StandardConfig;
-use Zend\Session\ManagerInterface as Manager;
-use ZendTest\Session\TestAsset\TestContainer;
 
 /**
- * @group      Zend_Session
- * @covers Zend\Session\AbstractContainer
+ * @group      Laminas_Session
+ * @covers Laminas\Session\AbstractContainer
  */
 class AbstractContainerTest extends TestCase
 {
@@ -44,7 +43,7 @@ class AbstractContainerTest extends TestCase
         Container::setDefaultManager(null);
 
         $config = new StandardConfig([
-            'storage' => 'Zend\\Session\\Storage\\ArrayStorage',
+            'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
         ]);
 
         $this->manager = $manager = new TestAsset\TestManager($config);
@@ -58,7 +57,7 @@ class AbstractContainerTest extends TestCase
     }
 
     /**
-     * This test case fails on zend-session 2.8.0 with the php error below and works fine on 2.7.*.
+     * This test case fails on laminas-session 2.8.0 with the php error below and works fine on 2.7.*.
      * "Only variable references should be returned by reference"
      */
     public function testOffsetGetMissingKey()
