@@ -1,22 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Session
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\Validator;
+namespace LaminasTest\Session\Validator;
 
-use Zend\Session\Validator\RemoteAddr;
+use Laminas\Session\Validator\RemoteAddr;
 
 /**
- * @category   Zend
- * @package    Zend_Session
+ * @category   Laminas
+ * @package    Laminas_Session
  * @subpackage UnitTests
- * @group      Zend_Session
+ * @group      Laminas_Session
  */
 class RemoteAddrTest extends \PHPUnit_Framework_TestCase
 {
