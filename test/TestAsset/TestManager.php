@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\TestAsset;
+namespace LaminasTest\Session\TestAsset;
 
-use Zend\EventManager\EventManagerInterface;
-use Zend\Session\AbstractManager;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Session\AbstractManager;
 
 class TestManager extends AbstractManager
 {
     public $started = false;
 
-    protected $configDefaultClass = 'Zend\\Session\\Configuration\\StandardConfig';
-    protected $storageDefaultClass = 'Zend\\Session\\Storage\\ArrayStorage';
+    protected $configDefaultClass = 'Laminas\\Session\\Configuration\\StandardConfig';
+    protected $storageDefaultClass = 'Laminas\\Session\\Storage\\ArrayStorage';
 
     public function start()
     {
