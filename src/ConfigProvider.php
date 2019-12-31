@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-session for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session;
+namespace Laminas\Session;
 
 class ConfigProvider
 {
     /**
-     * Retrieve configuration for zend-session.
+     * Retrieve configuration for laminas-session.
      *
      * @return array
      */
@@ -22,7 +23,7 @@ class ConfigProvider
     }
 
     /**
-     * Retrieve dependency config for zend-session.
+     * Retrieve dependency config for laminas-session.
      *
      * @return array
      */
@@ -34,6 +35,12 @@ class ConfigProvider
             ],
             'aliases' => [
                 SessionManager::class => ManagerInterface::class,
+
+                // Legacy Zend Framework aliases
+                \Zend\Session\SessionManager::class => SessionManager::class,
+                \Zend\Session\Config\ConfigInterface::class => Config\ConfigInterface::class,
+                \Zend\Session\ManagerInterface::class => ManagerInterface::class,
+                \Zend\Session\Storage\StorageInterface::class => Storage\StorageInterface::class,
             ],
             'factories' => [
                 Config\ConfigInterface::class => Service\SessionConfigFactory::class,

@@ -1,20 +1,21 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-session for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\SaveHandler;
+namespace LaminasTest\Session\SaveHandler;
 
+use Laminas\Session\SaveHandler\MongoDB;
+use Laminas\Session\SaveHandler\MongoDBOptions;
 use MongoDB\Client as MongoClient;
 use MongoDB\Collection as MongoCollection;
 use PHPUnit\Framework\TestCase;
-use Zend\Session\SaveHandler\MongoDB;
-use Zend\Session\SaveHandler\MongoDBOptions;
 
 /**
- * @covers \Zend\Session\SaveHandler\MongoDb
+ * @covers \Laminas\Session\SaveHandler\MongoDb
  * @requires extension mongodb
  */
 class MongoDBTest extends TestCase
@@ -44,7 +45,7 @@ class MongoDBTest extends TestCase
     protected function setUp()
     {
         $this->options = new MongoDBOptions([
-            'database' => 'zf2_tests',
+            'database' => 'laminas_tests',
             'collection' => 'sessions',
         ]);
 

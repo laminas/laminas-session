@@ -1,24 +1,25 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-session for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\Service;
+namespace LaminasTest\Session\Service;
 
+use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\Session\Container;
+use Laminas\Session\ManagerInterface;
+use Laminas\Session\Service\ContainerAbstractServiceFactory;
+use Laminas\Session\Service\SessionManagerFactory;
+use Laminas\Session\Storage\ArrayStorage;
+use Laminas\Session\Storage\StorageInterface;
 use PHPUnit\Framework\TestCase;
-use Zend\ServiceManager\Config;
-use Zend\ServiceManager\ServiceManager;
-use Zend\Session\Container;
-use Zend\Session\ManagerInterface;
-use Zend\Session\Service\ContainerAbstractServiceFactory;
-use Zend\Session\Service\SessionManagerFactory;
-use Zend\Session\Storage\ArrayStorage;
-use Zend\Session\Storage\StorageInterface;
 
 /**
- * @covers \Zend\Session\Service\ContainerAbstractServiceFactory
+ * @covers \Laminas\Session\Service\ContainerAbstractServiceFactory
  */
 class ContainerAbstractServiceFactoryTest extends TestCase
 {

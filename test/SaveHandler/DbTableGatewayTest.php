@@ -1,24 +1,25 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-session for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\SaveHandler;
+namespace LaminasTest\Session\SaveHandler;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Session\SaveHandler\DbTableGateway;
+use Laminas\Session\SaveHandler\DbTableGatewayOptions;
+use LaminasTest\Session\TestAsset\TestDbTableGatewaySaveHandler;
 use PHPUnit\Framework\TestCase;
-use Zend\Session\SaveHandler\DbTableGateway;
-use Zend\Session\SaveHandler\DbTableGatewayOptions;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\TableGateway\TableGateway;
-use ZendTest\Session\TestAsset\TestDbTableGatewaySaveHandler;
 
 /**
  * Unit testing for DbTableGateway include all tests for
  * regular session handling
  *
- * @covers \Zend\Session\SaveHandler\DbTableGateway
+ * @covers \Laminas\Session\SaveHandler\DbTableGateway
  */
 abstract class DbTableGatewayTest extends TestCase
 {
@@ -185,7 +186,7 @@ INSERT INTO sessions (
     {$this->options->getLifetimeColumn()},
     {$this->options->getDataColumn()}
 ) VALUES (
-    '123', 'zend-session-test', ".(time() - 31).", 30, 'foobar'
+    '123', 'laminas-session-test', ".(time() - 31).", 30, 'foobar'
 );
 ";
         $this->adapter->query($query, Adapter::QUERY_MODE_EXECUTE);
@@ -194,7 +195,7 @@ INSERT INTO sessions (
             $this->tableGateway,
             $this->options
         );
-        $saveHandler->open('savepath', 'zend-session-test');
+        $saveHandler->open('savepath', 'laminas-session-test');
 
         $this->assertSame(0, $saveHandler->getNumReadCalls());
         $this->assertSame(0, $saveHandler->getNumDestroyCalls());
@@ -239,7 +240,7 @@ EOD;
     /**
      * Sets up the database connection and creates the table for session data
      *
-     * @param  \Zend\Session\SaveHandler\DbTableGatewayOptions $options
+     * @param  \Laminas\Session\SaveHandler\DbTableGatewayOptions $options
      * @return void
      */
     protected function setupDb(DbTableGatewayOptions $options)

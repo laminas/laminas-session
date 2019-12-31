@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-session for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\TestAsset;
+namespace LaminasTest\Session\TestAsset;
 
-use Zend\EventManager\EventManagerInterface;
-use Zend\Session\AbstractManager;
-use Zend\Session\Configuration\StandardConfig;
-use Zend\Session\Storage\ArrayStorage;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Session\AbstractManager;
+use Laminas\Session\Configuration\StandardConfig;
+use Laminas\Session\Storage\ArrayStorage;
 
 class TestManager extends AbstractManager
 {
