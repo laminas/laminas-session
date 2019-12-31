@@ -1,6 +1,6 @@
 docs_dir: docs/book
 site_dir: docs/html
-pages:
+nav:
     - index.md
     - Reference:
         - "Session Config": config.md
@@ -9,7 +9,6 @@ pages:
         - "Session Save Handlers": save-handler.md
         - "Session Storage": storage.md
         - "Session Validators": validator.md
-site_name: zend-session
-site_description: zend-session
-repo_url: 'https://github.com/zendframework/zend-session'
-copyright: 'Copyright (c) 2005-2017 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
+site_name: laminas-session
+site_description: laminas-session
+repo_url: 'https://github.com/laminas/laminas-session'
