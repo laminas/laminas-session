@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session\Storage;
+namespace Laminas\Session\Storage;
 
 use ArrayIterator;
 use IteratorAggregate;
-use Zend\Session\Exception;
+use Laminas\Session\Exception;
 
 /**
  * Session storage in $_SESSION
@@ -355,23 +354,23 @@ abstract class AbstractSessionArrayStorage implements
             );
         }
 
-        if (!isset($_SESSION['__ZF'])) {
-            $_SESSION['__ZF'] = array();
+        if (!isset($_SESSION['__Laminas'])) {
+            $_SESSION['__Laminas'] = array();
         }
-        if (isset($_SESSION['__ZF'][$key]) && is_array($value)) {
+        if (isset($_SESSION['__Laminas'][$key]) && is_array($value)) {
             if ($overwriteArray) {
-                $_SESSION['__ZF'][$key] = $value;
+                $_SESSION['__Laminas'][$key] = $value;
             } else {
-                $_SESSION['__ZF'][$key] = array_replace_recursive($_SESSION['__ZF'][$key], $value);
+                $_SESSION['__Laminas'][$key] = array_replace_recursive($_SESSION['__Laminas'][$key], $value);
             }
         } else {
-            if ((null === $value) && isset($_SESSION['__ZF'][$key])) {
-                $array = $_SESSION['__ZF'];
+            if ((null === $value) && isset($_SESSION['__Laminas'][$key])) {
+                $array = $_SESSION['__Laminas'];
                 unset($array[$key]);
-                $_SESSION['__ZF'] = $array;
+                $_SESSION['__Laminas'] = $array;
                 unset($array);
             } elseif (null !== $value) {
-                $_SESSION['__ZF'][$key] = $value;
+                $_SESSION['__Laminas'][$key] = $value;
             }
         }
 
@@ -389,19 +388,19 @@ abstract class AbstractSessionArrayStorage implements
      */
     public function getMetadata($key = null)
     {
-        if (!isset($_SESSION['__ZF'])) {
+        if (!isset($_SESSION['__Laminas'])) {
             return false;
         }
 
         if (null === $key) {
-            return $_SESSION['__ZF'];
+            return $_SESSION['__Laminas'];
         }
 
-        if (!array_key_exists($key, $_SESSION['__ZF'])) {
+        if (!array_key_exists($key, $_SESSION['__Laminas'])) {
             return false;
         }
 
-        return $_SESSION['__ZF'][$key];
+        return $_SESSION['__Laminas'][$key];
     }
 
     /**
@@ -477,8 +476,8 @@ abstract class AbstractSessionArrayStorage implements
             return $values;
         }
 
-        if (isset($values['__ZF'])) {
-            unset($values['__ZF']);
+        if (isset($values['__Laminas'])) {
+            unset($values['__Laminas']);
         }
 
         return $values;
