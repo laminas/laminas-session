@@ -1,6 +1,6 @@
 # Session Manager
 
-The session manager, `Zend\Session\SessionManager`, is a class that is responsible for all aspects
+The session manager, `Laminas\Session\SessionManager`, is a class that is responsible for all aspects
 of session management. It initializes and configures configuration, storage and save handling.
 Additionally the session manager can be injected into the session container to provide a wrapper or
 namespace around your session data.
@@ -25,15 +25,15 @@ global config:
 return array(
     'session' => array(
         'config' => array(
-            'class' => 'Zend\Session\Config\SessionConfig',
+            'class' => 'Laminas\Session\Config\SessionConfig',
             'options' => array(
                 'name' => 'myapp',
             ),
         ),
-        'storage' => 'Zend\Session\Storage\SessionArrayStorage',
+        'storage' => 'Laminas\Session\Storage\SessionArrayStorage',
         'validators' => array(
-            'Zend\Session\Validator\RemoteAddr',
-            'Zend\Session\Validator\HttpUserAgent',
+            'Laminas\Session\Validator\RemoteAddr',
+            'Laminas\Session\Validator\HttpUserAgent',
         ),
     ),
 );
@@ -43,8 +43,8 @@ The following illustrates how you might utilize the above configuration to creat
 manager:
 
 ```php
-use Zend\Session\SessionManager;
-use Zend\Session\Container;
+use Laminas\Session\SessionManager;
+use Laminas\Session\Container;
 
 class Module
 {
@@ -60,7 +60,7 @@ class Module
     {
         $session = $e->getApplication()
                      ->getServiceManager()
-                     ->get('Zend\Session\SessionManager');
+                     ->get('Laminas\Session\SessionManager');
         $session->start();
 
         $container = new Container('initialized');
@@ -84,10 +84,10 @@ class Module
 
                 foreach ($sessionConfig['validators'] as $validator) {
                     switch ($validator) {
-                        case 'Zend\Session\Validator\HttpUserAgent':
+                        case 'Laminas\Session\Validator\HttpUserAgent':
                             $validator = new $validator($container->httpUserAgent);
                             break;
-                        case 'Zend\Session\Validator\RemoteAddr':
+                        case 'Laminas\Session\Validator\RemoteAddr':
                             $validator  = new $validator($container->remoteAddr);
                             break;
                         default:
@@ -104,7 +104,7 @@ class Module
     {
         return array(
             'factories' => array(
-                'Zend\Session\SessionManager' => function ($sm) {
+                'Laminas\Session\SessionManager' => function ($sm) {
                     $config = $sm->get('config');
                     if (isset($config['session'])) {
                         $session = $config['session'];
@@ -112,7 +112,7 @@ class Module
                         $sessionConfig = null;
                         if (isset($session['config'])) {
                             $class = isset($session['config']['class'])  ?
-$session['config']['class'] : 'Zend\Session\Config\SessionConfig';
+$session['config']['class'] : 'Laminas\Session\Config\SessionConfig';
                             $options = isset($session['config']['options']) ?
 $session['config']['options'] : array();
                             $sessionConfig = new $class();
@@ -146,23 +146,23 @@ $sessionSaveHandler);
 }
 ```
 
-When you create a new `Zend\Session\Container` (see Session Container page) in a controller for
+When you create a new `Laminas\Session\Container` (see Session Container page) in a controller for
 example, it will use the session configured above.
 
 ## Session Compatibility
 
 In order to work with other 3rd party libraries and share sessions across software that may not be
-ZF2 related; you will need to ensure that you still provide access to the ZF2 autoloader as well as
+Laminas related; you will need to ensure that you still provide access to the Laminas autoloader as well as
 module autoloading.
 
-In the shared software make certain before the session starts that you bootstrap the ZF2 autoloader
-and initialize the ZF2 Application.
+In the shared software make certain before the session starts that you bootstrap the Laminas autoloader
+and initialize the Laminas Application.
 
 ```php
 $cwd = getcwd();
-chdir('/path/to/zf2-application');
+chdir('/path/to/laminas-application');
 require 'init_autoloader.php';
-Zend\Mvc\Application::init(require 'config/application.config.php');
+Laminas\Mvc\Application::init(require 'config/application.config.php');
 chdir($cwd);
 session_start();
 ```

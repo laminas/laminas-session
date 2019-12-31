@@ -1,24 +1,23 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\Service;
+namespace LaminasTest\Session\Service;
 
-use Zend\ServiceManager\Config;
-use Zend\ServiceManager\ServiceManager;
-use Zend\Session\Config\ConfigInterface;
-use Zend\Session\Config\SessionConfig;
-use Zend\Session\Config\StandardConfig;
-use Zend\Session\Service\SessionConfigFactory;
+use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\Session\Config\ConfigInterface;
+use Laminas\Session\Config\SessionConfig;
+use Laminas\Session\Config\StandardConfig;
+use Laminas\Session\Service\SessionConfigFactory;
 
 /**
- * @group      Zend_Session
- * @covers Zend\Session\Service\SessionConfigFactory
+ * @group      Laminas_Session
+ * @covers Laminas\Session\Service\SessionConfigFactory
  */
 class SessionConfigFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -60,10 +59,10 @@ class SessionConfigFactoryTest extends \PHPUnit_Framework_TestCase
         $this->services->setService('config', [
             'session_config' => [
                 'config_class' => StandardConfig::class,
-                'name'         => 'zf2',
+                'name'         => 'laminas',
             ],
         ]);
         $config = $this->services->get(ConfigInterface::class);
-        $this->assertEquals('zf2', $config->getName());
+        $this->assertEquals('laminas', $config->getName());
     }
 }

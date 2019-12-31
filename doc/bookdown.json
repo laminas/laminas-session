@@ -1,12 +1,12 @@
 {
-    "title": "Zend\\Session",
+    "title": "Laminas\\Session",
     "target": "html/",
     "content": [
-        "book/zend.session.config.md",
-        "book/zend.session.container.md",
-        "book/zend.session.manager.md",
-        "book/zend.session.save-handler.md",
-        "book/zend.session.storage.md",
-        "book/zend.session.validator.md"
+        "book/laminas.session.config.md",
+        "book/laminas.session.container.md",
+        "book/laminas.session.manager.md",
+        "book/laminas.session.save-handler.md",
+        "book/laminas.session.storage.md",
+        "book/laminas.session.validator.md"
     ]
 }
