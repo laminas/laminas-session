@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session\Service;
+namespace Laminas\Session\Service;
 
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Session\Config\ConfigInterface;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Session\Config\ConfigInterface;
 
 class SessionConfigFactory implements FactoryInterface
 {
@@ -20,7 +19,7 @@ class SessionConfigFactory implements FactoryInterface
      * Create session configuration object
      *
      * Uses "session_config" section of configuration to seed a ConfigInterface
-     * instance. By default, Zend\Session\Config\SessionConfig will be used, but
+     * instance. By default, Laminas\Session\Config\SessionConfig will be used, but
      * you may also specify a specific implementation variant using the
      * "config_class" subkey.
      *
@@ -37,7 +36,7 @@ class SessionConfigFactory implements FactoryInterface
                 'Configuration is missing a "session_config" key, or the value of that key is not an array'
             );
         }
-        $class  = 'Zend\Session\Config\SessionConfig';
+        $class  = 'Laminas\Session\Config\SessionConfig';
         $config = $config['session_config'];
         if (isset($config['config_class'])) {
             if (!class_exists($config['config_class'])) {
@@ -53,7 +52,7 @@ class SessionConfigFactory implements FactoryInterface
         $sessionConfig = new $class();
         if (!$sessionConfig instanceof ConfigInterface) {
             throw new ServiceNotCreatedException(sprintf(
-                'Invalid configuration class "%s" specified in "config_class" session configuration; must implement Zend\Session\Config\ConfigInterface',
+                'Invalid configuration class "%s" specified in "config_class" session configuration; must implement Laminas\Session\Config\ConfigInterface',
                 $class
             ));
         }

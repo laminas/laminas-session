@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session;
+namespace LaminasTest\Session;
 
-use Zend\Session\SessionManager;
-use Zend\Session;
+use Laminas\Session;
+use Laminas\Session\SessionManager;
 
 /**
- * @group      Zend_Session
+ * @group      Laminas_Session
  * @preserveGlobalState disabled
  */
 class SessionManagerTest extends \PHPUnit_Framework_TestCase
@@ -34,7 +33,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     protected function forceAutoloader()
     {
         $splAutoloadFunctions = spl_autoload_functions();
-        if (!$splAutoloadFunctions || !in_array('ZendTest_Autoloader', $splAutoloadFunctions)) {
+        if (!$splAutoloadFunctions || !in_array('LaminasTest_Autoloader', $splAutoloadFunctions)) {
             include __DIR__ . '/../../_autoload.php';
         }
     }
@@ -206,7 +205,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetNameRaisesExceptionOnInvalidName()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException', 'Name provided contains invalid characters; must be alphanumeric only');
+        $this->setExpectedException('Laminas\Session\Exception\InvalidArgumentException', 'Name provided contains invalid characters; must be alphanumeric only');
         $this->manager->setName('foo bar!');
     }
 
@@ -237,7 +236,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNameWhenAnActiveSessionExistsRaisesException()
     {
-        $this->setExpectedException('Zend\Session\Exception\InvalidArgumentException',
+        $this->setExpectedException('Laminas\Session\Exception\InvalidArgumentException',
                                     'Cannot set session name after a session has already started');
         $this->manager->start();
         $this->manager->setName('foobar');
@@ -508,7 +507,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     {
         $chain = $this->manager->getValidatorChain();
         $chain->attach('session.validate', array(new TestAsset\TestFailingValidator(), 'isValid'));
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'failed');
+        $this->setExpectedException('Laminas\Session\Exception\RuntimeException', 'failed');
         $this->manager->start();
     }
 
@@ -518,7 +517,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     public function testResumeSessionThatFailsAValidatorShouldRaiseException()
     {
         $this->manager->setSaveHandler(new TestAsset\TestSaveHandlerWithValidator);
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'failed');
+        $this->setExpectedException('Laminas\Session\Exception\RuntimeException', 'failed');
         $this->manager->start();
     }
 
@@ -532,7 +531,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $storage->setMetadata('foo', 'bar');
         $metaData = $storage->getMetadata();
         $this->manager->writeClose();
-        $this->assertSame($_SESSION['__ZF'], $metaData);
+        $this->assertSame($_SESSION['__Laminas'], $metaData);
     }
 
 }
