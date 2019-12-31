@@ -1,17 +1,15 @@
 <?php
 
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session\SaveHandler;
+namespace Laminas\Session\SaveHandler;
 
-use Zend\Session\Exception\InvalidArgumentException;
-use Zend\Stdlib\AbstractOptions;
+use Laminas\Session\Exception\InvalidArgumentException;
+use Laminas\Stdlib\AbstractOptions;
 
 /**
  * MongoDB session save handler Options
