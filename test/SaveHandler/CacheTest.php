@@ -1,24 +1,23 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\SaveHandler;
+namespace LaminasTest\Session\SaveHandler;
 
-use Zend\Session\SaveHandler\Cache;
-use Zend\Cache\StorageFactory as CacheFactory;
-use Zend\Cache\Storage\Adapter\AdapterInterface as CacheAdapter;
+use Laminas\Cache\Storage\Adapter\AdapterInterface as CacheAdapter;
+use Laminas\Cache\StorageFactory as CacheFactory;
+use Laminas\Session\SaveHandler\Cache;
 
 /**
  * Unit testing for DbTable include all tests for
  * regular session handling
  *
- * @group      Zend_Session
- * @group      Zend_Cache
+ * @group      Laminas_Session
+ * @group      Laminas_Cache
  */
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
