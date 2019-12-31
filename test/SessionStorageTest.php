@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session;
+namespace LaminasTest\Session;
 
-use Zend\Session\Storage\SessionStorage;
+use Laminas\Session\Storage\SessionStorage;
 
 /**
- * @group      Zend_Session
+ * @group      Laminas_Session
  */
 class SessionStorageTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,8 +28,8 @@ class SessionStorageTest extends \PHPUnit_Framework_TestCase
 
     public function testSessionStorageInheritsFromArrayStorage()
     {
-        $this->assertInstanceOf('Zend\Session\Storage\SessionStorage', $this->storage);
-        $this->assertInstanceOf('Zend\Session\Storage\ArrayStorage', $this->storage);
+        $this->assertInstanceOf('Laminas\Session\Storage\SessionStorage', $this->storage);
+        $this->assertInstanceOf('Laminas\Session\Storage\ArrayStorage', $this->storage);
     }
 
     public function testStorageWritesToSessionSuperglobal()
@@ -48,7 +47,7 @@ class SessionStorageTest extends \PHPUnit_Framework_TestCase
         $storage = new SessionStorage($array);
         $expected = [
             'foo' => 'FOO',
-            '__ZF' => [
+            '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $storage->getRequestAccessTime(),
             ],
         ];
@@ -65,7 +64,7 @@ class SessionStorageTest extends \PHPUnit_Framework_TestCase
     {
         $this->storage->foo = 'bar';
         $expected = [
-            '__ZF' => [
+            '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $this->storage->getRequestAccessTime(),
             ],
             'foo' => 'bar',

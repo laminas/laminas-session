@@ -18,8 +18,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#3](https://github.com/zendframework/zend-session/pull/3) Utilize
+- [zendframework/zend-session#3](https://github.com/zendframework/zend-session/pull/3) Utilize
   SaveHandlerInterface vs. our own.
 
-- [#2](https://github.com/zendframework/zend-session/pull/2) detect session
+- [zendframework/zend-session#2](https://github.com/zendframework/zend-session/pull/2) detect session
   exists by use of *PHP_SESSION_ACTIVE*

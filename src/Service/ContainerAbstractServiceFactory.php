@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session\Service;
+namespace Laminas\Session\Service;
 
-use Zend\ServiceManager\AbstractFactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Session\Container;
+use Laminas\ServiceManager\AbstractFactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Session\Container;
 
 /**
  * Session container abstract service factory.
  *
- * Allows creating Container instances, using the Zend\Service\ManagerInterface
+ * Allows creating Container instances, using the Laminas\Service\ManagerInterface
  * if present. Containers are named in a "session_containers" array in the
  * Config service:
  *
@@ -51,7 +50,7 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     protected $configKey = 'session_containers';
 
     /**
-     * @var \Zend\Session\ManagerInterface
+     * @var \Laminas\Session\ManagerInterface
      */
     protected $sessionManager;
 
@@ -119,7 +118,7 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
      * Retrieve the session manager instance, if any
      *
      * @param  ServiceLocatorInterface $services
-     * @return null|\Zend\Session\ManagerInterface
+     * @return null|\Laminas\Session\ManagerInterface
      */
     protected function getSessionManager(ServiceLocatorInterface $services)
     {
@@ -127,8 +126,8 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
             return $this->sessionManager;
         }
 
-        if ($services->has('Zend\Session\ManagerInterface')) {
-            $this->sessionManager = $services->get('Zend\Session\ManagerInterface');
+        if ($services->has('Laminas\Session\ManagerInterface')) {
+            $this->sessionManager = $services->get('Laminas\Session\ManagerInterface');
         }
 
         return $this->sessionManager;

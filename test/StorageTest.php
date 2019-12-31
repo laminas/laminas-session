@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session;
+namespace LaminasTest\Session;
 
-use Zend\Session\Storage\ArrayStorage;
+use Laminas\Session\Storage\ArrayStorage;
 
 /**
- * @group      Zend_Session
+ * @group      Laminas_Session
  */
 class StorageTest extends \PHPUnit_Framework_TestCase
 {
@@ -70,7 +69,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     {
         $this->storage->foo = 'bar';
         $this->storage->lock();
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'Cannot set key "foo" due to locking');
+        $this->setExpectedException('Laminas\Session\Exception\RuntimeException', 'Cannot set key "foo" due to locking');
         $this->storage->foo = 'baz';
     }
 
@@ -92,7 +91,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->storage->bar = 'baz';
         $this->assertEquals('baz', $this->storage->bar);
 
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException', 'Cannot set key "foo" due to locking');
+        $this->setExpectedException('Laminas\Session\Exception\RuntimeException', 'Cannot set key "foo" due to locking');
         $this->storage->foo = 'baz';
     }
 
@@ -212,7 +211,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->storage->foo = 'bar';
         $this->storage->bar = 'baz';
         $this->storage->markImmutable();
-        $this->setExpectedException('Zend\Session\Exception\RuntimeException',
+        $this->setExpectedException('Laminas\Session\Exception\RuntimeException',
                                     'Cannot clear storage as it is marked immutable');
         $this->storage->clear();
     }
@@ -230,7 +229,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->storage->bar = 'baz';
         $this->storage->setMetadata('foo', 'bar');
         $expected = [
-            '__ZF' => [
+            '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $this->storage->getRequestAccessTime(),
                 'foo' => 'bar',
             ],
