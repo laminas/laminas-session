@@ -1,28 +1,27 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\SaveHandler;
+namespace LaminasTest\Session\SaveHandler;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Session\SaveHandler\DbTableGateway;
+use Laminas\Session\SaveHandler\DbTableGatewayOptions;
+use LaminasTest\Session\TestAsset\TestDbTableGatewaySaveHandler;
 use PHPUnit\Framework\TestCase;
-use Zend\Session\SaveHandler\DbTableGateway;
-use Zend\Session\SaveHandler\DbTableGatewayOptions;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\TableGateway\TableGateway;
-use ZendTest\Session\TestAsset\TestDbTableGatewaySaveHandler;
 
 /**
  * Unit testing for DbTableGateway include all tests for
  * regular session handling
  *
- * @group      Zend_Session
- * @group      Zend_Db_Table
- * @covers Zend\Session\SaveHandler\DbTableGateway
+ * @group      Laminas_Session
+ * @group      Laminas_Db_Table
+ * @covers Laminas\Session\SaveHandler\DbTableGateway
  */
 class DbTableGatewayTest extends TestCase
 {
@@ -65,7 +64,7 @@ class DbTableGatewayTest extends TestCase
     {
         if (! extension_loaded('pdo_sqlite')) {
             $this->markTestSkipped(
-                'Zend\Session\SaveHandler\DbTableGateway tests are not enabled due to missing PDO_Sqlite extension'
+                'Laminas\Session\SaveHandler\DbTableGateway tests are not enabled due to missing PDO_Sqlite extension'
             );
         }
 
@@ -187,7 +186,7 @@ INSERT INTO `sessions` (
     `{$this->options->getLifetimeColumn()}`,
     `{$this->options->getDataColumn()}`
 ) VALUES (
-    '123', 'zend-session-test', ".(time() - 31).", 30, 'foobar'
+    '123', 'laminas-session-test', ".(time() - 31).", 30, 'foobar'
 );
 ";
         $this->adapter->query($query, Adapter::QUERY_MODE_EXECUTE);
@@ -196,7 +195,7 @@ INSERT INTO `sessions` (
             $this->tableGateway,
             $this->options
         );
-        $saveHandler->open('savepath', 'zend-session-test');
+        $saveHandler->open('savepath', 'laminas-session-test');
 
         $this->assertSame(0, $saveHandler->getNumReadCalls());
         $this->assertSame(0, $saveHandler->getNumDestroyCalls());
@@ -214,7 +213,7 @@ INSERT INTO `sessions` (
     /**
      * Sets up the database connection and creates the table for session data
      *
-     * @param  \Zend\Session\SaveHandler\DbTableGatewayOptions $options
+     * @param  \Laminas\Session\SaveHandler\DbTableGatewayOptions $options
      * @return void
      */
     protected function setupDb(DbTableGatewayOptions $options)

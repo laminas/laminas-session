@@ -1,14 +1,13 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zend-validator for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
-namespace Zend\Session\Validator;
 
-use Zend\Session\Storage\StorageInterface;
+/**
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
+ */
+namespace Laminas\Session\Validator;
+
+use Laminas\Session\Storage\StorageInterface;
 
 /**
  * Base trait for validator chain implementations
@@ -37,7 +36,7 @@ trait ValidatorChainTrait
      * @param  string $event
      * @param  callable $callback
      * @param  int $priority
-     * @return \Zend\Stdlib\CallbackHandler|callable
+     * @return \Laminas\Stdlib\CallbackHandler|callable
      */
     private function attachValidator($event, $callback, $priority)
     {
