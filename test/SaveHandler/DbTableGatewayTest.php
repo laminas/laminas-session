@@ -1,40 +1,39 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\SaveHandler;
+namespace LaminasTest\Session\SaveHandler;
 
-use Zend\Session\SaveHandler\DbTableGateway;
-use Zend\Session\SaveHandler\DbTableGatewayOptions;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\TableGateway\TableGateway;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Session\SaveHandler\DbTableGateway;
+use Laminas\Session\SaveHandler\DbTableGatewayOptions;
 
 /**
  * Unit testing for DbTableGateway include all tests for
  * regular session handling
  *
- * @group      Zend_Session
- * @group      Zend_Db_Table
+ * @group      Laminas_Session
+ * @group      Laminas_Db_Table
  */
 class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Zend\Db\Adapter\Adapter
+     * @var Laminas\Db\Adapter\Adapter
      */
     protected $adapter;
 
     /**
-     * @var Zend\Db\TableGateway\TableGateway
+     * @var Laminas\Db\TableGateway\TableGateway
      */
     protected $tableGateway;
 
     /**
-     * @var Zend\Session\SaveHandler\DbTableGatewayOptions
+     * @var Laminas\Session\SaveHandler\DbTableGatewayOptions
      */
     protected $options;
 
@@ -54,7 +53,7 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         if (!extension_loaded('pdo_sqlite')) {
-            $this->markTestSkipped('Zend\Session\SaveHandler\DbTableGateway tests are not enabled due to missing PDO_Sqlite extension');
+            $this->markTestSkipped('Laminas\Session\SaveHandler\DbTableGateway tests are not enabled due to missing PDO_Sqlite extension');
         }
 
         $this->options = new DbTableGatewayOptions(array(
@@ -125,7 +124,7 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
     /**
      * Sets up the database connection and creates the table for session data
      *
-     * @param  Zend\Session\SaveHandler\DbTableGatewayOptions $options
+     * @param  Laminas\Session\SaveHandler\DbTableGatewayOptions $options
      * @return void
      */
     protected function setupDb(DbTableGatewayOptions $options)
