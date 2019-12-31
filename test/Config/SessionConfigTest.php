@@ -1,21 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\Config;
+namespace LaminasTest\Session\Config;
 
+use Laminas\Session\Config\SessionConfig;
 use PHPUnit\Framework\TestCase;
-use Zend\Session\Config\SessionConfig;
 
 /**
- * @group      Zend_Session
+ * @group      Laminas_Session
  * @runTestsInSeparateProcesses
- * @covers Zend\Session\Config\SessionConfig
+ * @covers Laminas\Session\Config\SessionConfig
  */
 class SessionConfigTest extends TestCase
 {
@@ -41,7 +40,7 @@ class SessionConfigTest extends TestCase
 
     public function testSetSavePathErrorsOnInvalidPath()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid save_path provided');
         $this->config->setSavePath(__DIR__ . '/foobarboguspath');
     }
@@ -114,7 +113,7 @@ class SessionConfigTest extends TestCase
 
     public function testSettingInvalidSaveHandlerRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid save handler specified');
         $this->config->setPhpSaveHandler('foobar_bogus');
     }
@@ -140,21 +139,21 @@ class SessionConfigTest extends TestCase
 
     public function testSettingInvalidGcProbabilityRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_probability; must be numeric');
         $this->config->setGcProbability('foobar_bogus');
     }
 
     public function testSettingInvalidGcProbabilityRaisesException2()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_probability; must be a percentage');
         $this->config->setGcProbability(-1);
     }
 
     public function testSettingInvalidGcProbabilityRaisesException3()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_probability; must be a percentage');
         $this->config->setGcProbability(101);
     }
@@ -180,14 +179,14 @@ class SessionConfigTest extends TestCase
 
     public function testSettingInvalidGcDivisorRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_divisor; must be numeric');
         $this->config->setGcDivisor('foobar_bogus');
     }
 
     public function testSettingInvalidGcDivisorRaisesException2()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_divisor; must be a positive integer');
         $this->config->setGcDivisor(-1);
     }
@@ -213,14 +212,14 @@ class SessionConfigTest extends TestCase
 
     public function testSettingInvalidGcMaxlifetimeRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_maxlifetime; must be numeric');
         $this->config->setGcMaxlifetime('foobar_bogus');
     }
 
     public function testSettingInvalidGcMaxlifetimeRaisesException2()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_maxlifetime; must be a positive integer');
         $this->config->setGcMaxlifetime(-1);
     }
@@ -248,7 +247,7 @@ class SessionConfigTest extends TestCase
 
     public function testSettingInvalidSerializeHandlerRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid serialize handler specified');
         $this->config->setSerializeHandler('foobar_bogus');
     }
@@ -280,14 +279,14 @@ class SessionConfigTest extends TestCase
 
     public function testSettingInvalidCookieLifetimeRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie_lifetime; must be numeric');
         $this->config->setCookieLifetime('foobar_bogus');
     }
 
     public function testSettingInvalidCookieLifetimeRaisesException2()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie_lifetime; must be a positive integer or zero');
         $this->config->setCookieLifetime(-1);
     }
@@ -313,21 +312,21 @@ class SessionConfigTest extends TestCase
 
     public function testSettingInvalidCookiePathRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath(24);
     }
 
     public function testSettingInvalidCookiePathRaisesException2()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath('foo');
     }
 
     public function testSettingInvalidCookiePathRaisesException3()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath('D:\\WINDOWS\\System32\\drivers\\etc\\hosts');
     }
@@ -359,14 +358,14 @@ class SessionConfigTest extends TestCase
 
     public function testSettingInvalidCookieDomainRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie domain: must be a string');
         $this->config->setCookieDomain(24);
     }
 
     public function testSettingInvalidCookieDomainRaisesException2()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('does not match the expected structure for a DNS hostname');
         $this->config->setCookieDomain('D:\\WINDOWS\\System32\\drivers\\etc\\hosts');
     }
@@ -485,7 +484,7 @@ class SessionConfigTest extends TestCase
     public function testSetEntropyFileErrorsOnInvalidPath()
     {
         $this->assertPhpLessThan71('session.entropy_file directive removed in PHP 7.1');
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid entropy_file provided');
         $this->config->setEntropyFile(__DIR__ . '/foobarboguspath');
     }
@@ -560,7 +559,7 @@ class SessionConfigTest extends TestCase
     public function testSettingInvalidEntropyLengthRaisesException()
     {
         $this->assertPhpLessThan71('session.entropy_length directive removed in PHP 7.1');
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid entropy_length; must be numeric');
         $this->config->setEntropyLength('foobar_bogus');
     }
@@ -568,7 +567,7 @@ class SessionConfigTest extends TestCase
     public function testSettingInvalidEntropyLengthRaisesException2()
     {
         $this->assertPhpLessThan71('session.entropy_length directive removed in PHP 7.1');
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid entropy_length; must be a positive integer or zero');
         $this->config->setEntropyLength(-1);
     }
@@ -629,7 +628,7 @@ class SessionConfigTest extends TestCase
 
     public function testSettingInvalidCacheLimiterRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cache limiter provided');
         $this->config->setCacheLimiter('foobar_bogus');
     }
@@ -655,14 +654,14 @@ class SessionConfigTest extends TestCase
 
     public function testSettingInvalidCacheExpireRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cache_expire; must be numeric');
         $this->config->setCacheExpire('foobar_bogus');
     }
 
     public function testSettingInvalidCacheExpireRaisesException2()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cache_expire; must be a positive integer');
         $this->config->setCacheExpire(-1);
     }
@@ -729,7 +728,7 @@ class SessionConfigTest extends TestCase
     public function testSettingInvalidHashFunctionRaisesException()
     {
         $this->assertPhpLessThan71('session.hash_function directive removed in PHP 7.1');
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid hash function provided');
         $this->config->setHashFunction('foobar_bogus');
     }
@@ -795,7 +794,7 @@ class SessionConfigTest extends TestCase
     public function testSettingInvalidHashBitsPerCharacterRaisesException()
     {
         $this->assertPhpLessThan71('session.hash_bits_per_character directive removed in PHP 7.1');
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid hash bits per character provided');
         $this->config->setHashBitsPerCharacter('foobar_bogus');
     }
@@ -851,7 +850,7 @@ class SessionConfigTest extends TestCase
      */
     public function testSettingInvalidSidLengthRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid length provided');
         $this->config->setSidLength('foobar_bogus');
     }
@@ -861,7 +860,7 @@ class SessionConfigTest extends TestCase
      */
     public function testSettingOutOfRangeSidLengthRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid length provided');
         $this->config->setSidLength(999);
     }
@@ -910,7 +909,7 @@ class SessionConfigTest extends TestCase
      */
     public function testSettingInvalidSidBitsPerCharacterRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid sid bits per character provided');
         $this->config->setSidBitsPerCharacter('foobar_bogus');
     }
@@ -920,7 +919,7 @@ class SessionConfigTest extends TestCase
      */
     public function testSettingOutOfBoundSidBitsPerCharacterRaisesException()
     {
-        $this->expectException('Zend\Session\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid sid bits per character provided');
         $this->config->setSidBitsPerCharacter(999);
     }
@@ -1061,7 +1060,7 @@ class SessionConfigTest extends TestCase
             [
                 'cookie_domain',
                 'getCookieDomain',
-                'framework.zend.com',
+                'getlaminas.org',
             ],
             [
                 'cookie_secure',

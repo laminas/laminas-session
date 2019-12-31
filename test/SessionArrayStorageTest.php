@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session;
+namespace LaminasTest\Session;
 
+use Laminas\Session\Container;
+use Laminas\Session\SessionManager;
+use Laminas\Session\Storage\SessionArrayStorage;
 use PHPUnit\Framework\TestCase;
-use Zend\Session\Storage\SessionArrayStorage;
-use Zend\Session\SessionManager;
-use Zend\Session\Container;
 
 /**
- * @group      Zend_Session
- * @covers Zend\Session\Storage\SessionArrayStorage
+ * @group      Laminas_Session
+ * @covers Laminas\Session\Storage\SessionArrayStorage
  */
 class SessionArrayStorageTest extends TestCase
 {
@@ -46,7 +45,7 @@ class SessionArrayStorageTest extends TestCase
         $storage = new SessionArrayStorage($array);
         $expected = [
             'foo' => 'FOO',
-            '__ZF' => [
+            '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $storage->getRequestAccessTime(),
             ],
         ];
@@ -63,7 +62,7 @@ class SessionArrayStorageTest extends TestCase
     {
         $this->storage->foo = 'bar';
         $expected = [
-            '__ZF' => [
+            '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $this->storage->getRequestAccessTime(),
             ],
             'foo' => 'bar',
@@ -135,7 +134,7 @@ class SessionArrayStorageTest extends TestCase
         $this->storage->bar = 'baz';
         $this->storage->setMetadata('foo', 'bar');
         $expected = [
-            '__ZF' => [
+            '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $this->storage->getRequestAccessTime(),
                 'foo' => 'bar',
             ],
@@ -152,7 +151,7 @@ class SessionArrayStorageTest extends TestCase
         $this->storage['baz']['foo'] = 'bar';
 
         $expected = [
-            '__ZF' => [
+            '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $this->storage->getRequestAccessTime(),
             ],
             'foo' => 'bar',

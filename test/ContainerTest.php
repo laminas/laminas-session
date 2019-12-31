@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session;
+namespace LaminasTest\Session;
 
+use Laminas\Session\Config\StandardConfig;
+use Laminas\Session\Container;
+use Laminas\Session\ManagerInterface as Manager;
 use PHPUnit\Framework\TestCase;
-use Zend\Session\Container;
-use Zend\Session\Config\StandardConfig;
-use Zend\Session\ManagerInterface as Manager;
 
 /**
- * @group      Zend_Session
- * @covers Zend\Session\Container
+ * @group      Laminas_Session
+ * @covers Laminas\Session\Container
  */
 class ContainerTest extends TestCase
 {
@@ -43,7 +42,7 @@ class ContainerTest extends TestCase
         Container::setDefaultManager(null);
 
         $config = new StandardConfig([
-            'storage' => 'Zend\\Session\\Storage\\ArrayStorage',
+            'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
         ]);
 
         $this->manager = $manager = new TestAsset\TestManager($config);
@@ -80,16 +79,16 @@ class ContainerTest extends TestCase
         $this->assertEquals('0foo', $container->getName());
     }
 
-    public function testUsingOldZF1NameIsStillValid()
+    public function testUsingOldLaminas1NameIsStillValid()
     {
-        $container = new Container('Zend_Foo', $this->manager);
-        $this->assertEquals('Zend_Foo', $container->getName());
+        $container = new Container('Laminas_Foo', $this->manager);
+        $this->assertEquals('Laminas_Foo', $container->getName());
     }
 
-    public function testUsingNewZF2NamespaceIsValid()
+    public function testUsingNewLaminasNamespaceIsValid()
     {
-        $container = new Container('Zend\Foo', $this->manager);
-        $this->assertEquals('Zend\Foo', $container->getName());
+        $container = new Container('Laminas\Foo', $this->manager);
+        $this->assertEquals('Laminas\Foo', $container->getName());
     }
 
     public function testPassingInvalidNameToConstructorRaisesException()
@@ -106,7 +105,7 @@ class ContainerTest extends TestCase
             try {
                 $container = new Container($try);
                 $this->fail('Invalid container name should raise exception');
-            } catch (\Zend\Session\Exception\InvalidArgumentException $e) {
+            } catch (\Laminas\Session\Exception\InvalidArgumentException $e) {
                 $this->assertContains('invalid', $e->getMessage());
             }
         }
@@ -133,7 +132,7 @@ class ContainerTest extends TestCase
     public function testDefaultManagerIsAlwaysPopulated()
     {
         $manager = Container::getDefaultManager();
-        $this->assertInstanceOf('Zend\Session\ManagerInterface', $manager);
+        $this->assertInstanceOf('Laminas\Session\ManagerInterface', $manager);
     }
 
     public function testCanSetDefaultManager()
@@ -162,17 +161,17 @@ class ContainerTest extends TestCase
     {
         $container = new Container();
         $manager   = $container->getManager();
-        $this->assertInstanceOf('Zend\Session\ManagerInterface', $manager);
+        $this->assertInstanceOf('Laminas\Session\ManagerInterface', $manager);
         $config  = $manager->getConfig();
-        $this->assertInstanceOf('Zend\Session\Config\SessionConfig', $config);
+        $this->assertInstanceOf('Laminas\Session\Config\SessionConfig', $config);
         $storage = $manager->getStorage();
-        $this->assertInstanceOf('Zend\Session\Storage\SessionArrayStorage', $storage);
+        $this->assertInstanceOf('Laminas\Session\Storage\SessionArrayStorage', $storage);
     }
 
     public function testContainerAllowsInjectingManagerViaConstructor()
     {
         $config = new StandardConfig([
-            'storage' => 'Zend\\Session\\Storage\\ArrayStorage',
+            'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
         ]);
         $manager = new TestAsset\TestManager($config);
         $container = new Container('Foo', $manager);
@@ -494,7 +493,7 @@ class ContainerTest extends TestCase
     }
 
     /**
-     * @group ZF-10706
+     * @group Laminas-10706
      */
     public function testValidationShouldNotRaiseErrorForMissingResponseObject()
     {
@@ -519,7 +518,7 @@ class ContainerTest extends TestCase
         $this->container->offsetSet('old', 'old');
         $this->assertTrue($this->container->offsetExists('old'));
 
-        $old = $this->container->exchangeArray(new \Zend\Stdlib\ArrayObject(['new' => 'new']));
+        $old = $this->container->exchangeArray(new \Laminas\Stdlib\ArrayObject(['new' => 'new']));
         $this->assertArrayHasKey('old', $old, "'exchangeArray' doesn't return an array of old items");
         $this->assertFalse($this->container->offsetExists('old'), "'exchangeArray' doesn't remove old items");
         $this->assertTrue($this->container->offsetExists('new'), "'exchangeArray' doesn't add the new array items");
