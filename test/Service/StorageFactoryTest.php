@@ -1,25 +1,24 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\Service;
+namespace LaminasTest\Session\Service;
 
-use Zend\ServiceManager\Config;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\ServiceManager;
-use Zend\Session\Service\StorageFactory;
-use Zend\Session\Storage\ArrayStorage;
-use Zend\Session\Storage\SessionArrayStorage;
-use Zend\Session\Storage\StorageInterface;
+use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\Session\Service\StorageFactory;
+use Laminas\Session\Storage\ArrayStorage;
+use Laminas\Session\Storage\SessionArrayStorage;
+use Laminas\Session\Storage\StorageInterface;
 
 /**
- * @group      Zend_Session
- * @covers Zend\Session\Service\StorageFactory
+ * @group      Laminas_Session
+ * @covers Laminas\Session\Service\StorageFactory
  */
 class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -109,7 +108,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             ]],
             'bad-class' => [[
                 'session_storage' => [
-                    'type' => 'Zend\Session\Config\StandardConfig',
+                    'type' => 'Laminas\Session\Config\StandardConfig',
                     'options' => [],
                 ],
             ]],
