@@ -1,21 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session;
+namespace LaminasTest\Session;
 
-use Zend\Session\Container;
-use Zend\Session\Config\StandardConfig;
-use Zend\Session\ManagerInterface as Manager;
-use Zend\Session;
+use Laminas\Session;
+use Laminas\Session\Config\StandardConfig;
+use Laminas\Session\Container;
+use Laminas\Session\ManagerInterface as Manager;
 
 /**
- * @group      Zend_Session
+ * @group      Laminas_Session
  */
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +35,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         Container::setDefaultManager(null);
 
         $config = new StandardConfig(array(
-            'storage' => 'Zend\\Session\\Storage\\ArrayStorage',
+            'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
         ));
 
         $this->manager = $manager = new TestAsset\TestManager($config);
@@ -52,7 +51,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     protected function forceAutoloader()
     {
         $splAutoloadFunctions = spl_autoload_functions();
-        if (!$splAutoloadFunctions || !in_array('ZendTest_Autoloader', $splAutoloadFunctions)) {
+        if (!$splAutoloadFunctions || !in_array('LaminasTest_Autoloader', $splAutoloadFunctions)) {
             include __DIR__ . '/../../_autoload.php';
         }
     }
@@ -89,16 +88,16 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $container->getName());
     }
 
-    public function testUsingOldZF1NameIsStillValid()
+    public function testUsingOldLaminas1NameIsStillValid()
     {
-        $container = new Container('Zend_Foo', $this->manager);
-        $this->assertEquals('Zend_Foo', $container->getName());
+        $container = new Container('Laminas_Foo', $this->manager);
+        $this->assertEquals('Laminas_Foo', $container->getName());
     }
 
-    public function testUsingNewZF2NamespaceIsValid()
+    public function testUsingNewLaminasNamespaceIsValid()
     {
-        $container = new Container('Zend\Foo', $this->manager);
-        $this->assertEquals('Zend\Foo', $container->getName());
+        $container = new Container('Laminas\Foo', $this->manager);
+        $this->assertEquals('Laminas\Foo', $container->getName());
     }
 
     public function testPassingInvalidNameToConstructorRaisesException()
@@ -116,7 +115,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             try {
                 $container = new Container($try);
                 $this->fail('Invalid container name should raise exception');
-            } catch (\Zend\Session\Exception\InvalidArgumentException $e) {
+            } catch (\Laminas\Session\Exception\InvalidArgumentException $e) {
                 $this->assertContains('invalid', $e->getMessage());
             }
         }
@@ -182,7 +181,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testContainerAllowsInjectingManagerViaConstructor()
     {
         $config = new StandardConfig(array(
-            'storage' => 'Zend\\Session\\Storage\\ArrayStorage',
+            'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
         ));
         $manager = new TestAsset\TestManager($config);
         $container = new Container('Foo', $manager);
@@ -504,7 +503,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-10706
+     * @group Laminas-10706
      */
     public function testValidationShouldNotRaiseErrorForMissingResponseObject()
     {
@@ -529,7 +528,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->container->offsetSet('old', 'old');
         $this->assertTrue($this->container->offsetExists('old'));
 
-        $old = $this->container->exchangeArray(new \Zend\Stdlib\ArrayObject(array('new' => 'new')));
+        $old = $this->container->exchangeArray(new \Laminas\Stdlib\ArrayObject(array('new' => 'new')));
         $this->assertArrayHasKey('old', $old, "'exchangeArray' doesn't return an array of old items");
         $this->assertFalse($this->container->offsetExists('old'), "'exchangeArray' doesn't remove old items");
         $this->assertTrue($this->container->offsetExists('new'), "'exchangeArray' doesn't add the new array items");
