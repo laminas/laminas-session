@@ -1,24 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Session
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session;
+namespace Laminas\Session;
 
-use Zend\EventManager\EventManager;
-use Zend\Session\Storage\StorageInterface as Storage;
-use Zend\Session\Validator\ValidatorInterface as Validator;
+use Laminas\EventManager\EventManager;
+use Laminas\Session\Storage\StorageInterface as Storage;
+use Laminas\Session\Validator\ValidatorInterface as Validator;
 
 /**
  * Validator chain for validating sessions
  *
- * @category   Zend
- * @package    Zend_Session
+ * @category   Laminas
+ * @package    Laminas_Session
  */
 class ValidatorChain extends EventManager
 {
@@ -52,7 +50,7 @@ class ValidatorChain extends EventManager
      * @param  string $event
      * @param  callable $callback
      * @param  int $priority
-     * @return \Zend\Stdlib\CallbackHandler
+     * @return \Laminas\Stdlib\CallbackHandler
      */
     public function attach($event, $callback = null, $priority = 1)
     {

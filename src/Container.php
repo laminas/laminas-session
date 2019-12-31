@@ -1,19 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Session
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session;
+namespace Laminas\Session;
 
 use ArrayObject;
 use Iterator;
-use Zend\Session\ManagerInterface as Manager;
-use Zend\Session\Storage\StorageInterface as Storage;
+use Laminas\Session\ManagerInterface as Manager;
+use Laminas\Session\Storage\StorageInterface as Storage;
 
 /**
  * Session storage container
@@ -23,8 +21,8 @@ use Zend\Session\Storage\StorageInterface as Storage;
  * Additionally, expiries may be absolute TTLs or measured in "hops", which
  * are based on how many times the key or container were accessed.
  *
- * @category   Zend
- * @package    Zend_Session
+ * @category   Laminas
+ * @package    Laminas_Session
  */
 class Container extends ArrayObject
 {
@@ -45,7 +43,7 @@ class Container extends ArrayObject
      *
      * @var string
      */
-    protected static $managerDefaultClass = 'Zend\\Session\\SessionManager';
+    protected static $managerDefaultClass = 'Laminas\\Session\\SessionManager';
 
     /**
      * Default manager to use when instantiating a container without providing a ManagerInterface
