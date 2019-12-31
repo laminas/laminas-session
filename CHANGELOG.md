@@ -18,7 +18,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#46](https://github.com/zendframework/zend-session/pull/46) provides fixes to
+- [zendframework/zend-session#46](https://github.com/zendframework/zend-session/pull/46) provides fixes to
   each of the `Cache` and `DbTaleGateway` save handlers to ensure they work
   when used under PHP 7.
 
@@ -26,8 +26,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#40](https://github.com/zendframework/zend-session/pull/40) adds and
-  publishes the documentation to https://zendframework.github.io/zend-session/
+- [zendframework/zend-session#40](https://github.com/zendframework/zend-session/pull/40) adds and
+  publishes the documentation to https://docs.laminas.dev/laminas-session/
 
 ### Deprecated
 
@@ -39,7 +39,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#38](https://github.com/zendframework/zend-session/pull/38) ensures that the
+- [zendframework/zend-session#38](https://github.com/zendframework/zend-session/pull/38) ensures that the
   value from `session.gc_maxlifetime` is cast to an integer before assigning
   it as the `lifetime` value in the `MongoDB` adapter, ensuring sessions may be
   deleted.
@@ -48,19 +48,19 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#23](https://github.com/zendframework/zend-session/pull/23) provides a new
+- [zendframework/zend-session#23](https://github.com/zendframework/zend-session/pull/23) provides a new
   `Id` validator to ensure that the session identifier is not malformed. This
   validator is now enabled by default; to disable it, pass
   `['attach_default_validators' => false]` as the fifth argument to
   `SessionManager`, or pass an `options` array with that value under the
   `session_manager` configuration key.
-- [#34](https://github.com/zendframework/zend-session/pull/34) adds the option
+- [zendframework/zend-session#34](https://github.com/zendframework/zend-session/pull/34) adds the option
   to use `exporeAfterSeconds` with the `MongoDB` save handler.
-- [#37](https://github.com/zendframework/zend-session/pull/37) exposes the
+- [zendframework/zend-session#37](https://github.com/zendframework/zend-session/pull/37) exposes the
   package as a standalone config-provider/component, adding:
-  - `Zend\Session\ConfigProvider`, which maps the default services offered by
+  - `Laminas\Session\ConfigProvider`, which maps the default services offered by
     the package, including the `ContainerAbstractServiceFactory`.
-  - `Zend\Session\Module`, which does the same, but for zend-mvc contexts.
+  - `Laminas\Session\Module`, which does the same, but for laminas-mvc contexts.
 
 ### Deprecated
 
@@ -72,7 +72,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#34](https://github.com/zendframework/zend-session/pull/34) updates the
+- [zendframework/zend-session#34](https://github.com/zendframework/zend-session/pull/34) updates the
   component to use ext/mongodb + the MongoDB PHP client library, instead of
   ext/mongo, for purposes of the `MongoDB` save handler, allowing the component
   to be used with modern MongoDB installations.
@@ -93,7 +93,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#32](https://github.com/zendframework/zend-session/pull/32) provides a better
+- [zendframework/zend-session#32](https://github.com/zendframework/zend-session/pull/32) provides a better
   polfill for the `ValidatorChain` to ensure it can be represented in
   auto-generated classmaps (e.g., via `composer dump-autoload --optimize` and/or
   `composer dump-autoload --classmap-authoritative`).
@@ -114,8 +114,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#29](https://github.com/zendframework/zend-session/pull/29) extracts the
-  constructor defined in `Zend\Session\Validator\ValidatorChainTrait` and pushes
+- [zendframework/zend-session#29](https://github.com/zendframework/zend-session/pull/29) extracts the
+  constructor defined in `Laminas\Session\Validator\ValidatorChainTrait` and pushes
   it into each of the `ValidatorChainEM2` and `ValidatorChainEM3`
   implementations, to prevent colliding constructor definitions due to
   inheritance + trait usage.
@@ -124,13 +124,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#29](https://github.com/zendframework/zend-session/pull/29) adds two new
-  classes: `Zend\Session\Validator\ValidatorChainEM2` and `ValidatorChainEM3`.
+- [zendframework/zend-session#29](https://github.com/zendframework/zend-session/pull/29) adds two new
+  classes: `Laminas\Session\Validator\ValidatorChainEM2` and `ValidatorChainEM3`.
   Due to differences in the `EventManagerInterface::attach()` method between
-  zend-eventmanager v2 and v3, and the fact that `ValidatorChain` overrides that
+  laminas-eventmanager v2 and v3, and the fact that `ValidatorChain` overrides that
   method, we now need an implementation targeting each major version. To provide
   a consistent use case, we use a polyfill that aliases the appropriate version
-  to the `Zend\Session\ValidatorChain` class.
+  to the `Laminas\Session\ValidatorChain` class.
 
 ### Deprecated
 
@@ -142,10 +142,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#29](https://github.com/zendframework/zend-session/pull/29) updates the code
-  to be forwards compatible with the v3 releases of zend-eventmanager and
-  zend-servicemanager.
-- [#7](https://github.com/zendframework/zend-session/pull/7) Mongo save handler
+- [zendframework/zend-session#29](https://github.com/zendframework/zend-session/pull/29) updates the code
+  to be forwards compatible with the v3 releases of laminas-eventmanager and
+  laminas-servicemanager.
+- [zendframework/zend-session#7](https://github.com/zendframework/zend-session/pull/7) Mongo save handler
   was using sprintf formatting without sprintf.
 
 ## 2.5.2 - 2015-07-29
@@ -164,8 +164,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#3](https://github.com/zendframework/zend-session/pull/3) Utilize
+- [zendframework/zend-session#3](https://github.com/zendframework/zend-session/pull/3) Utilize
   SaveHandlerInterface vs. our own.
 
-- [#2](https://github.com/zendframework/zend-session/pull/2) detect session
+- [zendframework/zend-session#2](https://github.com/zendframework/zend-session/pull/2) detect session
   exists by use of *PHP_SESSION_ACTIVE*

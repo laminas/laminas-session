@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\SaveHandler;
+namespace LaminasTest\Session\SaveHandler;
 
+use Laminas\Session\SaveHandler\MongoDB;
+use Laminas\Session\SaveHandler\MongoDBOptions;
 use MongoDB\Client as MongoClient;
 use MongoDB\Collection as MongoCollection;
-use Zend\Session\SaveHandler\MongoDB;
-use Zend\Session\SaveHandler\MongoDBOptions;
 
 /**
- * @group      Zend_Session
- * @covers Zend\Session\SaveHandler\MongoDb
+ * @group      Laminas_Session
+ * @covers Laminas\Session\SaveHandler\MongoDb
  * @requires extension mongodb
  */
 class MongoDBTest extends \PHPUnit_Framework_TestCase
@@ -46,7 +45,7 @@ class MongoDBTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->options = new MongoDBOptions([
-            'database' => 'zf2_tests',
+            'database' => 'laminas_tests',
             'collection' => 'sessions',
         ]);
 
