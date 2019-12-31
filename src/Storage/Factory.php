@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session\Storage;
+namespace Laminas\Session\Storage;
 
 use ArrayAccess;
+use Laminas\Session\Exception;
+use Laminas\Stdlib\ArrayObject;
+use Laminas\Stdlib\ArrayUtils;
 use Traversable;
-use Zend\Session\Exception;
-use Zend\Stdlib\ArrayObject;
-use Zend\Stdlib\ArrayUtils;
 
 abstract class Factory
 {
@@ -58,14 +57,14 @@ abstract class Factory
         }
 
         switch (true) {
-            case (in_array('Zend\Session\Storage\AbstractSessionArrayStorage', class_parents($type))):
+            case (in_array('Laminas\Session\Storage\AbstractSessionArrayStorage', class_parents($type))):
                 return static::createSessionArrayStorage($type, $options);
                 break;
-            case ($type === 'Zend\Session\Storage\ArrayStorage'):
-            case (in_array('Zend\Session\Storage\ArrayStorage', class_parents($type))):
+            case ($type === 'Laminas\Session\Storage\ArrayStorage'):
+            case (in_array('Laminas\Session\Storage\ArrayStorage', class_parents($type))):
                 return static::createArrayStorage($type, $options);
                 break;
-            case (in_array('Zend\Session\Storage\StorageInterface', class_implements($type))):
+            case (in_array('Laminas\Session\Storage\StorageInterface', class_implements($type))):
                 return new $type($options);
                 break;
             default:
