@@ -1,14 +1,11 @@
 docs_dir: docs/book
 site_dir: docs/html
 nav:
-    - Home: index.md
-    - Reference:
-        - "Session Config": config.md
-        - "Session Container": container.md
-        - "Session Manager": manager.md
-        - "Session Save Handlers": save-handler.md
-        - "Session Storage": storage.md
-        - "Session Validators": validator.md
+    - { Home: index.md }
+    - { Reference: [{ 'Session Config': config.md }, { 'Session Container': container.md }, { 'Session Manager': manager.md }, { 'Session Save Handlers': save-handler.md }, { 'Session Storage': storage.md }, { 'Session Validators': validator.md }] }
 site_name: laminas-session
 site_description: 'Object-oriented interface to PHP sessions and storage.'
 repo_url: 'https://github.com/laminas/laminas-session'
+extra:
+    project: Components
+    project_url: 'https://docs.laminas.dev'
