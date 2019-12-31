@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session;
+namespace Laminas\Session;
 
-use Zend\Session\Config\ConfigInterface as Config;
-use Zend\Session\ManagerInterface as Manager;
-use Zend\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
-use Zend\Session\Storage\StorageInterface as Storage;
+use Laminas\Session\Config\ConfigInterface as Config;
+use Laminas\Session\ManagerInterface as Manager;
+use Laminas\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
+use Laminas\Session\Storage\StorageInterface as Storage;
 
 /**
  * Base ManagerInterface implementation
@@ -30,7 +29,7 @@ abstract class AbstractManager implements Manager
      * Default configuration class to use when no configuration provided
      * @var string
      */
-    protected $defaultConfigClass = 'Zend\Session\Config\SessionConfig';
+    protected $defaultConfigClass = 'Laminas\Session\Config\SessionConfig';
 
     /**
      * @var Storage
@@ -41,7 +40,7 @@ abstract class AbstractManager implements Manager
      * Default storage class to use when no storage provided
      * @var string
      */
-    protected $defaultStorageClass = 'Zend\Session\Storage\SessionArrayStorage';
+    protected $defaultStorageClass = 'Laminas\Session\Storage\SessionArrayStorage';
 
     /**
      * @var SaveHandler
