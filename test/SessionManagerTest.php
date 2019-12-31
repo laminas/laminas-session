@@ -1,30 +1,31 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-session for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session;
+namespace LaminasTest\Session;
 
 use ArrayIterator;
 use DateTime;
+use Laminas\Session\Config\SessionConfig;
+use Laminas\Session\Config\StandardConfig;
+use Laminas\Session\Exception\InvalidArgumentException;
+use Laminas\Session\Exception\RuntimeException;
+use Laminas\Session\SessionManager;
+use Laminas\Session\Storage\ArrayStorage;
+use Laminas\Session\Storage\SessionArrayStorage;
+use Laminas\Session\Storage\SessionStorage;
+use Laminas\Session\Storage\StorageInterface;
+use Laminas\Session\Validator\Id;
+use Laminas\Session\Validator\RemoteAddr;
 use PHPUnit\Framework\TestCase;
-use Zend\Session\Config\SessionConfig;
-use Zend\Session\Config\StandardConfig;
-use Zend\Session\Exception\InvalidArgumentException;
-use Zend\Session\Exception\RuntimeException;
-use Zend\Session\SessionManager;
-use Zend\Session\Storage\ArrayStorage;
-use Zend\Session\Storage\SessionStorage;
-use Zend\Session\Storage\SessionArrayStorage;
-use Zend\Session\Storage\StorageInterface;
-use Zend\Session\Validator\Id;
-use Zend\Session\Validator\RemoteAddr;
 
 /**
  * @preserveGlobalState disabled
- * @covers \Zend\Session\SessionManager
+ * @covers \Laminas\Session\SessionManager
  */
 class SessionManagerTest extends TestCase
 {
@@ -710,7 +711,7 @@ class SessionManagerTest extends TestCase
         $storage->setMetadata('foo', 'bar');
         $metaData = $storage->getMetadata();
         $this->manager->writeClose();
-        $this->assertSame($_SESSION['__ZF'], $metaData);
+        $this->assertSame($_SESSION['__Laminas'], $metaData);
     }
 
     /**
@@ -757,9 +758,9 @@ class SessionManagerTest extends TestCase
 
         $this->manager->start();
 
-        $this->assertInternalType('array', $_SESSION['__ZF']['_VALID']);
-        $this->assertArrayHasKey(RemoteAddr::class, $_SESSION['__ZF']['_VALID']);
-        $this->assertEquals('', $_SESSION['__ZF']['_VALID'][RemoteAddr::class]);
+        $this->assertInternalType('array', $_SESSION['__Laminas']['_VALID']);
+        $this->assertArrayHasKey(RemoteAddr::class, $_SESSION['__Laminas']['_VALID']);
+        $this->assertEquals('', $_SESSION['__Laminas']['_VALID'][RemoteAddr::class]);
     }
 
     /**
@@ -783,7 +784,7 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $_SESSION = [
-            '__ZF' => [
+            '__Laminas' => [
                 '_VALID' => [
                     RemoteAddr::class => '',
                 ],
@@ -802,7 +803,7 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $_SESSION = [
-            '__ZF' => [
+            '__Laminas' => [
                 '_VALID' => [
                     RemoteAddr::class => '123.123.123.123',
                 ],

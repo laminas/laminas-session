@@ -1,15 +1,16 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-session for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session\Config;
+namespace Laminas\Session\Config;
 
+use Laminas\Session\Exception;
+use Laminas\Validator\Hostname as HostnameValidator;
 use Traversable;
-use Zend\Session\Exception;
-use Zend\Validator\Hostname as HostnameValidator;
 
 /**
  * Standard session configuration
