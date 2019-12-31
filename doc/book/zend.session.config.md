@@ -1,20 +1,20 @@
 # Session Config
 
-Zend Framework comes with a standard set of config classes which are ready for you to use. Config
+Laminas comes with a standard set of config classes which are ready for you to use. Config
 handles setting various configuration such as where a cookie lives, lifetime, including several bits
-to configure ext/session when using `Zend\Session\Config\SessionConfig`.
+to configure ext/session when using `Laminas\Session\Config\SessionConfig`.
 
 orphan  
 
 ## Standard Config
 
-`Zend\Session\Config\StandardConfig` provides you a basic interface for implementing sessions when
+`Laminas\Session\Config\StandardConfig` provides you a basic interface for implementing sessions when
 *not* leveraging ext/session. This is utilized more for specialized cases such as when you might
 have session management done by another system.
 
 ### Basic Configuration Options
 
-The following configuration options are defined by `Zend\Session\Config\StandardConfig`.
+The following configuration options are defined by `Laminas\Session\Config\StandardConfig`.
 
 <table>
 <colgroup>
@@ -123,13 +123,13 @@ data.</td>
 A basic example is one like the following:
 
 ```php
-use Zend\Session\Config\StandardConfig;
-use Zend\Session\SessionManager;
+use Laminas\Session\Config\StandardConfig;
+use Laminas\Session\SessionManager;
 
 $config = new StandardConfig();
 $config->setOptions(array(
     'remember_me_seconds' => 1800,
-    'name'                => 'zf2',
+    'name'                => 'laminas',
 ));
 $manager = new SessionManager($config);
 ```
@@ -138,14 +138,14 @@ orphan
 
 ## Session Config
 
-`Zend\Session\Config\SessionConfig` provides you a basic interface for implementing sessions when
+`Laminas\Session\Config\SessionConfig` provides you a basic interface for implementing sessions when
 that leverage PHP's ext/session. Most configuration options configure either the
-`Zend\Session\Storage` OR configure ext/session directly.
+`Laminas\Session\Storage` OR configure ext/session directly.
 
 ### Basic Configuration Options
 
-The following configuration options are defined by `Zend\Session\Config\SessionConfig`, note that it
-inherits all configuration from `Zend\Session\Config\StandardConfig`.
+The following configuration options are defined by `Laminas\Session\Config\SessionConfig`, note that it
+inherits all configuration from `Laminas\Session\Config\StandardConfig`.
 
 <table>
 <colgroup>
@@ -200,8 +200,8 @@ enabled.</td>
 A basic example is one like the following:
 
 ```php
-use Zend\Session\Config\SessionConfig;
-use Zend\Session\SessionManager;
+use Laminas\Session\Config\SessionConfig;
+use Laminas\Session\SessionManager;
 
 $config = new SessionConfig();
 $config->setOptions(array(
@@ -213,9 +213,9 @@ $manager = new SessionManager($config);
 
 ### Service Manager Factory
 
-`Zend\Session` ships with a Service Manager &lt;zend.service-manager.intro&gt; factory which reads
+`Laminas\Session` ships with a Service Manager &lt;laminas.service-manager.intro&gt; factory which reads
 configuration data from the application configuration and injects a corresponding instance of
-`Zend\Session\Config\SessionConfig` into the session manager automatically.
+`Laminas\Session\Config\SessionConfig` into the session manager automatically.
 
 To use this factory, you first need to register it with the Service Manager by adding the
 appropriate factory definition:
@@ -223,7 +223,7 @@ appropriate factory definition:
 ```php
 'service_manager' => array(
     'factories' => array(
-        'Zend\Session\Config\ConfigInterface' => 'Zend\Session\Service\SessionConfigFactory',
+        'Laminas\Session\Config\ConfigInterface' => 'Laminas\Session\Service\SessionConfigFactory',
     ),
 ),
 ```
@@ -238,7 +238,7 @@ Then place your application's session configuration in the root-level configurat
 ),
 ```
 
-Any of the configuration options defined in zend.session.config.session-config.options can be used
+Any of the configuration options defined in laminas.session.config.session-config.options can be used
 there, as well as the following factory-specific configuration options:
 
 <table>
@@ -259,7 +259,7 @@ there, as well as the following factory-specific configuration options:
 <td align="left">config_class</td>
 <td align="left"><code>string</code></td>
 <td align="left">Name of the class to use as the configuration container (Defaults to
-<code>Zend\Session\Config\SessionConfig</code></td>
+<code>Laminas\Session\Config\SessionConfig</code></td>
 </tr>
 </tbody>
 </table>
@@ -267,6 +267,6 @@ there, as well as the following factory-specific configuration options:
 ## Custom Configuration
 
 In the event that you prefer to create your own session configuration; you *must* implement
-`Zend\Session\Config\ConfigInterface` which contains the basic interface for items needed when
+`Laminas\Session\Config\ConfigInterface` which contains the basic interface for items needed when
 implementing a session. This includes cookie configuration, lifetime, session name, save path and an
 interface for getting and setting options.

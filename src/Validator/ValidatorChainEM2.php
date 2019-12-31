@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zend-validator for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
-namespace Zend\Session\Validator;
+namespace Laminas\Session\Validator;
 
-use Zend\EventManager\EventManager;
+use Laminas\EventManager\EventManager;
 
 /**
- * Validator chain for validating sessions (for use with zend-eventmanager v2)
+ * Validator chain for validating sessions (for use with laminas-eventmanager v2)
  */
 class ValidatorChainEM2 extends EventManager
 {
@@ -23,7 +22,7 @@ class ValidatorChainEM2 extends EventManager
      * @param string $event
      * @param null|callable $callback
      * @param int $priority
-     * @return \Zend\Stdlib\CallbackHandler
+     * @return \Laminas\Stdlib\CallbackHandler
      */
     public function attach($event, $callback = null, $priority = 1)
     {

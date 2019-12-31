@@ -6,13 +6,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#29](https://github.com/zendframework/zend-session/pull/29) adds two new
-  classes: `Zend\Session\Validator\ValidatorChainEM2` and `ValidatorChainEM3`.
+- [zendframework/zend-session#29](https://github.com/zendframework/zend-session/pull/29) adds two new
+  classes: `Laminas\Session\Validator\ValidatorChainEM2` and `ValidatorChainEM3`.
   Due to differences in the `EventManagerInterface::attach()` method between
-  zend-eventmanager v2 and v3, and the fact that `ValidatorChain` overrides that
+  laminas-eventmanager v2 and v3, and the fact that `ValidatorChain` overrides that
   method, we now need an implementation targeting each major version. To provide
   a consistent use case, we use a polyfill that aliases the appropriate version
-  to the `Zend\Session\ValidatorChain` class.
+  to the `Laminas\Session\ValidatorChain` class.
 
 ### Deprecated
 
@@ -24,10 +24,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#29](https://github.com/zendframework/zend-session/pull/29) updates the code
-  to be forwards compatible with the v3 releases of zend-eventmanager and
-  zend-servicemanager.
-- [#7](https://github.com/zendframework/zend-session/pull/7) Mongo save handler
+- [zendframework/zend-session#29](https://github.com/zendframework/zend-session/pull/29) updates the code
+  to be forwards compatible with the v3 releases of laminas-eventmanager and
+  laminas-servicemanager.
+- [zendframework/zend-session#7](https://github.com/zendframework/zend-session/pull/7) Mongo save handler
   was using sprintf formatting without sprintf.
 
 ## 2.5.2 - 2015-07-29
@@ -46,8 +46,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#3](https://github.com/zendframework/zend-session/pull/3) Utilize
+- [zendframework/zend-session#3](https://github.com/zendframework/zend-session/pull/3) Utilize
   SaveHandlerInterface vs. our own.
 
-- [#2](https://github.com/zendframework/zend-session/pull/2) detect session
+- [zendframework/zend-session#2](https://github.com/zendframework/zend-session/pull/2) detect session
   exists by use of *PHP_SESSION_ACTIVE*
