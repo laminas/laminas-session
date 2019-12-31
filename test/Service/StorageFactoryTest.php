@@ -1,25 +1,24 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\Service;
+namespace LaminasTest\Session\Service;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
- * @group      Zend_Session
+ * @group      Laminas_Session
  */
 class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         $this->services = new ServiceManager();
-        $this->services->setFactory('Zend\Session\Storage\StorageInterface', 'Zend\Session\Service\StorageFactory');
+        $this->services->setFactory('Laminas\Session\Storage\StorageInterface', 'Laminas\Session\Service\StorageFactory');
     }
 
     public function sessionStorageConfig()
@@ -34,17 +33,17 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
                         ),
                     ),
                 ),
-            ), 'Zend\Session\Storage\ArrayStorage'),
+            ), 'Laminas\Session\Storage\ArrayStorage'),
             'array-storage-fqcn' => array(array(
                 'session_storage' => array(
-                    'type' => 'Zend\Session\Storage\ArrayStorage',
+                    'type' => 'Laminas\Session\Storage\ArrayStorage',
                     'options' => array(
                         'input' => array(
                             'foo' => 'bar',
                         ),
                     ),
                 ),
-            ), 'Zend\Session\Storage\ArrayStorage'),
+            ), 'Laminas\Session\Storage\ArrayStorage'),
             'session-array-storage-short' => array(array(
                 'session_storage' => array(
                     'type' => 'SessionArrayStorage',
@@ -54,17 +53,17 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
                         ),
                     ),
                 ),
-            ), 'Zend\Session\Storage\SessionArrayStorage'),
+            ), 'Laminas\Session\Storage\SessionArrayStorage'),
             'session-array-storage-fqcn' => array(array(
                 'session_storage' => array(
-                    'type' => 'Zend\Session\Storage\SessionArrayStorage',
+                    'type' => 'Laminas\Session\Storage\SessionArrayStorage',
                     'options' => array(
                         'input' => array(
                             'foo' => 'bar',
                         ),
                     ),
                 ),
-            ), 'Zend\Session\Storage\SessionArrayStorage'),
+            ), 'Laminas\Session\Storage\SessionArrayStorage'),
         );
     }
 
@@ -74,7 +73,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     public function testUsesConfigurationToCreateStorage($config, $class)
     {
         $this->services->setService('Config', $config);
-        $storage = $this->services->get('Zend\Session\Storage\StorageInterface');
+        $storage = $this->services->get('Laminas\Session\Storage\StorageInterface');
         $this->assertInstanceOf($class, $storage);
         $test = $storage->toArray();
         $this->assertEquals($config['session_storage']['options']['input'], $test);
@@ -97,7 +96,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             )),
             'bad-class' => array(array(
                 'session_storage' => array(
-                    'type' => 'Zend\Session\Config\StandardConfig',
+                    'type' => 'Laminas\Session\Config\StandardConfig',
                     'options' => array(),
                 ),
             )),
@@ -118,7 +117,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     public function testInvalidConfigurationRaisesServiceNotCreatedException($config)
     {
         $this->services->setService('Config', $config);
-        $this->setExpectedException('Zend\ServiceManager\Exception\ServiceNotCreatedException');
-        $storage = $this->services->get('Zend\Session\Storage\StorageInterface');
+        $this->setExpectedException('Laminas\ServiceManager\Exception\ServiceNotCreatedException');
+        $storage = $this->services->get('Laminas\Session\Storage\StorageInterface');
     }
 }
