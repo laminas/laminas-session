@@ -1,17 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Session
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session\Storage;
+namespace Laminas\Session\Storage;
 
 use ArrayObject;
-use Zend\Session\Exception;
+use Laminas\Session\Exception;
 
 /**
  * Array session storage
@@ -19,8 +17,8 @@ use Zend\Session\Exception;
  * Defines an ArrayObject interface for accessing session storage, with options
  * for setting metadata, locking, and marking as isImmutable.
  *
- * @category   Zend
- * @package    Zend_Session
+ * @category   Laminas
+ * @package    Laminas_Session
  * @subpackage Storage
  */
 class ArrayStorage extends ArrayObject implements StorageInterface
@@ -236,26 +234,26 @@ class ArrayStorage extends ArrayObject implements StorageInterface
             ));
         }
 
-        if (!isset($this['__ZF'])) {
-            $this['__ZF'] = array();
+        if (!isset($this['__Laminas'])) {
+            $this['__Laminas'] = array();
         }
-        if (isset($this['__ZF'][$key]) && is_array($value)) {
+        if (isset($this['__Laminas'][$key]) && is_array($value)) {
             if ($overwriteArray) {
-                $this['__ZF'][$key] = $value;
+                $this['__Laminas'][$key] = $value;
             } else {
-                $this['__ZF'][$key] = array_replace_recursive($this['__ZF'][$key], $value);
+                $this['__Laminas'][$key] = array_replace_recursive($this['__Laminas'][$key], $value);
             }
         } else {
-            if ((null === $value) && isset($this['__ZF'][$key])) {
-                // unset($this['__ZF'][$key]) led to "indirect modification...
+            if ((null === $value) && isset($this['__Laminas'][$key])) {
+                // unset($this['__Laminas'][$key]) led to "indirect modification...
                 // has no effect" errors, so explicitly pulling array and
                 // unsetting key.
-                $array = $this['__ZF'];
+                $array = $this['__Laminas'];
                 unset($array[$key]);
-                $this['__ZF'] = $array;
+                $this['__Laminas'] = $array;
                 unset($array);
             } elseif (null !== $value) {
-                $this['__ZF'][$key] = $value;
+                $this['__Laminas'][$key] = $value;
             }
         }
 
@@ -273,19 +271,19 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      */
     public function getMetadata($key = null)
     {
-        if (!isset($this['__ZF'])) {
+        if (!isset($this['__Laminas'])) {
             return false;
         }
 
         if (null === $key) {
-            return $this['__ZF'];
+            return $this['__Laminas'];
         }
 
-        if (!array_key_exists($key, $this['__ZF'])) {
+        if (!array_key_exists($key, $this['__Laminas'])) {
             return false;
         }
 
-        return $this['__ZF'][$key];
+        return $this['__Laminas'][$key];
     }
 
     /**
@@ -345,8 +343,8 @@ class ArrayStorage extends ArrayObject implements StorageInterface
     public function toArray()
     {
         $values = $this->getArrayCopy();
-        if (isset($values['__ZF'])) {
-            unset($values['__ZF']);
+        if (isset($values['__Laminas'])) {
+            unset($values['__Laminas']);
         }
         return $values;
     }
