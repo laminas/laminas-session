@@ -1,29 +1,28 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session;
+namespace LaminasTest\Session;
 
 use DateTime;
+use Laminas\Session\Config\SessionConfig;
+use Laminas\Session\Config\StandardConfig;
+use Laminas\Session\Exception\InvalidArgumentException;
+use Laminas\Session\Exception\RuntimeException;
+use Laminas\Session\SessionManager;
+use Laminas\Session\Storage\ArrayStorage;
+use Laminas\Session\Storage\SessionArrayStorage;
+use Laminas\Session\Validator\Id;
+use Laminas\Session\Validator\RemoteAddr;
 use stdClass;
-use Zend\Session\Config\SessionConfig;
-use Zend\Session\Config\StandardConfig;
-use Zend\Session\Exception\InvalidArgumentException;
-use Zend\Session\Exception\RuntimeException;
-use Zend\Session\SessionManager;
-use Zend\Session\Storage\ArrayStorage;
-use Zend\Session\Storage\SessionArrayStorage;
-use Zend\Session\Validator\Id;
-use Zend\Session\Validator\RemoteAddr;
 
 /**
  * @preserveGlobalState disabled
- * @covers Zend\Session\SessionManager
+ * @covers Laminas\Session\SessionManager
  */
 class SessionManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -598,7 +597,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $storage->setMetadata('foo', 'bar');
         $metaData = $storage->getMetadata();
         $this->manager->writeClose();
-        $this->assertSame($_SESSION['__ZF'], $metaData);
+        $this->assertSame($_SESSION['__Laminas'], $metaData);
     }
 
     /**
@@ -642,9 +641,9 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->manager->start();
 
-        $this->assertInternalType('array', $_SESSION['__ZF']['_VALID']);
-        $this->assertArrayHasKey(RemoteAddr::class, $_SESSION['__ZF']['_VALID']);
-        $this->assertEquals('', $_SESSION['__ZF']['_VALID'][RemoteAddr::class]);
+        $this->assertInternalType('array', $_SESSION['__Laminas']['_VALID']);
+        $this->assertArrayHasKey(RemoteAddr::class, $_SESSION['__Laminas']['_VALID']);
+        $this->assertEquals('', $_SESSION['__Laminas']['_VALID'][RemoteAddr::class]);
     }
 
     /**
@@ -667,7 +666,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     public function testRemoteAddressValidationWillSucceedWithValidPreSetData()
     {
         $_SESSION = [
-            '__ZF' => [
+            '__Laminas' => [
                 '_VALID' => [RemoteAddr::class => ''],
             ],
         ];
@@ -683,7 +682,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     public function testRemoteAddressValidationWillFailWithInvalidPreSetData()
     {
         $_SESSION = [
-            '__ZF' => [
+            '__Laminas' => [
                 '_VALID' => [RemoteAddr::class => '123.123.123.123'],
             ],
         ];

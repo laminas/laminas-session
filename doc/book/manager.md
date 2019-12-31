@@ -1,6 +1,6 @@
 # Session Manager
 
-The session manager, `Zend\Session\SessionManager`, is the class responsible for
+The session manager, `Laminas\Session\SessionManager`, is the class responsible for
 all aspects of session management. It initializes configuration, storage, and
 save handlers.  Additionally the session manager can be injected into the
 session container to provide a wrapper or namespace around your session data.
@@ -26,7 +26,7 @@ The following illustrates how you may configure the session manager by setting
 options in your local or global config:
 
 ```php
-use Zend\Session;
+use Laminas\Session;
 
 return [
     'session_manager' => [
@@ -49,11 +49,11 @@ The following illustrates how you might utilize the above configuration to
 create the session manager:
 
 ```php
-use Zend\Session\SessionManager;
-use Zend\Session\Config\SessionConfig;
-use Zend\Session\Container;
-use Zend\Session\SessionManager;
-use Zend\Session\Validator;
+use Laminas\Session\SessionManager;
+use Laminas\Session\Config\SessionConfig;
+use Laminas\Session\Container;
+use Laminas\Session\SessionManager;
+use Laminas\Session\Validator;
 
 class Module
 {
@@ -171,6 +171,6 @@ class Module
 }
 ```
 
-When you create a new `Zend\Session\Container` (see
+When you create a new `Laminas\Session\Container` (see
 [Session Container](container.md) page) in a controller, for example, it will
 use the session configured above.
