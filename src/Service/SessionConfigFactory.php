@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-session for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session\Service;
+namespace Laminas\Session\Service;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Session\Config\ConfigInterface;
-use Zend\Session\Config\SessionConfig;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Session\Config\ConfigInterface;
+use Laminas\Session\Config\SessionConfig;
 
 class SessionConfigFactory implements FactoryInterface
 {
@@ -20,7 +21,7 @@ class SessionConfigFactory implements FactoryInterface
      * Create session configuration object (v3 usage).
      *
      * Uses "session_config" section of configuration to seed a ConfigInterface
-     * instance. By default, Zend\Session\Config\SessionConfig will be used, but
+     * instance. By default, Laminas\Session\Config\SessionConfig will be used, but
      * you may also specify a specific implementation variant using the
      * "config_class" subkey.
      *

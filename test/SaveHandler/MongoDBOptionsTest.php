@@ -1,17 +1,18 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-session for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\SaveHandler;
+namespace LaminasTest\Session\SaveHandler;
 
+use Laminas\Session\SaveHandler\MongoDBOptions;
 use PHPUnit\Framework\TestCase;
-use Zend\Session\SaveHandler\MongoDBOptions;
 
 /**
- * @covers \Zend\Session\SaveHandler\MongoDbOptions
+ * @covers \Laminas\Session\SaveHandler\MongoDbOptions
  */
 class MongoDBOptionsTest extends TestCase
 {
@@ -71,7 +72,7 @@ class MongoDBOptionsTest extends TestCase
     }
 
     /**
-     * @expectedException Zend\Session\Exception\InvalidArgumentException
+     * @expectedException Laminas\Session\Exception\InvalidArgumentException
      */
     public function testInvalidDatabase()
     {
@@ -81,7 +82,7 @@ class MongoDBOptionsTest extends TestCase
     }
 
     /**
-     * @expectedException Zend\Session\Exception\InvalidArgumentException
+     * @expectedException Laminas\Session\Exception\InvalidArgumentException
      */
     public function testInvalidCollection()
     {
@@ -91,7 +92,7 @@ class MongoDBOptionsTest extends TestCase
     }
 
     /**
-     * @expectedException Zend\Session\Exception\InvalidArgumentException
+     * @expectedException Laminas\Session\Exception\InvalidArgumentException
      */
     public function testInvalidSaveOptions()
     {
@@ -101,7 +102,7 @@ class MongoDBOptionsTest extends TestCase
     }
 
     /**
-     * @expectedException Zend\Session\Exception\InvalidArgumentException
+     * @expectedException Laminas\Session\Exception\InvalidArgumentException
      */
     public function testInvalidNameField()
     {
@@ -111,7 +112,7 @@ class MongoDBOptionsTest extends TestCase
     }
 
     /**
-     * @expectedException Zend\Session\Exception\InvalidArgumentException
+     * @expectedException Laminas\Session\Exception\InvalidArgumentException
      */
     public function testInvalidModifiedField()
     {
@@ -121,7 +122,7 @@ class MongoDBOptionsTest extends TestCase
     }
 
     /**
-     * @expectedException Zend\Session\Exception\InvalidArgumentException
+     * @expectedException Laminas\Session\Exception\InvalidArgumentException
      */
     public function testInvalidLifetimeField()
     {
@@ -131,7 +132,7 @@ class MongoDBOptionsTest extends TestCase
     }
 
     /**
-     * @expectedException Zend\Session\Exception\InvalidArgumentException
+     * @expectedException Laminas\Session\Exception\InvalidArgumentException
      */
     public function testInvalidDataField()
     {
