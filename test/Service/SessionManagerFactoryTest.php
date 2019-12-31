@@ -1,34 +1,33 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\Service;
+namespace LaminasTest\Session\Service;
 
+use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
+use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\Session\Config\ConfigInterface;
+use Laminas\Session\Container;
+use Laminas\Session\ManagerInterface;
+use Laminas\Session\SaveHandler\SaveHandlerInterface;
+use Laminas\Session\Service\SessionManagerFactory;
+use Laminas\Session\SessionManager;
+use Laminas\Session\Storage\ArrayStorage;
+use Laminas\Session\Storage\StorageInterface;
+use Laminas\Session\Validator;
+use LaminasTest\Session\TestAsset\TestManager;
+use LaminasTest\Session\TestAsset\TestSaveHandler;
 use PHPUnit\Framework\TestCase;
-use Zend\EventManager\Test\EventListenerIntrospectionTrait;
-use Zend\ServiceManager\Config;
-use Zend\ServiceManager\ServiceManager;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\Session\Config\ConfigInterface;
-use Zend\Session\Container;
-use Zend\Session\ManagerInterface;
-use Zend\Session\SaveHandler\SaveHandlerInterface;
-use Zend\Session\Service\SessionManagerFactory;
-use Zend\Session\SessionManager;
-use Zend\Session\Storage\ArrayStorage;
-use Zend\Session\Storage\StorageInterface;
-use Zend\Session\Validator;
-use ZendTest\Session\TestAsset\TestManager;
-use ZendTest\Session\TestAsset\TestSaveHandler;
 
 /**
- * @group      Zend_Session
- * @covers Zend\Session\Service\SessionManagerFactory
+ * @group      Laminas_Session
+ * @covers Laminas\Session\Service\SessionManagerFactory
  */
 class SessionManagerFactoryTest extends TestCase
 {
