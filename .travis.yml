@@ -8,8 +8,8 @@ env:
   global:
     - COMPOSER_ARGS="--no-interaction"
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
-    - TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL=true
-    - TESTS_ZEND_SESSION_ADAPTER_DRIVER_PGSQL=true
+    - TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL=true
+    - TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL=true
 
 services:
   - mongodb
@@ -17,24 +17,17 @@ services:
   - postgresql
 
 matrix:
+  fast_finish: true
   include:
     - php: 5.6
       env:
         - DEPS=lowest
     - php: 5.6
       env:
-        - DEPS=locked
-        - LEGACY_DEPS="phpunit/phpunit php-mock/php-mock-phpunit"
-    - php: 5.6
-      env:
         - DEPS=latest
     - php: 7
       env:
         - DEPS=lowest
-    - php: 7
-      env:
-        - DEPS=locked
-        - LEGACY_DEPS="phpunit/phpunit"
     - php: 7
       env:
         - DEPS=latest
@@ -43,27 +36,18 @@ matrix:
         - DEPS=lowest
     - php: 7.1
       env:
-        - DEPS=locked
+        - DEPS=latest
         - CS_CHECK=true
         - TEST_COVERAGE=true
-    - php: 7.1
-      env:
-        - DEPS=latest
     - php: 7.2
       env:
         - DEPS=lowest
-    - php: 7.2
-      env:
-        - DEPS=locked
     - php: 7.2
       env:
         - DEPS=latest
     - php: 7.3
       env:
         - DEPS=lowest
-    - php: 7.3
-      env:
-        - DEPS=locked
     - php: 7.3
       env:
         - DEPS=latest
@@ -73,8 +57,8 @@ before_install:
   - pecl channel-update pecl.php.net
   - pecl -q upgrade mongodb
   - $(php -m | grep -q mongodb) || echo "extension=mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - psql -c 'create database zend_session_test;' -U postgres
-  - mysql -e 'CREATE DATABASE zend_session_test;'
+  - psql -c 'create database laminas_session_test;' -U postgres
+  - mysql -e 'CREATE DATABASE laminas_session_test;'
 
 install:
   - travis_retry composer install $COMPOSER_ARGS --ignore-platform-reqs

@@ -1,14 +1,15 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-session for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Session\SaveHandler;
+namespace Laminas\Session\SaveHandler;
 
-use Zend\Cache\Storage\ClearExpiredInterface as ClearExpiredCacheStorage;
-use Zend\Cache\Storage\StorageInterface as CacheStorage;
+use Laminas\Cache\Storage\ClearExpiredInterface as ClearExpiredCacheStorage;
+use Laminas\Cache\Storage\StorageInterface as CacheStorage;
 
 /**
  * Cache session save handler
