@@ -1,57 +1,19 @@
 {
-    "name": "zendframework/zend-session",
+    "name": "laminas/laminas-session",
     "description": "manage and preserve session data, a logical complement of cookie data, across multiple page requests by the same client",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf",
-        "zendframework",
+        "laminas",
         "session"
     ],
+    "homepage": "https://laminas.dev",
     "support": {
-        "docs": "https://docs.zendframework.com/zend-session/",
-        "issues": "https://github.com/zendframework/zend-session/issues",
-        "source": "https://github.com/zendframework/zend-session",
-        "rss": "https://github.com/zendframework/zend-session/releases.atom",
-        "slack": "https://zendframework-slack.herokuapp.com",
-        "forum": "https://discourse.zendframework.com/c/questions/components"
-    },
-    "require": {
-        "php": "^5.6 || ^7.0",
-        "zendframework/zend-eventmanager": "^2.6.2 || ^3.0",
-        "zendframework/zend-stdlib": "^2.7 || ^3.0"
-    },
-    "require-dev": {
-        "container-interop/container-interop": "^1.1",
-        "mongodb/mongodb": "^1.0.1",
-        "php-mock/php-mock-phpunit": "^1.1.2 || ^2.0",
-        "phpunit/phpunit": "^5.7.5 || >=6.0.13 <6.5.0",
-        "zendframework/zend-cache": "^2.6.1",
-        "zendframework/zend-coding-standard": "~1.0.0",
-        "zendframework/zend-db": "^2.7",
-        "zendframework/zend-http": "^2.5.4",
-        "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
-        "zendframework/zend-validator": "^2.6"
-    },
-    "suggest": {
-        "mongodb/mongodb": "If you want to use the MongoDB session save handler",
-        "zendframework/zend-cache": "Zend\\Cache component",
-        "zendframework/zend-db": "Zend\\Db component",
-        "zendframework/zend-http": "Zend\\Http component",
-        "zendframework/zend-servicemanager": "Zend\\ServiceManager component",
-        "zendframework/zend-validator": "Zend\\Validator component"
-    },
-    "autoload": {
-        "psr-4": {
-            "Zend\\Session\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "files": [
-            "test/autoload.php"
-        ],
-        "psr-4": {
-            "ZendTest\\Session\\": "test/"
-        }
+        "docs": "https://docs.laminas.dev/laminas-session/",
+        "issues": "https://github.com/laminas/laminas-session/issues",
+        "source": "https://github.com/laminas/laminas-session",
+        "rss": "https://github.com/laminas/laminas-session/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
     },
     "config": {
         "sort-packages": true
@@ -61,9 +23,48 @@
             "dev-master": "2.8.x-dev",
             "dev-develop": "2.9.x-dev"
         },
-        "zf": {
-            "component": "Zend\\Session",
-            "config-provider": "Zend\\Session\\ConfigProvider"
+        "laminas": {
+            "component": "Laminas\\Session",
+            "config-provider": "Laminas\\Session\\ConfigProvider"
+        }
+    },
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "laminas/laminas-eventmanager": "^2.6.2 || ^3.0",
+        "laminas/laminas-stdlib": "^2.7 || ^3.0",
+        "laminas/laminas-zendframework-bridge": "^1.0"
+    },
+    "require-dev": {
+        "container-interop/container-interop": "^1.1",
+        "laminas/laminas-cache": "^2.6.1",
+        "laminas/laminas-coding-standard": "~1.0.0",
+        "laminas/laminas-db": "^2.7",
+        "laminas/laminas-http": "^2.5.4",
+        "laminas/laminas-servicemanager": "^2.7.5 || ^3.0.3",
+        "laminas/laminas-validator": "^2.6",
+        "mongodb/mongodb": "^1.0.1",
+        "php-mock/php-mock-phpunit": "^1.1.2 || ^2.0",
+        "phpunit/phpunit": "^5.7.5 || >=6.0.13 <6.5.0"
+    },
+    "suggest": {
+        "laminas/laminas-cache": "Laminas\\Cache component",
+        "laminas/laminas-db": "Laminas\\Db component",
+        "laminas/laminas-http": "Laminas\\Http component",
+        "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
+        "laminas/laminas-validator": "Laminas\\Validator component",
+        "mongodb/mongodb": "If you want to use the MongoDB session save handler"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Session\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "test/autoload.php"
+        ],
+        "psr-4": {
+            "LaminasTest\\Session\\": "test/"
         }
     },
     "scripts": {
@@ -75,5 +76,8 @@
         "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    },
+    "replace": {
+        "zendframework/zend-session": "self.version"
     }
 }

@@ -4,7 +4,7 @@
          bootstrap="./vendor/autoload.php"
          colors="true">
     <testsuites>
-        <testsuite name="zend-session Test Suite">
+        <testsuite name="laminas-session Test Suite">
             <directory>./test/</directory>
         </testsuite>
     </testsuites>
@@ -26,20 +26,20 @@
 
         <!-- OB_ENABLED should be enabled for some tests to check if all
              functionality works as expected. Such tests include those for
-             Zend\Soap and Zend\Session, which require that headers not be sent
+             Laminas\Soap and Laminas\Session, which require that headers not be sent
              in order to work. -->
-        <env name="TESTS_ZEND_OB_ENABLED" value="false" />
+        <env name="TESTS_LAMINAS_OB_ENABLED" value="false" />
 
-        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL" value="false" />
-        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="localhost" />
-        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL_USERNAME" value="travis" />
-        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL_PASSWORD" value="" />
-        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL_DATABASE" value="zend_session_test" />
+        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL" value="false" />
+        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="localhost" />
+        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_USERNAME" value="travis" />
+        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_PASSWORD" value="" />
+        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_DATABASE" value="laminas_session_test" />
 
-        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_PGSQL" value="false" />
-        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="localhost" />
-        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_PGSQL_USERNAME" value="travis" />
-        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_PGSQL_PASSWORD" value="" />
-        <env name="TESTS_ZEND_SESSION_ADAPTER_DRIVER_PGSQL_DATABASE" value="zend_session_test" />
+        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL" value="false" />
+        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="localhost" />
+        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_USERNAME" value="travis" />
+        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_PASSWORD" value="" />
+        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_DATABASE" value="laminas_session_test" />
     </php>
 </phpunit>

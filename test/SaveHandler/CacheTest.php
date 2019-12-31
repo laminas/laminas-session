@@ -1,25 +1,24 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\SaveHandler;
+namespace LaminasTest\Session\SaveHandler;
 
+use Laminas\Session\SaveHandler\Cache;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Zend\Session\SaveHandler\Cache;
 
 /**
  * Unit testing for DbTable include all tests for
  * regular session handling
  *
- * @group      Zend_Session
- * @group      Zend_Cache
- * @covers Zend\Session\SaveHandler\Cache
+ * @group      Laminas_Session
+ * @group      Laminas_Cache
+ * @covers Laminas\Session\SaveHandler\Cache
  */
 class CacheTest extends TestCase
 {
@@ -48,7 +47,7 @@ class CacheTest extends TestCase
 
     public function testReadWrite()
     {
-        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
         $cacheStorage->setItem('242', Argument::type('string'))
             ->will(function ($args) {
                 $this->getItem('242')->willReturn($args[1]);
@@ -70,7 +69,7 @@ class CacheTest extends TestCase
 
     public function testReadWriteComplex()
     {
-        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
         $cacheStorage->setItem('242', Argument::type('string'))
             ->will(function ($args) {
                 $this->getItem('242')->willReturn($args[1]);
@@ -88,7 +87,7 @@ class CacheTest extends TestCase
 
     public function testReadWriteTwice()
     {
-        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
         $cacheStorage->setItem('242', Argument::type('string'))
             ->will(function ($args) {
                 $this->getItem('242')->willReturn($args[1])->shouldBeCalledTimes(2);
@@ -110,7 +109,7 @@ class CacheTest extends TestCase
 
     public function testReadShouldAlwaysReturnString()
     {
-        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
         $cacheStorage->getItem('242')->willReturn(null);
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
@@ -123,7 +122,7 @@ class CacheTest extends TestCase
 
     public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist()
     {
-        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
         $id = '242';
@@ -135,7 +134,7 @@ class CacheTest extends TestCase
 
     public function testDestroyReturnsTrueWhenSessionIsDeleted()
     {
-        $cacheStorage = $this->prophesize('Zend\Cache\Storage\StorageInterface');
+        $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
         $cacheStorage->setItem('242', Argument::type('string'))
             ->will(function ($args) {
                 $this->getItem('242', Argument::any())

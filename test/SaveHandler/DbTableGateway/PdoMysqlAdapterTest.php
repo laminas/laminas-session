@@ -1,15 +1,16 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-session for the canonical source repository
- * @copyright Copyright (c) 2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-session/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-session for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Session\SaveHandler\DbTableGateway;
+namespace LaminasTest\Session\SaveHandler\DbTableGateway;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Session\SaveHandler\DbTableGateway;
-use ZendTest\Session\SaveHandler\DbTableGatewayTest;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Session\SaveHandler\DbTableGateway;
+use LaminasTest\Session\SaveHandler\DbTableGatewayTest;
 
 class PdoMysqlAdapterTest extends DbTableGatewayTest
 {
@@ -18,7 +19,7 @@ class PdoMysqlAdapterTest extends DbTableGatewayTest
      */
     protected function getAdapter()
     {
-        if (! getenv('TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL')) {
+        if (! getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL')) {
             $this->markTestSkipped(sprintf(
                 '%s tests with MySQL are disabled',
                 DbTableGateway::class
@@ -34,10 +35,10 @@ class PdoMysqlAdapterTest extends DbTableGatewayTest
 
         return new Adapter([
             'driver' => 'pdo_mysql',
-            'host' => getenv('TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
-            'user' => getenv('TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL_USERNAME'),
-            'password' => getenv('TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL_PASSWORD'),
-            'dbname' => getenv('TESTS_ZEND_SESSION_ADAPTER_DRIVER_MYSQL_DATABASE'),
+            'host' => getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
+            'user' => getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_USERNAME'),
+            'password' => getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_PASSWORD'),
+            'dbname' => getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_DATABASE'),
         ]);
     }
 }
