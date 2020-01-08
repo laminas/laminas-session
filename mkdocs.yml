@@ -14,4 +14,3 @@ site_description: 'Object-oriented interface to PHP sessions and storage.'
 repo_url: 'https://github.com/laminas/laminas-session'
 extra:
     project: Components
-    project_url: 'https://docs.laminas.dev'
