@@ -6,10 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Object-oriented interface to PHP sessions and storage.">  
-    <link rel="canonical" href="https://docs.laminas.dev/config/">
     <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>Session Config - laminas-session - Laminas Docs</title>
+    <title>laminas-session - Laminas Docs</title>
 
     <link rel="stylesheet" href="/css/styles.css">
 </head>
@@ -59,7 +58,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">laminas-session</a>
+            <a href="../.">laminas-session</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -78,8 +77,8 @@
                                 <ul class="subnavigation__list">
                                     
                                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Session Config</a>
+    <li class="subnavigation__list-item ">
+        <a href="../config/" class="subnavigation__link">Session Config</a>
     </li>
 
                                     
@@ -178,330 +177,21 @@
         <div class="row">
             <div class="col-md-2 col-sm-12">
                 
-    
-
-    
-    
-        <div class="toc">
-            <h6 class="toc__headline">On this page</h6>
-            <ul class="toc__list">
-                
-                    <li class="toc__entry">
-                        <a href="#standard-config" class="toc__link">Standard Config</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#session-config_1" class="toc__link">Session Config</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#custom-configuration" class="toc__link">Custom Configuration</a>
-                    </li>
-                
-            </ul>
-        </div>
-    
-
             </div>
             <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
                 
-                    <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        
-            <li class="breadcrumb-item"><a href="">Overview</a></li>
 
-            
-                <li class="breadcrumb-item"><a href="..">laminas-session</a></li>
-
-                
-                    
-                        
-                        
-                            <li class="breadcrumb-item">Reference</li>
-                        
-                    
-                
-
-                <li class="breadcrumb-item active" aria-current="page">Session Config</li>
-            
-        
-    </ol>
-</nav>
-
-
-
-
-
-
-    
-    
-        <h2 class="chapter__headline">Reference</h2>
-    
-
-    <h1 id="session-config">Session Config</h1>
-<p>laminas-session comes with a standard set of config classes, allowing setting where
-a cookie lives, session lifetime, and even configuration of ext/session when
-using <code>Laminas\Session\Config\SessionConfig</code>.</p>
-<h2 id="standard-config">Standard Config</h2>
-<p><code>Laminas\Session\Config\StandardConfig</code> provides the base interface for
-configuring sessions when <em>not</em> leveraging ext/session. This is utilized more
-for specialized cases, such as when you might have session management done by
-another system, or when testing.</p>
-<h3>Basic Configuration Options</h3>
-<p>The following configuration options are defined by <code>Laminas\Session\Config\StandardConfig</code>.</p>
-<div class="table-responsive"><table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Data Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>cache_expire</code></td>
-<td><code>integer</code></td>
-<td>Specifies time-to-live for cached session pages in minutes.</td>
-</tr>
-<tr>
-<td><code>cookie_domain</code></td>
-<td><code>string</code></td>
-<td>Specifies the domain to set in the session cookie.</td>
-</tr>
-<tr>
-<td><code>cookie_httponly</code></td>
-<td><code>boolean</code></td>
-<td>Marks the cookie as accessible only through the HTTP protocol.</td>
-</tr>
-<tr>
-<td><code>cookie_lifetime</code></td>
-<td><code>integer</code></td>
-<td>Specifies the lifetime of the cookie in seconds which is sent to the browser.</td>
-</tr>
-<tr>
-<td><code>cookie_path</code></td>
-<td><code>string</code></td>
-<td>Specifies path to set in the session cookie.</td>
-</tr>
-<tr>
-<td><code>cookie_secure</code></td>
-<td><code>boolean</code></td>
-<td>Specifies whether cookies should only be sent over secure connections.</td>
-</tr>
-<tr>
-<td><code>entropy_length</code></td>
-<td><code>integer</code></td>
-<td>Specifies the number of bytes which will be read from the file specified in entropy_file. Removed in PHP 7.1.0.</td>
-</tr>
-<tr>
-<td><code>entropy_file</code></td>
-<td><code>string</code></td>
-<td>Defines a path to an external resource (file) which will be used as an additional entropy. Removed in PHP 7.1.0.</td>
-</tr>
-<tr>
-<td><code>gc_maxlifetime</code></td>
-<td><code>integer</code></td>
-<td>Specifies the number of seconds after which data will be seen as ‘garbage’.</td>
-</tr>
-<tr>
-<td><code>gc_divisor</code></td>
-<td><code>integer</code></td>
-<td>Defines the probability that the gc process is started on every session initialization.</td>
-</tr>
-<tr>
-<td><code>gc_probability</code></td>
-<td><code>integer</code></td>
-<td>Defines the probability that the gc process is started on every session initialization.</td>
-</tr>
-<tr>
-<td><code>hash_function</code></td>
-<td><code>integer</code></td>
-<td>Defines which built-in hash algorithm is used. Removed in PHP 7.1.0.</td>
-</tr>
-<tr>
-<td><code>hash_bits_per_character</code></td>
-<td><code>integer</code></td>
-<td>Defines how many bits are stored in each character when converting the binary hash data. Removed in PHP 7.1.0.</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>Specifies the name of the session which is used as cookie name.</td>
-</tr>
-<tr>
-<td><code>remember_me_seconds</code></td>
-<td><code>integer</code></td>
-<td>Specifies how long to remember the session before clearing data.</td>
-</tr>
-<tr>
-<td><code>save_path</code></td>
-<td><code>string</code></td>
-<td>Defines the argument which is passed to the save handler.</td>
-</tr>
-<tr>
-<td><code>use_cookies</code></td>
-<td><code>boolean</code></td>
-<td>Specifies whether the module will use cookies to store the session id.</td>
-</tr>
-</tbody>
-</table></div>
-<h3>Basic Usage</h3>
-<pre class=codehilite><code class=language-php>use Laminas\Session\Config\StandardConfig;
-use Laminas\Session\SessionManager;
-
-$config = new StandardConfig();
-$config-&gt;setOptions([
-    'remember_me_seconds' =&gt; 1800,
-    'name'                =&gt; 'laminas',
-]);
-$manager = new SessionManager($config);</code></pre>
-<h2 id="session-config_1">Session Config</h2>
-<p><code>Laminas\Session\Config\SessionConfig</code> provides an interface for configuring
-sessions that leverage PHP's ext/session. Most configuration options configure
-either the <code>Laminas\Session\Storage</code> OR configure ext/session directly.</p>
-<h3>Basic Configuration Options</h3>
-<p>The following configuration options are defined by <code>Laminas\Session\Config\SessionConfig</code>;
-note that it inherits all configuration from
-<code>Laminas\Session\Config\StandardConfig</code>.</p>
-<div class="table-responsive"><table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Data Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>cache_limiter</code></td>
-<td><code>string</code></td>
-<td>Specifies the cache control method used for session pages.</td>
-</tr>
-<tr>
-<td><code>hash_function</code></td>
-<td><code>string</code></td>
-<td>Allows you to specify the hash algorithm used to generate the session IDs.</td>
-</tr>
-<tr>
-<td><code>php_save_handler</code></td>
-<td><code>string</code></td>
-<td>Defines the name of a PHP save_handler embedded into PHP.</td>
-</tr>
-<tr>
-<td><code>serialize_handler</code></td>
-<td><code>string</code></td>
-<td>Defines the name of the handler which is used to serialize/deserialize data.</td>
-</tr>
-<tr>
-<td><code>url_rewriter_tags</code></td>
-<td><code>string</code></td>
-<td>Specifies which HTML tags are rewritten to include session id if transparent sid enabled.</td>
-</tr>
-<tr>
-<td><code>use_trans_sid</code></td>
-<td><code>boolean</code></td>
-<td>Whether transparent sid support is enabled or not.</td>
-</tr>
-</tbody>
-</table></div>
-<h3>Basic Usage</h3>
-<pre class=codehilite><code class=language-php>use Laminas\Session\Config\SessionConfig;
-use Laminas\Session\SessionManager;
-
-$config = new SessionConfig();
-$config-&gt;setOptions([
-    'phpSaveHandler' =&gt; 'redis',
-    'savePath' =&gt; 'tcp://127.0.0.1:6379?weight=1&amp;timeout=1',
-]);
-$manager = new SessionManager($config);</code></pre>
-<h3>Service Manager Factory</h3>
-<p>laminas-session ships with a <a href="https://docs.laminas.dev/laminas-servicemanager/">laminas-servicemanager</a>
-factory which reads configuration data from the application configuration and
-injects a corresponding instance of <code>Laminas\Session\Config\SessionConfig</code> into the
-session manager automatically.</p>
-<p>To use this factory, you first need to register it with the service manager by adding the
-appropriate factory definition:</p>
-<pre class=codehilite><code class=language-php>'service_manager' =&gt; [
-    'factories' =&gt; [
-        'Laminas\Session\Config\ConfigInterface' =&gt; 'Laminas\Session\Service\SessionConfigFactory',
-    ],
-],</code></pre>
+<h1 class="content__title">404</h1>
 <blockquote>
-<h4>Automated factory registration</h4>
-<p>Starting with laminas-mvc v3, if you are using the <a href="https://docs.laminas.dev/laminas-component-installer">component installer</a>
-in your application, the above registration will be made automatically for
-you when you install laminas-session.</p>
+    <h3>Something went wrong!</h3>
+    <p>
+        We're sorry, but the page you are looking for does not exist.
+    </p>
 </blockquote>
-<p>Then place your application's session configuration in the root-level
-configuration key <code>session_config</code>:</p>
-<pre class=codehilite><code class=language-php>'session_config' =&gt; [
-    'phpSaveHandler' =&gt; 'redis',
-    'savePath' =&gt; 'tcp://127.0.0.1:6379?weight=1&amp;timeout=1',
-],</code></pre>
-<p>Any of the configuration options defined for <a href="#session-config">SessionConfig</a> can be used
-there, as well as the following factory-specific configuration options:</p>
-<div class="table-responsive"><table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Data Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>config_class</code></td>
-<td><code>string</code></td>
-<td>Name of the class to use as the configuration container (Defaults to <code>Laminas\Session\Config\SessionConfig</code>)</td>
-</tr>
-</tbody>
-</table></div>
-<h2 id="custom-configuration">Custom Configuration</h2>
-<p>In the event that you prefer to create your own session configuration; you
-<em>must</em> implement <code>Laminas\Session\Config\ConfigInterface</code> which contains the basic
-interface for items needed when implementing a session. This includes cookie
-configuration, lifetime, session name, save path, and an interface for getting
-and setting options.</p>
+
+<a href="../." class="btn btn-default" role="button">Go to homepage</a>
 
 
-
-
-    <nav>
-    <ul class="page-nav hidden-print">
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="..">
-                    <i class="fa fa-chevron-left"></i> Previous
-                </a>
-            
-        </li>
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../container/">
-                    Next <i class="fa fa-chevron-right"></i>
-                </a>
-            
-        </li>
-    </ul>
-</nav>
-
-
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-session/edit/master/docs/book/config.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
-
-                
             </div>
             <div class="col-md-3 col-sm-12 sidebar">
                 
@@ -516,7 +206,7 @@ and setting options.</p>
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">laminas-session</a>
+            <a href="../.">laminas-session</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -535,8 +225,8 @@ and setting options.</p>
                                 <ul class="subnavigation__list">
                                     
                                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Session Config</a>
+    <li class="subnavigation__list-item ">
+        <a href="../config/" class="subnavigation__link">Session Config</a>
     </li>
 
                                     

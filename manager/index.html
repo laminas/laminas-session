@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -246,149 +250,147 @@ session manager.</p>
 session hijacking.</p>
 <p>The following illustrates how you may configure the session manager by setting
 options in your local or global config:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Session;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Session;
 
-<span class=x>return [</span>
-<span class=x>    &#39;session_manager&#39; =&gt; [</span>
-<span class=x>        &#39;config&#39; =&gt; [</span>
-<span class=x>            &#39;class&#39; =&gt; Session\Config\SessionConfig::class,</span>
-<span class=x>            &#39;options&#39; =&gt; [</span>
-<span class=x>                &#39;name&#39; =&gt; &#39;myapp&#39;,</span>
-<span class=x>            ],</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;storage&#39; =&gt; Session\Storage\SessionArrayStorage::class,</span>
-<span class=x>        &#39;validators&#39; =&gt; [</span>
-<span class=x>            Session\Validator\RemoteAddr::class,</span>
-<span class=x>            Session\Validator\HttpUserAgent::class,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'session_manager' =&gt; [
+        'config' =&gt; [
+            'class' =&gt; Session\Config\SessionConfig::class,
+            'options' =&gt; [
+                'name' =&gt; 'myapp',
+            ],
+        ],
+        'storage' =&gt; Session\Storage\SessionArrayStorage::class,
+        'validators' =&gt; [
+            Session\Validator\RemoteAddr::class,
+            Session\Validator\HttpUserAgent::class,
+        ],
+    ],
+];</code></pre>
 <p>The following illustrates how you might utilize the above configuration to
 create the session manager:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Mvc\ModuleRouteListener;</span>
-<span class=x>use Laminas\Mvc\MvcEvent;</span>
-<span class=x>use Laminas\Session\SessionManager;</span>
-<span class=x>use Laminas\Session\Config\SessionConfig;</span>
-<span class=x>use Laminas\Session\Container;</span>
-<span class=x>use Laminas\Session\Validator;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Mvc\ModuleRouteListener;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Session\SessionManager;
+use Laminas\Session\Config\SessionConfig;
+use Laminas\Session\Container;
+use Laminas\Session\Validator;
 
-<span class=x>class Module</span>
-<span class=x>{</span>
-<span class=x>    public function onBootstrap(MvcEvent $e)</span>
-<span class=x>    {</span>
-<span class=x>        $eventManager        = $e-&gt;getApplication()-&gt;getEventManager();</span>
-<span class=x>        $moduleRouteListener = new ModuleRouteListener();</span>
-<span class=x>        $moduleRouteListener-&gt;attach($eventManager);</span>
-<span class=x>        $this-&gt;bootstrapSession($e);</span>
-<span class=x>    }</span>
+class Module
+{
+    public function onBootstrap(MvcEvent $e)
+    {
+        $eventManager        = $e-&gt;getApplication()-&gt;getEventManager();
+        $moduleRouteListener = new ModuleRouteListener();
+        $moduleRouteListener-&gt;attach($eventManager);
+        $this-&gt;bootstrapSession($e);
+    }
 
-<span class=x>    public function bootstrapSession(MvcEvent $e)</span>
-<span class=x>    {</span>
-<span class=x>        $session = $e-&gt;getApplication()</span>
-<span class=x>            -&gt;getServiceManager()</span>
-<span class=x>            -&gt;get(SessionManager::class);</span>
-<span class=x>        $session-&gt;start();</span>
+    public function bootstrapSession(MvcEvent $e)
+    {
+        $session = $e-&gt;getApplication()
+            -&gt;getServiceManager()
+            -&gt;get(SessionManager::class);
+        $session-&gt;start();
 
-<span class=x>        $container = new Container(&#39;initialized&#39;);</span>
+        $container = new Container('initialized');
 
-<span class=x>        if (isset($container-&gt;init)) {</span>
-<span class=x>            return;</span>
-<span class=x>        }</span>
+        if (isset($container-&gt;init)) {
+            return;
+        }
 
-<span class=x>        $serviceManager = $e-&gt;getApplication()-&gt;getServiceManager();</span>
-<span class=x>        $request        = $serviceManager-&gt;get(&#39;Request&#39;);</span>
+        $serviceManager = $e-&gt;getApplication()-&gt;getServiceManager();
+        $request        = $serviceManager-&gt;get('Request');
 
-<span class=x>        $session-&gt;regenerateId(true);</span>
-<span class=x>        $container-&gt;init          = 1;</span>
-<span class=x>        $container-&gt;remoteAddr    = $request-&gt;getServer()-&gt;get(&#39;REMOTE_ADDR&#39;);</span>
-<span class=x>        $container-&gt;httpUserAgent = $request-&gt;getServer()-&gt;get(&#39;HTTP_USER_AGENT&#39;);</span>
+        $session-&gt;regenerateId(true);
+        $container-&gt;init          = 1;
+        $container-&gt;remoteAddr    = $request-&gt;getServer()-&gt;get('REMOTE_ADDR');
+        $container-&gt;httpUserAgent = $request-&gt;getServer()-&gt;get('HTTP_USER_AGENT');
 
-<span class=x>        $config = $serviceManager-&gt;get(&#39;Config&#39;);</span>
-<span class=x>        if (! isset($config[&#39;session&#39;])) {</span>
-<span class=x>            return;</span>
-<span class=x>        }</span>
+        $config = $serviceManager-&gt;get('Config');
+        if (! isset($config['session'])) {
+            return;
+        }
 
-<span class=x>        $sessionConfig = $config[&#39;session&#39;];</span>
+        $sessionConfig = $config['session'];
 
-<span class=x>        if (! isset($sessionConfig[&#39;validators&#39;])) {</span>
-<span class=x>            return;</span>
-<span class=x>        }</span>
+        if (! isset($sessionConfig['validators'])) {
+            return;
+        }
 
-<span class=x>        $chain   = $session-&gt;getValidatorChain();</span>
+        $chain   = $session-&gt;getValidatorChain();
 
-<span class=x>        foreach ($sessionConfig[&#39;validators&#39;] as $validator) {</span>
-<span class=x>            switch ($validator) {</span>
-<span class=x>                case Validator\HttpUserAgent::class:</span>
-<span class=x>                    $validator = new $validator($container-&gt;httpUserAgent);</span>
-<span class=x>                    break;</span>
-<span class=x>                case Validator\RemoteAddr::class:</span>
-<span class=x>                    $validator  = new $validator($container-&gt;remoteAddr);</span>
-<span class=x>                    break;</span>
-<span class=x>                default:</span>
-<span class=x>                    $validator = new $validator();</span>
-<span class=x>                    break;</span>
-<span class=x>            }</span>
+        foreach ($sessionConfig['validators'] as $validator) {
+            switch ($validator) {
+                case Validator\HttpUserAgent::class:
+                    $validator = new $validator($container-&gt;httpUserAgent);
+                    break;
+                case Validator\RemoteAddr::class:
+                    $validator  = new $validator($container-&gt;remoteAddr);
+                    break;
+                default:
+                    $validator = new $validator();
+                    break;
+            }
 
-<span class=x>            $chain-&gt;attach(&#39;session.validate&#39;, array($validator, &#39;isValid&#39;));</span>
-<span class=x>        }</span>
-<span class=x>    }</span>
+            $chain-&gt;attach('session.validate', array($validator, 'isValid'));
+        }
+    }
 
-<span class=x>    public function getServiceConfig()</span>
-<span class=x>    {</span>
-<span class=x>        return [</span>
-<span class=x>            &#39;factories&#39; =&gt; [</span>
-<span class=x>                SessionManager::class =&gt; function ($container) {</span>
-<span class=x>                    $config = $container-&gt;get(&#39;config&#39;);</span>
-<span class=x>                    if (! isset($config[&#39;session&#39;])) {</span>
-<span class=x>                        $sessionManager = new SessionManager();</span>
-<span class=x>                        Container::setDefaultManager($sessionManager);</span>
-<span class=x>                        return $sessionManager;</span>
-<span class=x>                    }</span>
+    public function getServiceConfig()
+    {
+        return [
+            'factories' =&gt; [
+                SessionManager::class =&gt; function ($container) {
+                    $config = $container-&gt;get('config');
+                    if (! isset($config['session'])) {
+                        $sessionManager = new SessionManager();
+                        Container::setDefaultManager($sessionManager);
+                        return $sessionManager;
+                    }
 
-<span class=x>                    $session = $config[&#39;session&#39;];</span>
+                    $session = $config['session'];
 
-<span class=x>                    $sessionConfig = null;</span>
-<span class=x>                    if (isset($session[&#39;config&#39;])) {</span>
-<span class=x>                        $class = isset($session[&#39;config&#39;][&#39;class&#39;])</span>
-<span class=x>                            ?  $session[&#39;config&#39;][&#39;class&#39;]</span>
-<span class=x>                            : SessionConfig::class;</span>
+                    $sessionConfig = null;
+                    if (isset($session['config'])) {
+                        $class = isset($session['config']['class'])
+                            ?  $session['config']['class']
+                            : SessionConfig::class;
 
-<span class=x>                        $options = isset($session[&#39;config&#39;][&#39;options&#39;])</span>
-<span class=x>                            ?  $session[&#39;config&#39;][&#39;options&#39;]</span>
-<span class=x>                            : [];</span>
+                        $options = isset($session['config']['options'])
+                            ?  $session['config']['options']
+                            : [];
 
-<span class=x>                        $sessionConfig = new $class();</span>
-<span class=x>                        $sessionConfig-&gt;setOptions($options);</span>
-<span class=x>                    }</span>
+                        $sessionConfig = new $class();
+                        $sessionConfig-&gt;setOptions($options);
+                    }
 
-<span class=x>                    $sessionStorage = null;</span>
-<span class=x>                    if (isset($session[&#39;storage&#39;])) {</span>
-<span class=x>                        $class = $session[&#39;storage&#39;];</span>
-<span class=x>                        $sessionStorage = new $class();</span>
-<span class=x>                    }</span>
+                    $sessionStorage = null;
+                    if (isset($session['storage'])) {
+                        $class = $session['storage'];
+                        $sessionStorage = new $class();
+                    }
 
-<span class=x>                    $sessionSaveHandler = null;</span>
-<span class=x>                    if (isset($session[&#39;save_handler&#39;])) {</span>
-<span class=x>                        // class should be fetched from service manager</span>
-<span class=x>                        // since it will require constructor arguments</span>
-<span class=x>                        $sessionSaveHandler = $container-&gt;get($session[&#39;save_handler&#39;]);</span>
-<span class=x>                    }</span>
+                    $sessionSaveHandler = null;
+                    if (isset($session['save_handler'])) {
+                        // class should be fetched from service manager
+                        // since it will require constructor arguments
+                        $sessionSaveHandler = $container-&gt;get($session['save_handler']);
+                    }
 
-<span class=x>                    $sessionManager = new SessionManager(</span>
-<span class=x>                        $sessionConfig,</span>
-<span class=x>                        $sessionStorage,</span>
-<span class=x>                        $sessionSaveHandler</span>
-<span class=x>                    );</span>
+                    $sessionManager = new SessionManager(
+                        $sessionConfig,
+                        $sessionStorage,
+                        $sessionSaveHandler
+                    );
 
-<span class=x>                    Container::setDefaultManager($sessionManager);</span>
-<span class=x>                    return $sessionManager;</span>
-<span class=x>                },</span>
-<span class=x>            ],</span>
-<span class=x>        ];</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+                    Container::setDefaultManager($sessionManager);
+                    return $sessionManager;
+                },
+            ],
+        ];
+    }
+}</code></pre>
 <p>When you create a new <code>Laminas\Session\Container</code> (see
 <a href="../container/">Session Container</a> page) in a controller, for example, it will
 use the session configured above.</p>
@@ -529,9 +531,10 @@ use the session configured above.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -568,7 +571,7 @@ use the session configured above.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-session//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-session/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -577,8 +580,8 @@ use the session configured above.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-session//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-session/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

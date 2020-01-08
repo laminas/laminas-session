@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -242,26 +246,24 @@ against the originally stored <code>$_SERVER['HTTP_USER_AGENT']</code> variable.
 will fail in the event that this does not match and throws an exception in
 <code>Laminas\Session\SessionManager</code> after <code>session_start()</code> has been called.</p>
 <h3>Basic Usage</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Session\Validator\HttpUserAgent;</span>
-<span class=x>use Laminas\Session\SessionManager;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Session\Validator\HttpUserAgent;
+use Laminas\Session\SessionManager;
 
-<span class=x>$manager = new SessionManager();</span>
-<span class=x>$manager-&gt;getValidatorChain()</span>
-<span class=x>    -&gt;attach(&#39;session.validate&#39;, [new HttpUserAgent(), &#39;isValid&#39;]);</span>
-</pre></div></p>
+$manager = new SessionManager();
+$manager-&gt;getValidatorChain()
+    -&gt;attach('session.validate', [new HttpUserAgent(), 'isValid']);</code></pre>
 <h2 id="remote-addr">Remote Addr</h2>
 <p><code>Laminas\Session\Validator\RemoteAddr</code> provides a validator to check the session
 against the originally stored <code>$_SERVER['REMOTE_ADDR']</code> variable. Validation
 will fail in the event that this does not match and throws an exception in
 <code>Laminas\Session\SessionManager</code> after <code>session_start()</code> has been called.</p>
 <h3>Basic Usage</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Session\Validator\RemoteAddr;</span>
-<span class=x>use Laminas\Session\SessionManager;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Session\Validator\RemoteAddr;
+use Laminas\Session\SessionManager;
 
-<span class=x>$manager = new SessionManager();</span>
-<span class=x>$manager-&gt;getValidatorChain()</span>
-<span class=x>    -&gt;attach(&#39;session.validate&#39;, [new RemoteAddr(), &#39;isValid&#39;]);</span>
-</pre></div></p>
+$manager = new SessionManager();
+$manager-&gt;getValidatorChain()
+    -&gt;attach('session.validate', [new RemoteAddr(), 'isValid']);</code></pre>
 <h2 id="custom-validators">Custom Validators</h2>
 <p>You may want to provide your own custom validators to validate against other
 items from storing a token and validating a token to other various techniques.
@@ -400,9 +402,10 @@ To create a custom validator you <em>must</em> implement the validation interfac
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -439,7 +442,7 @@ To create a custom validator you <em>must</em> implement the validation interfac
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-session//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-session/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -448,8 +451,8 @@ To create a custom validator you <em>must</em> implement the validation interfac
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-session//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-session/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

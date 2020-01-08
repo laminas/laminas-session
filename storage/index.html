@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -251,61 +255,57 @@ superglobal. Additionally <code>ArrayStorage</code> will not automatically repop
 storage container in the case of each new request and would have to manually be
 re-populated.</p>
 <h3>Basic Usage</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Session\Storage\ArrayStorage;</span>
-<span class=x>use Laminas\Session\SessionManager;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Session\Storage\ArrayStorage;
+use Laminas\Session\SessionManager;
 
-<span class=x>$populateStorage = [&#39;foo&#39; =&gt; &#39;bar&#39;];</span>
-<span class=x>$storage         = new ArrayStorage($populateStorage);</span>
-<span class=x>$manager         = new SessionManager();</span>
-<span class=x>$manager-&gt;setStorage($storage);</span>
-</pre></div></p>
+$populateStorage = ['foo' =&gt; 'bar'];
+$storage         = new ArrayStorage($populateStorage);
+$manager         = new SessionManager();
+$manager-&gt;setStorage($storage);</code></pre>
 <h2 id="session-storage_1">Session Storage</h2>
 <p><code>Laminas\Session\Storage\SessionStorage</code> replaces <code>$_SESSION,</code> providing a facility
 to store all information in an <code>ArrayObject</code>. This means that it may not be
 compatible with 3rd party libraries, although information stored in the
 <code>$_SESSION</code> superglobal should be available in other scopes.</p>
 <h3>Basic Usage</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Session\Storage\SessionStorage;</span>
-<span class=x>use Laminas\Session\SessionManager;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Session\Storage\SessionStorage;
+use Laminas\Session\SessionManager;
 
-<span class=x>$manager = new SessionManager();</span>
-<span class=x>$manager-&gt;setStorage(new SessionStorage());</span>
-</pre></div></p>
+$manager = new SessionManager();
+$manager-&gt;setStorage(new SessionStorage());</code></pre>
 <h2 id="session-array-storage">Session Array Storage</h2>
 <p><code>Laminas\Session\Storage\SessionArrayStorage</code> provides a facility to store all
 information directly in the <code>$_SESSION</code> superglobal. This storage class provides
 the most compatibility with 3rd party libraries and allows for directly storing
 information into <code>$_SESSION</code>.</p>
 <h3>Basic Usage</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Session\Storage\SessionArrayStorage;</span>
-<span class=x>use Laminas\Session\SessionManager;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Session\Storage\SessionArrayStorage;
+use Laminas\Session\SessionManager;
 
-<span class=x>$manager = new SessionManager();</span>
-<span class=x>$manager-&gt;setStorage(new SessionArrayStorage());</span>
-</pre></div></p>
+$manager = new SessionManager();
+$manager-&gt;setStorage(new SessionArrayStorage());</code></pre>
 <h2 id="custom-storage">Custom Storage</h2>
 <p>To create a custom storage container, you <em>must</em> implement
 <code>Laminas\Session\Storage\StorageInterface</code>. This interface extends each of
 <code>ArrayAccess</code>, <code>Traversable</code>, <code>Serializable</code>, and <code>Countable</code>, and it is in the
 methods those define that the majority of implementation occurs. The following
 methods must also be implemented:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function getRequestAccessTime() : int;</span>
+<pre class=codehilite><code class=language-php>public function getRequestAccessTime() : int;
 
-<span class=x>public function lock(int|string $key = null) : void;</span>
-<span class=x>public function isLocked(int|string $key = null) : bool;</span>
-<span class=x>public function unlock(int|string $key = null) : void;</span>
+public function lock(int|string $key = null) : void;
+public function isLocked(int|string $key = null) : bool;
+public function unlock(int|string $key = null) : void;
 
-<span class=x>public function markImmutable() : void;</span>
-<span class=x>public function isImmutable() : bool;</span>
+public function markImmutable() : void;
+public function isImmutable() : bool;
 
-<span class=x>public function setMetadata(string $key, mixed $value, bool $overwriteArray = false) : void;</span>
-<span class=x>public function getMetadata(string $key = null) : mixed;</span>
+public function setMetadata(string $key, mixed $value, bool $overwriteArray = false) : void;
+public function getMetadata(string $key = null) : mixed;
 
-<span class=x>public function clear(inst|string $key = null) : void;</span>
+public function clear(inst|string $key = null) : void;
 
-<span class=x>public function fromArray(array $array) : void;</span>
-<span class=x>public function toArray(bool $metaData = false) : array;</span>
-</pre></div></p>
+public function fromArray(array $array) : void;
+public function toArray(bool $metaData = false) : array;</code></pre>
 
 
 
@@ -443,9 +443,10 @@ methods must also be implemented:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -482,7 +483,7 @@ methods must also be implemented:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-session//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-session/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -491,8 +492,8 @@ methods must also be implemented:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-session//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-session/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>
