@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-     <loc>https://docs.laminas.dev/</loc>
-     <lastmod>2020-01-08</lastmod>
+     <loc>https://docs.laminas.dev/laminas-session/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/config/</loc>
-     <lastmod>2020-01-08</lastmod>
+     <loc>https://docs.laminas.dev/laminas-session/config/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/container/</loc>
-     <lastmod>2020-01-08</lastmod>
+     <loc>https://docs.laminas.dev/laminas-session/container/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/manager/</loc>
-     <lastmod>2020-01-08</lastmod>
+     <loc>https://docs.laminas.dev/laminas-session/manager/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/save-handler/</loc>
-     <lastmod>2020-01-08</lastmod>
+     <loc>https://docs.laminas.dev/laminas-session/save-handler/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/storage/</loc>
-     <lastmod>2020-01-08</lastmod>
+     <loc>https://docs.laminas.dev/laminas-session/storage/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/validator/</loc>
-     <lastmod>2020-01-08</lastmod>
+     <loc>https://docs.laminas.dev/laminas-session/validator/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
