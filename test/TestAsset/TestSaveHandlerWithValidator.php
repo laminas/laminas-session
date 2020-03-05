@@ -24,7 +24,7 @@ class TestSaveHandlerWithValidator implements SaveHandler
 
     public function read($id)
     {
-        return '__Laminas|a:1:{s:6:"_VALID";a:1:{s:47:"LaminasTest\Session\TestAsset\TestFailingValidator";s:0:"";}}';
+        return '__Laminas|a:1:{s:6:"_VALID";a:1:{s:50:"LaminasTest\Session\TestAsset\TestFailingValidator";s:0:"";}}';
     }
 
     public function write($id, $data)
