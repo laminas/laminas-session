@@ -175,41 +175,6 @@ abstract class DbTableGatewayTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testExpiredSessionDoesNotCauseARecursion()
-    {
-        // puts an expired session in the db
-        $query = "
-INSERT INTO sessions (
-    {$this->options->getIdColumn()},
-    {$this->options->getNameColumn()},
-    {$this->options->getModifiedColumn()},
-    {$this->options->getLifetimeColumn()},
-    {$this->options->getDataColumn()}
-) VALUES (
-    '123', 'laminas-session-test', ".(time() - 31).", 30, 'foobar'
-);
-";
-        $this->adapter->query($query, Adapter::QUERY_MODE_EXECUTE);
-
-        $this->usedSaveHandlers[] = $saveHandler = new TestDbTableGatewaySaveHandler(
-            $this->tableGateway,
-            $this->options
-        );
-        $saveHandler->open('savepath', 'laminas-session-test');
-
-        $this->assertSame(0, $saveHandler->getNumReadCalls());
-        $this->assertSame(0, $saveHandler->getNumDestroyCalls());
-
-        $success = (boolean) $saveHandler->read('123');
-        $this->assertFalse($success);
-
-        $this->assertSame(2, $saveHandler->getNumReadCalls());
-        $this->assertSame(1, $saveHandler->getNumDestroyCalls());
-
-        // cleans the test record from the db
-        $this->adapter->query("DELETE FROM sessions WHERE {$this->options->getIdColumn()} = '123';");
-    }
-
     public function testReadDestroysExpiredSession()
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
@@ -233,8 +198,23 @@ EOD;
         $result = $saveHandler->read($id);
         $this->assertEquals($result, '');
 
+        // check if the record really has been deleted
+        $result = $this->adapter->query(
+            "
+                SELECT {$this->options->getIdColumn()}
+                FROM sessions
+                WHERE {$this->options->getIdColumn()} = {$id}
+            ",
+            Adapter::QUERY_MODE_EXECUTE
+        );
+
+        $this->assertEquals(0, $result->count());
+
         // cleans the test record from the db
-        $this->adapter->query("DELETE FROM sessions WHERE {$this->options->getIdColumn()} = {$id};");
+        $this->adapter->query(
+            "DELETE FROM sessions WHERE {$this->options->getIdColumn()} = {$id};",
+            Adapter::QUERY_MODE_EXECUTE
+        );
     }
 
     /**
