@@ -151,14 +151,12 @@ class DbTableGateway implements SaveHandlerInterface
      */
     public function destroy($id)
     {
-        if (! (bool) $this->read($id, false)) {
-            return true;
-        }
-
-        return (bool) $this->tableGateway->delete([
+        $this->tableGateway->delete([
             $this->options->getIdColumn()   => $id,
             $this->options->getNameColumn() => $this->sessionName,
         ]);
+
+        return true;
     }
 
     /**
