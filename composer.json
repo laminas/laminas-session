@@ -44,7 +44,7 @@
         "laminas/laminas-validator": "^2.6",
         "mongodb/mongodb": "^1.0.1",
         "php-mock/php-mock-phpunit": "^1.1.2 || ^2.0",
-        "phpunit/phpunit": "^5.7.27 || ^6.5.14 || ^7.5.16"
+        "phpunit/phpunit": "^5.7.27 || ^6.5.14 || ^7.5.20"
     },
     "suggest": {
         "laminas/laminas-cache": "Laminas\\Cache component",
