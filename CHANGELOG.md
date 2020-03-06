@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#26](https://github.com/laminas/laminas-session/pull/26) fixes removing expired sessions on session destroy in `DbTableGateway`.
 
 ## 2.9.1 - 2019-10-28
 
