@@ -309,7 +309,7 @@ session manager.</p>
 session hijacking.</p>
 <p>The following illustrates how you may configure the session manager by setting
 options in your local or global config:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Session;
+<pre class="highlight"><code class="language-php">use Laminas\Session;
 
 return [
     'session_manager' =&gt; [
@@ -326,9 +326,10 @@ return [
         ],
     ],
 ];</code></pre>
+
 <p>The following illustrates how you might utilize the above configuration to
 create the session manager:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Mvc\ModuleRouteListener;
+<pre class="highlight"><code class="language-php">use Laminas\Mvc\ModuleRouteListener;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Config\SessionConfig;
@@ -450,6 +451,7 @@ class Module
         ];
     }
 }</code></pre>
+
 <p>When you create a new <code>Laminas\Session\Container</code> (see
 <a href="../container/">Session Container</a> page) in a controller, for example, it will
 use the session configured above.</p>

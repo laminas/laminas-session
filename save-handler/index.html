@@ -313,7 +313,7 @@ handler. Generally if you are utilizing the <code>Cache</code> save handler; you
 using products such as memcached.</p>
 <h3>Basic usage</h3>
 <p>A basic example is one like the following:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Cache\StorageFactory;
+<pre class="highlight"><code class="language-php">use Laminas\Cache\StorageFactory;
 use Laminas\Session\SaveHandler\Cache;
 use Laminas\Session\SessionManager;
 
@@ -329,6 +329,7 @@ $cache = StorageFactory::factory([
 $saveHandler = new Cache($cache);
 $manager = new SessionManager();
 $manager-&gt;setSaveHandler($saveHandler);</code></pre>
+
 <h2 id="dbtablegateway">DbTableGateway</h2>
 <p><code>Laminas\Session\SaveHandler\DbTableGateway</code> allows you to utilize
 <code>Laminas\Db\TableGateway\TableGatewayInterface</code> implementations as a session save
@@ -338,7 +339,7 @@ handler. Setup of a <code>DbTableGateway</code> save handler requires an instanc
 <code>TableGateway</code> object and using the defaults of the <code>DbTableGatewayOptions</code> will
 provide you with what you need.</p>
 <h3>Creating the database table</h3>
-<pre class=codehilite><code class=language-sql>CREATE TABLE `session` (
+<pre class="highlight"><code class="language-sql">CREATE TABLE `session` (
     `id` char(32),
     `name` char(32),
     `modified` int,
@@ -346,8 +347,9 @@ provide you with what you need.</p>
     `data` text,
      PRIMARY KEY (`id`, `name`)
 );</code></pre>
+
 <h3>Basic usage</h3>
-<pre class=codehilite><code class=language-php>use Laminas\Db\TableGateway\TableGateway;
+<pre class="highlight"><code class="language-php">use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Session\SaveHandler\DbTableGateway;
 use Laminas\Session\SaveHandler\DbTableGatewayOptions;
 use Laminas\Session\SessionManager;
@@ -356,6 +358,7 @@ $tableGateway = new TableGateway('session', $adapter);
 $saveHandler  = new DbTableGateway($tableGateway, new DbTableGatewayOptions());
 $manager      = new SessionManager();
 $manager-&gt;setSaveHandler($saveHandler);</code></pre>
+
 <h2 id="mongodb">MongoDB</h2>
 <p><code>Laminas\Session\SaveHandler\MongoDB</code> allows you to provide a MongoDB collection to
 be utilized as a session save handler. You provide the options in the
@@ -363,7 +366,7 @@ be utilized as a session save handler. You provide the options in the
 <a href="http://php.net/mongodb">mongodb PHP extensions</a> and the
 <a href="https://github.com/mongodb/mongo-php-library">MongoDB PHP library</a>.</p>
 <h3>Basic Usage</h3>
-<pre class=codehilite><code class=language-php>use MongoDB\Client;
+<pre class="highlight"><code class="language-php">use MongoDB\Client;
 use Laminas\Session\SaveHandler\MongoDB;
 use Laminas\Session\SaveHandler\MongoDBOptions;
 use Laminas\Session\SessionManager;
@@ -376,6 +379,7 @@ $options = new MongoDBOptions([
 $saveHandler = new MongoDB($mongoClient, $options);
 $manager     = new SessionManager();
 $manager-&gt;setSaveHandler($saveHandler);</code></pre>
+
 <h2 id="custom-save-handlers">Custom Save Handlers</h2>
 <p>There may be cases where you want to create a save handler.  Creating a custom
 save handler is much like creating a custom PHP save handler, with minor

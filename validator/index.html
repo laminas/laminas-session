@@ -305,24 +305,26 @@ against the originally stored <code>$_SERVER['HTTP_USER_AGENT']</code> variable.
 will fail in the event that this does not match and throws an exception in
 <code>Laminas\Session\SessionManager</code> after <code>session_start()</code> has been called.</p>
 <h3>Basic Usage</h3>
-<pre class=codehilite><code class=language-php>use Laminas\Session\Validator\HttpUserAgent;
+<pre class="highlight"><code class="language-php">use Laminas\Session\Validator\HttpUserAgent;
 use Laminas\Session\SessionManager;
 
 $manager = new SessionManager();
 $manager-&gt;getValidatorChain()
     -&gt;attach('session.validate', [new HttpUserAgent(), 'isValid']);</code></pre>
+
 <h2 id="remote-addr">Remote Addr</h2>
 <p><code>Laminas\Session\Validator\RemoteAddr</code> provides a validator to check the session
 against the originally stored <code>$_SERVER['REMOTE_ADDR']</code> variable. Validation
 will fail in the event that this does not match and throws an exception in
 <code>Laminas\Session\SessionManager</code> after <code>session_start()</code> has been called.</p>
 <h3>Basic Usage</h3>
-<pre class=codehilite><code class=language-php>use Laminas\Session\Validator\RemoteAddr;
+<pre class="highlight"><code class="language-php">use Laminas\Session\Validator\RemoteAddr;
 use Laminas\Session\SessionManager;
 
 $manager = new SessionManager();
 $manager-&gt;getValidatorChain()
     -&gt;attach('session.validate', [new RemoteAddr(), 'isValid']);</code></pre>
+
 <h2 id="custom-validators">Custom Validators</h2>
 <p>You may want to provide your own custom validators to validate against other
 items from storing a token and validating a token to other various techniques.
