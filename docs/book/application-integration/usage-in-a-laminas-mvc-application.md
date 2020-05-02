@@ -81,7 +81,6 @@ Add the following lines to the module configuration file, e.g.
 `module/Album/config/module.config.php`:
 
 <pre class="language-php" data-line="8-9"><code>
-```php
 namespace Album;
 
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
@@ -95,7 +94,6 @@ return [
     ],
     // …
 ];
-```
 </code></pre>
 
 The example uses the [reflection factory from laminas-servicemanager](https://docs.laminas.dev/laminas-servicemanager/reflection-abstract-factory/)
