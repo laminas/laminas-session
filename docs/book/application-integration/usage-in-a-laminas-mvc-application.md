@@ -4,7 +4,7 @@ The following example shows _one_ potential use case of laminas-session within
 a laminas-mvc based application. The example uses a module, a controller and the
 [session container](../container.md).
 
-The examples are based on the [tutorial application](https://docs.laminas.dev/tutorials/getting-started/overview/)
+The example is based on the [tutorial application](https://docs.laminas.dev/tutorials/getting-started/overview/)
 which builds an album inventory system.
 
 Before starting, make sure laminas-session is installed and configured.
