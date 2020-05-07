@@ -54,8 +54,9 @@ return [
 
 ## Create and Register Controller
 
-Create a controller and inject the session container with the registered
-classname, e.g. `module/Album/Controller/AlbumController.php`:
+[Create a controller class](https://docs.laminas.dev/laminas-mvc/quick-start/#create-a-controller)
+and inject the session container with the registered classname,
+e.g. `module/Album/Controller/AlbumController.php`:
 
 ```php
 namespace Album\Controller;
@@ -75,8 +76,8 @@ class AlbumController extends AbstractActionController
 }
 ```
 
-To register the controller for the application, extend the configuration of the
-module.  
+To [register the controller](https://docs.laminas.dev/laminas-mvc/quick-start/#create-a-route)
+for the application, extend the configuration of the module.  
 Add the following lines to the module configuration file, e.g.
 `module/Album/config/module.config.php`:
 
