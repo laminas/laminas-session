@@ -4,7 +4,7 @@ The following example shows _one_ potential use case of laminas-session within
 a laminas-mvc based application. The example uses a module, a controller and the
 [session container](../container.md).
 
-The example is based on the [tutorial application](https://docs.laminas.dev/tutorials/getting-started/overview/)
+The example is based on the [tutorial application](https://docs.laminas.dev/tutorials/getting-started/overview/),
 which builds an album inventory system.
 
 Before starting, make sure laminas-session is installed and configured.
@@ -13,13 +13,14 @@ Before starting, make sure laminas-session is installed and configured.
 
 To use a session container some configuration for the component is needed:
 
-* a name for the container
-* a [storage handler](../storage.md)
-* some [configuration for the session](../config.md) itself
+- a name for the container
+- a [storage handler](../storage.md)
+- some [configuration for the session](../config.md) itself
 
-To allow [reflection-based approach](https://docs.laminas.dev/laminas-servicemanager/reflection-abstract-factory/)
-to get the session container from service manager, a classname is needed as name
-for the container. The example uses the name `Laminas\Session\Container::class`.
+To allow a [reflection-based approach](https://docs.laminas.dev/laminas-servicemanager/reflection-abstract-factory/)
+to retrieve the session container from the service manager, a class name is
+needed as the name for the container. The example uses the name
+`Laminas\Session\Container::class`.
 
 Add the following lines to the local or global configuration file, e.g.
 `config/autoload/global.config.php`:
@@ -42,10 +43,11 @@ return [
 
 > ### Session Configuration is Optional
 >
-> The configuration for the session itself is optional but the
+> The configuration for the session itself is optional, but the
 > [factory `Laminas\Session\Config\SessionConfig`](../config.md#service-manager-factory),
 > which is registered for configuration data, expects an array under the key
 > `session_config`.  
+>
 > A minimum configuration is:
 >
 > ```php
