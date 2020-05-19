@@ -9,6 +9,8 @@ nav:
         - "Session Save Handlers": save-handler.md
         - "Session Storage": storage.md
         - "Session Validators": validator.md
+    - "Application Integration":
+        - "Usage in a laminas-mvc application": application-integration/usage-in-a-laminas-mvc-application.md
 site_name: laminas-session
 site_description: 'Object-oriented interface to PHP sessions and storage.'
 repo_url: 'https://github.com/laminas/laminas-session'
