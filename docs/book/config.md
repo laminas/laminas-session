@@ -22,6 +22,7 @@ Option                    | Data Type | Description
 `cookie_httponly`         | `boolean` | Marks the cookie as accessible only through the HTTP protocol.
 `cookie_lifetime`         | `integer` | Specifies the lifetime of the cookie in seconds which is sent to the browser.
 `cookie_path`             | `string`  | Specifies path to set in the session cookie.
+`cookie_samesite`         | `string`  | Specifies whether cookies should be sent along with cross-site requests.
 `cookie_secure`           | `boolean` | Specifies whether cookies should only be sent over secure connections.
 `entropy_length`          | `integer` | Specifies the number of bytes which will be read from the file specified in entropy_file. Removed in PHP 7.1.0.
 `entropy_file`            | `string`  | Defines a path to an external resource (file) which will be used as an additional entropy. Removed in PHP 7.1.0.
