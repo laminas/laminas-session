@@ -230,6 +230,14 @@ class StandardConfigTest extends TestCase
         $this->config->setCookieDomain('D:\\WINDOWS\\System32\\drivers\\etc\\hosts');
     }
 
+    // session.cookie_samesite
+
+    public function testCookieSameSiteIsMutable()
+    {
+        $this->config->setCookieSameSite('Strict');
+        $this->assertEquals('Strict', $this->config->getCookieSameSite());
+    }
+
     // session.cookie_secure
 
     public function testCookieSecureIsMutable(): void
@@ -518,6 +526,11 @@ class StandardConfigTest extends TestCase
                 'cookie_domain',
                 'getCookieDomain',
                 'getlaminas.org',
+            ],
+            [
+                'cookie_samesite',
+                'getCookieSameSite',
+                'Lax',
             ],
             [
                 'cookie_secure',

@@ -392,6 +392,25 @@ class SessionConfigTest extends TestCase
         $this->config->setCookieDomain('D:\\WINDOWS\\System32\\drivers\\etc\\hosts');
     }
 
+    // session.cookie_samesite
+
+    public function testCookieSameSiteDefaultsToIniSettings()
+    {
+        $this->assertSame(ini_get('session.cookie_samesite'), $this->config->getCookieSameSite());
+    }
+
+    public function testCookieSameSiteIsMutable()
+    {
+        $this->config->setCookieSameSite('Strict');
+        $this->assertEquals('Strict', $this->config->getCookieSameSite());
+    }
+
+    public function testCookieSameSiteAltersIniSetting()
+    {
+        $this->config->setCookieSameSite('Strict');
+        $this->assertEquals('Strict', ini_get('session.cookie_samesite'));
+    }
+
     // session.cookie_secure
 
     public function testCookieSecureDefaultsToIniSettings(): void
@@ -889,6 +908,11 @@ class SessionConfigTest extends TestCase
                 'cookie_domain',
                 'getCookieDomain',
                 'getlaminas.org',
+            ],
+            [
+                'cookie_samesite',
+                'getCookieSameSite',
+                'Lax',
             ],
             [
                 'cookie_secure',

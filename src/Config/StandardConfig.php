@@ -53,6 +53,13 @@ class StandardConfig implements ConfigInterface
     protected $cookieDomain;
 
     /**
+     * session.cookie_samesite
+     *
+     * @var string
+     */
+    protected $cookieSameSite;
+
+    /**
      * session.cookie_secure
      *
      * @var bool
@@ -496,6 +503,32 @@ class StandardConfig implements ConfigInterface
     }
 
     /**
+     * Set session.cookie_samesite
+     *
+     * @param  string $cookieSameSite
+     * @return StandardConfig
+     */
+    public function setCookieSameSite($cookieSameSite)
+    {
+        $this->cookieSameSite = (string) $cookieSameSite;
+        $this->setStorageOption('cookie_samesite', $this->cookieSameSite);
+        return $this;
+    }
+
+    /**
+     * Get session.cookie_samesite
+     *
+     * @return string
+     */
+    public function getCookieSameSite()
+    {
+        if (null === $this->cookieSameSite) {
+            $this->cookieSameSite = $this->getStorageOption('cookie_samesite');
+        }
+        return $this->cookieSameSite;
+    }
+
+    /**
      * Set session.cookie_secure
      *
      * @param  bool $cookieSecure
@@ -888,6 +921,7 @@ class StandardConfig implements ConfigInterface
             'cookie_httponly'     => $this->getCookieHttpOnly(),
             'cookie_lifetime'     => $this->getCookieLifetime(),
             'cookie_path'         => $this->getCookiePath(),
+            'cookie_samesite'     => $this->getCookieSameSite(),
             'cookie_secure'       => $this->getCookieSecure(),
             'name'                => $this->getName(),
             'remember_me_seconds' => $this->getRememberMeSeconds(),

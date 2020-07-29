@@ -37,6 +37,9 @@ interface ConfigInterface
     public function setCookieDomain($cookieDomain);
     public function getCookieDomain();
 
+    public function setCookieSameSite($cookieSameSite);
+    public function getCookieSameSite();
+
     public function setCookieSecure($cookieSecure);
     public function getCookieSecure();
 
