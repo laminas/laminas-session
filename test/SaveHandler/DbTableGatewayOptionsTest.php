@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
  */
 class DbTableGatewayOptionsTest extends TestCase
 {
-    public function testDefaults()
+    public function testDefaults(): void
     {
         $options = new DbTableGatewayOptions();
         self::assertEquals('id', $options->getIdColumn());
@@ -29,7 +29,7 @@ class DbTableGatewayOptionsTest extends TestCase
         self::assertEquals('data', $options->getDataColumn());
     }
 
-    public function testSetConstructor()
+    public function testSetConstructor(): void
     {
         $options = new DbTableGatewayOptions(
             [
@@ -48,7 +48,7 @@ class DbTableGatewayOptionsTest extends TestCase
         self::assertEquals('testData', $options->getDataColumn());
     }
 
-    public function testSetters()
+    public function testSetters(): void
     {
         $options = new DbTableGatewayOptions();
         $options->setIdColumn('testId')
@@ -64,7 +64,7 @@ class DbTableGatewayOptionsTest extends TestCase
         self::assertEquals('testData', $options->getDataColumn());
     }
 
-    public function testInvalidIdColumn()
+    public function testInvalidIdColumn(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $options = new DbTableGatewayOptions(
@@ -74,7 +74,7 @@ class DbTableGatewayOptionsTest extends TestCase
         );
     }
 
-    public function testInvalidNameColumn()
+    public function testInvalidNameColumn(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $options = new DbTableGatewayOptions(
@@ -84,7 +84,7 @@ class DbTableGatewayOptionsTest extends TestCase
         );
     }
 
-    public function testInvalidModifiedColumn()
+    public function testInvalidModifiedColumn(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $options = new DbTableGatewayOptions(
@@ -94,7 +94,7 @@ class DbTableGatewayOptionsTest extends TestCase
         );
     }
 
-    public function testInvalidLifetimeColumn()
+    public function testInvalidLifetimeColumn(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $options = new DbTableGatewayOptions(
@@ -104,7 +104,7 @@ class DbTableGatewayOptionsTest extends TestCase
         );
     }
 
-    public function testInvalidDataColumn()
+    public function testInvalidDataColumn(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $options = new DbTableGatewayOptions(

@@ -17,7 +17,7 @@ class IdTest extends TestCase
     /**
      * @return Generator
      */
-    public function id()
+    public function id(): ?Generator
     {
         yield '4, valid' => [4, '0123456789abcdef', true];
         yield '4, invalid (out of the range)' => [4, '0123456789abcdefg', false];
@@ -41,7 +41,7 @@ class IdTest extends TestCase
      * @param string $id
      * @param bool   $isValid
      */
-    public function testIsValidPhp71($bitsPerCharacter, $id, $isValid)
+    public function testIsValidPhp71($bitsPerCharacter, $id, $isValid): void
     {
         ini_set('session.sid_bits_per_character', $bitsPerCharacter);
 
@@ -59,7 +59,7 @@ class IdTest extends TestCase
      * @param string $id
      * @param bool   $isValid
      */
-    public function testIsValidPhpPriorTo71($bitsPerCharacter, $id, $isValid)
+    public function testIsValidPhpPriorTo71($bitsPerCharacter, $id, $isValid): void
     {
         ini_set('session.hash_bits_per_character', $bitsPerCharacter);
 
@@ -67,7 +67,7 @@ class IdTest extends TestCase
         self::assertSame($isValid, $validator->isValid());
     }
 
-    public function testConstructorSetId()
+    public function testConstructorSetId(): void
     {
         $id = new Id('1234');
 
@@ -77,7 +77,7 @@ class IdTest extends TestCase
     /**
      * @runInSeparateProcess
      */
-    public function testInitializedWithSessionIdWhenIdIsNotPassed()
+    public function testInitializedWithSessionIdWhenIdIsNotPassed(): void
     {
         session_start();
         $sessionId = session_id();
@@ -87,7 +87,7 @@ class IdTest extends TestCase
         self::assertSame($sessionId, $id->getData());
     }
 
-    public function testValidatorName()
+    public function testValidatorName(): void
     {
         $id = new Id();
 

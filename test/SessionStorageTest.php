@@ -27,13 +27,13 @@ class SessionStorageTest extends TestCase
         $_SESSION = [];
     }
 
-    public function testSessionStorageInheritsFromArrayStorage()
+    public function testSessionStorageInheritsFromArrayStorage(): void
     {
         self::assertInstanceOf('Laminas\Session\Storage\SessionStorage', $this->storage);
         self::assertInstanceOf('Laminas\Session\Storage\ArrayStorage', $this->storage);
     }
 
-    public function testStorageWritesToSessionSuperglobal()
+    public function testStorageWritesToSessionSuperglobal(): void
     {
         $this->storage['foo'] = 'bar';
         self::assertSame($_SESSION, $this->storage);
@@ -41,7 +41,7 @@ class SessionStorageTest extends TestCase
         self::assertArrayNotHasKey('foo', $_SESSION);
     }
 
-    public function testPassingArrayToConstructorOverwritesSessionSuperglobal()
+    public function testPassingArrayToConstructorOverwritesSessionSuperglobal(): void
     {
         $_SESSION['foo'] = 'bar';
         $array           = ['foo' => 'FOO'];
@@ -55,26 +55,26 @@ class SessionStorageTest extends TestCase
         self::assertSame($expected, $_SESSION->getArrayCopy());
     }
 
-    public function testModifyingSessionSuperglobalDirectlyUpdatesStorage()
+    public function testModifyingSessionSuperglobalDirectlyUpdatesStorage(): void
     {
         $_SESSION['foo'] = 'bar';
         self::assertTrue(isset($this->storage['foo']));
     }
 
-    public function testDestructorSetsSessionToArray()
+    public function testDestructorSetsSessionToArray(): void
     {
         $this->storage->foo = 'bar';
-        $expected = [
+        $expected           = [
             '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $this->storage->getRequestAccessTime(),
             ],
-            'foo' => 'bar',
+            'foo'       => 'bar',
         ];
         $this->storage->__destruct();
         self::assertSame($expected, $_SESSION);
     }
 
-    public function testModifyingOneSessionObjectModifiesTheOther()
+    public function testModifyingOneSessionObjectModifiesTheOther(): void
     {
         $this->storage->foo = 'bar';
         $storage            = new SessionStorage();
@@ -82,7 +82,7 @@ class SessionStorageTest extends TestCase
         self::assertEquals('foo', $this->storage->bar);
     }
 
-    public function testMarkingOneSessionObjectImmutableShouldMarkOtherInstancesImmutable()
+    public function testMarkingOneSessionObjectImmutableShouldMarkOtherInstancesImmutable(): void
     {
         $this->storage->foo = 'bar';
         $storage            = new SessionStorage();
@@ -91,7 +91,7 @@ class SessionStorageTest extends TestCase
         self::assertTrue($storage->isImmutable(), var_export($_SESSION, 1));
     }
 
-    public function testMultiDimensionalUnset()
+    public function testMultiDimensionalUnset(): void
     {
         $this->storage['foo'] = ['bar' => ['baz' => 'boo']];
         unset($this->storage['foo']['bar']['baz']);

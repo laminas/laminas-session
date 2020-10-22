@@ -30,7 +30,7 @@ class TestManager extends AbstractManager
         $this->started = false;
     }
 
-    public function stop()
+    public function stop(): void
     {
     }
 

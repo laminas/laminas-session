@@ -36,17 +36,17 @@ class StorageFactoryTest extends TestCase
         $config->configureServiceManager($this->services);
     }
 
-    public function sessionStorageConfig()
+    public function sessionStorageConfig(): array
     {
         return [
             'array-storage-short' => [[
-                'session_storage' => [
-                    'type' => 'ArrayStorage',
-                    'options' => [
-                        'input' => [
-                            'foo' => 'bar',
-                        ],
-                    ],
+                                          'session_storage' => [
+                                              'type'    => 'ArrayStorage',
+                                              'options' => [
+                                                  'input' => [
+                                                      'foo' => 'bar',
+                                                  ],
+                                              ],
                 ],
             ], ArrayStorage::class],
             'array-storage-fqcn' => [[
@@ -95,7 +95,7 @@ class StorageFactoryTest extends TestCase
     /**
      * @dataProvider sessionStorageConfig
      */
-    public function testUsesConfigurationToCreateStorage($config, $class)
+    public function testUsesConfigurationToCreateStorage($config, $class): void
     {
         $this->services->setService('config', $config);
         $storage = $this->services->get(StorageInterface::class);
@@ -104,15 +104,15 @@ class StorageFactoryTest extends TestCase
         self::assertEquals($config['session_storage']['options']['input'], $test);
     }
 
-    public function testConfigurationWithoutInputIsValid()
+    public function testConfigurationWithoutInputIsValid(): void
     {
         $this->services->setService(
             'config', [
-            'session_storage' => [
-                'type'    => ArrayStorage::class,
-                'options' => [],
-            ],
-        ]
+                'session_storage' => [
+                    'type'    => ArrayStorage::class,
+                    'options' => [],
+                ],
+            ]
         );
 
         $storage = $this->services->get(StorageInterface::class);
@@ -121,17 +121,17 @@ class StorageFactoryTest extends TestCase
         self::assertSame([], $storage->toArray());
     }
 
-    public function invalidSessionStorageConfig()
+    public function invalidSessionStorageConfig(): array
     {
         return [
             'unknown-class-short' => [[
-                'session_storage' => [
-                    'type' => 'FooStorage',
-                    'options' => [],
-                ],
-            ]],
-            'unknown-class-fqcn' => [[
-                'session_storage' => [
+                                          'session_storage' => [
+                                              'type'    => 'FooStorage',
+                                              'options' => [],
+                                          ],
+                                      ]],
+            'unknown-class-fqcn'  => [[
+                                          'session_storage' => [
                     'type' => 'Foo\Bar\Baz\Bat',
                     'options' => [],
                 ],
@@ -156,7 +156,7 @@ class StorageFactoryTest extends TestCase
     /**
      * @dataProvider invalidSessionStorageConfig
      */
-    public function testInvalidConfigurationRaisesServiceNotCreatedException($config)
+    public function testInvalidConfigurationRaisesServiceNotCreatedException($config): void
     {
         $this->services->setService('config', $config);
         $this->expectException(ServiceNotCreatedException::class);

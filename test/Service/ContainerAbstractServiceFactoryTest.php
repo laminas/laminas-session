@@ -53,7 +53,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
         $config->configureServiceManager($this->services);
     }
 
-    public function validContainers()
+    public function validContainers(): array
     {
         $containers = [];
         $config     = $this->config;
@@ -67,7 +67,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
     /**
      * @dataProvider validContainers
      */
-    public function testCanRetrieveNamedContainers($serviceName, $containerName)
+    public function testCanRetrieveNamedContainers($serviceName, $containerName): void
     {
         self::assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
         $container = $this->services->get($serviceName);
@@ -78,17 +78,17 @@ class ContainerAbstractServiceFactoryTest extends TestCase
     /**
      * @dataProvider validContainers
      */
-    public function testContainersAreInjectedWithSessionManagerService($serviceName, $containerName)
+    public function testContainersAreInjectedWithSessionManagerService($serviceName, $containerName): void
     {
         self::assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
         $container = $this->services->get($serviceName);
         self::assertSame($this->services->get(ManagerInterface::class), $container->getManager());
     }
 
-    public function invalidContainers()
+    public function invalidContainers(): array
     {
         $containers = [];
-        $config = $this->config;
+        $config     = $this->config;
         foreach ($config['session_containers'] as $name) {
             $containers[] = ['SomePrefix\\' . $name];
         }
@@ -100,7 +100,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
     /**
      * @dataProvider invalidContainers
      */
-    public function testInvalidContainerNamesAreNotMatchedByAbstractFactory($name)
+    public function testInvalidContainerNamesAreNotMatchedByAbstractFactory($name): void
     {
         self::assertFalse($this->services->has($name));
     }

@@ -28,21 +28,21 @@ class StandardConfigTest extends TestCase
 
     // session.save_path
 
-    public function testSetSavePathErrorsOnInvalidPath()
+    public function testSetSavePathErrorsOnInvalidPath(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid save_path provided');
         $this->config->setSavePath(__DIR__ . '/foobarboguspath');
     }
 
-    public function testSavePathIsMutable()
+    public function testSavePathIsMutable(): void
     {
         $this->config->setSavePath(__DIR__);
         self::assertEquals(__DIR__, $this->config->getSavePath());
     }
     // session.name
 
-    public function testNameIsMutable()
+    public function testNameIsMutable(): void
     {
         $this->config->setName('FOOBAR');
         self::assertEquals('FOOBAR', $this->config->getName());
@@ -50,7 +50,7 @@ class StandardConfigTest extends TestCase
 
     // session.save_handler
 
-    public function testSaveHandlerIsMutable()
+    public function testSaveHandlerIsMutable(): void
     {
         $this->config->setSaveHandler('user');
         self::assertEquals('user', $this->config->getSaveHandler());
@@ -58,33 +58,33 @@ class StandardConfigTest extends TestCase
 
     // session.gc_probability
 
-    public function testGcProbabilityIsMutable()
+    public function testGcProbabilityIsMutable(): void
     {
         $this->config->setGcProbability(20);
         self::assertEquals(20, $this->config->getGcProbability());
     }
 
-    public function testGcProbabilityCanBeSetToZero()
+    public function testGcProbabilityCanBeSetToZero(): void
     {
         $this->config->setGcProbability(0);
         self::assertEquals(0, $this->config->getGcProbability());
     }
 
-    public function testSettingInvalidGcProbabilityRaisesException()
+    public function testSettingInvalidGcProbabilityRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_probability; must be numeric');
         $this->config->setGcProbability('foobar_bogus');
     }
 
-    public function testSettingInvalidGcProbabilityRaisesException2()
+    public function testSettingInvalidGcProbabilityRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_probability; must be a percentage');
         $this->config->setGcProbability(-1);
     }
 
-    public function testSettingInvalidGcProbabilityRaisesException3()
+    public function testSettingInvalidGcProbabilityRaisesException3(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_probability; must be a percentage');
@@ -93,20 +93,20 @@ class StandardConfigTest extends TestCase
 
     // session.gc_divisor
 
-    public function testGcDivisorIsMutable()
+    public function testGcDivisorIsMutable(): void
     {
         $this->config->setGcDivisor(20);
         self::assertEquals(20, $this->config->getGcDivisor());
     }
 
-    public function testSettingInvalidGcDivisorRaisesException()
+    public function testSettingInvalidGcDivisorRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_divisor; must be numeric');
         $this->config->setGcDivisor('foobar_bogus');
     }
 
-    public function testSettingInvalidGcDivisorRaisesException2()
+    public function testSettingInvalidGcDivisorRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_divisor; must be a positive integer');
@@ -115,20 +115,20 @@ class StandardConfigTest extends TestCase
 
     // session.gc_maxlifetime
 
-    public function testGcMaxlifetimeIsMutable()
+    public function testGcMaxlifetimeIsMutable(): void
     {
         $this->config->setGcMaxlifetime(20);
         self::assertEquals(20, $this->config->getGcMaxlifetime());
     }
 
-    public function testSettingInvalidGcMaxlifetimeRaisesException()
+    public function testSettingInvalidGcMaxlifetimeRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_maxlifetime; must be numeric');
         $this->config->setGcMaxlifetime('foobar_bogus');
     }
 
-    public function testSettingInvalidGcMaxlifetimeRaisesException2()
+    public function testSettingInvalidGcMaxlifetimeRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_maxlifetime; must be a positive integer');
@@ -137,7 +137,7 @@ class StandardConfigTest extends TestCase
 
     // session.serialize_handler
 
-    public function testSerializeHandlerIsMutable()
+    public function testSerializeHandlerIsMutable(): void
     {
         $value = extension_loaded('wddx') ? 'wddx' : 'php_binary';
         $this->config->setSerializeHandler($value);
@@ -146,26 +146,26 @@ class StandardConfigTest extends TestCase
 
     // session.cookie_lifetime
 
-    public function testCookieLifetimeIsMutable()
+    public function testCookieLifetimeIsMutable(): void
     {
         $this->config->setCookieLifetime(20);
         self::assertEquals(20, $this->config->getCookieLifetime());
     }
 
-    public function testCookieLifetimeCanBeZero()
+    public function testCookieLifetimeCanBeZero(): void
     {
         $this->config->setCookieLifetime(0);
         self::assertEquals(0, $this->config->getCookieLifetime());
     }
 
-    public function testSettingInvalidCookieLifetimeRaisesException()
+    public function testSettingInvalidCookieLifetimeRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie_lifetime; must be numeric');
         $this->config->setCookieLifetime('foobar_bogus');
     }
 
-    public function testSettingInvalidCookieLifetimeRaisesException2()
+    public function testSettingInvalidCookieLifetimeRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie_lifetime; must be a positive integer or zero');
@@ -174,27 +174,27 @@ class StandardConfigTest extends TestCase
 
     // session.cookie_path
 
-    public function testCookiePathIsMutable()
+    public function testCookiePathIsMutable(): void
     {
         $this->config->setCookiePath('/foo');
         self::assertEquals('/foo', $this->config->getCookiePath());
     }
 
-    public function testSettingInvalidCookiePathRaisesException()
+    public function testSettingInvalidCookiePathRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath(24);
     }
 
-    public function testSettingInvalidCookiePathRaisesException2()
+    public function testSettingInvalidCookiePathRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath('foo');
     }
 
-    public function testSettingInvalidCookiePathRaisesException3()
+    public function testSettingInvalidCookiePathRaisesException3(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie path');
@@ -203,26 +203,26 @@ class StandardConfigTest extends TestCase
 
     // session.cookie_domain
 
-    public function testCookieDomainIsMutable()
+    public function testCookieDomainIsMutable(): void
     {
         $this->config->setCookieDomain('example.com');
         self::assertEquals('example.com', $this->config->getCookieDomain());
     }
 
-    public function testCookieDomainCanBeEmpty()
+    public function testCookieDomainCanBeEmpty(): void
     {
         $this->config->setCookieDomain('');
         self::assertEquals('', $this->config->getCookieDomain());
     }
 
-    public function testSettingInvalidCookieDomainRaisesException()
+    public function testSettingInvalidCookieDomainRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie domain: must be a string');
         $this->config->setCookieDomain(24);
     }
 
-    public function testSettingInvalidCookieDomainRaisesException2()
+    public function testSettingInvalidCookieDomainRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('does not match the expected structure for a DNS hostname');
@@ -231,7 +231,7 @@ class StandardConfigTest extends TestCase
 
     // session.cookie_secure
 
-    public function testCookieSecureIsMutable()
+    public function testCookieSecureIsMutable(): void
     {
         $this->config->setCookieSecure(true);
         self::assertEquals(true, $this->config->getCookieSecure());
@@ -239,7 +239,7 @@ class StandardConfigTest extends TestCase
 
     // session.cookie_httponly
 
-    public function testCookieHttpOnlyIsMutable()
+    public function testCookieHttpOnlyIsMutable(): void
     {
         $this->config->setCookieHttpOnly(true);
         self::assertEquals(true, $this->config->getCookieHttpOnly());
@@ -247,7 +247,7 @@ class StandardConfigTest extends TestCase
 
     // session.use_cookies
 
-    public function testUseCookiesIsMutable()
+    public function testUseCookiesIsMutable(): void
     {
         $this->config->setUseCookies(true);
         self::assertEquals(true, (bool)$this->config->getUseCookies());
@@ -255,7 +255,7 @@ class StandardConfigTest extends TestCase
 
     // session.use_only_cookies
 
-    public function testUseOnlyCookiesIsMutable()
+    public function testUseOnlyCookiesIsMutable(): void
     {
         $this->config->setUseOnlyCookies(true);
         self::assertEquals(true, (bool)$this->config->getUseOnlyCookies());
@@ -263,13 +263,13 @@ class StandardConfigTest extends TestCase
 
     // session.referer_check
 
-    public function testRefererCheckIsMutable()
+    public function testRefererCheckIsMutable(): void
     {
         $this->config->setRefererCheck('FOOBAR');
         self::assertEquals('FOOBAR', $this->config->getRefererCheck());
     }
 
-    public function testRefererCheckMayBeEmpty()
+    public function testRefererCheckMayBeEmpty(): void
     {
         $this->config->setRefererCheck('');
         self::assertEquals('', $this->config->getRefererCheck());
@@ -277,7 +277,7 @@ class StandardConfigTest extends TestCase
 
     // session.entropy_file
 
-    public function testSetEntropyFileErrorsOnInvalidPath()
+    public function testSetEntropyFileErrorsOnInvalidPath(): void
     {
         if (PHP_VERSION_ID >= 70100) {
             self::markTestSkipped('session.entropy_file directive removed in PHP 7.1');
@@ -288,7 +288,7 @@ class StandardConfigTest extends TestCase
         $this->config->setEntropyFile(__DIR__ . '/foobarboguspath');
     }
 
-    public function testEntropyFileIsMutable()
+    public function testEntropyFileIsMutable(): void
     {
         if (PHP_VERSION_ID >= 70100) {
             self::markTestSkipped('session.entropy_file directive removed in PHP 7.1');
@@ -301,7 +301,7 @@ class StandardConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSetEntropyFileError()
+    public function testSetEntropyFileError(): void
     {
         $this->expectDeprecation();
         $this->config->getEntropyFile();
@@ -310,7 +310,7 @@ class StandardConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testGetEntropyFileError()
+    public function testGetEntropyFileError(): void
     {
         $this->expectDeprecation();
         $this->config->setEntropyFile(__FILE__);
@@ -318,7 +318,7 @@ class StandardConfigTest extends TestCase
 
     // session.entropy_length
 
-    public function testEntropyLengthIsMutable()
+    public function testEntropyLengthIsMutable(): void
     {
         if (PHP_VERSION_ID >= 70100) {
             self::markTestSkipped('session.entropy_length directive removed in PHP 7.1');
@@ -328,7 +328,7 @@ class StandardConfigTest extends TestCase
         self::assertEquals(20, $this->config->getEntropyLength());
     }
 
-    public function testEntropyLengthCanBeZero()
+    public function testEntropyLengthCanBeZero(): void
     {
         if (PHP_VERSION_ID >= 70100) {
             self::markTestSkipped('session.entropy_length directive removed in PHP 7.1');
@@ -338,7 +338,7 @@ class StandardConfigTest extends TestCase
         self::assertEquals(0, $this->config->getEntropyLength());
     }
 
-    public function testSettingInvalidEntropyLengthRaisesException()
+    public function testSettingInvalidEntropyLengthRaisesException(): void
     {
         if (PHP_VERSION_ID >= 70100) {
             self::markTestSkipped('session.entropy_length directive removed in PHP 7.1');
@@ -349,7 +349,7 @@ class StandardConfigTest extends TestCase
         $this->config->setEntropyLength('foobar_bogus');
     }
 
-    public function testSettingInvalidEntropyLengthRaisesException2()
+    public function testSettingInvalidEntropyLengthRaisesException2(): void
     {
         if (PHP_VERSION_ID >= 70100) {
             self::markTestSkipped('session.entropy_length directive removed in PHP 7.1');
@@ -363,7 +363,7 @@ class StandardConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testGetEntropyLengthError()
+    public function testGetEntropyLengthError(): void
     {
         $this->expectDeprecation();
         $this->config->getEntropyLength();
@@ -372,7 +372,7 @@ class StandardConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSetEntropyLengthError()
+    public function testSetEntropyLengthError(): void
     {
         $this->expectDeprecation();
         $this->config->setEntropyLength(0);
@@ -380,7 +380,7 @@ class StandardConfigTest extends TestCase
 
     // session.cache_limiter
 
-    public function cacheLimiters()
+    public function cacheLimiters(): array
     {
         return [
             ['nocache'],
@@ -393,7 +393,7 @@ class StandardConfigTest extends TestCase
     /**
      * @dataProvider cacheLimiters
      */
-    public function testCacheLimiterIsMutable($cacheLimiter)
+    public function testCacheLimiterIsMutable($cacheLimiter): void
     {
         $this->config->setCacheLimiter($cacheLimiter);
         self::assertEquals($cacheLimiter, $this->config->getCacheLimiter());
@@ -401,20 +401,20 @@ class StandardConfigTest extends TestCase
 
     // session.cache_expire
 
-    public function testCacheExpireIsMutable()
+    public function testCacheExpireIsMutable(): void
     {
         $this->config->setCacheExpire(20);
         self::assertEquals(20, $this->config->getCacheExpire());
     }
 
-    public function testSettingInvalidCacheExpireRaisesException()
+    public function testSettingInvalidCacheExpireRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cache_expire; must be numeric');
         $this->config->setCacheExpire('foobar_bogus');
     }
 
-    public function testSettingInvalidCacheExpireRaisesException2()
+    public function testSettingInvalidCacheExpireRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cache_expire; must be a positive integer');
@@ -423,7 +423,7 @@ class StandardConfigTest extends TestCase
 
     // session.use_trans_sid
 
-    public function testUseTransSidIsMutable()
+    public function testUseTransSidIsMutable(): void
     {
         $this->config->setUseTransSid(true);
         self::assertEquals(true, (bool)$this->config->getUseTransSid());
@@ -431,7 +431,7 @@ class StandardConfigTest extends TestCase
 
     // session.hash_function
 
-    public function hashFunctions()
+    public function hashFunctions(): array
     {
         $hashFunctions = array_merge([0, 1], hash_algos());
         $provider      = [];
@@ -444,7 +444,7 @@ class StandardConfigTest extends TestCase
     /**
      * @dataProvider hashFunctions
      */
-    public function testHashFunctionIsMutable($hashFunction)
+    public function testHashFunctionIsMutable($hashFunction): void
     {
         if (PHP_VERSION_ID >= 70100) {
             self::markTestSkipped('session.hash_function directive removed in PHP 7.1');
@@ -457,7 +457,7 @@ class StandardConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testGetHashFunctionError()
+    public function testGetHashFunctionError(): void
     {
         $this->expectDeprecation();
         $this->config->getHashFunction();
@@ -466,7 +466,7 @@ class StandardConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSetHashFunctionError()
+    public function testSetHashFunctionError(): void
     {
         $this->expectDeprecation();
         $this->config->setHashFunction('foobar_bogus');
@@ -474,7 +474,7 @@ class StandardConfigTest extends TestCase
 
     // session.hash_bits_per_character
 
-    public function hashBitsPerCharacters()
+    public function hashBitsPerCharacters(): array
     {
         return [
             [4],
@@ -486,7 +486,7 @@ class StandardConfigTest extends TestCase
     /**
      * @dataProvider hashBitsPerCharacters
      */
-    public function testHashBitsPerCharacterIsMutable($hashBitsPerCharacter)
+    public function testHashBitsPerCharacterIsMutable($hashBitsPerCharacter): void
     {
         if (PHP_VERSION_ID >= 70100) {
             self::markTestSkipped('session.hash_bits_per_character directive removed in PHP 7.1');
@@ -496,7 +496,7 @@ class StandardConfigTest extends TestCase
         self::assertEquals($hashBitsPerCharacter, $this->config->getHashBitsPerCharacter());
     }
 
-    public function testSettingInvalidHashBitsPerCharacterRaisesException()
+    public function testSettingInvalidHashBitsPerCharacterRaisesException(): void
     {
         if (PHP_VERSION_ID >= 70100) {
             self::markTestSkipped('session.hash_bits_per_character directive removed in PHP 7.1');
@@ -510,7 +510,7 @@ class StandardConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testGetHashBitsPerCharacterError()
+    public function testGetHashBitsPerCharacterError(): void
     {
         $this->expectDeprecation();
         $this->config->getHashBitsPerCharacter();
@@ -519,7 +519,7 @@ class StandardConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSetHashBitsPerCharacterError()
+    public function testSetHashBitsPerCharacterError(): void
     {
         $this->expectDeprecation();
         $this->config->setHashBitsPerCharacter(5);
@@ -530,7 +530,7 @@ class StandardConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSidLengthIsMutable()
+    public function testSidLengthIsMutable(): void
     {
         $this->config->setSidLength(40);
         self::assertEquals(40, $this->config->getSidLength());
@@ -539,7 +539,7 @@ class StandardConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSettingInvalidSidLengthRaisesException()
+    public function testSettingInvalidSidLengthRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid length provided');
@@ -549,7 +549,7 @@ class StandardConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSettingOutOfRangeSidLengthRaisesException()
+    public function testSettingOutOfRangeSidLengthRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid length provided');
@@ -558,7 +558,7 @@ class StandardConfigTest extends TestCase
 
     // session.sid_bits_per_character
 
-    public function sidBitsPerCharacters()
+    public function sidBitsPerCharacters(): array
     {
         return [
             [4],
@@ -571,7 +571,7 @@ class StandardConfigTest extends TestCase
      * @requires PHP 7.1
      * @dataProvider sidBitsPerCharacters
      */
-    public function testSidBitsPerCharacterIsMutable($sidBitsPerCharacter)
+    public function testSidBitsPerCharacterIsMutable($sidBitsPerCharacter): void
     {
         $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
         self::assertEquals($sidBitsPerCharacter, $this->config->getSidBitsPerCharacter());
@@ -580,7 +580,7 @@ class StandardConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSettingInvalidSidBitsPerCharacterRaisesException()
+    public function testSettingInvalidSidBitsPerCharacterRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid sid bits per character provided');
@@ -589,7 +589,7 @@ class StandardConfigTest extends TestCase
 
     // url_rewriter.tags
 
-    public function testUrlRewriterTagsIsMutable()
+    public function testUrlRewriterTagsIsMutable(): void
     {
         $this->config->setUrlRewriterTags('a=href,form=action');
         self::assertEquals('a=href,form=action', $this->config->getUrlRewriterTags());
@@ -597,20 +597,20 @@ class StandardConfigTest extends TestCase
 
     // remember_me_seconds
 
-    public function testRememberMeSecondsIsMutable()
+    public function testRememberMeSecondsIsMutable(): void
     {
         $this->config->setRememberMeSeconds(20);
         self::assertEquals(20, $this->config->getRememberMeSeconds());
     }
 
-    public function testSettingInvalidRememberMeSecondsRaisesException()
+    public function testSettingInvalidRememberMeSecondsRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid remember_me_seconds; must be numeric');
         $this->config->setRememberMeSeconds('foobar_bogus');
     }
 
-    public function testSettingInvalidRememberMeSecondsRaisesException2()
+    public function testSettingInvalidRememberMeSecondsRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid remember_me_seconds; must be a positive integer');
@@ -622,14 +622,14 @@ class StandardConfigTest extends TestCase
     /**
      * @dataProvider optionsProvider
      */
-    public function testSetOptionsTranslatesUnderscoreSeparatedKeys($option, $getter, $value)
+    public function testSetOptionsTranslatesUnderscoreSeparatedKeys($option, $getter, $value): void
     {
         $options = [$option => $value];
         $this->config->setOptions($options);
         self::assertSame($value, $this->config->$getter());
     }
 
-    public function optionsProvider()
+    public function optionsProvider(): array
     {
         $commonOptions = [
             [
@@ -771,7 +771,7 @@ class StandardConfigTest extends TestCase
      *
      * @link https://github.com/zendframework/zf2/issues/3046
      */
-    public function testSetEntropyDevUrandom()
+    public function testSetEntropyDevUrandom(): void
     {
         if (PHP_VERSION_ID >= 70100) {
             self::markTestSkipped('session.entropy_file directive removed in PHP 7.1');

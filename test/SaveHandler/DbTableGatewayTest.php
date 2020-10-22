@@ -93,7 +93,7 @@ abstract class DbTableGatewayTest extends TestCase
         }
     }
 
-    public function testReadWrite()
+    public function testReadWrite(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
@@ -110,7 +110,7 @@ abstract class DbTableGatewayTest extends TestCase
         );
     }
 
-    public function testReadWriteComplex()
+    public function testReadWriteComplex(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
@@ -122,7 +122,7 @@ abstract class DbTableGatewayTest extends TestCase
         self::assertEquals($this->testArray, unserialize($saveHandler->read($id)));
     }
 
-    public function testReadWriteTwice()
+    public function testReadWriteTwice(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
@@ -139,7 +139,7 @@ abstract class DbTableGatewayTest extends TestCase
         self::assertEquals($updateData, unserialize($saveHandler->read($id)));
     }
 
-    public function testReadShouldAlwaysReturnString()
+    public function testReadShouldAlwaysReturnString(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
@@ -151,7 +151,7 @@ abstract class DbTableGatewayTest extends TestCase
         self::assertTrue(is_string($data));
     }
 
-    public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist()
+    public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
@@ -163,7 +163,7 @@ abstract class DbTableGatewayTest extends TestCase
         self::assertTrue($result);
     }
 
-    public function testDestroyReturnsTrueWhenSessionIsDeleted()
+    public function testDestroyReturnsTrueWhenSessionIsDeleted(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
@@ -177,7 +177,7 @@ abstract class DbTableGatewayTest extends TestCase
         self::assertTrue($result);
     }
 
-    public function testReadDestroysExpiredSession()
+    public function testReadDestroysExpiredSession(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
@@ -225,7 +225,7 @@ EOD;
      * @param DbTableGatewayOptions $options
      * @return void
      */
-    protected function setupDb(DbTableGatewayOptions $options)
+    protected function setupDb(DbTableGatewayOptions $options): void
     {
         $query = <<<EOD
 CREATE TABLE sessions (
@@ -246,7 +246,7 @@ EOD;
      *
      * @return void
      */
-    protected function dropTable()
+    protected function dropTable(): void
     {
         if (! $this->adapter) {
             return;

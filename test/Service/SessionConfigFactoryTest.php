@@ -34,36 +34,42 @@ class SessionConfigFactoryTest extends TestCase
         $config->configureServiceManager($this->services);
     }
 
-    public function testCreatesSessionConfigByDefault()
+    public function testCreatesSessionConfigByDefault(): void
     {
-        $this->services->setService('config', [
+        $this->services->setService(
+            'config', [
             'session_config' => [],
-        ]);
+        ]
+        );
         $config = $this->services->get(ConfigInterface::class);
         self::assertInstanceOf(SessionConfig::class, $config);
     }
 
-    public function testCanCreateAlternateSessionConfigTypeViaConfigClassKey()
+    public function testCanCreateAlternateSessionConfigTypeViaConfigClassKey(): void
     {
-        $this->services->setService('config', [
+        $this->services->setService(
+            'config', [
             'session_config' => [
                 'config_class' => StandardConfig::class,
             ],
-        ]);
+        ]
+        );
         $config = $this->services->get(ConfigInterface::class);
         self::assertInstanceOf(StandardConfig::class, $config);
         // Since SessionConfig extends StandardConfig, need to assert not SessionConfig
         self::assertNotInstanceOf(SessionConfig::class, $config);
     }
 
-    public function testServiceReceivesConfiguration()
+    public function testServiceReceivesConfiguration(): void
     {
-        $this->services->setService('config', [
+        $this->services->setService(
+            'config', [
             'session_config' => [
                 'config_class' => StandardConfig::class,
                 'name'         => 'laminas',
             ],
-        ]);
+        ]
+        );
         $config = $this->services->get(ConfigInterface::class);
         self::assertEquals('laminas', $config->getName());
     }

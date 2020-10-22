@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  */
 class MongoDBOptionsTest extends TestCase
 {
-    public function testDefaults()
+    public function testDefaults(): void
     {
         $options = new MongoDBOptions();
         self::assertNull($options->getDatabase());
@@ -31,7 +31,7 @@ class MongoDBOptionsTest extends TestCase
         self::assertEquals('modified', $options->getModifiedField());
     }
 
-    public function testSetConstructor()
+    public function testSetConstructor(): void
     {
         $options = new MongoDBOptions(
             [
@@ -54,7 +54,7 @@ class MongoDBOptionsTest extends TestCase
         self::assertEquals('testModified', $options->getModifiedField());
     }
 
-    public function testSetters()
+    public function testSetters(): void
     {
         $options = new MongoDBOptions();
         $options->setDatabase('testDatabase')
@@ -74,7 +74,7 @@ class MongoDBOptionsTest extends TestCase
         self::assertEquals('testModified', $options->getModifiedField());
     }
 
-    public function testInvalidDatabase()
+    public function testInvalidDatabase(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $options = new MongoDBOptions(
@@ -84,7 +84,7 @@ class MongoDBOptionsTest extends TestCase
         );
     }
 
-    public function testInvalidCollection()
+    public function testInvalidCollection(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $options = new MongoDBOptions(
@@ -94,7 +94,7 @@ class MongoDBOptionsTest extends TestCase
         );
     }
 
-    public function testInvalidSaveOptions()
+    public function testInvalidSaveOptions(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $options = new MongoDBOptions(
@@ -104,7 +104,7 @@ class MongoDBOptionsTest extends TestCase
         );
     }
 
-    public function testInvalidNameField()
+    public function testInvalidNameField(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $options = new MongoDBOptions(
@@ -114,7 +114,7 @@ class MongoDBOptionsTest extends TestCase
         );
     }
 
-    public function testInvalidModifiedField()
+    public function testInvalidModifiedField(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $options = new MongoDBOptions(
@@ -124,7 +124,7 @@ class MongoDBOptionsTest extends TestCase
         );
     }
 
-    public function testInvalidLifetimeField()
+    public function testInvalidLifetimeField(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $options = new MongoDBOptions(
@@ -134,7 +134,7 @@ class MongoDBOptionsTest extends TestCase
         );
     }
 
-    public function testInvalidDataField()
+    public function testInvalidDataField(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $options = new MongoDBOptions(

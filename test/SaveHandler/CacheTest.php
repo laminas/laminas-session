@@ -46,14 +46,16 @@ class CacheTest extends TestCase
         $this->testArray = ['foo' => 'bar', 'bar' => ['foo' => 'bar']];
     }
 
-    public function testReadWrite()
+    public function testReadWrite(): void
     {
         $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
         $cacheStorage->setItem('242', Argument::type('string'))
-            ->will(function ($args) {
-                $this->getItem('242')->willReturn($args[1]);
-                return true;
-            });
+            ->will(
+                function ($args) {
+                    $this->getItem('242')->willReturn($args[1]);
+                    return true;
+                }
+            );
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
         $id = '242';
@@ -68,14 +70,16 @@ class CacheTest extends TestCase
         );
     }
 
-    public function testReadWriteComplex()
+    public function testReadWriteComplex(): void
     {
         $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
         $cacheStorage->setItem('242', Argument::type('string'))
-            ->will(function ($args) {
-                $this->getItem('242')->willReturn($args[1]);
-                return true;
-            });
+            ->will(
+                function ($args) {
+                    $this->getItem('242')->willReturn($args[1]);
+                    return true;
+                }
+            );
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
         $saveHandler->open('savepath', 'sessionname');
 
@@ -86,14 +90,16 @@ class CacheTest extends TestCase
         self::assertEquals($this->testArray, unserialize($saveHandler->read($id)));
     }
 
-    public function testReadWriteTwice()
+    public function testReadWriteTwice(): void
     {
         $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
         $cacheStorage->setItem('242', Argument::type('string'))
-            ->will(function ($args) {
-                $this->getItem('242')->willReturn($args[1])->shouldBeCalledTimes(2);
-                return true;
-            })
+            ->will(
+                function ($args) {
+                    $this->getItem('242')->willReturn($args[1])->shouldBeCalledTimes(2);
+                    return true;
+                }
+            )
             ->shouldBeCalledTimes(2);
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
@@ -108,7 +114,7 @@ class CacheTest extends TestCase
         self::assertEquals($this->testArray, unserialize($saveHandler->read($id)));
     }
 
-    public function testReadShouldAlwaysReturnString()
+    public function testReadShouldAlwaysReturnString(): void
     {
         $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
         $cacheStorage->getItem('242')->willReturn(null);
@@ -121,9 +127,9 @@ class CacheTest extends TestCase
         self::assertTrue(is_string($data));
     }
 
-    public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist()
+    public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist(): void
     {
-        $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
+        $cacheStorage             = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
         $id = '242';
@@ -133,17 +139,20 @@ class CacheTest extends TestCase
         self::assertTrue($result);
     }
 
-    public function testDestroyReturnsTrueWhenSessionIsDeleted()
+    public function testDestroyReturnsTrueWhenSessionIsDeleted(): void
     {
         $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
         $cacheStorage->setItem('242', Argument::type('string'))
-            ->will(function ($args) {
-                $this->getItem('242', Argument::any())
-                    ->will(function ($args) {
-                        $return =& $args[1];
-                        return $return;
-                    });
-                return true;
+            ->will(
+                function ($args) {
+                    $this->getItem('242', Argument::any())
+                        ->will(
+                            function ($args) {
+                                $return =& $args[1];
+                                return $return;
+                            }
+                        );
+                    return true;
             });
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 

@@ -41,7 +41,7 @@ class SessionConfigTest extends TestCase
         $this->config = null;
     }
 
-    public function assertPhpLessThan71($message = 'This test requires a PHP version less than 7.1.0')
+    public function assertPhpLessThan71($message = 'This test requires a PHP version less than 7.1.0'): ?bool
     {
         if (PHP_VERSION_ID < 70100) {
             return true;
@@ -51,31 +51,31 @@ class SessionConfigTest extends TestCase
 
     // session.save_path
 
-    public function testSetSavePathErrorsOnInvalidPath()
+    public function testSetSavePathErrorsOnInvalidPath(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid save_path provided');
         $this->config->setSavePath(__DIR__ . '/foobarboguspath');
     }
 
-    public function testSavePathDefaultsToIniSettings()
+    public function testSavePathDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.save_path'), $this->config->getSavePath());
     }
 
-    public function testSavePathIsMutable()
+    public function testSavePathIsMutable(): void
     {
         $this->config->setSavePath(__DIR__);
         self::assertEquals(__DIR__, $this->config->getSavePath());
     }
 
-    public function testSavePathAltersIniSetting()
+    public function testSavePathAltersIniSetting(): void
     {
         $this->config->setSavePath(__DIR__);
         self::assertEquals(__DIR__, ini_get('session.save_path'));
     }
 
-    public function testSavePathCanBeNonDirectoryWhenSaveHandlerNotFiles()
+    public function testSavePathCanBeNonDirectoryWhenSaveHandlerNotFiles(): void
     {
         $this->config->setPhpSaveHandler(TestSaveHandler::class);
         $this->config->setSavePath('/tmp/sessions.db');
@@ -84,24 +84,24 @@ class SessionConfigTest extends TestCase
 
     // session.name
 
-    public function testNameDefaultsToIniSettings()
+    public function testNameDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.name'), $this->config->getName());
     }
 
-    public function testNameIsMutable()
+    public function testNameIsMutable(): void
     {
         $this->config->setName('FOOBAR');
         self::assertEquals('FOOBAR', $this->config->getName());
     }
 
-    public function testNameAltersIniSetting()
+    public function testNameAltersIniSetting(): void
     {
         $this->config->setName('FOOBAR');
         self::assertEquals('FOOBAR', ini_get('session.name'));
     }
 
-    public function testNameAltersIniSettingAfterSessionStart()
+    public function testNameAltersIniSettingAfterSessionStart(): void
     {
         session_start();
 
@@ -109,7 +109,7 @@ class SessionConfigTest extends TestCase
         self::assertEquals('FOOBAR', ini_get('session.name'));
     }
 
-    public function testIdempotentNameAltersIniSettingWithSameValueAfterSessionStart()
+    public function testIdempotentNameAltersIniSettingWithSameValueAfterSessionStart(): void
     {
         $this->config->setName('FOOBAR');
         session_start();
@@ -120,7 +120,7 @@ class SessionConfigTest extends TestCase
 
     // session.save_handler
 
-    public function testSaveHandlerDefaultsToIniSettings()
+    public function testSaveHandlerDefaultsToIniSettings(): void
     {
         self::assertSame(
             ini_get('session.save_handler'),
@@ -129,19 +129,19 @@ class SessionConfigTest extends TestCase
         );
     }
 
-    public function testSaveHandlerIsMutable()
+    public function testSaveHandlerIsMutable(): void
     {
         $this->config->setSaveHandler(TestSaveHandler::class);
         self::assertSame(TestSaveHandler::class, $this->config->getSaveHandler());
     }
 
-    public function testSaveHandlerDoesNotAlterIniSetting()
+    public function testSaveHandlerDoesNotAlterIniSetting(): void
     {
         $this->config->setSaveHandler(TestSaveHandler::class);
         self::assertNotSame(TestSaveHandler::class, ini_get('session.save_handler'));
     }
 
-    public function testSettingInvalidSaveHandlerRaisesException()
+    public function testSettingInvalidSaveHandlerRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid save handler specified');
@@ -150,38 +150,38 @@ class SessionConfigTest extends TestCase
 
     // session.gc_probability
 
-    public function testGcProbabilityDefaultsToIniSettings()
+    public function testGcProbabilityDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.gc_probability'), $this->config->getGcProbability());
     }
 
-    public function testGcProbabilityIsMutable()
+    public function testGcProbabilityIsMutable(): void
     {
         $this->config->setGcProbability(20);
         self::assertEquals(20, $this->config->getGcProbability());
     }
 
-    public function testGcProbabilityAltersIniSetting()
+    public function testGcProbabilityAltersIniSetting(): void
     {
         $this->config->setGcProbability(24);
         self::assertEquals(24, ini_get('session.gc_probability'));
     }
 
-    public function testSettingInvalidGcProbabilityRaisesException()
+    public function testSettingInvalidGcProbabilityRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_probability; must be numeric');
         $this->config->setGcProbability('foobar_bogus');
     }
 
-    public function testSettingInvalidGcProbabilityRaisesException2()
+    public function testSettingInvalidGcProbabilityRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_probability; must be a percentage');
         $this->config->setGcProbability(-1);
     }
 
-    public function testSettingInvalidGcProbabilityRaisesException3()
+    public function testSettingInvalidGcProbabilityRaisesException3(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_probability; must be a percentage');
@@ -190,31 +190,31 @@ class SessionConfigTest extends TestCase
 
     // session.gc_divisor
 
-    public function testGcDivisorDefaultsToIniSettings()
+    public function testGcDivisorDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.gc_divisor'), $this->config->getGcDivisor());
     }
 
-    public function testGcDivisorIsMutable()
+    public function testGcDivisorIsMutable(): void
     {
         $this->config->setGcDivisor(20);
         self::assertEquals(20, $this->config->getGcDivisor());
     }
 
-    public function testGcDivisorAltersIniSetting()
+    public function testGcDivisorAltersIniSetting(): void
     {
         $this->config->setGcDivisor(24);
         self::assertEquals(24, ini_get('session.gc_divisor'));
     }
 
-    public function testSettingInvalidGcDivisorRaisesException()
+    public function testSettingInvalidGcDivisorRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_divisor; must be numeric');
         $this->config->setGcDivisor('foobar_bogus');
     }
 
-    public function testSettingInvalidGcDivisorRaisesException2()
+    public function testSettingInvalidGcDivisorRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_divisor; must be a positive integer');
@@ -223,31 +223,31 @@ class SessionConfigTest extends TestCase
 
     // session.gc_maxlifetime
 
-    public function testGcMaxlifetimeDefaultsToIniSettings()
+    public function testGcMaxlifetimeDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.gc_maxlifetime'), $this->config->getGcMaxlifetime());
     }
 
-    public function testGcMaxlifetimeIsMutable()
+    public function testGcMaxlifetimeIsMutable(): void
     {
         $this->config->setGcMaxlifetime(20);
         self::assertEquals(20, $this->config->getGcMaxlifetime());
     }
 
-    public function testGcMaxlifetimeAltersIniSetting()
+    public function testGcMaxlifetimeAltersIniSetting(): void
     {
         $this->config->setGcMaxlifetime(24);
         self::assertEquals(24, ini_get('session.gc_maxlifetime'));
     }
 
-    public function testSettingInvalidGcMaxlifetimeRaisesException()
+    public function testSettingInvalidGcMaxlifetimeRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_maxlifetime; must be numeric');
         $this->config->setGcMaxlifetime('foobar_bogus');
     }
 
-    public function testSettingInvalidGcMaxlifetimeRaisesException2()
+    public function testSettingInvalidGcMaxlifetimeRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid gc_maxlifetime; must be a positive integer');
@@ -256,26 +256,26 @@ class SessionConfigTest extends TestCase
 
     // session.serialize_handler
 
-    public function testSerializeHandlerDefaultsToIniSettings()
+    public function testSerializeHandlerDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.serialize_handler'), $this->config->getSerializeHandler());
     }
 
-    public function testSerializeHandlerIsMutable()
+    public function testSerializeHandlerIsMutable(): void
     {
         $value = extension_loaded('wddx') ? 'wddx' : 'php_binary';
         $this->config->setSerializeHandler($value);
         self::assertEquals($value, $this->config->getSerializeHandler());
     }
 
-    public function testSerializeHandlerAltersIniSetting()
+    public function testSerializeHandlerAltersIniSetting(): void
     {
         $value = extension_loaded('wddx') ? 'wddx' : 'php_binary';
         $this->config->setSerializeHandler($value);
         self::assertEquals($value, ini_get('session.serialize_handler'));
     }
 
-    public function testSettingInvalidSerializeHandlerRaisesException()
+    public function testSettingInvalidSerializeHandlerRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid serialize handler specified');
@@ -284,37 +284,37 @@ class SessionConfigTest extends TestCase
 
     // session.cookie_lifetime
 
-    public function testCookieLifetimeDefaultsToIniSettings()
+    public function testCookieLifetimeDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.cookie_lifetime'), $this->config->getCookieLifetime());
     }
 
-    public function testCookieLifetimeIsMutable()
+    public function testCookieLifetimeIsMutable(): void
     {
         $this->config->setCookieLifetime(20);
         self::assertEquals(20, $this->config->getCookieLifetime());
     }
 
-    public function testCookieLifetimeAltersIniSetting()
+    public function testCookieLifetimeAltersIniSetting(): void
     {
         $this->config->setCookieLifetime(24);
         self::assertEquals(24, ini_get('session.cookie_lifetime'));
     }
 
-    public function testCookieLifetimeCanBeZero()
+    public function testCookieLifetimeCanBeZero(): void
     {
         $this->config->setCookieLifetime(0);
         self::assertEquals(0, ini_get('session.cookie_lifetime'));
     }
 
-    public function testSettingInvalidCookieLifetimeRaisesException()
+    public function testSettingInvalidCookieLifetimeRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie_lifetime; must be numeric');
         $this->config->setCookieLifetime('foobar_bogus');
     }
 
-    public function testSettingInvalidCookieLifetimeRaisesException2()
+    public function testSettingInvalidCookieLifetimeRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie_lifetime; must be a positive integer or zero');
@@ -323,38 +323,38 @@ class SessionConfigTest extends TestCase
 
     // session.cookie_path
 
-    public function testCookiePathDefaultsToIniSettings()
+    public function testCookiePathDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.cookie_path'), $this->config->getCookiePath());
     }
 
-    public function testCookiePathIsMutable()
+    public function testCookiePathIsMutable(): void
     {
         $this->config->setCookiePath('/foo');
         self::assertEquals('/foo', $this->config->getCookiePath());
     }
 
-    public function testCookiePathAltersIniSetting()
+    public function testCookiePathAltersIniSetting(): void
     {
         $this->config->setCookiePath('/bar');
         self::assertEquals('/bar', ini_get('session.cookie_path'));
     }
 
-    public function testSettingInvalidCookiePathRaisesException()
+    public function testSettingInvalidCookiePathRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath(24);
     }
 
-    public function testSettingInvalidCookiePathRaisesException2()
+    public function testSettingInvalidCookiePathRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath('foo');
     }
 
-    public function testSettingInvalidCookiePathRaisesException3()
+    public function testSettingInvalidCookiePathRaisesException3(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie path');
@@ -363,37 +363,37 @@ class SessionConfigTest extends TestCase
 
     // session.cookie_domain
 
-    public function testCookieDomainDefaultsToIniSettings()
+    public function testCookieDomainDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.cookie_domain'), $this->config->getCookieDomain());
     }
 
-    public function testCookieDomainIsMutable()
+    public function testCookieDomainIsMutable(): void
     {
         $this->config->setCookieDomain('example.com');
         self::assertEquals('example.com', $this->config->getCookieDomain());
     }
 
-    public function testCookieDomainCanBeEmpty()
+    public function testCookieDomainCanBeEmpty(): void
     {
         $this->config->setCookieDomain('');
         self::assertEquals('', $this->config->getCookieDomain());
     }
 
-    public function testCookieDomainAltersIniSetting()
+    public function testCookieDomainAltersIniSetting(): void
     {
         $this->config->setCookieDomain('localhost');
         self::assertEquals('localhost', ini_get('session.cookie_domain'));
     }
 
-    public function testSettingInvalidCookieDomainRaisesException()
+    public function testSettingInvalidCookieDomainRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cookie domain: must be a string');
         $this->config->setCookieDomain(24);
     }
 
-    public function testSettingInvalidCookieDomainRaisesException2()
+    public function testSettingInvalidCookieDomainRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('does not match the expected structure for a DNS hostname');
@@ -402,19 +402,19 @@ class SessionConfigTest extends TestCase
 
     // session.cookie_secure
 
-    public function testCookieSecureDefaultsToIniSettings()
+    public function testCookieSecureDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.cookie_secure'), $this->config->getCookieSecure());
     }
 
-    public function testCookieSecureIsMutable()
+    public function testCookieSecureIsMutable(): void
     {
         $value = ! ini_get('session.cookie_secure');
         $this->config->setCookieSecure($value);
         self::assertEquals($value, $this->config->getCookieSecure());
     }
 
-    public function testCookieSecureAltersIniSetting()
+    public function testCookieSecureAltersIniSetting(): void
     {
         $value = ! ini_get('session.cookie_secure');
         $this->config->setCookieSecure($value);
@@ -423,19 +423,19 @@ class SessionConfigTest extends TestCase
 
     // session.cookie_httponly
 
-    public function testCookieHttpOnlyDefaultsToIniSettings()
+    public function testCookieHttpOnlyDefaultsToIniSettings(): void
     {
         self::assertSame((bool)ini_get('session.cookie_httponly'), $this->config->getCookieHttpOnly());
     }
 
-    public function testCookieHttpOnlyIsMutable()
+    public function testCookieHttpOnlyIsMutable(): void
     {
         $value = ! ini_get('session.cookie_httponly');
         $this->config->setCookieHttpOnly($value);
         self::assertEquals($value, $this->config->getCookieHttpOnly());
     }
 
-    public function testCookieHttpOnlyAltersIniSetting()
+    public function testCookieHttpOnlyAltersIniSetting(): void
     {
         $value = ! ini_get('session.cookie_httponly');
         $this->config->setCookieHttpOnly($value);
@@ -444,19 +444,19 @@ class SessionConfigTest extends TestCase
 
     // session.use_cookies
 
-    public function testUseCookiesDefaultsToIniSettings()
+    public function testUseCookiesDefaultsToIniSettings(): void
     {
         self::assertSame((bool)ini_get('session.use_cookies'), $this->config->getUseCookies());
     }
 
-    public function testUseCookiesIsMutable()
+    public function testUseCookiesIsMutable(): void
     {
         $value = ! ini_get('session.use_cookies');
         $this->config->setUseCookies($value);
         self::assertEquals($value, $this->config->getUseCookies());
     }
 
-    public function testUseCookiesAltersIniSetting()
+    public function testUseCookiesAltersIniSetting(): void
     {
         $value = ! ini_get('session.use_cookies');
         $this->config->setUseCookies($value);
@@ -465,19 +465,19 @@ class SessionConfigTest extends TestCase
 
     // session.use_only_cookies
 
-    public function testUseOnlyCookiesDefaultsToIniSettings()
+    public function testUseOnlyCookiesDefaultsToIniSettings(): void
     {
         self::assertSame((bool)ini_get('session.use_only_cookies'), $this->config->getUseOnlyCookies());
     }
 
-    public function testUseOnlyCookiesIsMutable()
+    public function testUseOnlyCookiesIsMutable(): void
     {
         $value = ! ini_get('session.use_only_cookies');
         $this->config->setOption('use_only_cookies', $value);
         self::assertEquals($value, (bool)$this->config->getOption('use_only_cookies'));
     }
 
-    public function testUseOnlyCookiesAltersIniSetting()
+    public function testUseOnlyCookiesAltersIniSetting(): void
     {
         $value = ! ini_get('session.use_only_cookies');
         $this->config->setOption('use_only_cookies', $value);
@@ -486,24 +486,24 @@ class SessionConfigTest extends TestCase
 
     // session.referer_check
 
-    public function testRefererCheckDefaultsToIniSettings()
+    public function testRefererCheckDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.referer_check'), $this->config->getRefererCheck());
     }
 
-    public function testRefererCheckIsMutable()
+    public function testRefererCheckIsMutable(): void
     {
         $this->config->setOption('referer_check', 'FOOBAR');
         self::assertEquals('FOOBAR', $this->config->getOption('referer_check'));
     }
 
-    public function testRefererCheckMayBeEmpty()
+    public function testRefererCheckMayBeEmpty(): void
     {
         $this->config->setOption('referer_check', '');
         self::assertEquals('', $this->config->getOption('referer_check'));
     }
 
-    public function testRefererCheckAltersIniSetting()
+    public function testRefererCheckAltersIniSetting(): void
     {
         $this->config->setOption('referer_check', 'BARBAZ');
         self::assertEquals('BARBAZ', ini_get('session.referer_check'));
@@ -511,7 +511,7 @@ class SessionConfigTest extends TestCase
 
     // session.entropy_file
 
-    public function testSetEntropyFileErrorsOnInvalidPath()
+    public function testSetEntropyFileErrorsOnInvalidPath(): void
     {
         $this->assertPhpLessThan71('session.entropy_file directive removed in PHP 7.1');
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
@@ -519,20 +519,20 @@ class SessionConfigTest extends TestCase
         $this->config->setEntropyFile(__DIR__ . '/foobarboguspath');
     }
 
-    public function testEntropyFileDefaultsToIniSettings()
+    public function testEntropyFileDefaultsToIniSettings(): void
     {
         $this->assertPhpLessThan71('session.entropy_file directive removed in PHP 7.1');
         self::assertSame(ini_get('session.entropy_file'), $this->config->getEntropyFile());
     }
 
-    public function testEntropyFileIsMutable()
+    public function testEntropyFileIsMutable(): void
     {
         $this->assertPhpLessThan71('session.entropy_file directive removed in PHP 7.1');
         $this->config->setEntropyFile(__FILE__);
         self::assertEquals(__FILE__, $this->config->getEntropyFile());
     }
 
-    public function testEntropyFileAltersIniSetting()
+    public function testEntropyFileAltersIniSetting(): void
     {
         $this->assertPhpLessThan71('session.entropy_file directive removed in PHP 7.1');
         $this->config->setEntropyFile(__FILE__);
@@ -542,7 +542,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSetEntropyFileError()
+    public function testSetEntropyFileError(): void
     {
         $this->expectDeprecation();
         $this->config->getEntropyFile();
@@ -551,7 +551,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testGetEntropyFileError()
+    public function testGetEntropyFileError(): void
     {
         $this->expectDeprecation();
         $this->config->setEntropyFile(__FILE__);
@@ -559,34 +559,34 @@ class SessionConfigTest extends TestCase
 
     // session.entropy_length
 
-    public function testEntropyLengthDefaultsToIniSettings()
+    public function testEntropyLengthDefaultsToIniSettings(): void
     {
         $this->assertPhpLessThan71('session.entropy_length directive removed in PHP 7.1');
         self::assertSame(ini_get('session.entropy_length'), $this->config->getEntropyLength());
     }
 
-    public function testEntropyLengthIsMutable()
+    public function testEntropyLengthIsMutable(): void
     {
         $this->assertPhpLessThan71('session.entropy_length directive removed in PHP 7.1');
         $this->config->setEntropyLength(20);
         self::assertEquals(20, $this->config->getEntropyLength());
     }
 
-    public function testEntropyLengthAltersIniSetting()
+    public function testEntropyLengthAltersIniSetting(): void
     {
         $this->assertPhpLessThan71('session.entropy_length directive removed in PHP 7.1');
         $this->config->setEntropyLength(24);
         self::assertEquals(24, ini_get('session.entropy_length'));
     }
 
-    public function testEntropyLengthCanBeZero()
+    public function testEntropyLengthCanBeZero(): void
     {
         $this->assertPhpLessThan71('session.entropy_length directive removed in PHP 7.1');
         $this->config->setEntropyLength(0);
         self::assertEquals(0, ini_get('session.entropy_length'));
     }
 
-    public function testSettingInvalidEntropyLengthRaisesException()
+    public function testSettingInvalidEntropyLengthRaisesException(): void
     {
         $this->assertPhpLessThan71('session.entropy_length directive removed in PHP 7.1');
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
@@ -594,7 +594,7 @@ class SessionConfigTest extends TestCase
         $this->config->setEntropyLength('foobar_bogus');
     }
 
-    public function testSettingInvalidEntropyLengthRaisesException2()
+    public function testSettingInvalidEntropyLengthRaisesException2(): void
     {
         $this->assertPhpLessThan71('session.entropy_length directive removed in PHP 7.1');
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
@@ -605,7 +605,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testGetEntropyLengthError()
+    public function testGetEntropyLengthError(): void
     {
         $this->expectDeprecation();
         $this->config->getEntropyLength();
@@ -614,7 +614,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSetEntropyLengthError()
+    public function testSetEntropyLengthError(): void
     {
         $this->expectDeprecation();
         $this->config->setEntropyLength(0);
@@ -622,7 +622,7 @@ class SessionConfigTest extends TestCase
 
     // session.cache_limiter
 
-    public function cacheLimiters()
+    public function cacheLimiters(): array
     {
         return [
             [''],
@@ -633,7 +633,7 @@ class SessionConfigTest extends TestCase
         ];
     }
 
-    public function testCacheLimiterDefaultsToIniSettings()
+    public function testCacheLimiterDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.cache_limiter'), $this->config->getCacheLimiter());
     }
@@ -641,7 +641,7 @@ class SessionConfigTest extends TestCase
     /**
      * @dataProvider cacheLimiters
      */
-    public function testCacheLimiterIsMutable($cacheLimiter)
+    public function testCacheLimiterIsMutable($cacheLimiter): void
     {
         $this->config->setCacheLimiter($cacheLimiter);
         self::assertEquals($cacheLimiter, $this->config->getCacheLimiter());
@@ -650,13 +650,13 @@ class SessionConfigTest extends TestCase
     /**
      * @dataProvider cacheLimiters
      */
-    public function testCacheLimiterAltersIniSetting($cacheLimiter)
+    public function testCacheLimiterAltersIniSetting($cacheLimiter): void
     {
         $this->config->setCacheLimiter($cacheLimiter);
         self::assertEquals($cacheLimiter, ini_get('session.cache_limiter'));
     }
 
-    public function testSettingInvalidCacheLimiterRaisesException()
+    public function testSettingInvalidCacheLimiterRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cache limiter provided');
@@ -665,31 +665,31 @@ class SessionConfigTest extends TestCase
 
     // session.cache_expire
 
-    public function testCacheExpireDefaultsToIniSettings()
+    public function testCacheExpireDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.cache_expire'), $this->config->getCacheExpire());
     }
 
-    public function testCacheExpireIsMutable()
+    public function testCacheExpireIsMutable(): void
     {
         $this->config->setCacheExpire(20);
         self::assertEquals(20, $this->config->getCacheExpire());
     }
 
-    public function testCacheExpireAltersIniSetting()
+    public function testCacheExpireAltersIniSetting(): void
     {
         $this->config->setCacheExpire(24);
         self::assertEquals(24, ini_get('session.cache_expire'));
     }
 
-    public function testSettingInvalidCacheExpireRaisesException()
+    public function testSettingInvalidCacheExpireRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cache_expire; must be numeric');
         $this->config->setCacheExpire('foobar_bogus');
     }
 
-    public function testSettingInvalidCacheExpireRaisesException2()
+    public function testSettingInvalidCacheExpireRaisesException2(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid cache_expire; must be a positive integer');
@@ -698,19 +698,19 @@ class SessionConfigTest extends TestCase
 
     // session.use_trans_sid
 
-    public function testUseTransSidDefaultsToIniSettings()
+    public function testUseTransSidDefaultsToIniSettings(): void
     {
         self::assertSame((bool)ini_get('session.use_trans_sid'), $this->config->getUseTransSid());
     }
 
-    public function testUseTransSidIsMutable()
+    public function testUseTransSidIsMutable(): void
     {
         $value = ! ini_get('session.use_trans_sid');
         $this->config->setOption('use_trans_sid', $value);
         self::assertEquals($value, (bool)$this->config->getOption('use_trans_sid'));
     }
 
-    public function testUseTransSidAltersIniSetting()
+    public function testUseTransSidAltersIniSetting(): void
     {
         $value = ! ini_get('session.use_trans_sid');
         $this->config->setOption('use_trans_sid', $value);
@@ -719,7 +719,7 @@ class SessionConfigTest extends TestCase
 
     // session.hash_function
 
-    public function hashFunctions()
+    public function hashFunctions(): array
     {
         $hashFunctions = array_merge([0, 1], hash_algos());
         $provider      = [];
@@ -729,7 +729,7 @@ class SessionConfigTest extends TestCase
         return $provider;
     }
 
-    public function testHashFunctionDefaultsToIniSettings()
+    public function testHashFunctionDefaultsToIniSettings(): void
     {
         $this->assertPhpLessThan71('session.hash_function directive removed in PHP 7.1');
         self::assertSame(ini_get('session.hash_function'), $this->config->getHashFunction());
@@ -738,7 +738,7 @@ class SessionConfigTest extends TestCase
     /**
      * @dataProvider hashFunctions
      */
-    public function testHashFunctionIsMutable($hashFunction)
+    public function testHashFunctionIsMutable($hashFunction): void
     {
         $this->assertPhpLessThan71('session.hash_function directive removed in PHP 7.1');
         $this->config->setHashFunction($hashFunction);
@@ -748,14 +748,14 @@ class SessionConfigTest extends TestCase
     /**
      * @dataProvider hashFunctions
      */
-    public function testHashFunctionAltersIniSetting($hashFunction)
+    public function testHashFunctionAltersIniSetting($hashFunction): void
     {
         $this->assertPhpLessThan71('session.hash_function directive removed in PHP 7.1');
         $this->config->setHashFunction($hashFunction);
         self::assertEquals($hashFunction, ini_get('session.hash_function'));
     }
 
-    public function testSettingInvalidHashFunctionRaisesException()
+    public function testSettingInvalidHashFunctionRaisesException(): void
     {
         $this->assertPhpLessThan71('session.hash_function directive removed in PHP 7.1');
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
@@ -766,7 +766,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testGetHashFunctionError()
+    public function testGetHashFunctionError(): void
     {
         $this->expectDeprecation();
         $this->config->getHashFunction();
@@ -775,7 +775,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSetHashFunctionError()
+    public function testSetHashFunctionError(): void
     {
         $this->expectDeprecation();
         $this->config->setHashFunction('foobar_bogus');
@@ -783,7 +783,7 @@ class SessionConfigTest extends TestCase
 
     // session.hash_bits_per_character
 
-    public function hashBitsPerCharacters()
+    public function hashBitsPerCharacters(): array
     {
         return [
             [4],
@@ -792,7 +792,7 @@ class SessionConfigTest extends TestCase
         ];
     }
 
-    public function testHashBitsPerCharacterDefaultsToIniSettings()
+    public function testHashBitsPerCharacterDefaultsToIniSettings(): void
     {
         if (PHP_VERSION_ID >= 70100) {
             self::markTestSkipped('session.hash_bits_per_character directive removed in PHP 7.1');
@@ -804,7 +804,7 @@ class SessionConfigTest extends TestCase
     /**
      * @dataProvider hashBitsPerCharacters
      */
-    public function testHashBitsPerCharacterIsMutable($hashBitsPerCharacter)
+    public function testHashBitsPerCharacterIsMutable($hashBitsPerCharacter): void
     {
         $this->assertPhpLessThan71('session.hash_bits_per_character directive removed in PHP 7.1');
         $this->config->setHashBitsPerCharacter($hashBitsPerCharacter);
@@ -814,14 +814,14 @@ class SessionConfigTest extends TestCase
     /**
      * @dataProvider hashBitsPerCharacters
      */
-    public function testHashBitsPerCharacterAltersIniSetting($hashBitsPerCharacter)
+    public function testHashBitsPerCharacterAltersIniSetting($hashBitsPerCharacter): void
     {
         $this->assertPhpLessThan71('session.hash_bits_per_character directive removed in PHP 7.1');
         $this->config->setHashBitsPerCharacter($hashBitsPerCharacter);
         self::assertEquals($hashBitsPerCharacter, ini_get('session.hash_bits_per_character'));
     }
 
-    public function testSettingInvalidHashBitsPerCharacterRaisesException()
+    public function testSettingInvalidHashBitsPerCharacterRaisesException(): void
     {
         $this->assertPhpLessThan71('session.hash_bits_per_character directive removed in PHP 7.1');
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
@@ -832,7 +832,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testGetHashBitsPerCharacterError()
+    public function testGetHashBitsPerCharacterError(): void
     {
         $this->expectDeprecation();
         $this->config->getHashBitsPerCharacter();
@@ -841,7 +841,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSetHashBitsPerCharacterError()
+    public function testSetHashBitsPerCharacterError(): void
     {
         $this->expectDeprecation();
         $this->config->setHashBitsPerCharacter(5);
@@ -852,7 +852,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSidLengthDefaultsToIniSettings()
+    public function testSidLengthDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.sid_length'), $this->config->getSidLength());
     }
@@ -860,7 +860,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSidLengthIsMutable()
+    public function testSidLengthIsMutable(): void
     {
         $this->config->setSidLength(40);
         self::assertEquals(40, $this->config->getSidLength());
@@ -869,7 +869,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSidLengthAltersIniSetting()
+    public function testSidLengthAltersIniSetting(): void
     {
         $this->config->setSidLength(40);
         self::assertEquals(40, ini_get('session.sid_length'));
@@ -878,7 +878,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSettingInvalidSidLengthRaisesException()
+    public function testSettingInvalidSidLengthRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid length provided');
@@ -888,7 +888,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSettingOutOfRangeSidLengthRaisesException()
+    public function testSettingOutOfRangeSidLengthRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid length provided');
@@ -897,7 +897,7 @@ class SessionConfigTest extends TestCase
 
     // session.sid_bits_per_character
 
-    public function sidSidPerCharacters()
+    public function sidSidPerCharacters(): array
     {
         return [
             [4],
@@ -909,7 +909,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSidBitsPerCharacterDefaultsToIniSettings()
+    public function testSidBitsPerCharacterDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('session.sid_bits_per_character'), $this->config->getSidBitsPerCharacter());
     }
@@ -918,7 +918,7 @@ class SessionConfigTest extends TestCase
      * @requires PHP 7.1
      * @dataProvider sidSidPerCharacters
      */
-    public function testSidBitsPerCharacterIsMutable($sidBitsPerCharacter)
+    public function testSidBitsPerCharacterIsMutable($sidBitsPerCharacter): void
     {
         $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
         self::assertEquals($sidBitsPerCharacter, $this->config->getSidBitsPerCharacter());
@@ -928,7 +928,7 @@ class SessionConfigTest extends TestCase
      * @requires PHP 7.1
      * @dataProvider sidSidPerCharacters
      */
-    public function testSidBitsPerCharacterAltersIniSetting($sidBitsPerCharacter)
+    public function testSidBitsPerCharacterAltersIniSetting($sidBitsPerCharacter): void
     {
         $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
         self::assertEquals($sidBitsPerCharacter, ini_get('session.sid_bits_per_character'));
@@ -937,7 +937,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSettingInvalidSidBitsPerCharacterRaisesException()
+    public function testSettingInvalidSidBitsPerCharacterRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid sid bits per character provided');
@@ -947,7 +947,7 @@ class SessionConfigTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testSettingOutOfBoundSidBitsPerCharacterRaisesException()
+    public function testSettingOutOfBoundSidBitsPerCharacterRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid sid bits per character provided');
@@ -956,18 +956,18 @@ class SessionConfigTest extends TestCase
 
     // url_rewriter.tags
 
-    public function testUrlRewriterTagsDefaultsToIniSettings()
+    public function testUrlRewriterTagsDefaultsToIniSettings(): void
     {
         self::assertSame(ini_get('url_rewriter.tags'), $this->config->getUrlRewriterTags());
     }
 
-    public function testUrlRewriterTagsIsMutable()
+    public function testUrlRewriterTagsIsMutable(): void
     {
         $this->config->setUrlRewriterTags('a=href,form=action');
         self::assertEquals('a=href,form=action', $this->config->getUrlRewriterTags());
     }
 
-    public function testUrlRewriterTagsAltersIniSetting()
+    public function testUrlRewriterTagsAltersIniSetting(): void
     {
         $this->config->setUrlRewriterTags('a=href,fieldset=');
         self::assertEquals('a=href,fieldset=', ini_get('url_rewriter.tags'));
@@ -975,12 +975,12 @@ class SessionConfigTest extends TestCase
 
     // remember_me_seconds
 
-    public function testRememberMeSecondsDefaultsToTwoWeeks()
+    public function testRememberMeSecondsDefaultsToTwoWeeks(): void
     {
         self::assertEquals(1209600, $this->config->getRememberMeSeconds());
     }
 
-    public function testRememberMeSecondsIsMutable()
+    public function testRememberMeSecondsIsMutable(): void
     {
         $this->config->setRememberMeSeconds(604800);
         self::assertEquals(604800, $this->config->getRememberMeSeconds());
@@ -991,7 +991,7 @@ class SessionConfigTest extends TestCase
     /**
      * @dataProvider optionsProvider
      */
-    public function testSetOptionSetsIniSetting($option, $getter, $value)
+    public function testSetOptionSetsIniSetting($option, $getter, $value): void
     {
         // Leaving out special cases.
         if ($option == 'remember_me_seconds' || $option == 'url_rewriter_tags') {
@@ -1002,22 +1002,22 @@ class SessionConfigTest extends TestCase
         self::assertEquals(ini_get('session.' . $option), $value);
     }
 
-    public function testSetOptionUrlRewriterTagsGetsMunged()
+    public function testSetOptionUrlRewriterTagsGetsMunged(): void
     {
         $value = 'a=href';
         $this->config->setStorageOption('url_rewriter_tags', $value);
         self::assertEquals(ini_get('url_rewriter.tags'), $value);
     }
 
-    public function testSetOptionRememberMeSecondsDoesNothing()
+    public function testSetOptionRememberMeSecondsDoesNothing(): void
     {
         self::markTestIncomplete('I have no idea how to test this.');
     }
 
-    public function testSetOptionsThrowsExceptionOnInvalidKey()
+    public function testSetOptionsThrowsExceptionOnInvalidKey(): void
     {
         $badKey = 'snarfblat';
-        $value = 'foobar';
+        $value  = 'foobar';
 
         $this->expectException('InvalidArgumentException');
         $this->config->setStorageOption($badKey, $value);
@@ -1028,7 +1028,7 @@ class SessionConfigTest extends TestCase
     /**
      * @dataProvider optionsProvider
      */
-    public function testSetOptionsTranslatesUnderscoreSeparatedKeys($option, $getter, $value)
+    public function testSetOptionsTranslatesUnderscoreSeparatedKeys($option, $getter, $value): void
     {
         $options = [$option => $value];
         $this->config->setOptions($options);
@@ -1039,7 +1039,7 @@ class SessionConfigTest extends TestCase
         }
     }
 
-    public function optionsProvider()
+    public function optionsProvider(): array
     {
         $commonOptions = [
             [
@@ -1186,14 +1186,14 @@ class SessionConfigTest extends TestCase
         return $commonOptions;
     }
 
-    public function testSetPhpSaveHandlerRaisesExceptionForAttemptsToSetUserModule()
+    public function testSetPhpSaveHandlerRaisesExceptionForAttemptsToSetUserModule(): void
     {
         $this->expectException(Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid save handler specified ("user")');
         $this->config->setPhpSaveHandler('user');
     }
 
-    public function testErrorSettingKnownSaveHandlerResultsInException()
+    public function testErrorSettingKnownSaveHandlerResultsInException(): void
     {
         $r = new ReflectionProperty($this->config, 'knownSaveHandlers');
         $r->setAccessible(true);
@@ -1204,7 +1204,7 @@ class SessionConfigTest extends TestCase
         $this->config->setPhpSaveHandler('notreallyredis');
     }
 
-    public function testProvidingNonSessionHandlerToSetPhpSaveHandlerResultsInException()
+    public function testProvidingNonSessionHandlerToSetPhpSaveHandlerResultsInException(): void
     {
         $handler = new stdClass();
 
@@ -1213,7 +1213,7 @@ class SessionConfigTest extends TestCase
         $this->config->setPhpSaveHandler($handler);
     }
 
-    public function testProvidingValidKnownSessionHandlerToSetPhpSaveHandlerResultsInNoErrors()
+    public function testProvidingValidKnownSessionHandlerToSetPhpSaveHandlerResultsInNoErrors(): void
     {
         $phpinfo = $this->getFunctionMock('Laminas\Session\Config', 'phpinfo');
         $phpinfo
@@ -1233,7 +1233,7 @@ class SessionConfigTest extends TestCase
         self::assertEquals('unittest', $this->config->getOption('save_handler'));
     }
 
-    public function testCanProvidePathWhenUsingRedisSaveHandler()
+    public function testCanProvidePathWhenUsingRedisSaveHandler(): void
     {
         $phpinfo = $this->getFunctionMock('Laminas\Session\Config', 'phpinfo');
         $phpinfo
@@ -1259,7 +1259,7 @@ class SessionConfigTest extends TestCase
         self::assertSame($url, $this->config->getOption('save_path'));
     }
 
-    public function testNotCallLocateRegisteredSaveHandlersMethodIfSessionHandlerInterfaceWasPassed()
+    public function testNotCallLocateRegisteredSaveHandlersMethodIfSessionHandlerInterfaceWasPassed(): void
     {
         $phpinfo = $this->getFunctionMock('Laminas\Session\Config', 'phpinfo');
         $phpinfo

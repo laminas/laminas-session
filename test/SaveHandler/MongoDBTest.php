@@ -71,7 +71,7 @@ class MongoDBTest extends TestCase
         }
     }
 
-    public function testReadWrite()
+    public function testReadWrite(): void
     {
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
         self::assertTrue($saveHandler->open('savepath', 'sessionname'));
@@ -91,7 +91,7 @@ class MongoDBTest extends TestCase
     /**
      * @runInSeparateProcess
      */
-    public function testReadDestroysExpiredSession()
+    public function testReadDestroysExpiredSession(): void
     {
         /* Note: due to the session save handler's open() method reading the
          * "session.gc_maxlifetime" INI value directly, it's necessary to set
@@ -116,7 +116,7 @@ class MongoDBTest extends TestCase
         ini_set('session.gc_maxlifetime', $oldMaxlifetime);
     }
 
-    public function testGarbageCollection()
+    public function testGarbageCollection(): void
     {
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
         self::assertTrue($saveHandler->open('savepath', 'sessionname'));
@@ -137,7 +137,7 @@ class MongoDBTest extends TestCase
         self::assertEquals(0, $this->mongoCollection->count());
     }
 
-    public function testGarbageCollectionMaxlifetimeIsInSeconds()
+    public function testGarbageCollectionMaxlifetimeIsInSeconds(): void
     {
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
         self::assertTrue($saveHandler->open('savepath', 'sessionname'));
@@ -157,13 +157,13 @@ class MongoDBTest extends TestCase
         self::assertNotEmpty($saveHandler->read(456));
     }
 
-    public function testWriteExceptionEdgeCaseForChangedSessionName()
+    public function testWriteExceptionEdgeCaseForChangedSessionName(): void
     {
         $this->expectException(RuntimeException::class);
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
         self::assertTrue($saveHandler->open('savepath', 'sessionname'));
 
-        $id = '242';
+        $id   = '242';
         $data = ['foo' => 'bar'];
 
         /* Note: a MongoCursorException will be thrown if a record with this ID
@@ -177,7 +177,7 @@ class MongoDBTest extends TestCase
         $saveHandler->write($id, serialize($data));
     }
 
-    public function testReadShouldAlwaysReturnString()
+    public function testReadShouldAlwaysReturnString(): void
     {
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
         self::assertTrue($saveHandler->open('savepath', 'sessionname'));

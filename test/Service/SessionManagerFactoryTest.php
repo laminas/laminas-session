@@ -52,13 +52,13 @@ class SessionManagerFactoryTest extends TestCase
         $config->configureServiceManager($this->services);
     }
 
-    public function testCreatesSessionManager()
+    public function testCreatesSessionManager(): void
     {
         $manager = $this->services->get(ManagerInterface::class);
         self::assertInstanceOf(SessionManager::class, $manager);
     }
 
-    public function testConfigObjectIsInjectedIfPresentInServices()
+    public function testConfigObjectIsInjectedIfPresentInServices(): void
     {
         $config = $this->createMock(ConfigInterface::class);
         $this->services->setService(ConfigInterface::class, $config);
@@ -67,7 +67,7 @@ class SessionManagerFactoryTest extends TestCase
         self::assertSame($config, $test);
     }
 
-    public function testFactoryWillInjectStorageIfPresentInServices()
+    public function testFactoryWillInjectStorageIfPresentInServices(): void
     {
         // Using concrete version here as mocking was too complex
         $storage = new ArrayStorage();
@@ -77,7 +77,7 @@ class SessionManagerFactoryTest extends TestCase
         self::assertSame($storage, $test);
     }
 
-    public function testFactoryWillInjectSaveHandlerIfPresentInServices()
+    public function testFactoryWillInjectSaveHandlerIfPresentInServices(): void
     {
         $saveHandler = $this->createMock(SaveHandlerInterface::class);
         $this->services->setService(SaveHandlerInterface::class, $saveHandler);
@@ -86,13 +86,13 @@ class SessionManagerFactoryTest extends TestCase
         self::assertSame($saveHandler, $test);
     }
 
-    public function testFactoryWillMarkManagerAsContainerDefaultByDefault()
+    public function testFactoryWillMarkManagerAsContainerDefaultByDefault(): void
     {
         $manager = $this->services->get(ManagerInterface::class);
         self::assertSame($manager, Container::getDefaultManager());
     }
 
-    public function testCanDisableContainerDefaultManagerInjectionViaConfiguration()
+    public function testCanDisableContainerDefaultManagerInjectionViaConfiguration(): void
     {
         $config = ['session_manager' => [
             'enable_default_container_manager' => false,
@@ -105,7 +105,7 @@ class SessionManagerFactoryTest extends TestCase
     /**
      * @runInSeparateProcess
      */
-    public function testFactoryWillAddValidatorViaConfiguration()
+    public function testFactoryWillAddValidatorViaConfiguration(): void
     {
         $config = ['session_manager' => [
             'validators' => [
@@ -125,7 +125,7 @@ class SessionManagerFactoryTest extends TestCase
     /**
      * @runInSeparateProcess
      */
-    public function testStartingSessionManagerFromFactoryDoesNotTriggerUndefinedVariable()
+    public function testStartingSessionManagerFromFactoryDoesNotTriggerUndefinedVariable(): void
     {
         $storage = new ArrayStorage();
         $this->services->setService(StorageInterface::class, $storage);
@@ -139,17 +139,20 @@ class SessionManagerFactoryTest extends TestCase
     /**
      * @runInSeparateProcess
      */
-    public function testFactoryDoesNotOverwriteValidatorStorageValues()
+    public function testFactoryDoesNotOverwriteValidatorStorageValues(): void
     {
         $storage = new ArrayStorage();
-        $storage->setMetadata('_VALID', [
+        $storage->setMetadata(
+            '_VALID', [
             Validator\HttpUserAgent::class => 'Foo',
             Validator\RemoteAddr::class    => '1.2.3.4',
-        ]);
+        ]
+        );
         $this->services->setService(StorageInterface::class, $storage);
-        $this->services->setService('config', [
-            'session_manager' => [
-                'validators' => [
+        $this->services->setService(
+            'config', [
+                'session_manager' => [
+                    'validators' => [
                     Validator\HttpUserAgent::class,
                     Validator\RemoteAddr::class,
                 ],
@@ -168,14 +171,17 @@ class SessionManagerFactoryTest extends TestCase
     /**
      * @runInSeparateProcess
      */
-    public function testFactoryDoesNotAttachValidatorTwoTimes()
+    public function testFactoryDoesNotAttachValidatorTwoTimes(): void
     {
         $storage = new ArrayStorage();
-        $storage->setMetadata('_VALID', [
+        $storage->setMetadata(
+            '_VALID', [
             Validator\RemoteAddr::class => '1.2.3.4',
-        ]);
+        ]
+        );
         $this->services->setService(StorageInterface::class, $storage);
-        $this->services->setService('config', [
+        $this->services->setService(
+            'config', [
             'session_manager' => [
                 'validators' => [
                     Validator\RemoteAddr::class,
@@ -205,7 +211,7 @@ class SessionManagerFactoryTest extends TestCase
         self::assertTrue($found, 'Did not find RemoteAddr validator in listeners');
     }
 
-    public function testFactoryAllowsOverridingOptions()
+    public function testFactoryAllowsOverridingOptions(): void
     {
         $storage = new ArrayStorage();
         $this->services->setService(StorageInterface::class, $storage);
@@ -225,13 +231,13 @@ class SessionManagerFactoryTest extends TestCase
         self::assertSame([], $containedValidators);
     }
 
-    public function testFactoryWillUseRequestedNameAsSessionManagerIfItImplementsManagerInterface()
+    public function testFactoryWillUseRequestedNameAsSessionManagerIfItImplementsManagerInterface(): void
     {
         $manager = $this->services->get(TestManager::class);
         self::assertInstanceOf(TestManager::class, $manager);
     }
 
-    public function testFactoryWillRaiseServiceNotCreatedExceptionIfRequestedNameIsNotAManagerInterfaceSubclass()
+    public function testFactoryWillRaiseServiceNotCreatedExceptionIfRequestedNameIsNotAManagerInterfaceSubclass(): void
     {
         $this->expectException(ServiceNotCreatedException::class);
         $manager = $this->services->get(TestSaveHandler::class);
