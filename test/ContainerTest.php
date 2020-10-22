@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Laminas\Session\Container
+ * @covers \Laminas\Session\AbstractContainer
  */
 class ContainerTest extends TestCase
 {
@@ -42,11 +43,7 @@ class ContainerTest extends TestCase
         $_SESSION = [];
         Container::setDefaultManager(null);
 
-        $config = new StandardConfig(
-            [
-                'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
-            ]
-        );
+        $config = new StandardConfig();
 
         $this->manager   = $manager = new TestAsset\TestManager($config);
         $this->container = new Container('Default', $manager);
@@ -173,11 +170,7 @@ class ContainerTest extends TestCase
 
     public function testContainerAllowsInjectingManagerViaConstructor(): void
     {
-        $config    = new StandardConfig(
-            [
-                'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
-            ]
-        );
+        $config    = new StandardConfig();
         $manager   = new TestAsset\TestManager($config);
         $container = new Container('Foo', $manager);
         self::assertSame($manager, $container->getManager());

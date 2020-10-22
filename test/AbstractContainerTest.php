@@ -41,11 +41,7 @@ class AbstractContainerTest extends TestCase
         $_SESSION = [];
         Container::setDefaultManager(null);
 
-        $config = new StandardConfig(
-            [
-                'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
-            ]
-        );
+        $config = new StandardConfig();
 
         $this->manager   = $manager = new TestAsset\TestManager($config);
         $this->container = new TestContainer('Default', $manager);
