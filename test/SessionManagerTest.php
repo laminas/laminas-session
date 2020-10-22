@@ -424,7 +424,7 @@ class SessionManagerTest extends TestCase
         }
 
         if ($found) {
-            self::assertNotContains('expires=', $header);
+            self::assertStringNotContainsString('expires=', $header);
         } else {
             self::assertFalse($found, 'Unexpected session cookie found: ' . var_export($headers, true));
         }
@@ -678,7 +678,7 @@ class SessionManagerTest extends TestCase
         }
 
         self::assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
-        self::assertNotContains('expires=', $header);
+        self::assertStringNotContainsString('expires=', $header);
     }
 
     /**
