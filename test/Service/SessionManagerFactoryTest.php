@@ -21,7 +21,7 @@ use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\StorageInterface;
 use Laminas\Session\Validator;
-use LaminasTest\Session\ReflectionUtil;
+use LaminasTest\Session\ReflectionPropertyTrait;
 use LaminasTest\Session\TestAsset\TestManager;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
 use PHPUnit\Framework\TestCase;
@@ -33,6 +33,7 @@ use RuntimeException;
 class SessionManagerFactoryTest extends TestCase
 {
     use EventListenerIntrospectionTrait;
+    use ReflectionPropertyTrait;
 
     /** @var ServiceManager */
     private $services;
@@ -233,7 +234,7 @@ class SessionManagerFactoryTest extends TestCase
 
         $manager = $this->services->get(ManagerInterface::class);
 
-        $containedValidators = ReflectionUtil::getProperty($manager, 'validators');
+        $containedValidators = $this->getReflectionProperty($manager, 'validators');
         self::assertSame([], $containedValidators);
     }
 

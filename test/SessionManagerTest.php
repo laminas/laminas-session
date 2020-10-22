@@ -31,6 +31,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 class SessionManagerTest extends TestCase
 {
     use ProphecyTrait;
+    use ReflectionPropertyTrait;
 
     public $error;
 
@@ -840,7 +841,7 @@ class SessionManagerTest extends TestCase
      */
     private function assertAttributeEquals($expected, string $property, object $object): void
     {
-        $value = ReflectionUtil::getProperty($object, $property);
+        $value = $this->getReflectionProperty($object, $property);
         self::assertEquals($expected, $value);
     }
 
@@ -849,7 +850,7 @@ class SessionManagerTest extends TestCase
      */
     private function assertAttributeContains($expected, string $property, object $object): void
     {
-        $value = ReflectionUtil::getProperty($object, $property);
+        $value = $this->getReflectionProperty($object, $property);
         self::assertContains($expected, $value);
     }
 }

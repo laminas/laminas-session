@@ -6,18 +6,16 @@ namespace LaminasTest\Session;
 
 use ReflectionObject;
 
-final class ReflectionUtil
+trait ReflectionPropertyTrait
 {
     /**
      * @return mixed
      */
-    public static function getProperty(object $object, string $property)
+    private function getReflectionProperty(object $object, string $property)
     {
         $reflectionObject   = new ReflectionObject($object);
         $reflectionProperty = $reflectionObject->getProperty($property);
         $reflectionProperty->setAccessible(true);
-        $value = $reflectionProperty->getValue($object);
-        $reflectionProperty->setAccessible(false);
-        return $value;
+        return $reflectionProperty->getValue($object);
     }
 }
