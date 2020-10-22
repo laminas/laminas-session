@@ -33,7 +33,7 @@ class SessionConfigTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->config = new SessionConfig;
+        $this->config = new SessionConfig();
     }
 
     protected function tearDown(): void

@@ -697,7 +697,7 @@ class SessionManagerTest extends TestCase
     public function testResumeSessionThatFailsAValidatorShouldRaiseException()
     {
         $this->manager = new SessionManager();
-        $this->manager->setSaveHandler(new TestAsset\TestSaveHandlerWithValidator);
+        $this->manager->setSaveHandler(new TestAsset\TestSaveHandlerWithValidator());
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('failed');
         $this->manager->start();

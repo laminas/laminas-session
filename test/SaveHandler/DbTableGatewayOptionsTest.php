@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Session\SaveHandler;
 
+use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\SaveHandler\DbTableGatewayOptions;
 use PHPUnit\Framework\TestCase;
 
@@ -31,11 +32,11 @@ class DbTableGatewayOptionsTest extends TestCase
     public function testSetConstructor()
     {
         $options = new DbTableGatewayOptions([
-            'idColumn' => 'testId',
-            'nameColumn' => 'testName',
+            'idColumn'       => 'testId',
+            'nameColumn'     => 'testName',
             'modifiedColumn' => 'testModified',
             'lifetimeColumn' => 'testLifetime',
-            'dataColumn' => 'testData',
+            'dataColumn'     => 'testData',
         ]);
 
         $this->assertEquals('testId', $options->getIdColumn());
@@ -49,10 +50,10 @@ class DbTableGatewayOptionsTest extends TestCase
     {
         $options = new DbTableGatewayOptions();
         $options->setIdColumn('testId')
-                ->setNameColumn('testName')
-                ->setModifiedColumn('testModified')
-                ->setLifetimeColumn('testLifetime')
-                ->setDataColumn('testData');
+            ->setNameColumn('testName')
+            ->setModifiedColumn('testModified')
+            ->setLifetimeColumn('testLifetime')
+            ->setDataColumn('testData');
 
         $this->assertEquals('testId', $options->getIdColumn());
         $this->assertEquals('testName', $options->getNameColumn());
@@ -63,7 +64,7 @@ class DbTableGatewayOptionsTest extends TestCase
 
     public function testInvalidIdColumn()
     {
-        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $options = new DbTableGatewayOptions(
             [
                 'idColumn' => null,
@@ -73,7 +74,7 @@ class DbTableGatewayOptionsTest extends TestCase
 
     public function testInvalidNameColumn()
     {
-        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $options = new DbTableGatewayOptions(
             [
                 'nameColumn' => null,
@@ -83,7 +84,7 @@ class DbTableGatewayOptionsTest extends TestCase
 
     public function testInvalidModifiedColumn()
     {
-        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $options = new DbTableGatewayOptions(
             [
                 'modifiedColumn' => null,
@@ -93,7 +94,7 @@ class DbTableGatewayOptionsTest extends TestCase
 
     public function testInvalidLifetimeColumn()
     {
-        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $options = new DbTableGatewayOptions(
             [
                 'lifetimeColumn' => null,
@@ -103,7 +104,7 @@ class DbTableGatewayOptionsTest extends TestCase
 
     public function testInvalidDataColumn()
     {
-        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $options = new DbTableGatewayOptions(
             [
                 'dataColumn' => null,

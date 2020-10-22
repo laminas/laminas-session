@@ -25,6 +25,7 @@ use LaminasTest\Session\ReflectionUtil;
 use LaminasTest\Session\TestAsset\TestManager;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * @covers \Laminas\Session\Service\SessionManagerFactory
@@ -184,7 +185,7 @@ class SessionManagerFactoryTest extends TestCase
         $manager = $this->services->get(ManagerInterface::class);
         try {
             $manager->start();
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             // Ignore exception, because we are not interested whether session validation passes in this test
         }
 

@@ -23,7 +23,7 @@ class StorageTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->storage = new ArrayStorage;
+        $this->storage = new ArrayStorage();
     }
 
     public function testStorageAllowsArrayAccess()

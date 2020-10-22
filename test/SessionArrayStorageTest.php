@@ -21,7 +21,7 @@ class SessionArrayStorageTest extends TestCase
     protected function setUp(): void
     {
         $_SESSION      = [];
-        $this->storage = new SessionArrayStorage;
+        $this->storage = new SessionArrayStorage();
     }
 
     protected function tearDown(): void

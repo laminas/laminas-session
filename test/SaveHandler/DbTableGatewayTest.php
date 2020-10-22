@@ -222,7 +222,7 @@ EOD;
     /**
      * Sets up the database connection and creates the table for session data
      *
-     * @param  \Laminas\Session\SaveHandler\DbTableGatewayOptions $options
+     * @param DbTableGatewayOptions $options
      * @return void
      */
     protected function setupDb(DbTableGatewayOptions $options)

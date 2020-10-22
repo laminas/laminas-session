@@ -12,6 +12,7 @@ use Laminas\Session\SaveHandler\MongoDB;
 use Laminas\Session\SaveHandler\MongoDBOptions;
 use MongoDB\Client as MongoClient;
 use MongoDB\Collection as MongoCollection;
+use MongoDB\Driver\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -158,7 +159,7 @@ class MongoDBTest extends TestCase
 
     public function testWriteExceptionEdgeCaseForChangedSessionName()
     {
-        $this->expectException(\MongoDB\Driver\Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
         $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
 

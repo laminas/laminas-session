@@ -23,7 +23,7 @@ class StandardConfigTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->config = new StandardConfig;
+        $this->config = new StandardConfig();
     }
 
     // session.save_path

@@ -19,7 +19,7 @@ class SessionStorageTest extends TestCase
     protected function setUp(): void
     {
         $_SESSION      = [];
-        $this->storage = new SessionStorage;
+        $this->storage = new SessionStorage();
     }
 
     protected function tearDown(): void
