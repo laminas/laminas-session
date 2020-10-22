@@ -22,23 +22,25 @@ matrix:
     - php: 7.3
       env:
         - DEPS=latest
+        - CS_CHECK=true
+        - TEST_COVERAGE=true
     - php: 7.3
       env:
         - DEPS=lowest
     - php: 7.4
       env:
         - DEPS=latest
-        - CS_CHECK=true
-        - TEST_COVERAGE=true
-    - php: 8.0
+    - php: nightly
       env:
         - DEPS=latest
+        - COMPOSER_ARGS="--no-interaction --ignore-platform-reqs"
+        - SKIP_MONGODB=true # ext-mongodb does not build on php8 yet (https://github.com/mongodb/mongo-php-driver/issues/1161)
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - pecl channel-update pecl.php.net
-  - pecl -q upgrade mongodb
-  - $(php -m | grep -q mongodb) || echo "extension=mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - if [[ $SKIP_MONGODB != 'true' ]]; then pecl -q upgrade mongodb ; fi
+  - if [[ $SKIP_MONGODB != 'true' ]]; then $(php -m | grep -q mongodb) || echo "extension=mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
   - psql -c 'create database laminas_session_test;' -U postgres
   - mysql -e 'CREATE DATABASE laminas_session_test;'
 
