@@ -63,37 +63,37 @@ class SessionManagerTest extends TestCase
     public function testManagerUsesSessionConfigByDefault()
     {
         $this->manager = new SessionManager();
-        $config = $this->manager->getConfig();
-        $this->assertInstanceOf(SessionConfig::class, $config);
+        $config        = $this->manager->getConfig();
+        self::assertInstanceOf(SessionConfig::class, $config);
     }
 
     public function testCanPassConfigurationToConstructor()
     {
         $this->manager = new SessionManager();
-        $config = new StandardConfig();
-        $manager = new SessionManager($config);
-        $this->assertSame($config, $manager->getConfig());
+        $config        = new StandardConfig();
+        $manager       = new SessionManager($config);
+        self::assertSame($config, $manager->getConfig());
     }
 
     public function testManagerUsesSessionStorageByDefault()
     {
         $this->manager = new SessionManager();
-        $storage = $this->manager->getStorage();
-        $this->assertInstanceOf(SessionArrayStorage::class, $storage);
+        $storage       = $this->manager->getStorage();
+        self::assertInstanceOf(SessionArrayStorage::class, $storage);
     }
 
     public function testCanPassStorageToConstructor()
     {
         $storage = new ArrayStorage();
         $manager = new SessionManager(null, $storage);
-        $this->assertSame($storage, $manager->getStorage());
+        self::assertSame($storage, $manager->getStorage());
     }
 
     public function testCanPassSaveHandlerToConstructor()
     {
         $saveHandler = new TestAsset\TestSaveHandler();
-        $manager = new SessionManager(null, null, $saveHandler);
-        $this->assertSame($saveHandler, $manager->getSaveHandler());
+        $manager     = new SessionManager(null, null, $saveHandler);
+        self::assertSame($saveHandler, $manager->getSaveHandler());
     }
 
     public function testCanPassValidatorsToConstructor()
@@ -144,7 +144,7 @@ class SessionManagerTest extends TestCase
     public function testSessionExistsReturnsFalseWhenNoSessionStarted()
     {
         $this->manager = new SessionManager();
-        $this->assertFalse($this->manager->sessionExists());
+        self::assertFalse($this->manager->sessionExists());
     }
 
     /**
@@ -154,7 +154,7 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         session_start();
-        $this->assertTrue($this->manager->sessionExists());
+        self::assertTrue($this->manager->sessionExists());
     }
 
     /**
@@ -165,7 +165,7 @@ class SessionManagerTest extends TestCase
         $this->manager = new SessionManager();
         session_start();
         session_write_close();
-        $this->assertTrue($this->manager->sessionExists());
+        self::assertTrue($this->manager->sessionExists());
     }
 
     /**
@@ -176,7 +176,7 @@ class SessionManagerTest extends TestCase
         $this->manager = new SessionManager();
         session_start();
         session_destroy();
-        $this->assertFalse($this->manager->sessionExists());
+        self::assertFalse($this->manager->sessionExists());
     }
 
     /**
@@ -185,9 +185,9 @@ class SessionManagerTest extends TestCase
     public function testSessionIsStartedAfterCallingStart()
     {
         $this->manager = new SessionManager();
-        $this->assertFalse($this->manager->sessionExists());
+        self::assertFalse($this->manager->sessionExists());
         $this->manager->start();
-        $this->assertTrue($this->manager->sessionExists());
+        self::assertTrue($this->manager->sessionExists());
     }
 
     /**
@@ -201,8 +201,8 @@ class SessionManagerTest extends TestCase
         session_write_close();
         $this->manager->start();
         $id2 = session_id();
-        $this->assertTrue($this->manager->sessionExists());
-        $this->assertEquals($id1, $id2);
+        self::assertTrue($this->manager->sessionExists());
+        self::assertEquals($id1, $id2);
     }
 
     /**
@@ -213,15 +213,15 @@ class SessionManagerTest extends TestCase
         // pre-populate session with data
         $_SESSION['key1'] = 'value1';
         $_SESSION['key2'] = 'value2';
-        $storage = new SessionStorage();
+        $storage          = new SessionStorage();
         // create session manager with SessionStorage that will populate object with existing session array
         $manager = new SessionManager(null, $storage);
-        $this->assertFalse($manager->sessionExists());
+        self::assertFalse($manager->sessionExists());
         $manager->start();
-        $this->assertTrue($manager->sessionExists());
-        $this->assertInstanceOf('\Traversable', $_SESSION);
-        $this->assertEquals('value1', $_SESSION->key1);
-        $this->assertEquals('value2', $_SESSION->key2);
+        self::assertTrue($manager->sessionExists());
+        self::assertInstanceOf('\Traversable', $_SESSION);
+        self::assertEquals('value1', $_SESSION->key1);
+        self::assertEquals('value2', $_SESSION->key2);
     }
 
     /**
@@ -231,11 +231,11 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $this->manager->start();
-        $storage = $this->manager->getStorage();
+        $storage        = $this->manager->getStorage();
         $storage['foo'] = 'bar';
         $this->manager->writeClose();
-        $this->assertArrayHasKey('foo', $storage);
-        $this->assertEquals('bar', $storage['foo']);
+        self::assertArrayHasKey('foo', $storage);
+        self::assertEquals('bar', $storage['foo']);
     }
 
     /**
@@ -249,8 +249,8 @@ class SessionManagerTest extends TestCase
         session_destroy();
         $this->manager->start();
         $id2 = session_id();
-        $this->assertTrue($this->manager->sessionExists());
-        $this->assertNotEquals($id1, $id2);
+        self::assertTrue($this->manager->sessionExists());
+        self::assertNotEquals($id1, $id2);
     }
 
     /**
@@ -268,9 +268,9 @@ class SessionManagerTest extends TestCase
 
         $this->manager->start();
 
-        $this->assertIsArray($_SESSION);
-        $this->assertArrayHasKey($key, $_SESSION);
-        $this->assertSame($data[$key], $_SESSION[$key]);
+        self::assertIsArray($_SESSION);
+        self::assertArrayHasKey($key, $_SESSION);
+        self::assertSame($data[$key], $_SESSION[$key]);
     }
 
     /**
@@ -286,9 +286,9 @@ class SessionManagerTest extends TestCase
 
         $this->manager->start();
 
-        $this->assertIsArray($_SESSION);
-        $this->assertArrayHasKey($key, $_SESSION);
-        $this->assertSame($data[$key], $_SESSION[$key]);
+        self::assertIsArray($_SESSION);
+        self::assertArrayHasKey($key, $_SESSION);
+        self::assertSame($data[$key], $_SESSION[$key]);
     }
 
     /**
@@ -298,15 +298,15 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         if ('cli' == PHP_SAPI) {
-            $this->markTestSkipped('session_start() will not raise headers_sent warnings in CLI');
+            self::markTestSkipped('session_start() will not raise headers_sent warnings in CLI');
         }
         set_error_handler([$this, 'handleErrors'], E_WARNING);
         echo ' ';
-        $this->assertTrue(headers_sent());
+        self::assertTrue(headers_sent());
         $this->manager->start();
         restore_error_handler();
-        $this->assertIsString($this->error);
-        $this->assertContains('already sent', $this->error);
+        self::assertIsString($this->error);
+        self::assertContains('already sent', $this->error);
     }
 
     /**
@@ -315,8 +315,8 @@ class SessionManagerTest extends TestCase
     public function testGetNameReturnsSessionName()
     {
         $this->manager = new SessionManager();
-        $ini = ini_get('session.name');
-        $this->assertEquals($ini, $this->manager->getName());
+        $ini           = ini_get('session.name');
+        self::assertEquals($ini, $this->manager->getName());
     }
 
     /**
@@ -337,8 +337,8 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $this->manager->setName('foobar');
-        $this->assertEquals('foobar', $this->manager->getName());
-        $this->assertEquals('foobar', session_name());
+        self::assertEquals('foobar', $this->manager->getName());
+        self::assertEquals('foobar', session_name());
     }
 
     /**
@@ -350,8 +350,8 @@ class SessionManagerTest extends TestCase
         $this->manager->start();
         session_destroy();
         $this->manager->setName('foobar');
-        $this->assertEquals('foobar', $this->manager->getName());
-        $this->assertEquals('foobar', session_name());
+        self::assertEquals('foobar', $this->manager->getName());
+        self::assertEquals('foobar', session_name());
     }
 
     /**
@@ -372,7 +372,7 @@ class SessionManagerTest extends TestCase
     public function testDestroyByDefaultSendsAnExpireCookie()
     {
         if (! extension_loaded('xdebug')) {
-            $this->markTestSkipped('Xdebug required for this test');
+            self::markTestSkipped('Xdebug required for this test');
         }
 
         $this->manager = new SessionManager();
@@ -393,7 +393,7 @@ class SessionManagerTest extends TestCase
             }
         }
 
-        $this->assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
+        self::assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
     }
 
     /**
@@ -402,7 +402,7 @@ class SessionManagerTest extends TestCase
     public function testSendingFalseToSendExpireCookieWhenCallingDestroyShouldNotSendCookie()
     {
         if (! extension_loaded('xdebug')) {
-            $this->markTestSkipped('Xdebug required for this test');
+            self::markTestSkipped('Xdebug required for this test');
         }
 
         $this->manager = new SessionManager();
@@ -424,9 +424,9 @@ class SessionManagerTest extends TestCase
         }
 
         if ($found) {
-            $this->assertNotContains('expires=', $header);
+            self::assertNotContains('expires=', $header);
         } else {
-            $this->assertFalse($found, 'Unexpected session cookie found: ' . var_export($headers, true));
+            self::assertFalse($found, 'Unexpected session cookie found: ' . var_export($headers, true));
         }
     }
 
@@ -437,11 +437,11 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $this->manager->start();
-        $storage = $this->manager->getStorage();
+        $storage        = $this->manager->getStorage();
         $storage['foo'] = 'bar';
         $this->manager->destroy();
-        $this->assertTrue(isset($storage['foo']));
-        $this->assertEquals('bar', $storage['foo']);
+        self::assertTrue(isset($storage['foo']));
+        self::assertEquals('bar', $storage['foo']);
     }
 
     /**
@@ -454,7 +454,7 @@ class SessionManagerTest extends TestCase
         $storage = $this->manager->getStorage();
         $storage['foo'] = 'bar';
         $this->manager->destroy(['clear_storage' => true]);
-        $this->assertFalse(isset($storage['foo']));
+        self::assertFalse(isset($storage['foo']));
     }
 
     /**
@@ -467,7 +467,7 @@ class SessionManagerTest extends TestCase
         $storage = $this->manager->getStorage();
         $storage['foo'] = 'bar';
         $this->manager->writeClose();
-        $this->assertTrue($storage->isImmutable());
+        self::assertTrue($storage->isImmutable());
     }
 
     /**
@@ -478,7 +478,7 @@ class SessionManagerTest extends TestCase
         $this->manager = new SessionManager();
         $this->manager->start();
         $this->manager->writeClose();
-        $this->assertTrue($this->manager->sessionExists());
+        self::assertTrue($this->manager->sessionExists());
     }
 
     /**
@@ -487,7 +487,7 @@ class SessionManagerTest extends TestCase
     public function testIdShouldBeEmptyPriorToCallingStart()
     {
         $this->manager = new SessionManager();
-        $this->assertSame('', $this->manager->getId());
+        self::assertSame('', $this->manager->getId());
     }
 
     /**
@@ -497,8 +497,8 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $this->manager->setId(__CLASS__);
-        $this->assertSame(__CLASS__, $this->manager->getId());
-        $this->assertSame(__CLASS__, session_id());
+        self::assertSame(__CLASS__, $this->manager->getId());
+        self::assertSame(__CLASS__, session_id());
     }
 
     /**
@@ -523,7 +523,7 @@ class SessionManagerTest extends TestCase
         $this->manager->start();
         $origId = $this->manager->getId();
         $this->manager->regenerateId();
-        $this->assertNotSame($origId, $this->manager->getId());
+        self::assertNotSame($origId, $this->manager->getId());
     }
 
     /**
@@ -532,10 +532,10 @@ class SessionManagerTest extends TestCase
     public function testRegenerateIdDoesNothingWhenSessioIsNotStarted()
     {
         $this->manager = new SessionManager();
-        $origId = $this->manager->getId();
+        $origId        = $this->manager->getId();
         $this->manager->regenerateId();
-        $this->assertEquals($origId, $this->manager->getId());
-        $this->assertEquals('', $this->manager->getId());
+        self::assertEquals($origId, $this->manager->getId());
+        self::assertEquals('', $this->manager->getId());
     }
 
     /**
@@ -544,7 +544,7 @@ class SessionManagerTest extends TestCase
     public function testRegeneratingIdAfterSessionStartedShouldSendExpireCookie()
     {
         if (! extension_loaded('xdebug')) {
-            $this->markTestSkipped('Xdebug required for this test');
+            self::markTestSkipped('Xdebug required for this test');
         }
 
         $this->manager = new SessionManager();
@@ -564,7 +564,7 @@ class SessionManagerTest extends TestCase
             }
         }
 
-        $this->assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
+        self::assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
     }
 
     /**
@@ -573,7 +573,7 @@ class SessionManagerTest extends TestCase
     public function testRememberMeShouldSendNewSessionCookieWithUpdatedTimestamp()
     {
         if (! extension_loaded('xdebug')) {
-            $this->markTestSkipped('Xdebug required for this test');
+            self::markTestSkipped('Xdebug required for this test');
         }
 
         $this->manager = new SessionManager();
@@ -594,14 +594,14 @@ class SessionManagerTest extends TestCase
             }
         }
 
-        $this->assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
+        self::assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
 
         $ts = $this->getTimestampFromCookie($cookie);
         if (! $ts) {
-            $this->fail('Cookie did not contain expiry? ' . var_export($headers, true));
+            self::fail('Cookie did not contain expiry? ' . var_export($headers, true));
         }
 
-        $this->assertGreaterThan(
+        self::assertGreaterThan(
             $_SERVER['REQUEST_TIME'],
             $ts->getTimestamp(),
             'Session cookie: ' . var_export($headers, 1)
@@ -614,7 +614,7 @@ class SessionManagerTest extends TestCase
     public function testRememberMeShouldSetTimestampBasedOnConfigurationByDefault()
     {
         if (! extension_loaded('xdebug')) {
-            $this->markTestSkipped('Xdebug required for this test');
+            self::markTestSkipped('Xdebug required for this test');
         }
 
         $this->manager = new SessionManager();
@@ -637,16 +637,16 @@ class SessionManagerTest extends TestCase
             }
         }
 
-        $this->assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
+        self::assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
 
         $ts = $this->getTimestampFromCookie($cookie);
         if (! $ts) {
-            $this->fail('Cookie did not contain expiry? ' . var_export($headers, true));
+            self::fail('Cookie did not contain expiry? ' . var_export($headers, true));
         }
 
         $compare  = $_SERVER['REQUEST_TIME'] + $ttl;
         $cookieTs = $ts->getTimestamp();
-        $this->assertContains($cookieTs, range($compare, $compare + 10), 'Session cookie: ' . var_export($headers, 1));
+        self::assertContains($cookieTs, range($compare, $compare + 10), 'Session cookie: ' . var_export($headers, 1));
     }
 
     /**
@@ -655,7 +655,7 @@ class SessionManagerTest extends TestCase
     public function testForgetMeShouldSendCookieWithZeroTimestamp()
     {
         if (! extension_loaded('xdebug')) {
-            $this->markTestSkipped('Xdebug required for this test');
+            self::markTestSkipped('Xdebug required for this test');
         }
 
         $this->manager = new SessionManager();
@@ -674,8 +674,8 @@ class SessionManagerTest extends TestCase
             }
         }
 
-        $this->assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
-        $this->assertNotContains('expires=', $header);
+        self::assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
+        self::assertNotContains('expires=', $header);
     }
 
     /**
@@ -714,7 +714,7 @@ class SessionManagerTest extends TestCase
         $storage->setMetadata('foo', 'bar');
         $metaData = $storage->getMetadata();
         $this->manager->writeClose();
-        $this->assertSame($_SESSION['__Laminas'], $metaData);
+        self::assertSame($_SESSION['__Laminas'], $metaData);
     }
 
     /**
@@ -722,16 +722,16 @@ class SessionManagerTest extends TestCase
      */
     public function testSessionValidationDoesNotHaltOnNoopListener()
     {
-        $this->manager = new SessionManager();
+        $this->manager   = new SessionManager();
         $validatorCalled = false;
-        $validator = function () use (& $validatorCalled) {
+        $validator       = function () use (& $validatorCalled) {
             $validatorCalled = true;
         };
 
         $this->manager->getValidatorChain()->attach('session.validate', $validator);
 
-        $this->assertTrue($this->manager->isValid());
-        $this->assertTrue($validatorCalled);
+        self::assertTrue($this->manager->isValid());
+        self::assertTrue($validatorCalled);
     }
 
     /**
@@ -739,13 +739,13 @@ class SessionManagerTest extends TestCase
      */
     public function testProducedSessionManagerWillNotReplaceSessionSuperGlobalValues()
     {
-        $this->manager = new SessionManager();
+        $this->manager   = new SessionManager();
         $_SESSION['foo'] = 'bar';
 
         $this->manager->start();
 
-        $this->assertArrayHasKey('foo', $_SESSION);
-        $this->assertSame('bar', $_SESSION['foo']);
+        self::assertArrayHasKey('foo', $_SESSION);
+        self::assertSame('bar', $_SESSION['foo']);
     }
 
     /**
@@ -757,13 +757,13 @@ class SessionManagerTest extends TestCase
         $this->manager->getValidatorChain()
             ->attach('session.validate', [new RemoteAddr(), 'isValid']);
 
-        $this->assertFalse($this->manager->sessionExists());
+        self::assertFalse($this->manager->sessionExists());
 
         $this->manager->start();
 
-        $this->assertIsArray($_SESSION['__Laminas']['_VALID']);
-        $this->assertArrayHasKey(RemoteAddr::class, $_SESSION['__Laminas']['_VALID']);
-        $this->assertEquals('', $_SESSION['__Laminas']['_VALID'][RemoteAddr::class]);
+        self::assertIsArray($_SESSION['__Laminas']['_VALID']);
+        self::assertArrayHasKey(RemoteAddr::class, $_SESSION['__Laminas']['_VALID']);
+        self::assertEquals('', $_SESSION['__Laminas']['_VALID'][RemoteAddr::class]);
     }
 
     /**
@@ -796,7 +796,7 @@ class SessionManagerTest extends TestCase
 
         $this->manager->start();
 
-        $this->assertTrue($this->manager->isValid());
+        self::assertTrue($this->manager->isValid());
     }
 
     /**

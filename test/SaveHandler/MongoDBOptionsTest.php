@@ -20,36 +20,38 @@ class MongoDBOptionsTest extends TestCase
     public function testDefaults()
     {
         $options = new MongoDBOptions();
-        $this->assertNull($options->getDatabase());
-        $this->assertNull($options->getCollection());
+        self::assertNull($options->getDatabase());
+        self::assertNull($options->getCollection());
         $mongoVersion       = phpversion('mongo') ?: '0.0.0';
         $defaultSaveOptions = version_compare($mongoVersion, '1.3.0', '<') ? ['safe' => true] : ['w' => 1];
-        $this->assertEquals($defaultSaveOptions, $options->getSaveOptions());
-        $this->assertEquals('name', $options->getNameField());
-        $this->assertEquals('data', $options->getDataField());
-        $this->assertEquals('lifetime', $options->getLifetimeField());
-        $this->assertEquals('modified', $options->getModifiedField());
+        self::assertEquals($defaultSaveOptions, $options->getSaveOptions());
+        self::assertEquals('name', $options->getNameField());
+        self::assertEquals('data', $options->getDataField());
+        self::assertEquals('lifetime', $options->getLifetimeField());
+        self::assertEquals('modified', $options->getModifiedField());
     }
 
     public function testSetConstructor()
     {
-        $options = new MongoDBOptions([
-            'database'      => 'testDatabase',
-            'collection'    => 'testCollection',
-            'saveOptions'   => ['w' => 2],
-            'nameField'     => 'testName',
-            'dataField'     => 'testData',
-            'lifetimeField' => 'testLifetime',
-            'modifiedField' => 'testModified',
-        ]);
+        $options = new MongoDBOptions(
+            [
+                'database'      => 'testDatabase',
+                'collection'    => 'testCollection',
+                'saveOptions'   => ['w' => 2],
+                'nameField'     => 'testName',
+                'dataField'     => 'testData',
+                'lifetimeField' => 'testLifetime',
+                'modifiedField' => 'testModified',
+            ]
+        );
 
-        $this->assertEquals('testDatabase', $options->getDatabase());
-        $this->assertEquals('testCollection', $options->getCollection());
-        $this->assertEquals(['w' => 2], $options->getSaveOptions());
-        $this->assertEquals('testName', $options->getNameField());
-        $this->assertEquals('testData', $options->getDataField());
-        $this->assertEquals('testLifetime', $options->getLifetimeField());
-        $this->assertEquals('testModified', $options->getModifiedField());
+        self::assertEquals('testDatabase', $options->getDatabase());
+        self::assertEquals('testCollection', $options->getCollection());
+        self::assertEquals(['w' => 2], $options->getSaveOptions());
+        self::assertEquals('testName', $options->getNameField());
+        self::assertEquals('testData', $options->getDataField());
+        self::assertEquals('testLifetime', $options->getLifetimeField());
+        self::assertEquals('testModified', $options->getModifiedField());
     }
 
     public function testSetters()
@@ -63,13 +65,13 @@ class MongoDBOptionsTest extends TestCase
             ->setLifetimeField('testLifetime')
             ->setModifiedField('testModified');
 
-        $this->assertEquals('testDatabase', $options->getDatabase());
-        $this->assertEquals('testCollection', $options->getCollection());
-        $this->assertEquals(['w' => 2], $options->getSaveOptions());
-        $this->assertEquals('testName', $options->getNameField());
-        $this->assertEquals('testData', $options->getDataField());
-        $this->assertEquals('testLifetime', $options->getLifetimeField());
-        $this->assertEquals('testModified', $options->getModifiedField());
+        self::assertEquals('testDatabase', $options->getDatabase());
+        self::assertEquals('testCollection', $options->getCollection());
+        self::assertEquals(['w' => 2], $options->getSaveOptions());
+        self::assertEquals('testName', $options->getNameField());
+        self::assertEquals('testData', $options->getDataField());
+        self::assertEquals('testLifetime', $options->getLifetimeField());
+        self::assertEquals('testModified', $options->getModifiedField());
     }
 
     public function testInvalidDatabase()

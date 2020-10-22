@@ -58,10 +58,10 @@ class CacheTest extends TestCase
 
         $id = '242';
 
-        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+        self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
         $data = unserialize($saveHandler->read($id));
-        $this->assertEquals(
+        self::assertEquals(
             $this->testArray,
             $data,
             'Expected ' . var_export($this->testArray, 1) . "\nbut got: " . var_export($data, 1)
@@ -81,9 +81,9 @@ class CacheTest extends TestCase
 
         $id = '242';
 
-        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+        self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
-        $this->assertEquals($this->testArray, unserialize($saveHandler->read($id)));
+        self::assertEquals($this->testArray, unserialize($saveHandler->read($id)));
     }
 
     public function testReadWriteTwice()
@@ -99,13 +99,13 @@ class CacheTest extends TestCase
 
         $id = '242';
 
-        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+        self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
-        $this->assertEquals($this->testArray, unserialize($saveHandler->read($id)));
+        self::assertEquals($this->testArray, unserialize($saveHandler->read($id)));
 
-        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+        self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
-        $this->assertEquals($this->testArray, unserialize($saveHandler->read($id)));
+        self::assertEquals($this->testArray, unserialize($saveHandler->read($id)));
     }
 
     public function testReadShouldAlwaysReturnString()
@@ -118,7 +118,7 @@ class CacheTest extends TestCase
 
         $data = $saveHandler->read($id);
 
-        $this->assertTrue(is_string($data));
+        self::assertTrue(is_string($data));
     }
 
     public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist()
@@ -130,7 +130,7 @@ class CacheTest extends TestCase
 
         $result = $saveHandler->destroy($id);
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
     public function testDestroyReturnsTrueWhenSessionIsDeleted()
@@ -149,10 +149,10 @@ class CacheTest extends TestCase
 
         $id = '242';
 
-        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+        self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
         $result = $saveHandler->destroy($id);
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 }

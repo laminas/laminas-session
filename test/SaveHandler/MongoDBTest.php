@@ -74,18 +74,18 @@ class MongoDBTest extends TestCase
     public function testReadWrite()
     {
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
-        $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
+        self::assertTrue($saveHandler->open('savepath', 'sessionname'));
 
-        $id = '242';
+        $id   = '242';
         $data = ['foo' => 'bar', 'bar' => ['foo' => 'bar']];
 
-        $this->assertTrue($saveHandler->write($id, serialize($data)));
-        $this->assertEquals($data, unserialize($saveHandler->read($id)));
+        self::assertTrue($saveHandler->write($id, serialize($data)));
+        self::assertEquals($data, unserialize($saveHandler->read($id)));
 
         $data = ['foo' => [1, 2, 3]];
 
-        $this->assertTrue($saveHandler->write($id, serialize($data)));
-        $this->assertEquals($data, unserialize($saveHandler->read($id)));
+        self::assertTrue($saveHandler->write($id, serialize($data)));
+        self::assertEquals($data, unserialize($saveHandler->read($id)));
     }
 
     /**
@@ -101,17 +101,17 @@ class MongoDBTest extends TestCase
         ini_set('session.gc_maxlifetime', 0);
 
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
-        $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
+        self::assertTrue($saveHandler->open('savepath', 'sessionname'));
 
-        $id = '242';
+        $id   = '242';
         $data = ['foo' => 'bar'];
 
-        $this->assertNull($this->mongoCollection->findOne(['_id' => $id]));
+        self::assertNull($this->mongoCollection->findOne(['_id' => $id]));
 
-        $this->assertTrue($saveHandler->write($id, serialize($data)));
-        $this->assertNotNull($this->mongoCollection->findOne(['_id' => $id]));
-        $this->assertEquals('', $saveHandler->read($id));
-        $this->assertNull($this->mongoCollection->findOne(['_id' => $id]));
+        self::assertTrue($saveHandler->write($id, serialize($data)));
+        self::assertNotNull($this->mongoCollection->findOne(['_id' => $id]));
+        self::assertEquals('', $saveHandler->read($id));
+        self::assertNull($this->mongoCollection->findOne(['_id' => $id]));
 
         ini_set('session.gc_maxlifetime', $oldMaxlifetime);
     }
@@ -119,49 +119,49 @@ class MongoDBTest extends TestCase
     public function testGarbageCollection()
     {
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
-        $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
+        self::assertTrue($saveHandler->open('savepath', 'sessionname'));
 
         $data = ['foo' => 'bar'];
 
-        $this->assertTrue($saveHandler->write(123, serialize($data)));
-        $this->assertTrue($saveHandler->write(456, serialize($data)));
-        $this->assertEquals(2, $this->mongoCollection->count());
+        self::assertTrue($saveHandler->write(123, serialize($data)));
+        self::assertTrue($saveHandler->write(456, serialize($data)));
+        self::assertEquals(2, $this->mongoCollection->count());
         $saveHandler->gc(5);
-        $this->assertEquals(2, $this->mongoCollection->count());
+        self::assertEquals(2, $this->mongoCollection->count());
 
         /* Note: MongoDate uses micro-second precision, so even a maximum
          * lifetime of zero would not match records that were just inserted.
          * Use a negative number instead.
          */
         $saveHandler->gc(-1);
-        $this->assertEquals(0, $this->mongoCollection->count());
+        self::assertEquals(0, $this->mongoCollection->count());
     }
 
     public function testGarbageCollectionMaxlifetimeIsInSeconds()
     {
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
-        $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
+        self::assertTrue($saveHandler->open('savepath', 'sessionname'));
 
         $data = ['foo' => 'bar'];
 
-        $this->assertTrue($saveHandler->write(123, serialize($data)));
+        self::assertTrue($saveHandler->write(123, serialize($data)));
         sleep(1);
-        $this->assertTrue($saveHandler->write(456, serialize($data)));
-        $this->assertEquals(2, $this->mongoCollection->count());
+        self::assertTrue($saveHandler->write(456, serialize($data)));
+        self::assertEquals(2, $this->mongoCollection->count());
 
         // Clear everything what is at least 1 second old.
         $saveHandler->gc(1);
-        $this->assertEquals(1, $this->mongoCollection->count());
+        self::assertEquals(1, $this->mongoCollection->count());
 
-        $this->assertEmpty($saveHandler->read(123));
-        $this->assertNotEmpty($saveHandler->read(456));
+        self::assertEmpty($saveHandler->read(123));
+        self::assertNotEmpty($saveHandler->read(456));
     }
 
     public function testWriteExceptionEdgeCaseForChangedSessionName()
     {
         $this->expectException(RuntimeException::class);
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
-        $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
+        self::assertTrue($saveHandler->open('savepath', 'sessionname'));
 
         $id = '242';
         $data = ['foo' => 'bar'];
@@ -180,12 +180,12 @@ class MongoDBTest extends TestCase
     public function testReadShouldAlwaysReturnString()
     {
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
-        $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
+        self::assertTrue($saveHandler->open('savepath', 'sessionname'));
 
         $id = '242';
 
         $data = $saveHandler->read($id);
 
-        $this->assertTrue(is_string($data));
+        self::assertTrue(is_string($data));
     }
 }

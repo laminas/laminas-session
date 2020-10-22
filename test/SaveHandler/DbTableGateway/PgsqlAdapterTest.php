@@ -20,17 +20,21 @@ class PgsqlAdapterTest extends DbTableGatewayTest
     protected function getAdapter()
     {
         if (! getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL')) {
-            $this->markTestSkipped(sprintf(
-                '%s tests with Pgsql adapter are disabled',
-                DbTableGateway::class
-            ));
+            self::markTestSkipped(
+                sprintf(
+                    '%s tests with Pgsql adapter are disabled',
+                    DbTableGateway::class
+                )
+            );
         }
 
         if (! extension_loaded('mysqli')) {
-            $this->markTestSkipped(sprintf(
-                '%s tests with Pgsql adapter are not enabled due to missing Pgsql extension',
-                DbTableGateway::class
-            ));
+            self::markTestSkipped(
+                sprintf(
+                    '%s tests with Pgsql adapter are not enabled due to missing Pgsql extension',
+                    DbTableGateway::class
+                )
+            );
         }
 
         return new Adapter([

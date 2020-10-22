@@ -99,24 +99,26 @@ class StorageFactoryTest extends TestCase
     {
         $this->services->setService('config', $config);
         $storage = $this->services->get(StorageInterface::class);
-        $this->assertInstanceOf($class, $storage);
+        self::assertInstanceOf($class, $storage);
         $test = $storage->toArray();
-        $this->assertEquals($config['session_storage']['options']['input'], $test);
+        self::assertEquals($config['session_storage']['options']['input'], $test);
     }
 
     public function testConfigurationWithoutInputIsValid()
     {
-        $this->services->setService('config', [
+        $this->services->setService(
+            'config', [
             'session_storage' => [
-                'type' => ArrayStorage::class,
+                'type'    => ArrayStorage::class,
                 'options' => [],
             ],
-        ]);
+        ]
+        );
 
         $storage = $this->services->get(StorageInterface::class);
 
-        $this->assertInstanceOf(ArrayStorage::class, $storage);
-        $this->assertSame([], $storage->toArray());
+        self::assertInstanceOf(ArrayStorage::class, $storage);
+        self::assertSame([], $storage->toArray());
     }
 
     public function invalidSessionStorageConfig()

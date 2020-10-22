@@ -22,28 +22,30 @@ class DbTableGatewayOptionsTest extends TestCase
     public function testDefaults()
     {
         $options = new DbTableGatewayOptions();
-        $this->assertEquals('id', $options->getIdColumn());
-        $this->assertEquals('name', $options->getNameColumn());
-        $this->assertEquals('modified', $options->getModifiedColumn());
-        $this->assertEquals('lifetime', $options->getLifetimeColumn());
-        $this->assertEquals('data', $options->getDataColumn());
+        self::assertEquals('id', $options->getIdColumn());
+        self::assertEquals('name', $options->getNameColumn());
+        self::assertEquals('modified', $options->getModifiedColumn());
+        self::assertEquals('lifetime', $options->getLifetimeColumn());
+        self::assertEquals('data', $options->getDataColumn());
     }
 
     public function testSetConstructor()
     {
-        $options = new DbTableGatewayOptions([
-            'idColumn'       => 'testId',
-            'nameColumn'     => 'testName',
-            'modifiedColumn' => 'testModified',
-            'lifetimeColumn' => 'testLifetime',
-            'dataColumn'     => 'testData',
-        ]);
+        $options = new DbTableGatewayOptions(
+            [
+                'idColumn'       => 'testId',
+                'nameColumn'     => 'testName',
+                'modifiedColumn' => 'testModified',
+                'lifetimeColumn' => 'testLifetime',
+                'dataColumn'     => 'testData',
+            ]
+        );
 
-        $this->assertEquals('testId', $options->getIdColumn());
-        $this->assertEquals('testName', $options->getNameColumn());
-        $this->assertEquals('testModified', $options->getModifiedColumn());
-        $this->assertEquals('testLifetime', $options->getLifetimeColumn());
-        $this->assertEquals('testData', $options->getDataColumn());
+        self::assertEquals('testId', $options->getIdColumn());
+        self::assertEquals('testName', $options->getNameColumn());
+        self::assertEquals('testModified', $options->getModifiedColumn());
+        self::assertEquals('testLifetime', $options->getLifetimeColumn());
+        self::assertEquals('testData', $options->getDataColumn());
     }
 
     public function testSetters()
@@ -55,11 +57,11 @@ class DbTableGatewayOptionsTest extends TestCase
             ->setLifetimeColumn('testLifetime')
             ->setDataColumn('testData');
 
-        $this->assertEquals('testId', $options->getIdColumn());
-        $this->assertEquals('testName', $options->getNameColumn());
-        $this->assertEquals('testModified', $options->getModifiedColumn());
-        $this->assertEquals('testLifetime', $options->getLifetimeColumn());
-        $this->assertEquals('testData', $options->getDataColumn());
+        self::assertEquals('testId', $options->getIdColumn());
+        self::assertEquals('testName', $options->getNameColumn());
+        self::assertEquals('testModified', $options->getModifiedColumn());
+        self::assertEquals('testLifetime', $options->getLifetimeColumn());
+        self::assertEquals('testData', $options->getDataColumn());
     }
 
     public function testInvalidIdColumn()

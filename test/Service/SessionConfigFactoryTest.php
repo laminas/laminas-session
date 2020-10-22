@@ -40,7 +40,7 @@ class SessionConfigFactoryTest extends TestCase
             'session_config' => [],
         ]);
         $config = $this->services->get(ConfigInterface::class);
-        $this->assertInstanceOf(SessionConfig::class, $config);
+        self::assertInstanceOf(SessionConfig::class, $config);
     }
 
     public function testCanCreateAlternateSessionConfigTypeViaConfigClassKey()
@@ -51,9 +51,9 @@ class SessionConfigFactoryTest extends TestCase
             ],
         ]);
         $config = $this->services->get(ConfigInterface::class);
-        $this->assertInstanceOf(StandardConfig::class, $config);
+        self::assertInstanceOf(StandardConfig::class, $config);
         // Since SessionConfig extends StandardConfig, need to assert not SessionConfig
-        $this->assertNotInstanceOf(SessionConfig::class, $config);
+        self::assertNotInstanceOf(SessionConfig::class, $config);
     }
 
     public function testServiceReceivesConfiguration()
@@ -65,6 +65,6 @@ class SessionConfigFactoryTest extends TestCase
             ],
         ]);
         $config = $this->services->get(ConfigInterface::class);
-        $this->assertEquals('laminas', $config->getName());
+        self::assertEquals('laminas', $config->getName());
     }
 }

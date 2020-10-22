@@ -29,25 +29,25 @@ class StorageTest extends TestCase
     public function testStorageAllowsArrayAccess()
     {
         $this->storage['foo'] = 'bar';
-        $this->assertTrue(isset($this->storage['foo']));
-        $this->assertEquals('bar', $this->storage['foo']);
+        self::assertTrue(isset($this->storage['foo']));
+        self::assertEquals('bar', $this->storage['foo']);
         unset($this->storage['foo']);
-        $this->assertFalse(isset($this->storage['foo']));
+        self::assertFalse(isset($this->storage['foo']));
     }
 
     public function testStorageAllowsPropertyAccess()
     {
         $this->storage->foo = 'bar';
-        $this->assertTrue(isset($this->storage->foo));
-        $this->assertEquals('bar', $this->storage->foo);
+        self::assertTrue(isset($this->storage->foo));
+        self::assertEquals('bar', $this->storage->foo);
         unset($this->storage->foo);
-        $this->assertFalse(isset($this->storage->foo));
+        self::assertFalse(isset($this->storage->foo));
     }
 
     public function testStorageAllowsSettingMetadata()
     {
         $this->storage->setMetadata('TEST', 'foo');
-        $this->assertEquals('foo', $this->storage->getMetadata('TEST'));
+        self::assertEquals('foo', $this->storage->getMetadata('TEST'));
     }
 
     public function testSettingArrayMetadataMergesOnSubsequentRequests()
@@ -55,7 +55,7 @@ class StorageTest extends TestCase
         $this->storage->setMetadata('TEST', ['foo' => 'bar', 'bar' => 'baz']);
         $this->storage->setMetadata('TEST', ['foo' => 'baz', 'baz' => 'bat', 'lonesome']);
         $expected = ['foo' => 'baz', 'bar' => 'baz', 'baz' => 'bat', 'lonesome'];
-        $this->assertEquals($expected, $this->storage->getMetadata('TEST'));
+        self::assertEquals($expected, $this->storage->getMetadata('TEST'));
     }
 
     public function testSettingArrayMetadataWithOverwriteFlagOverwritesExistingData()
@@ -63,7 +63,7 @@ class StorageTest extends TestCase
         $this->storage->setMetadata('TEST', ['foo' => 'bar', 'bar' => 'baz']);
         $this->storage->setMetadata('TEST', ['foo' => 'baz', 'baz' => 'bat', 'lonesome'], true);
         $expected = ['foo' => 'baz', 'baz' => 'bat', 'lonesome'];
-        $this->assertEquals($expected, $this->storage->getMetadata('TEST'));
+        self::assertEquals($expected, $this->storage->getMetadata('TEST'));
     }
 
     public function testLockWithNoKeyMakesStorageReadOnly()
@@ -80,9 +80,9 @@ class StorageTest extends TestCase
         $this->storage->foo = 'bar';
         $this->storage->bar = 'baz';
         $this->storage->lock();
-        $this->assertTrue($this->storage->isLocked());
-        $this->assertTrue($this->storage->isLocked('foo'));
-        $this->assertTrue($this->storage->isLocked('bar'));
+        self::assertTrue($this->storage->isLocked());
+        self::assertTrue($this->storage->isLocked('foo'));
+        self::assertTrue($this->storage->isLocked('bar'));
     }
 
     public function testLockWithKeyMakesOnlyThatKeyReadOnly()
@@ -91,7 +91,7 @@ class StorageTest extends TestCase
         $this->storage->lock('foo');
 
         $this->storage->bar = 'baz';
-        $this->assertEquals('baz', $this->storage->bar);
+        self::assertEquals('baz', $this->storage->bar);
 
         $this->expectException('Laminas\Session\Exception\RuntimeException');
         $this->expectExceptionMessage('Cannot set key "foo" due to locking');
@@ -103,8 +103,8 @@ class StorageTest extends TestCase
         $this->storage->foo = 'bar';
         $this->storage->bar = 'baz';
         $this->storage->lock('foo');
-        $this->assertTrue($this->storage->isLocked('foo'));
-        $this->assertFalse($this->storage->isLocked('bar'));
+        self::assertTrue($this->storage->isLocked('foo'));
+        self::assertFalse($this->storage->isLocked('bar'));
     }
 
     public function testLockWithNoKeyShouldWriteToMetadata()
@@ -112,7 +112,7 @@ class StorageTest extends TestCase
         $this->storage->foo = 'bar';
         $this->storage->lock();
         $locked = $this->storage->getMetadata('_READONLY');
-        $this->assertTrue($locked);
+        self::assertTrue($locked);
     }
 
     public function testLockWithKeyShouldWriteToMetadata()
@@ -120,8 +120,8 @@ class StorageTest extends TestCase
         $this->storage->foo = 'bar';
         $this->storage->lock('foo');
         $locks = $this->storage->getMetadata('_LOCKS');
-        $this->assertIsArray($locks);
-        $this->assertArrayHasKey('foo', $locks);
+        self::assertIsArray($locks);
+        self::assertArrayHasKey('foo', $locks);
     }
 
     public function testUnlockShouldUnlockEntireObject()
@@ -130,8 +130,8 @@ class StorageTest extends TestCase
         $this->storage->bar = 'baz';
         $this->storage->lock();
         $this->storage->unlock();
-        $this->assertFalse($this->storage->isLocked('foo'));
-        $this->assertFalse($this->storage->isLocked('bar'));
+        self::assertFalse($this->storage->isLocked('foo'));
+        self::assertFalse($this->storage->isLocked('bar'));
     }
 
     public function testUnlockShouldUnlockSelectivelyLockedKeys()
@@ -140,8 +140,8 @@ class StorageTest extends TestCase
         $this->storage->bar = 'baz';
         $this->storage->lock('foo');
         $this->storage->unlock();
-        $this->assertFalse($this->storage->isLocked('foo'));
-        $this->assertFalse($this->storage->isLocked('bar'));
+        self::assertFalse($this->storage->isLocked('foo'));
+        self::assertFalse($this->storage->isLocked('bar'));
     }
 
     public function testUnlockWithKeyShouldUnlockOnlyThatKey()
@@ -150,8 +150,8 @@ class StorageTest extends TestCase
         $this->storage->bar = 'baz';
         $this->storage->lock();
         $this->storage->unlock('foo');
-        $this->assertFalse($this->storage->isLocked('foo'));
-        $this->assertTrue($this->storage->isLocked('bar'));
+        self::assertFalse($this->storage->isLocked('foo'));
+        self::assertTrue($this->storage->isLocked('bar'));
     }
 
     public function testUnlockWithKeyOfSelectiveLockShouldUnlockThatKey()
@@ -159,7 +159,7 @@ class StorageTest extends TestCase
         $this->storage->foo = 'bar';
         $this->storage->lock('foo');
         $this->storage->unlock('foo');
-        $this->assertFalse($this->storage->isLocked('foo'));
+        self::assertFalse($this->storage->isLocked('foo'));
     }
 
     public function testClearWithNoArgumentsRemovesExistingData()
@@ -169,7 +169,7 @@ class StorageTest extends TestCase
 
         $this->storage->clear();
         $data = $this->storage->toArray();
-        $this->assertSame([], $data);
+        self::assertSame([], $data);
     }
 
     public function testClearWithNoArgumentsRemovesExistingMetadata()
@@ -179,8 +179,8 @@ class StorageTest extends TestCase
         $this->storage->setMetadata('FOO', 'bar');
         $this->storage->clear();
 
-        $this->assertFalse($this->storage->isLocked('foo'));
-        $this->assertFalse($this->storage->getMetadata('FOO'));
+        self::assertFalse($this->storage->isLocked('foo'));
+        self::assertFalse($this->storage->getMetadata('FOO'));
     }
 
     public function testClearWithArgumentRemovesExistingDataForThatKeyOnly()
@@ -190,7 +190,7 @@ class StorageTest extends TestCase
 
         $this->storage->clear('foo');
         $data = $this->storage->toArray();
-        $this->assertSame(['bar' => 'baz'], $data);
+        self::assertSame(['bar' => 'baz'], $data);
     }
 
     public function testClearWithArgumentRemovesExistingMetadataForThatKeyOnly()
@@ -203,10 +203,10 @@ class StorageTest extends TestCase
         $this->storage->setMetadata('bar', 'baz');
         $this->storage->clear('foo');
 
-        $this->assertFalse($this->storage->isLocked('foo'));
-        $this->assertTrue($this->storage->isLocked('bar'));
-        $this->assertFalse($this->storage->getMetadata('foo'));
-        $this->assertEquals('baz', $this->storage->getMetadata('bar'));
+        self::assertFalse($this->storage->isLocked('foo'));
+        self::assertTrue($this->storage->isLocked('bar'));
+        self::assertFalse($this->storage->getMetadata('foo'));
+        self::assertEquals('baz', $this->storage->getMetadata('bar'));
     }
 
     public function testClearWhenStorageMarkedImmutableRaisesException()
@@ -221,9 +221,9 @@ class StorageTest extends TestCase
 
     public function testRequestAccessTimeIsPreservedEvenInFactoryMethod()
     {
-        $this->assertNotEmpty($this->storage->getRequestAccessTime());
+        self::assertNotEmpty($this->storage->getRequestAccessTime());
         $this->storage->fromArray([]);
-        $this->assertNotEmpty($this->storage->getRequestAccessTime());
+        self::assertNotEmpty($this->storage->getRequestAccessTime());
     }
 
     public function testToArrayWithMetaData()
@@ -234,12 +234,12 @@ class StorageTest extends TestCase
         $expected = [
             '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $this->storage->getRequestAccessTime(),
-                'foo' => 'bar',
+                'foo'                  => 'bar',
             ],
-            'foo' => 'bar',
-            'bar' => 'baz',
+            'foo'       => 'bar',
+            'bar'       => 'baz',
         ];
-        $this->assertSame($expected, $this->storage->toArray(true));
+        self::assertSame($expected, $this->storage->toArray(true));
     }
 
     public function testUnsetMultidimensional()
@@ -248,6 +248,6 @@ class StorageTest extends TestCase
         unset($this->storage['foo']['bar']['baz']);
         unset($this->storage['foo']['bar']);
 
-        $this->assertFalse(isset($this->storage['foo']['bar']));
+        self::assertFalse(isset($this->storage['foo']['bar']));
     }
 }

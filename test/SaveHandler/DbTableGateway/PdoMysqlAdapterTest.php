@@ -20,17 +20,21 @@ class PdoMysqlAdapterTest extends DbTableGatewayTest
     protected function getAdapter()
     {
         if (! getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL')) {
-            $this->markTestSkipped(sprintf(
-                '%s tests with MySQL are disabled',
-                DbTableGateway::class
-            ));
+            self::markTestSkipped(
+                sprintf(
+                    '%s tests with MySQL are disabled',
+                    DbTableGateway::class
+                )
+            );
         }
 
         if (! extension_loaded('mysqli')) {
-            $this->markTestSkipped(sprintf(
-                '%s tests with PDO_Mysql adapter are not enabled due to missing PDO_Mysql extension',
-                DbTableGateway::class
-            ));
+            self::markTestSkipped(
+                sprintf(
+                    '%s tests with PDO_Mysql adapter are not enabled due to missing PDO_Mysql extension',
+                    DbTableGateway::class
+                )
+            );
         }
 
         return new Adapter([

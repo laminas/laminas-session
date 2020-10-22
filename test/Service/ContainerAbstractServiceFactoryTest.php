@@ -69,10 +69,10 @@ class ContainerAbstractServiceFactoryTest extends TestCase
      */
     public function testCanRetrieveNamedContainers($serviceName, $containerName)
     {
-        $this->assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
+        self::assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
         $container = $this->services->get($serviceName);
-        $this->assertInstanceOf(Container::class, $container);
-        $this->assertEquals($containerName, $container->getName());
+        self::assertInstanceOf(Container::class, $container);
+        self::assertEquals($containerName, $container->getName());
     }
 
     /**
@@ -80,9 +80,9 @@ class ContainerAbstractServiceFactoryTest extends TestCase
      */
     public function testContainersAreInjectedWithSessionManagerService($serviceName, $containerName)
     {
-        $this->assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
+        self::assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
         $container = $this->services->get($serviceName);
-        $this->assertSame($this->services->get(ManagerInterface::class), $container->getManager());
+        self::assertSame($this->services->get(ManagerInterface::class), $container->getManager());
     }
 
     public function invalidContainers()
@@ -102,6 +102,6 @@ class ContainerAbstractServiceFactoryTest extends TestCase
      */
     public function testInvalidContainerNamesAreNotMatchedByAbstractFactory($name)
     {
-        $this->assertFalse($this->services->has($name));
+        self::assertFalse($this->services->has($name));
     }
 }
