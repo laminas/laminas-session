@@ -35,20 +35,22 @@ class ContainerTest extends TestCase
      */
     protected $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $_SESSION = [];
         Container::setDefaultManager(null);
 
-        $config = new StandardConfig([
-            'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
-        ]);
+        $config = new StandardConfig(
+            [
+                'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
+            ]
+        );
 
-        $this->manager = $manager = new TestAsset\TestManager($config);
+        $this->manager   = $manager = new TestAsset\TestManager($config);
         $this->container = new Container('Default', $manager);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $_SESSION = [];
         Container::setDefaultManager(null);
@@ -105,7 +107,7 @@ class ContainerTest extends TestCase
                 $container = new Container($try);
                 $this->fail('Invalid container name should raise exception');
             } catch (\Laminas\Session\Exception\InvalidArgumentException $e) {
-                $this->assertContains('invalid', $e->getMessage());
+                $this->assertStringContainsString('invalid', $e->getMessage());
             }
         }
     }
@@ -560,7 +562,7 @@ class ContainerTest extends TestCase
 
         $contents = $this->container->getArrayCopy();
 
-        $this->assertInternalType('array', $contents);
+        $this->assertIsArray($contents);
         $this->assertArrayHasKey('foo', $contents, "'getArrayCopy' doesn't return exchanged array");
     }
 }

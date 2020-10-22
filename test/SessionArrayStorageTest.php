@@ -18,13 +18,13 @@ use PHPUnit\Framework\TestCase;
  */
 class SessionArrayStorageTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
-        $_SESSION = [];
+        $_SESSION      = [];
         $this->storage = new SessionArrayStorage;
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $_SESSION = [];
     }

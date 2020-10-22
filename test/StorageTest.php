@@ -21,7 +21,7 @@ class StorageTest extends TestCase
      */
     protected $storage;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->storage = new ArrayStorage;
     }
@@ -120,7 +120,7 @@ class StorageTest extends TestCase
         $this->storage->foo = 'bar';
         $this->storage->lock('foo');
         $locks = $this->storage->getMetadata('_LOCKS');
-        $this->assertInternalType('array', $locks);
+        $this->assertIsArray($locks);
         $this->assertArrayHasKey('foo', $locks);
     }
 

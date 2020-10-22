@@ -42,14 +42,16 @@ class MongoDBTest extends TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->options = new MongoDBOptions([
-            'database' => 'laminas_tests',
-            'collection' => 'sessions',
-        ]);
+        $this->options = new MongoDBOptions(
+            [
+                'database'   => 'laminas_tests',
+                'collection' => 'sessions',
+            ]
+        );
 
-        $this->mongoClient = new MongoClient();
+        $this->mongoClient     = new MongoClient();
         $this->mongoCollection = $this->mongoClient->selectCollection(
             $this->options->getDatabase(),
             $this->options->getCollection()
@@ -61,7 +63,7 @@ class MongoDBTest extends TestCase
      *
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->mongoCollection) {
             $this->mongoCollection->drop();
@@ -154,11 +156,9 @@ class MongoDBTest extends TestCase
         $this->assertNotEmpty($saveHandler->read(456));
     }
 
-    /**
-     * @expectedException \MongoDB\Driver\Exception\RuntimeException
-     */
     public function testWriteExceptionEdgeCaseForChangedSessionName()
     {
+        $this->expectException(\MongoDB\Driver\Exception\RuntimeException::class);
         $saveHandler = new MongoDB($this->mongoClient, $this->options);
         $this->assertTrue($saveHandler->open('savepath', 'sessionname'));
 

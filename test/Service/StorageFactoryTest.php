@@ -23,13 +23,15 @@ use PHPUnit\Framework\TestCase;
  */
 class StorageFactoryTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
-        $config = new Config([
-            'factories' => [
-                StorageInterface::class => StorageFactory::class,
-            ],
-        ]);
+        $config         = new Config(
+            [
+                'factories' => [
+                    StorageInterface::class => StorageFactory::class,
+                ],
+            ]
+        );
         $this->services = new ServiceManager();
         $config->configureServiceManager($this->services);
     }

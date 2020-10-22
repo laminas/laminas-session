@@ -21,13 +21,15 @@ use PHPUnit\Framework\TestCase;
  */
 class SessionConfigFactoryTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
-        $config = new Config([
-            'factories' => [
-                ConfigInterface::class => SessionConfigFactory::class,
-            ],
-        ]);
+        $config         = new Config(
+            [
+                'factories' => [
+                    ConfigInterface::class => SessionConfigFactory::class,
+                ],
+            ]
+        );
         $this->services = new ServiceManager();
         $config->configureServiceManager($this->services);
     }

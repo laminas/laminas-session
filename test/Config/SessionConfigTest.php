@@ -31,12 +31,12 @@ class SessionConfigTest extends TestCase
      */
     protected $config;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->config = new SessionConfig;
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->config = null;
     }
@@ -544,7 +544,7 @@ class SessionConfigTest extends TestCase
      */
     public function testSetEntropyFileError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->getEntropyFile();
     }
 
@@ -553,7 +553,7 @@ class SessionConfigTest extends TestCase
      */
     public function testGetEntropyFileError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->setEntropyFile(__FILE__);
     }
 
@@ -607,7 +607,7 @@ class SessionConfigTest extends TestCase
      */
     public function testGetEntropyLengthError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->getEntropyLength();
     }
 
@@ -616,7 +616,7 @@ class SessionConfigTest extends TestCase
      */
     public function testSetEntropyLengthError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->setEntropyLength(0);
     }
 
@@ -768,7 +768,7 @@ class SessionConfigTest extends TestCase
      */
     public function testGetHashFunctionError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->getHashFunction();
     }
 
@@ -777,7 +777,7 @@ class SessionConfigTest extends TestCase
      */
     public function testSetHashFunctionError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->setHashFunction('foobar_bogus');
     }
 
@@ -834,7 +834,7 @@ class SessionConfigTest extends TestCase
      */
     public function testGetHashBitsPerCharacterError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->getHashBitsPerCharacter();
     }
 
@@ -843,7 +843,7 @@ class SessionConfigTest extends TestCase
      */
     public function testSetHashBitsPerCharacterError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->setHashBitsPerCharacter(5);
     }
 

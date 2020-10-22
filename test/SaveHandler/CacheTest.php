@@ -11,6 +11,7 @@ namespace LaminasTest\Session\SaveHandler;
 use Laminas\Session\SaveHandler\Cache;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * Unit testing for DbTable include all tests for
@@ -20,6 +21,8 @@ use Prophecy\Argument;
  */
 class CacheTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var CacheAdapter
      */
@@ -38,7 +41,7 @@ class CacheTest extends TestCase
      */
     protected $usedSaveHandlers = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->testArray = ['foo' => 'bar', 'bar' => ['foo' => 'bar']];
     }

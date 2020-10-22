@@ -15,18 +15,18 @@
         </exclude>
     </groups>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+    <coverage>
+        <include>
             <directory suffix=".php">./src</directory>
-            <exclude>
-                <file>src/compatibility/autoload.php</file>
-                <file>src/Validator/AbstractValidatorChainEM2.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
+        </include>
+        <exclude>
+            <file>src/compatibility/autoload.php</file>
+            <file>src/Validator/AbstractValidatorChainEM2.php</file>
+        </exclude>
+    </coverage>
 
     <php>
-        <ini name="date.timezone" value="UTC"/>
+        <ini name="date.timezone" value="UTC" />
 
         <!-- OB_ENABLED should be enabled for some tests to check if all
              functionality works as expected. Such tests include those for

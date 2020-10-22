@@ -21,6 +21,7 @@ use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\StorageInterface;
 use Laminas\Session\Validator;
+use LaminasTest\Session\ReflectionUtil;
 use LaminasTest\Session\TestAsset\TestManager;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
 use PHPUnit\Framework\TestCase;
@@ -32,15 +33,20 @@ class SessionManagerFactoryTest extends TestCase
 {
     use EventListenerIntrospectionTrait;
 
-    protected function setUp()
+    /** @var ServiceManager */
+    private $services;
+
+    protected function setUp(): void
     {
-        $config = new Config([
-            'factories' => [
-                ManagerInterface::class => SessionManagerFactory::class,
-                TestManager::class => SessionManagerFactory::class,
-                TestSaveHandler::class => SessionManagerFactory::class,
-            ],
-        ]);
+        $config         = new Config(
+            [
+                'factories' => [
+                    ManagerInterface::class => SessionManagerFactory::class,
+                    TestManager::class      => SessionManagerFactory::class,
+                    TestSaveHandler::class  => SessionManagerFactory::class,
+                ],
+            ]
+        );
         $this->services = new ServiceManager();
         $config->configureServiceManager($this->services);
     }
@@ -201,16 +207,20 @@ class SessionManagerFactoryTest extends TestCase
     {
         $storage = new ArrayStorage();
         $this->services->setService(StorageInterface::class, $storage);
-        $this->services->setService('config', [
-            'session_manager' => [
-                'options' => [
-                    'attach_default_validators' => false,
+        $this->services->setService(
+            'config', [
+                'session_manager' => [
+                    'options' => [
+                        'attach_default_validators' => false,
+                    ],
                 ],
-            ],
-        ]);
+            ]
+        );
 
         $manager = $this->services->get(ManagerInterface::class);
-        $this->assertAttributeSame([], 'validators', $manager);
+
+        $containedValidators = ReflectionUtil::getProperty($manager, 'validators');
+        $this->assertSame([], $containedValidators);
     }
 
     public function testFactoryWillUseRequestedNameAsSessionManagerIfItImplementsManagerInterface()

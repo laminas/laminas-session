@@ -63,17 +63,19 @@ abstract class DbTableGatewayTest extends TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->adapter = $this->getAdapter();
 
-        $this->options = new DbTableGatewayOptions([
-            'nameColumn' => 'name',
-            'idColumn'   => 'id',
-            'dataColumn' => 'data',
-            'modifiedColumn' => 'modified',
-            'lifetimeColumn' => 'lifetime',
-        ]);
+        $this->options = new DbTableGatewayOptions(
+            [
+                'nameColumn'     => 'name',
+                'idColumn'       => 'id',
+                'dataColumn'     => 'data',
+                'modifiedColumn' => 'modified',
+                'lifetimeColumn' => 'lifetime',
+            ]
+        );
 
         $this->setupDb($this->options);
         $this->testArray = ['foo' => 'bar', 'bar' => ['foo' => 'bar']];
@@ -84,7 +86,7 @@ abstract class DbTableGatewayTest extends TestCase
      *
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->adapter) {
             $this->dropTable();

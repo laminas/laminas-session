@@ -71,73 +71,73 @@ class MongoDBOptionsTest extends TestCase
         $this->assertEquals('testModified', $options->getModifiedField());
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
     public function testInvalidDatabase()
     {
-        $options = new MongoDBOptions([
-            'database' => null,
-        ]);
+        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'database' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
     public function testInvalidCollection()
     {
-        $options = new MongoDBOptions([
-            'collection' => null,
-        ]);
+        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'collection' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
     public function testInvalidSaveOptions()
     {
-        $options = new MongoDBOptions([
-            'saveOptions' => null,
-        ]);
+        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'saveOptions' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
     public function testInvalidNameField()
     {
-        $options = new MongoDBOptions([
-            'nameField' => null,
-        ]);
+        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'nameField' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
     public function testInvalidModifiedField()
     {
-        $options = new MongoDBOptions([
-            'modifiedField' => null,
-        ]);
+        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'modifiedField' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
     public function testInvalidLifetimeField()
     {
-        $options = new MongoDBOptions([
-            'lifetimeField' => null,
-        ]);
+        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'lifetimeField' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
     public function testInvalidDataField()
     {
-        $options = new MongoDBOptions([
-            'dataField' => null,
-        ]);
+        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'dataField' => null,
+            ]
+        );
     }
 }

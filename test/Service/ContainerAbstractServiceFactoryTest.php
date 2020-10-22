@@ -33,20 +33,22 @@ class ContainerAbstractServiceFactoryTest extends TestCase
         ],
     ];
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $config = new Config([
-            'services' => [
-                'config' => $this->config,
-                StorageInterface::class => new ArrayStorage(),
-            ],
-            'factories' => [
-                ManagerInterface::class => SessionManagerFactory::class,
-            ],
-            'abstract_factories' => [
-                ContainerAbstractServiceFactory::class,
-            ],
-        ]);
+        $config         = new Config(
+            [
+                'services'           => [
+                    'config'                => $this->config,
+                    StorageInterface::class => new ArrayStorage(),
+                ],
+                'factories'          => [
+                    ManagerInterface::class => SessionManagerFactory::class,
+                ],
+                'abstract_factories' => [
+                    ContainerAbstractServiceFactory::class,
+                ],
+            ]
+        );
         $this->services = new ServiceManager();
         $config->configureServiceManager($this->services);
     }

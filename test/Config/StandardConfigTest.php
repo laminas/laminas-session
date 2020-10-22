@@ -21,7 +21,7 @@ class StandardConfigTest extends TestCase
      */
     protected $config;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->config = new StandardConfig;
     }
@@ -303,7 +303,7 @@ class StandardConfigTest extends TestCase
      */
     public function testSetEntropyFileError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->getEntropyFile();
     }
 
@@ -312,7 +312,7 @@ class StandardConfigTest extends TestCase
      */
     public function testGetEntropyFileError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->setEntropyFile(__FILE__);
     }
 
@@ -365,7 +365,7 @@ class StandardConfigTest extends TestCase
      */
     public function testGetEntropyLengthError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->getEntropyLength();
     }
 
@@ -374,7 +374,7 @@ class StandardConfigTest extends TestCase
      */
     public function testSetEntropyLengthError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->setEntropyLength(0);
     }
 
@@ -459,7 +459,7 @@ class StandardConfigTest extends TestCase
      */
     public function testGetHashFunctionError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->getHashFunction();
     }
 
@@ -468,7 +468,7 @@ class StandardConfigTest extends TestCase
      */
     public function testSetHashFunctionError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->setHashFunction('foobar_bogus');
     }
 
@@ -512,7 +512,7 @@ class StandardConfigTest extends TestCase
      */
     public function testGetHashBitsPerCharacterError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->getHashBitsPerCharacter();
     }
 
@@ -521,7 +521,7 @@ class StandardConfigTest extends TestCase
      */
     public function testSetHashBitsPerCharacterError()
     {
-        $this->expectException('PHPUnit\Framework\Error\Deprecated');
+        $this->expectDeprecation();
         $this->config->setHashBitsPerCharacter(5);
     }
 

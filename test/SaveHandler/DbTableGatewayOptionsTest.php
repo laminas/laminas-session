@@ -61,53 +61,53 @@ class DbTableGatewayOptionsTest extends TestCase
         $this->assertEquals('testData', $options->getDataColumn());
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
     public function testInvalidIdColumn()
     {
-        $options = new DbTableGatewayOptions([
-            'idColumn' => null,
-        ]);
+        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $options = new DbTableGatewayOptions(
+            [
+                'idColumn' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
     public function testInvalidNameColumn()
     {
-        $options = new DbTableGatewayOptions([
-            'nameColumn' => null,
-        ]);
+        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $options = new DbTableGatewayOptions(
+            [
+                'nameColumn' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
     public function testInvalidModifiedColumn()
     {
-        $options = new DbTableGatewayOptions([
-            'modifiedColumn' => null,
-        ]);
+        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $options = new DbTableGatewayOptions(
+            [
+                'modifiedColumn' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
     public function testInvalidLifetimeColumn()
     {
-        $options = new DbTableGatewayOptions([
-            'lifetimeColumn' => null,
-        ]);
+        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $options = new DbTableGatewayOptions(
+            [
+                'lifetimeColumn' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
     public function testInvalidDataColumn()
     {
-        $options = new DbTableGatewayOptions([
-            'dataColumn' => null,
-        ]);
+        $this->expectException(\Laminas\Session\Exception\InvalidArgumentException::class);
+        $options = new DbTableGatewayOptions(
+            [
+                'dataColumn' => null,
+            ]
+        );
     }
 }

@@ -22,6 +22,7 @@ use Laminas\Session\Storage\StorageInterface;
 use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * @preserveGlobalState disabled
@@ -29,6 +30,8 @@ use PHPUnit\Framework\TestCase;
  */
 class SessionManagerTest extends TestCase
 {
+    use ProphecyTrait;
+
     public $error;
 
     public $cookieDateFormat = 'D, d-M-y H:i:s e';
@@ -38,7 +41,7 @@ class SessionManagerTest extends TestCase
      */
     protected $manager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->error = false;
     }
@@ -265,7 +268,7 @@ class SessionManagerTest extends TestCase
 
         $this->manager->start();
 
-        $this->assertInternalType('array', $_SESSION);
+        $this->assertIsArray($_SESSION);
         $this->assertArrayHasKey($key, $_SESSION);
         $this->assertSame($data[$key], $_SESSION[$key]);
     }
@@ -283,7 +286,7 @@ class SessionManagerTest extends TestCase
 
         $this->manager->start();
 
-        $this->assertInternalType('array', $_SESSION);
+        $this->assertIsArray($_SESSION);
         $this->assertArrayHasKey($key, $_SESSION);
         $this->assertSame($data[$key], $_SESSION[$key]);
     }
@@ -302,7 +305,7 @@ class SessionManagerTest extends TestCase
         $this->assertTrue(headers_sent());
         $this->manager->start();
         restore_error_handler();
-        $this->assertInternalType('string', $this->error);
+        $this->assertIsString($this->error);
         $this->assertContains('already sent', $this->error);
     }
 
@@ -758,7 +761,7 @@ class SessionManagerTest extends TestCase
 
         $this->manager->start();
 
-        $this->assertInternalType('array', $_SESSION['__Laminas']['_VALID']);
+        $this->assertIsArray($_SESSION['__Laminas']['_VALID']);
         $this->assertArrayHasKey(RemoteAddr::class, $_SESSION['__Laminas']['_VALID']);
         $this->assertEquals('', $_SESSION['__Laminas']['_VALID'][RemoteAddr::class]);
     }
@@ -827,5 +830,23 @@ class SessionManagerTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Session validation failed');
         $this->manager->start();
+    }
+
+    /**
+     * @param mixed $expected
+     */
+    private function assertAttributeEquals($expected, string $property, object $object): void
+    {
+        $value = ReflectionUtil::getProperty($object, $property);
+        self::assertEquals($expected, $value);
+    }
+
+    /**
+     * @param mixed $expected
+     */
+    private function assertAttributeContains($expected, string $property, object $object): void
+    {
+        $value = ReflectionUtil::getProperty($object, $property);
+        self::assertContains($expected, $value);
     }
 }

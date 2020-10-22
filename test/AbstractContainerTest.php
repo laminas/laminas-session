@@ -36,20 +36,22 @@ class AbstractContainerTest extends TestCase
      */
     protected $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $_SESSION = [];
         Container::setDefaultManager(null);
 
-        $config = new StandardConfig([
-            'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
-        ]);
+        $config = new StandardConfig(
+            [
+                'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
+            ]
+        );
 
-        $this->manager = $manager = new TestAsset\TestManager($config);
+        $this->manager   = $manager = new TestAsset\TestManager($config);
         $this->container = new TestContainer('Default', $manager);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $_SESSION = [];
         Container::setDefaultManager(null);
