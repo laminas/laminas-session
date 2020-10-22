@@ -23,6 +23,9 @@ use PHPUnit\Framework\TestCase;
  */
 class StorageFactoryTest extends TestCase
 {
+    /** @var ServiceManager */
+    private $services;
+
     protected function setUp(): void
     {
         $config         = new Config(
@@ -47,8 +50,8 @@ class StorageFactoryTest extends TestCase
                                                       'foo' => 'bar',
                                                   ],
                                               ],
-                ],
-            ], ArrayStorage::class],
+                                          ],
+                                      ], ArrayStorage::class],
             'array-storage-fqcn' => [[
                 'session_storage' => [
                     'type' => ArrayStorage::class,
@@ -107,7 +110,8 @@ class StorageFactoryTest extends TestCase
     public function testConfigurationWithoutInputIsValid(): void
     {
         $this->services->setService(
-            'config', [
+            'config',
+            [
                 'session_storage' => [
                     'type'    => ArrayStorage::class,
                     'options' => [],
@@ -132,10 +136,10 @@ class StorageFactoryTest extends TestCase
                                       ]],
             'unknown-class-fqcn'  => [[
                                           'session_storage' => [
-                    'type' => 'Foo\Bar\Baz\Bat',
-                    'options' => [],
-                ],
-            ]],
+                                              'type'    => 'Foo\Bar\Baz\Bat',
+                                              'options' => [],
+                                          ],
+                                      ]],
             'bad-class' => [[
                 'session_storage' => [
                     'type' => 'Laminas\Session\Config\StandardConfig',

@@ -143,21 +143,23 @@ class SessionManagerFactoryTest extends TestCase
     {
         $storage = new ArrayStorage();
         $storage->setMetadata(
-            '_VALID', [
-            Validator\HttpUserAgent::class => 'Foo',
-            Validator\RemoteAddr::class    => '1.2.3.4',
-        ]
+            '_VALID',
+            [
+                Validator\HttpUserAgent::class => 'Foo',
+                Validator\RemoteAddr::class    => '1.2.3.4',
+            ]
         );
         $this->services->setService(StorageInterface::class, $storage);
         $this->services->setService(
-            'config', [
+            'config',
+            [
                 'session_manager' => [
                     'validators' => [
-                    Validator\HttpUserAgent::class,
-                    Validator\RemoteAddr::class,
+                        Validator\HttpUserAgent::class,
+                        Validator\RemoteAddr::class,
+                    ],
                 ],
-            ],
-        ]
+            ]
         );
 
         // This call is needed to make sure session storage data is not overwritten by the factory
@@ -175,19 +177,22 @@ class SessionManagerFactoryTest extends TestCase
     {
         $storage = new ArrayStorage();
         $storage->setMetadata(
-            '_VALID', [
-            Validator\RemoteAddr::class => '1.2.3.4',
-        ]
+            '_VALID',
+            [
+                Validator\RemoteAddr::class => '1.2.3.4',
+            ]
         );
         $this->services->setService(StorageInterface::class, $storage);
         $this->services->setService(
-            'config', [
-            'session_manager' => [
-                'validators' => [
-                    Validator\RemoteAddr::class,
+            'config',
+            [
+                'session_manager' => [
+                    'validators' => [
+                        Validator\RemoteAddr::class,
+                    ],
                 ],
-            ],
-        ]);
+            ]
+        );
 
         $manager = $this->services->get(ManagerInterface::class);
         try {
@@ -216,7 +221,8 @@ class SessionManagerFactoryTest extends TestCase
         $storage = new ArrayStorage();
         $this->services->setService(StorageInterface::class, $storage);
         $this->services->setService(
-            'config', [
+            'config',
+            [
                 'session_manager' => [
                     'options' => [
                         'attach_default_validators' => false,

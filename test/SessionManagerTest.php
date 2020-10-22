@@ -508,7 +508,8 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $this->expectException(
-            RuntimeException::class, 'Session has already been started);
+            RuntimeException::class,
+            'Session has already been started);
         $this->expectExceptionMessage(to change the session ID call regenerateId()'
         );
         $this->manager->start();

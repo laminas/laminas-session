@@ -21,6 +21,9 @@ use PHPUnit\Framework\TestCase;
  */
 class SessionConfigFactoryTest extends TestCase
 {
+    /** @var ServiceManager */
+    private $services;
+
     protected function setUp(): void
     {
         $config         = new Config(
@@ -37,9 +40,10 @@ class SessionConfigFactoryTest extends TestCase
     public function testCreatesSessionConfigByDefault(): void
     {
         $this->services->setService(
-            'config', [
-            'session_config' => [],
-        ]
+            'config',
+            [
+                'session_config' => [],
+            ]
         );
         $config = $this->services->get(ConfigInterface::class);
         self::assertInstanceOf(SessionConfig::class, $config);
@@ -48,11 +52,12 @@ class SessionConfigFactoryTest extends TestCase
     public function testCanCreateAlternateSessionConfigTypeViaConfigClassKey(): void
     {
         $this->services->setService(
-            'config', [
-            'session_config' => [
-                'config_class' => StandardConfig::class,
-            ],
-        ]
+            'config',
+            [
+                'session_config' => [
+                    'config_class' => StandardConfig::class,
+                ],
+            ]
         );
         $config = $this->services->get(ConfigInterface::class);
         self::assertInstanceOf(StandardConfig::class, $config);
@@ -63,12 +68,13 @@ class SessionConfigFactoryTest extends TestCase
     public function testServiceReceivesConfiguration(): void
     {
         $this->services->setService(
-            'config', [
-            'session_config' => [
-                'config_class' => StandardConfig::class,
-                'name'         => 'laminas',
-            ],
-        ]
+            'config',
+            [
+                'session_config' => [
+                    'config_class' => StandardConfig::class,
+                    'name'         => 'laminas',
+                ],
+            ]
         );
         $config = $this->services->get(ConfigInterface::class);
         self::assertEquals('laminas', $config->getName());

@@ -153,7 +153,8 @@ class CacheTest extends TestCase
                             }
                         );
                     return true;
-            });
+                }
+            );
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
         $id = '242';
