@@ -8,35 +8,78 @@
 
 namespace Laminas\Session;
 
-use Laminas\EventManager\GlobalEventManager;
+use Laminas\EventManager\EventManager;
+use Laminas\Session\Storage\StorageInterface;
+use Laminas\Session\Validator\ValidatorInterface;
 
-/**
- * Polyfill for AbstractValidatorChain.
- *
- * The definitions for EventManagerInterface::attach differ between versions 2
- * and 3 of laminas-eventmanager, which makes it impossible to override the method
- * in a way that is compatible with both.
- *
- * To get around that, we define 2 abstract classes, one targeting each major
- * version of laminas-eventmanager, and each defining attach() per the EM version
- * they target.
- *
- * This conditional below then aliases the appropriate one to `AbstractValidatorChain`,
- * based on which version of the EM is present. Since the `GlobalEventManager`
- * is only present in v2, we can use that as our test.
- */
-if (class_exists(GlobalEventManager::class)) {
-    class_alias(Validator\AbstractValidatorChainEM2::class, AbstractValidatorChain::class);
-} else {
-    class_alias(Validator\AbstractValidatorChainEM3::class, AbstractValidatorChain::class);
-}
-
-/**
- * Validator chain implementation.
- *
- * Extends the laminas-eventmanager-version-specific base class implementation
- * as polyfilled above.
- */
-class ValidatorChain extends AbstractValidatorChain
+class ValidatorChain extends EventManager
 {
+    /** @var StorageInterface */
+    protected $storage;
+
+    public function __construct(StorageInterface $storage)
+    {
+        parent::__construct();
+
+        $this->storage = $storage;
+        $validators    = $storage->getMetadata('_VALID');
+        if ($validators) {
+            foreach ($validators as $validator => $data) {
+                $this->attachValidator('session.validate', [new $validator($data), 'isValid'], 1);
+            }
+        }
+    }
+
+    /**
+     * Attach a listener to the session validator chain.
+     *
+     * @param string   $eventName
+     * @param callable $callback
+     * @param int      $priority
+     * @return callable
+     */
+    public function attach($eventName, callable $callback, $priority = 1)
+    {
+        return $this->attachValidator($eventName, $callback, $priority);
+    }
+
+    /**
+     * Retrieve session storage object
+     *
+     * @return StorageInterface
+     */
+    public function getStorage()
+    {
+        return $this->storage;
+    }
+
+    /**
+     * Internal implementation for attaching a listener to the
+     * session validator chain.
+     *
+     * @param string   $event
+     * @param callable $callback
+     * @param int      $priority
+     * @return callable
+     */
+    private function attachValidator($event, $callback, $priority)
+    {
+        $context = null;
+        if ($callback instanceof ValidatorInterface) {
+            $context = $callback;
+        } elseif (is_array($callback)) {
+            $test = array_shift($callback);
+            if ($test instanceof ValidatorInterface) {
+                $context = $test;
+            }
+            array_unshift($callback, $test);
+        }
+        if ($context instanceof ValidatorInterface) {
+            $data = $context->getData();
+            $name = $context->getName();
+            $this->getStorage()->setMetadata('_VALID', [$name => $data]);
+        }
+
+        return parent::attach($event, $callback, $priority);
+    }
 }
