@@ -32,7 +32,6 @@ class IdTest extends TestCase
     }
 
     /**
-     * @requires PHP 7.1
      * @runInSeparateProcess
      *
      * @dataProvider id
@@ -44,24 +43,6 @@ class IdTest extends TestCase
     public function testIsValidPhp71($bitsPerCharacter, $id, $isValid): void
     {
         ini_set('session.sid_bits_per_character', $bitsPerCharacter);
-
-        $validator = new Id($id);
-        self::assertSame($isValid, $validator->isValid());
-    }
-
-    /**
-     * @requires PHP < 7.1
-     * @runInSeparateProcess
-     *
-     * @dataProvider id
-     *
-     * @param int    $bitsPerCharacter
-     * @param string $id
-     * @param bool   $isValid
-     */
-    public function testIsValidPhpPriorTo71($bitsPerCharacter, $id, $isValid): void
-    {
-        ini_set('session.hash_bits_per_character', $bitsPerCharacter);
 
         $validator = new Id($id);
         self::assertSame($isValid, $validator->isValid());

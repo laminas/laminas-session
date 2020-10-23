@@ -40,6 +40,7 @@ class StandardConfigTest extends TestCase
         $this->config->setSavePath(__DIR__);
         self::assertEquals(__DIR__, $this->config->getSavePath());
     }
+
     // session.name
 
     public function testNameIsMutable(): void
@@ -275,103 +276,24 @@ class StandardConfigTest extends TestCase
         self::assertEquals('', $this->config->getRefererCheck());
     }
 
-    // session.entropy_file
-
-    public function testSetEntropyFileErrorsOnInvalidPath(): void
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            self::markTestSkipped('session.entropy_file directive removed in PHP 7.1');
-        }
-
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
-        $this->expectExceptionMessage('Invalid entropy_file provided');
-        $this->config->setEntropyFile(__DIR__ . '/foobarboguspath');
-    }
-
-    public function testEntropyFileIsMutable(): void
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            self::markTestSkipped('session.entropy_file directive removed in PHP 7.1');
-        }
-
-        $this->config->setEntropyFile(__FILE__);
-        self::assertEquals(__FILE__, $this->config->getEntropyFile());
-    }
-
-    /**
-     * @requires PHP 7.1
-     */
     public function testSetEntropyFileError(): void
     {
         $this->expectDeprecation();
         $this->config->getEntropyFile();
     }
 
-    /**
-     * @requires PHP 7.1
-     */
     public function testGetEntropyFileError(): void
     {
         $this->expectDeprecation();
         $this->config->setEntropyFile(__FILE__);
     }
 
-    // session.entropy_length
-
-    public function testEntropyLengthIsMutable(): void
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            self::markTestSkipped('session.entropy_length directive removed in PHP 7.1');
-        }
-
-        $this->config->setEntropyLength(20);
-        self::assertEquals(20, $this->config->getEntropyLength());
-    }
-
-    public function testEntropyLengthCanBeZero(): void
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            self::markTestSkipped('session.entropy_length directive removed in PHP 7.1');
-        }
-
-        $this->config->setEntropyLength(0);
-        self::assertEquals(0, $this->config->getEntropyLength());
-    }
-
-    public function testSettingInvalidEntropyLengthRaisesException(): void
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            self::markTestSkipped('session.entropy_length directive removed in PHP 7.1');
-        }
-
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
-        $this->expectExceptionMessage('Invalid entropy_length; must be numeric');
-        $this->config->setEntropyLength('foobar_bogus');
-    }
-
-    public function testSettingInvalidEntropyLengthRaisesException2(): void
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            self::markTestSkipped('session.entropy_length directive removed in PHP 7.1');
-        }
-
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
-        $this->expectExceptionMessage('Invalid entropy_length; must be a positive integer or zero');
-        $this->config->setEntropyLength(-1);
-    }
-
-    /**
-     * @requires PHP 7.1
-     */
     public function testGetEntropyLengthError(): void
     {
         $this->expectDeprecation();
         $this->config->getEntropyLength();
     }
 
-    /**
-     * @requires PHP 7.1
-     */
     public function testSetEntropyLengthError(): void
     {
         $this->expectDeprecation();
@@ -429,96 +351,24 @@ class StandardConfigTest extends TestCase
         self::assertEquals(true, (bool)$this->config->getUseTransSid());
     }
 
-    // session.hash_function
-
-    public function hashFunctions(): array
-    {
-        $hashFunctions = array_merge([0, 1], hash_algos());
-        $provider      = [];
-        foreach ($hashFunctions as $function) {
-            $provider[] = [$function];
-        }
-        return $provider;
-    }
-
-    /**
-     * @dataProvider hashFunctions
-     */
-    public function testHashFunctionIsMutable($hashFunction): void
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            self::markTestSkipped('session.hash_function directive removed in PHP 7.1');
-        }
-
-        $this->config->setHashFunction($hashFunction);
-        self::assertEquals($hashFunction, $this->config->getHashFunction());
-    }
-
-    /**
-     * @requires PHP 7.1
-     */
     public function testGetHashFunctionError(): void
     {
         $this->expectDeprecation();
         $this->config->getHashFunction();
     }
 
-    /**
-     * @requires PHP 7.1
-     */
     public function testSetHashFunctionError(): void
     {
         $this->expectDeprecation();
         $this->config->setHashFunction('foobar_bogus');
     }
 
-    // session.hash_bits_per_character
-
-    public function hashBitsPerCharacters(): array
-    {
-        return [
-            [4],
-            [5],
-            [6],
-        ];
-    }
-
-    /**
-     * @dataProvider hashBitsPerCharacters
-     */
-    public function testHashBitsPerCharacterIsMutable($hashBitsPerCharacter): void
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            self::markTestSkipped('session.hash_bits_per_character directive removed in PHP 7.1');
-        }
-
-        $this->config->setHashBitsPerCharacter($hashBitsPerCharacter);
-        self::assertEquals($hashBitsPerCharacter, $this->config->getHashBitsPerCharacter());
-    }
-
-    public function testSettingInvalidHashBitsPerCharacterRaisesException(): void
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            self::markTestSkipped('session.hash_bits_per_character directive removed in PHP 7.1');
-        }
-
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
-        $this->expectExceptionMessage('Invalid hash bits per character provided');
-        $this->config->setHashBitsPerCharacter('foobar_bogus');
-    }
-
-    /**
-     * @requires PHP 7.1
-     */
     public function testGetHashBitsPerCharacterError(): void
     {
         $this->expectDeprecation();
         $this->config->getHashBitsPerCharacter();
     }
 
-    /**
-     * @requires PHP 7.1
-     */
     public function testSetHashBitsPerCharacterError(): void
     {
         $this->expectDeprecation();
@@ -527,18 +377,12 @@ class StandardConfigTest extends TestCase
 
     // session.sid_length
 
-    /**
-     * @requires PHP 7.1
-     */
     public function testSidLengthIsMutable(): void
     {
         $this->config->setSidLength(40);
         self::assertEquals(40, $this->config->getSidLength());
     }
 
-    /**
-     * @requires PHP 7.1
-     */
     public function testSettingInvalidSidLengthRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
@@ -546,9 +390,6 @@ class StandardConfigTest extends TestCase
         $this->config->setSidLength('foobar_bogus');
     }
 
-    /**
-     * @requires PHP 7.1
-     */
     public function testSettingOutOfRangeSidLengthRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
@@ -568,7 +409,6 @@ class StandardConfigTest extends TestCase
     }
 
     /**
-     * @requires PHP 7.1
      * @dataProvider sidBitsPerCharacters
      */
     public function testSidBitsPerCharacterIsMutable($sidBitsPerCharacter): void
@@ -577,9 +417,6 @@ class StandardConfigTest extends TestCase
         self::assertEquals($sidBitsPerCharacter, $this->config->getSidBitsPerCharacter());
     }
 
-    /**
-     * @requires PHP 7.1
-     */
     public function testSettingInvalidSidBitsPerCharacterRaisesException(): void
     {
         $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
@@ -727,62 +564,18 @@ class StandardConfigTest extends TestCase
                 'getUrlRewriterTags',
                 'a=href',
             ],
-        ];
-
-        if (PHP_VERSION_ID < 70100) {
-            $commonOptions[] = [
-                'entropy_file',
-                'getEntropyFile',
-                __FILE__,
-            ];
-            $commonOptions[] = [
-                'entropy_length',
-                'getEntropyLength',
-                42,
-            ];
-            $commonOptions[] = [
-                'hash_function',
-                'getHashFunction',
-                'md5',
-            ];
-            $commonOptions[] = [
-                'hash_bits_per_character',
-                'getHashBitsPerCharacter',
-                5,
-            ];
-        } else {
-            $commonOptions[] = [
+            [
                 'sid_length',
                 'getSidLength',
                 40,
-            ];
-            $commonOptions[] = [
+            ],
+            [
                 'sid_bits_per_character',
                 'getSidBitsPerCharacter',
                 5,
-            ];
-        }
+            ],
+        ];
 
         return $commonOptions;
-    }
-
-    /**
-     * Set entropy file /dev/urandom, see issue #3046
-     *
-     * @link https://github.com/zendframework/zf2/issues/3046
-     */
-    public function testSetEntropyDevUrandom(): void
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            self::markTestSkipped('session.entropy_file directive removed in PHP 7.1');
-        }
-
-        if (! file_exists('/dev/urandom')) {
-            self::markTestSkipped(
-                "This test doesn't work because /dev/urandom file doesn't exist."
-            );
-        }
-        $result = $this->config->setEntropyFile('/dev/urandom');
-        self::assertInstanceOf('Laminas\Session\Config\StandardConfig', $result);
     }
 }
