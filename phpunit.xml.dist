@@ -21,7 +21,6 @@
         </include>
         <exclude>
             <file>src/compatibility/autoload.php</file>
-            <file>src/Validator/AbstractValidatorChainEM2.php</file>
         </exclude>
     </coverage>
 
