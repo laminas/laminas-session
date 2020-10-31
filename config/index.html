@@ -236,7 +236,7 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 
@@ -437,7 +437,6 @@ $config-&gt;setOptions([
     'name'                =&gt; 'laminas',
 ]);
 $manager = new SessionManager($config);</code></pre>
-
 <h2 id="session-config_1">Session Config</h2>
 <p><code>Laminas\Session\Config\SessionConfig</code> provides an interface for configuring
 sessions that leverage PHP's ext/session. Most configuration options configure
@@ -497,7 +496,6 @@ $config-&gt;setOptions([
     'savePath' =&gt; 'tcp://127.0.0.1:6379?weight=1&amp;timeout=1',
 ]);
 $manager = new SessionManager($config);</code></pre>
-
 <h3>Service Manager Factory</h3>
 <p>laminas-session ships with a <a href="https://docs.laminas.dev/laminas-servicemanager/">laminas-servicemanager</a>
 factory which reads configuration data from the application configuration and
@@ -510,7 +508,6 @@ appropriate factory definition:</p>
         'Laminas\Session\Config\ConfigInterface' =&gt; 'Laminas\Session\Service\SessionConfigFactory',
     ],
 ],</code></pre>
-
 <blockquote>
 <h4>Automated factory registration</h4>
 <p>Starting with laminas-mvc v3, if you are using the <a href="https://docs.laminas.dev/laminas-component-installer">component installer</a>
@@ -523,7 +520,6 @@ configuration key <code>session_config</code>:</p>
     'phpSaveHandler' =&gt; 'redis',
     'savePath' =&gt; 'tcp://127.0.0.1:6379?weight=1&amp;timeout=1',
 ],</code></pre>
-
 <p>Any of the configuration options defined for <a href="#session-config">SessionConfig</a> can be used
 there, as well as the following factory-specific configuration options:</p>
 <div class="table-responsive"><table>

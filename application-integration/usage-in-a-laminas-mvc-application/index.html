@@ -236,7 +236,7 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 
@@ -353,7 +353,6 @@ needed as the name for the container. The example uses the name
     ],
     // …
 ];</code></pre>
-
 <blockquote>
 <h3>Session Configuration is Optional</h3>
 <p>The configuration for the session itself is optional, but the
@@ -362,7 +361,6 @@ which is registered for configuration data, expects an array under the key
 <code>session_config</code>.  </p>
 <p>A minimum configuration is:</p>
 <pre class="highlight"><code class="language-php">'session_config'  =&gt; [],</code></pre>
-
 </blockquote>
 <h2 id="create-and-register-controller">Create and Register Controller</h2>
 <p><a href="https://docs.laminas.dev/laminas-mvc/quick-start/#create-a-controller">Create a controller class</a>
@@ -383,7 +381,6 @@ class AlbumController extends AbstractActionController
         $this-&gt;sessionContainer = $sessionContainer;
     }
 }</code></pre>
-
 <p>To <a href="https://docs.laminas.dev/laminas-mvc/quick-start/#create-a-route">register the controller</a>
 for the application, extend the configuration of the module.<br />
 Add the following lines to the module configuration file, e.g.
@@ -416,7 +413,6 @@ to resolve the constructor dependencies for the controller class.</p>
 
     return [];
 }</code></pre>
-
 <h3>Read Data</h3>
 <pre class="highlight"><code class="language-php">public function addAction()
 {

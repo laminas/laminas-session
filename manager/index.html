@@ -236,7 +236,7 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 
@@ -349,7 +349,6 @@ return [
         ],
     ],
 ];</code></pre>
-
 <p>The following illustrates how you might utilize the above configuration to
 create the session manager:</p>
 <pre class="highlight"><code class="language-php">use Laminas\Mvc\ModuleRouteListener;
@@ -474,7 +473,6 @@ class Module
         ];
     }
 }</code></pre>
-
 <p>When you create a new <code>Laminas\Session\Container</code> (see
 <a href="../container/">Session Container</a> page) in a controller, for example, it will
 use the session configured above.</p>

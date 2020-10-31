@@ -236,7 +236,7 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 
@@ -352,7 +352,6 @@ $cache = StorageFactory::factory([
 $saveHandler = new Cache($cache);
 $manager = new SessionManager();
 $manager-&gt;setSaveHandler($saveHandler);</code></pre>
-
 <h2 id="dbtablegateway">DbTableGateway</h2>
 <p><code>Laminas\Session\SaveHandler\DbTableGateway</code> allows you to utilize
 <code>Laminas\Db\TableGateway\TableGatewayInterface</code> implementations as a session save
@@ -370,7 +369,6 @@ provide you with what you need.</p>
     `data` text,
      PRIMARY KEY (`id`, `name`)
 );</code></pre>
-
 <h3>Basic usage</h3>
 <pre class="highlight"><code class="language-php">use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Session\SaveHandler\DbTableGateway;
@@ -381,7 +379,6 @@ $tableGateway = new TableGateway('session', $adapter);
 $saveHandler  = new DbTableGateway($tableGateway, new DbTableGatewayOptions());
 $manager      = new SessionManager();
 $manager-&gt;setSaveHandler($saveHandler);</code></pre>
-
 <h2 id="mongodb">MongoDB</h2>
 <p><code>Laminas\Session\SaveHandler\MongoDB</code> allows you to provide a MongoDB collection to
 be utilized as a session save handler. You provide the options in the
@@ -402,7 +399,6 @@ $options = new MongoDBOptions([
 $saveHandler = new MongoDB($mongoClient, $options);
 $manager     = new SessionManager();
 $manager-&gt;setSaveHandler($saveHandler);</code></pre>
-
 <h2 id="custom-save-handlers">Custom Save Handlers</h2>
 <p>There may be cases where you want to create a save handler.  Creating a custom
 save handler is much like creating a custom PHP save handler, with minor

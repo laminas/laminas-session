@@ -236,7 +236,7 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 
@@ -334,7 +334,6 @@ use Laminas\Session\SessionManager;
 $manager = new SessionManager();
 $manager-&gt;getValidatorChain()
     -&gt;attach('session.validate', [new HttpUserAgent(), 'isValid']);</code></pre>
-
 <h2 id="remote-addr">Remote Addr</h2>
 <p><code>Laminas\Session\Validator\RemoteAddr</code> provides a validator to check the session
 against the originally stored <code>$_SERVER['REMOTE_ADDR']</code> variable. Validation
@@ -347,7 +346,6 @@ use Laminas\Session\SessionManager;
 $manager = new SessionManager();
 $manager-&gt;getValidatorChain()
     -&gt;attach('session.validate', [new RemoteAddr(), 'isValid']);</code></pre>
-
 <h2 id="custom-validators">Custom Validators</h2>
 <p>You may want to provide your own custom validators to validate against other
 items from storing a token and validating a token to other various techniques.
