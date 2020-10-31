@@ -29,7 +29,15 @@ matrix:
         - DEPS=lowest
     - php: 7.4
       env:
+        - DEPS=lowest
+    - php: 7.4
+      env:
         - DEPS=latest
+    - php: nightly
+      env:
+        - DEPS=lowest
+        - COMPOSER_ARGS="--no-interaction --ignore-platform-reqs"
+        - SKIP_MONGODB=true # ext-mongodb does not build on php8 yet (https://github.com/mongodb/mongo-php-driver/issues/1161)
     - php: nightly
       env:
         - DEPS=latest
