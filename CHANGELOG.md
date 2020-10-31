@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#35](https://github.com/laminas/laminas-session/pull/35) Adds PHP 8.0 support
 
 ### Changed
 
@@ -14,11 +14,23 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Deprecated
 
-- Nothing.
+- [#35](https://github.com/laminas/laminas-session/pull/35) Marks some methods in `StandardConfig` and `SessionConfig` as deprecated as the functionality behind these methods was dropped in PHP 7.1
+  - `StandardConfig::setEntropyFile`
+  - `StandardConfig::getEntropyFile`
+  - `StandardConfig::setEntropyLength`
+  - `StandardConfig::getEntropyLength`
+  - `StandardConfig::setHashFunction`
+  - `StandardConfig::getHashFunction`
+  - `StandardConfig::setHashBitsPerCharacter`
+  - `StandardConfig::getHashBitsPerCharacter`
+  - `SessionConfig::setHashFunction`
+  - `SessionConfig::setHashBitsPerCharacter`
+
+- [#35](https://github.com/laminas/laminas-session/pull/35) Marks the `AbstractValidatorChain`, `ValidatorChainTrait` and `AbstractValidatorChainEM3` as deprecated as they can be replaced by using the `ValidatorChain` instead.
 
 ### Removed
 
-- Nothing.
+- [#35](https://github.com/laminas/laminas-session/pull/35) Removed compatibility with laminas-eventmanager v2
 
 ### Fixed
 

@@ -33,25 +33,27 @@ class ContainerAbstractServiceFactoryTest extends TestCase
         ],
     ];
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $config = new Config([
-            'services' => [
-                'config' => $this->config,
-                StorageInterface::class => new ArrayStorage(),
-            ],
-            'factories' => [
-                ManagerInterface::class => SessionManagerFactory::class,
-            ],
-            'abstract_factories' => [
-                ContainerAbstractServiceFactory::class,
-            ],
-        ]);
+        $config         = new Config(
+            [
+                'services'           => [
+                    'config'                => $this->config,
+                    StorageInterface::class => new ArrayStorage(),
+                ],
+                'factories'          => [
+                    ManagerInterface::class => SessionManagerFactory::class,
+                ],
+                'abstract_factories' => [
+                    ContainerAbstractServiceFactory::class,
+                ],
+            ]
+        );
         $this->services = new ServiceManager();
         $config->configureServiceManager($this->services);
     }
 
-    public function validContainers()
+    public function validContainers(): array
     {
         $containers = [];
         $config     = $this->config;
@@ -65,28 +67,28 @@ class ContainerAbstractServiceFactoryTest extends TestCase
     /**
      * @dataProvider validContainers
      */
-    public function testCanRetrieveNamedContainers($serviceName, $containerName)
+    public function testCanRetrieveNamedContainers($serviceName, $containerName): void
     {
-        $this->assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
+        self::assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
         $container = $this->services->get($serviceName);
-        $this->assertInstanceOf(Container::class, $container);
-        $this->assertEquals($containerName, $container->getName());
+        self::assertInstanceOf(Container::class, $container);
+        self::assertEquals($containerName, $container->getName());
     }
 
     /**
      * @dataProvider validContainers
      */
-    public function testContainersAreInjectedWithSessionManagerService($serviceName, $containerName)
+    public function testContainersAreInjectedWithSessionManagerService($serviceName, $containerName): void
     {
-        $this->assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
+        self::assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
         $container = $this->services->get($serviceName);
-        $this->assertSame($this->services->get(ManagerInterface::class), $container->getManager());
+        self::assertSame($this->services->get(ManagerInterface::class), $container->getManager());
     }
 
-    public function invalidContainers()
+    public function invalidContainers(): array
     {
         $containers = [];
-        $config = $this->config;
+        $config     = $this->config;
         foreach ($config['session_containers'] as $name) {
             $containers[] = ['SomePrefix\\' . $name];
         }
@@ -98,8 +100,8 @@ class ContainerAbstractServiceFactoryTest extends TestCase
     /**
      * @dataProvider invalidContainers
      */
-    public function testInvalidContainerNamesAreNotMatchedByAbstractFactory($name)
+    public function testInvalidContainerNamesAreNotMatchedByAbstractFactory($name): void
     {
-        $this->assertFalse($this->services->has($name));
+        self::assertFalse($this->services->has($name));
     }
 }

@@ -18,116 +18,116 @@ use PHPUnit\Framework\TestCase;
  */
 class SessionArrayStorageTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
-        $_SESSION = [];
-        $this->storage = new SessionArrayStorage;
+        $_SESSION      = [];
+        $this->storage = new SessionArrayStorage();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $_SESSION = [];
     }
 
-    public function testStorageWritesToSessionSuperglobal()
+    public function testStorageWritesToSessionSuperglobal(): void
     {
         $this->storage['foo'] = 'bar';
-        $this->assertSame($_SESSION['foo'], $this->storage->foo);
+        self::assertSame($_SESSION['foo'], $this->storage->foo);
         unset($this->storage['foo']);
-        $this->assertArrayNotHasKey('foo', $_SESSION);
+        self::assertArrayNotHasKey('foo', $_SESSION);
     }
 
-    public function testPassingArrayToConstructorOverwritesSessionSuperglobal()
+    public function testPassingArrayToConstructorOverwritesSessionSuperglobal(): void
     {
         $_SESSION['foo'] = 'bar';
-        $array   = ['foo' => 'FOO'];
-        $storage = new SessionArrayStorage($array);
-        $expected = [
-            'foo' => 'FOO',
+        $array           = ['foo' => 'FOO'];
+        $storage         = new SessionArrayStorage($array);
+        $expected        = [
+            'foo'       => 'FOO',
             '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $storage->getRequestAccessTime(),
             ],
         ];
-        $this->assertSame($expected, $_SESSION);
+        self::assertSame($expected, $_SESSION);
     }
 
-    public function testModifyingSessionSuperglobalDirectlyUpdatesStorage()
+    public function testModifyingSessionSuperglobalDirectlyUpdatesStorage(): void
     {
         $_SESSION['foo'] = 'bar';
-        $this->assertTrue(isset($this->storage['foo']));
+        self::assertTrue(isset($this->storage['foo']));
     }
 
-    public function testDestructorSetsSessionToArray()
+    public function testDestructorSetsSessionToArray(): void
     {
         $this->storage->foo = 'bar';
-        $expected = [
+        $expected           = [
             '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $this->storage->getRequestAccessTime(),
             ],
-            'foo' => 'bar',
+            'foo'       => 'bar',
         ];
         $this->storage->__destruct();
-        $this->assertSame($expected, $_SESSION);
+        self::assertSame($expected, $_SESSION);
     }
 
-    public function testModifyingOneSessionObjectModifiesTheOther()
+    public function testModifyingOneSessionObjectModifiesTheOther(): void
     {
         $this->storage->foo = 'bar';
-        $storage = new SessionArrayStorage();
-        $storage->bar = 'foo';
-        $this->assertEquals('foo', $this->storage->bar);
+        $storage            = new SessionArrayStorage();
+        $storage->bar       = 'foo';
+        self::assertEquals('foo', $this->storage->bar);
     }
 
-    public function testMarkingOneSessionObjectImmutableShouldMarkOtherInstancesImmutable()
+    public function testMarkingOneSessionObjectImmutableShouldMarkOtherInstancesImmutable(): void
     {
         $this->storage->foo = 'bar';
-        $storage = new SessionArrayStorage();
-        $this->assertEquals('bar', $storage['foo']);
+        $storage            = new SessionArrayStorage();
+        self::assertEquals('bar', $storage['foo']);
         $this->storage->markImmutable();
-        $this->assertTrue($storage->isImmutable(), var_export($_SESSION, 1));
+        self::assertTrue($storage->isImmutable(), var_export($_SESSION, 1));
     }
 
-    public function testAssignment()
+    public function testAssignment(): void
     {
         $_SESSION['foo'] = 'bar';
-        $this->assertEquals('bar', $this->storage['foo']);
+        self::assertEquals('bar', $this->storage['foo']);
     }
 
-    public function testMultiDimensionalAssignment()
+    public function testMultiDimensionalAssignment(): void
     {
         $_SESSION['foo']['bar'] = 'baz';
-        $this->assertEquals('baz', $this->storage['foo']['bar']);
+        self::assertEquals('baz', $this->storage['foo']['bar']);
     }
 
-    public function testUnset()
+    public function testUnset(): void
     {
         $_SESSION['foo'] = 'bar';
         unset($_SESSION['foo']);
-        $this->assertFalse(isset($this->storage['foo']));
+        self::assertFalse(isset($this->storage['foo']));
     }
 
-    public function testMultiDimensionalUnset()
+    public function testMultiDimensionalUnset(): void
     {
         $this->storage['foo'] = ['bar' => ['baz' => 'boo']];
         unset($this->storage['foo']['bar']['baz']);
-        $this->assertFalse(isset($this->storage['foo']['bar']['baz']));
+        self::assertFalse(isset($this->storage['foo']['bar']['baz']));
         unset($this->storage['foo']['bar']);
-        $this->assertFalse(isset($this->storage['foo']['bar']));
+        self::assertFalse(isset($this->storage['foo']['bar']));
     }
 
-    public function testSessionWorksWithContainer()
+    public function testSessionWorksWithContainer(): void
     {
         // Run without any validators; session ID is often invalid in CLI
-        $container = new Container(
+        $container      = new Container(
             'test',
             new SessionManager(null, null, null, [], ['attach_default_validators' => false])
         );
         $container->foo = 'bar';
 
-        $this->assertSame($container->foo, $_SESSION['test']['foo']);
+        self::assertSame($container->foo, $_SESSION['test']['foo']);
     }
 
-    public function testToArrayWithMetaData()
+    public function testToArrayWithMetaData(): void
     {
         $this->storage->foo = 'bar';
         $this->storage->bar = 'baz';
@@ -135,35 +135,35 @@ class SessionArrayStorageTest extends TestCase
         $expected = [
             '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $this->storage->getRequestAccessTime(),
-                'foo' => 'bar',
+                'foo'                  => 'bar',
             ],
-            'foo' => 'bar',
-            'bar' => 'baz',
+            'foo'       => 'bar',
+            'bar'       => 'baz',
         ];
-        $this->assertSame($expected, $this->storage->toArray(true));
+        self::assertSame($expected, $this->storage->toArray(true));
     }
 
-    public function testUndefinedSessionManipulation()
+    public function testUndefinedSessionManipulation(): void
     {
-        $this->storage['foo'] = 'bar';
-        $this->storage['bar'][] = 'bar';
+        $this->storage['foo']        = 'bar';
+        $this->storage['bar'][]      = 'bar';
         $this->storage['baz']['foo'] = 'bar';
 
         $expected = [
             '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $this->storage->getRequestAccessTime(),
             ],
-            'foo' => 'bar',
-            'bar' => ['bar'],
-            'baz' => ['foo' => 'bar'],
+            'foo'       => 'bar',
+            'bar'       => ['bar'],
+            'baz'       => ['foo' => 'bar'],
         ];
-        $this->assertSame($expected, $this->storage->toArray(true));
+        self::assertSame($expected, $this->storage->toArray(true));
     }
 
     /**
      * @runInSeparateProcess
      */
-    public function testExpirationHops()
+    public function testExpirationHops(): void
     {
         // since we cannot explicitly test reinitializing the session
         // we will act in how session manager would in this case.
@@ -171,37 +171,37 @@ class SessionArrayStorageTest extends TestCase
         $manager = new SessionManager(null, $storage);
         $manager->start();
 
-        $container = new Container('test');
+        $container      = new Container('test');
         $container->foo = 'bar';
         $container->setExpirationHops(1);
 
         $copy = $_SESSION;
         $_SESSION = null;
         $storage->init($copy);
-        $this->assertEquals('bar', $container->foo);
+        self::assertEquals('bar', $container->foo);
 
         $copy = $_SESSION;
         $_SESSION = null;
         $storage->init($copy);
-        $this->assertNull($container->foo);
+        self::assertNull($container->foo);
     }
 
     /**
      * @runInSeparateProcess
      */
-    public function testPreserveRequestAccessTimeAfterStart()
+    public function testPreserveRequestAccessTimeAfterStart(): void
     {
         $manager = new SessionManager(null, $this->storage);
-        $this->assertGreaterThan(0, $this->storage->getRequestAccessTime());
+        self::assertGreaterThan(0, $this->storage->getRequestAccessTime());
         $manager->start();
-        $this->assertGreaterThan(0, $this->storage->getRequestAccessTime());
+        self::assertGreaterThan(0, $this->storage->getRequestAccessTime());
     }
 
-    public function testGetArrayCopyFromContainer()
+    public function testGetArrayCopyFromContainer(): void
     {
-        $container = new Container('test');
+        $container      = new Container('test');
         $container->foo = 'bar';
         $container->baz = 'qux';
-        $this->assertSame(['foo' => 'bar', 'baz' => 'qux'], $container->getArrayCopy());
+        self::assertSame(['foo' => 'bar', 'baz' => 'qux'], $container->getArrayCopy());
     }
 }

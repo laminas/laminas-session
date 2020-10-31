@@ -8,13 +8,16 @@
 
 namespace LaminasTest\Session;
 
+use ArrayObject;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Container;
+use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\ManagerInterface as Manager;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Laminas\Session\Container
+ * @covers \Laminas\Session\AbstractContainer
  */
 class ContainerTest extends TestCase
 {
@@ -35,62 +38,60 @@ class ContainerTest extends TestCase
      */
     protected $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $_SESSION = [];
         Container::setDefaultManager(null);
 
-        $config = new StandardConfig([
-            'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
-        ]);
+        $config = new StandardConfig();
 
-        $this->manager = $manager = new TestAsset\TestManager($config);
+        $this->manager   = $manager = new TestAsset\TestManager($config);
         $this->container = new Container('Default', $manager);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $_SESSION = [];
         Container::setDefaultManager(null);
     }
 
-    public function testInstantiationStartsSession()
+    public function testInstantiationStartsSession(): void
     {
         $this->manager->destroy();
         $container = new Container('Default', $this->manager);
-        $this->assertTrue($this->manager->started);
+        self::assertTrue($this->manager->started);
     }
 
-    public function testInstantiatingContainerWithoutNameUsesDefaultAsName()
+    public function testInstantiatingContainerWithoutNameUsesDefaultAsName(): void
     {
-        $this->assertEquals('Default', $this->container->getName());
+        self::assertEquals('Default', $this->container->getName());
     }
 
-    public function testPassingNameToConstructorInstantiatesContainerWithThatName()
+    public function testPassingNameToConstructorInstantiatesContainerWithThatName(): void
     {
         $container = new Container('foo', $this->manager);
-        $this->assertEquals('foo', $container->getName());
+        self::assertEquals('foo', $container->getName());
     }
 
-    public function testPassingNameStartingWithDigitToConstructorInstantiatesContainerWithThatName()
+    public function testPassingNameStartingWithDigitToConstructorInstantiatesContainerWithThatName(): void
     {
         $container = new Container('0foo', $this->manager);
-        $this->assertEquals('0foo', $container->getName());
+        self::assertEquals('0foo', $container->getName());
     }
 
-    public function testUsingOldLaminas1NameIsStillValid()
+    public function testUsingOldLaminas1NameIsStillValid(): void
     {
         $container = new Container('Laminas_Foo', $this->manager);
-        $this->assertEquals('Laminas_Foo', $container->getName());
+        self::assertEquals('Laminas_Foo', $container->getName());
     }
 
-    public function testUsingNewLaminasNamespaceIsValid()
+    public function testUsingNewLaminasNamespaceIsValid(): void
     {
         $container = new Container('Laminas\Foo', $this->manager);
-        $this->assertEquals('Laminas\Foo', $container->getName());
+        self::assertEquals('Laminas\Foo', $container->getName());
     }
 
-    public function testPassingInvalidNameToConstructorRaisesException()
+    public function testPassingInvalidNameToConstructorRaisesException(): void
     {
         $tries = [
             'f!',
@@ -98,120 +99,118 @@ class ContainerTest extends TestCase
             '_foo',
             '__foo',
             '\foo',
-            '\\foo'
+            '\\foo',
         ];
         foreach ($tries as $try) {
             try {
                 $container = new Container($try);
-                $this->fail('Invalid container name should raise exception');
-            } catch (\Laminas\Session\Exception\InvalidArgumentException $e) {
-                $this->assertContains('invalid', $e->getMessage());
+                self::fail('Invalid container name should raise exception');
+            } catch (InvalidArgumentException $e) {
+                self::assertStringContainsString('invalid', $e->getMessage());
             }
         }
     }
 
-    public function testContainerActsAsArray()
+    public function testContainerActsAsArray(): void
     {
         $this->container['foo'] = 'bar';
-        $this->assertTrue(isset($this->container['foo']));
-        $this->assertEquals('bar', $this->container['foo']);
+        self::assertTrue(isset($this->container['foo']));
+        self::assertEquals('bar', $this->container['foo']);
         unset($this->container['foo']);
-        $this->assertFalse(isset($this->container['foo']));
+        self::assertFalse(isset($this->container['foo']));
     }
 
-    public function testContainerActsAsObject()
+    public function testContainerActsAsObject(): void
     {
         $this->container->foo = 'bar';
-        $this->assertTrue(isset($this->container->foo));
-        $this->assertEquals('bar', $this->container->foo);
+        self::assertTrue(isset($this->container->foo));
+        self::assertEquals('bar', $this->container->foo);
         unset($this->container->foo);
-        $this->assertFalse(isset($this->container->foo));
+        self::assertFalse(isset($this->container->foo));
     }
 
-    public function testDefaultManagerIsAlwaysPopulated()
+    public function testDefaultManagerIsAlwaysPopulated(): void
     {
         $manager = Container::getDefaultManager();
-        $this->assertInstanceOf('Laminas\Session\ManagerInterface', $manager);
+        self::assertInstanceOf('Laminas\Session\ManagerInterface', $manager);
     }
 
-    public function testCanSetDefaultManager()
+    public function testCanSetDefaultManager(): void
     {
-        $manager = new TestAsset\TestManager;
+        $manager = new TestAsset\TestManager();
         Container::setDefaultManager($manager);
-        $this->assertSame($manager, Container::getDefaultManager());
+        self::assertSame($manager, Container::getDefaultManager());
     }
 
-    public function testCanSetDefaultManagerToNull()
+    public function testCanSetDefaultManagerToNull(): void
     {
-        $manager = new TestAsset\TestManager;
+        $manager = new TestAsset\TestManager();
         Container::setDefaultManager($manager);
         Container::setDefaultManager(null);
-        $this->assertNotSame($manager, Container::getDefaultManager());
+        self::assertNotSame($manager, Container::getDefaultManager());
     }
 
-    public function testDefaultManagerUsedWhenNoManagerProvided()
+    public function testDefaultManagerUsedWhenNoManagerProvided(): void
     {
-        $manager = Container::getDefaultManager();
+        $manager   = Container::getDefaultManager();
         $container = new Container();
-        $this->assertSame($manager, $container->getManager());
+        self::assertSame($manager, $container->getManager());
     }
 
-    public function testContainerInstantiatesManagerWithDefaultsWhenNotInjected()
+    public function testContainerInstantiatesManagerWithDefaultsWhenNotInjected(): void
     {
         $container = new Container();
         $manager   = $container->getManager();
-        $this->assertInstanceOf('Laminas\Session\ManagerInterface', $manager);
-        $config  = $manager->getConfig();
-        $this->assertInstanceOf('Laminas\Session\Config\SessionConfig', $config);
+        self::assertInstanceOf('Laminas\Session\ManagerInterface', $manager);
+        $config = $manager->getConfig();
+        self::assertInstanceOf('Laminas\Session\Config\SessionConfig', $config);
         $storage = $manager->getStorage();
-        $this->assertInstanceOf('Laminas\Session\Storage\SessionArrayStorage', $storage);
+        self::assertInstanceOf('Laminas\Session\Storage\SessionArrayStorage', $storage);
     }
 
-    public function testContainerAllowsInjectingManagerViaConstructor()
+    public function testContainerAllowsInjectingManagerViaConstructor(): void
     {
-        $config = new StandardConfig([
-            'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
-        ]);
-        $manager = new TestAsset\TestManager($config);
+        $config    = new StandardConfig();
+        $manager   = new TestAsset\TestManager($config);
         $container = new Container('Foo', $manager);
-        $this->assertSame($manager, $container->getManager());
+        self::assertSame($manager, $container->getManager());
     }
 
-    public function testContainerWritesToStorage()
+    public function testContainerWritesToStorage(): void
     {
         $this->container->foo = 'bar';
-        $storage = $this->manager->getStorage();
-        $this->assertTrue(isset($storage['Default']));
-        $this->assertTrue(isset($storage['Default']['foo']));
-        $this->assertEquals('bar', $storage['Default']['foo']);
+        $storage              = $this->manager->getStorage();
+        self::assertTrue(isset($storage['Default']));
+        self::assertTrue(isset($storage['Default']['foo']));
+        self::assertEquals('bar', $storage['Default']['foo']);
 
         unset($this->container->foo);
-        $this->assertFalse(isset($storage['Default']['foo']));
+        self::assertFalse(isset($storage['Default']['foo']));
     }
 
-    public function testSettingExpirationSecondsUpdatesStorageMetadataForFullContainer()
+    public function testSettingExpirationSecondsUpdatesStorageMetadataForFullContainer(): void
     {
         $currentTimestamp = time();
         $this->container->setExpirationSeconds(3600);
-        $storage = $this->manager->getStorage();
+        $storage  = $this->manager->getStorage();
         $metadata = $storage->getMetadata($this->container->getName());
-        $this->assertArrayHasKey('EXPIRE', $metadata);
-        $this->assertEquals($currentTimestamp + 3600, $metadata['EXPIRE']);
+        self::assertArrayHasKey('EXPIRE', $metadata);
+        self::assertEquals($currentTimestamp + 3600, $metadata['EXPIRE']);
     }
 
-    public function testSettingExpirationSecondsForIndividualKeyUpdatesStorageMetadataForThatKey()
+    public function testSettingExpirationSecondsForIndividualKeyUpdatesStorageMetadataForThatKey(): void
     {
         $this->container->foo = 'bar';
-        $currentTimestamp = time();
+        $currentTimestamp     = time();
         $this->container->setExpirationSeconds(3600, 'foo');
-        $storage = $this->manager->getStorage();
+        $storage  = $this->manager->getStorage();
         $metadata = $storage->getMetadata($this->container->getName());
-        $this->assertArrayHasKey('EXPIRE_KEYS', $metadata);
-        $this->assertArrayHasKey('foo', $metadata['EXPIRE_KEYS']);
-        $this->assertEquals($currentTimestamp + 3600, $metadata['EXPIRE_KEYS']['foo']);
+        self::assertArrayHasKey('EXPIRE_KEYS', $metadata);
+        self::assertArrayHasKey('foo', $metadata['EXPIRE_KEYS']);
+        self::assertEquals($currentTimestamp + 3600, $metadata['EXPIRE_KEYS']['foo']);
     }
 
-    public function testMultipleCallsToExpirationSecondsAggregates()
+    public function testMultipleCallsToExpirationSecondsAggregates(): void
     {
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
@@ -221,15 +220,15 @@ class ContainerTest extends TestCase
         $this->container->setExpirationSeconds(3600);
         $this->container->setExpirationSeconds(1800, 'foo');
         $this->container->setExpirationSeconds(900, ['baz', 'bat']);
-        $storage = $this->manager->getStorage();
+        $storage  = $this->manager->getStorage();
         $metadata = $storage->getMetadata($this->container->getName());
-        $this->assertEquals($currentTimestamp + 1800, $metadata['EXPIRE_KEYS']['foo']);
-        $this->assertEquals($currentTimestamp + 900, $metadata['EXPIRE_KEYS']['baz']);
-        $this->assertEquals($currentTimestamp + 900, $metadata['EXPIRE_KEYS']['bat']);
-        $this->assertEquals($currentTimestamp + 3600, $metadata['EXPIRE']);
+        self::assertEquals($currentTimestamp + 1800, $metadata['EXPIRE_KEYS']['foo']);
+        self::assertEquals($currentTimestamp + 900, $metadata['EXPIRE_KEYS']['baz']);
+        self::assertEquals($currentTimestamp + 900, $metadata['EXPIRE_KEYS']['bat']);
+        self::assertEquals($currentTimestamp + 3600, $metadata['EXPIRE']);
     }
 
-    public function testSettingExpirationSecondsUsesCurrentTime()
+    public function testSettingExpirationSecondsUsesCurrentTime(): void
     {
         sleep(3);
         $this->container->setExpirationSeconds(2);
@@ -239,117 +238,117 @@ class ContainerTest extends TestCase
         $_SERVER['REQUEST_TIME']       = time();
         $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
 
-        $this->assertEquals('bar', $this->container->foo);
+        self::assertEquals('bar', $this->container->foo);
     }
 
-    public function testPassingUnsetKeyToSetExpirationSecondsDoesNothing()
+    public function testPassingUnsetKeyToSetExpirationSecondsDoesNothing(): void
     {
         $this->container->setExpirationSeconds(3600, 'foo');
-        $storage = $this->manager->getStorage();
+        $storage  = $this->manager->getStorage();
         $metadata = $storage->getMetadata($this->container->getName());
-        $this->assertFalse(isset($metadata['EXPIRE_KEYS']['foo']));
+        self::assertFalse(isset($metadata['EXPIRE_KEYS']['foo']));
     }
 
-    public function testPassingUnsetKeyInArrayToSetExpirationSecondsDoesNothing()
+    public function testPassingUnsetKeyInArrayToSetExpirationSecondsDoesNothing(): void
     {
         $this->container->setExpirationSeconds(3600, ['foo']);
-        $storage = $this->manager->getStorage();
+        $storage  = $this->manager->getStorage();
         $metadata = $storage->getMetadata($this->container->getName());
-        $this->assertFalse(isset($metadata['EXPIRE_KEYS']['foo']));
+        self::assertFalse(isset($metadata['EXPIRE_KEYS']['foo']));
     }
 
-    public function testGetKeyWithContainerExpirationInPastResetsToNull()
+    public function testGetKeyWithContainerExpirationInPastResetsToNull(): void
     {
         $this->container->foo = 'bar';
-        $storage = $this->manager->getStorage();
+        $storage              = $this->manager->getStorage();
         $storage->setMetadata('Default', ['EXPIRE' => $_SERVER['REQUEST_TIME'] - 18600]);
-        $this->assertNull($this->container->foo);
+        self::assertNull($this->container->foo);
     }
 
-    public function testGetKeyWithExpirationInPastResetsToNull()
+    public function testGetKeyWithExpirationInPastResetsToNull(): void
     {
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
-        $storage = $this->manager->getStorage();
+        $storage              = $this->manager->getStorage();
         $storage->setMetadata('Default', ['EXPIRE_KEYS' => ['foo' => $_SERVER['REQUEST_TIME'] - 18600]]);
-        $this->assertNull($this->container->foo);
-        $this->assertEquals('baz', $this->container->bar);
+        self::assertNull($this->container->foo);
+        self::assertEquals('baz', $this->container->bar);
     }
 
-    public function testKeyExistsWithContainerExpirationInPastReturnsFalse()
+    public function testKeyExistsWithContainerExpirationInPastReturnsFalse(): void
     {
         $this->container->foo = 'bar';
-        $storage = $this->manager->getStorage();
+        $storage              = $this->manager->getStorage();
         $storage->setMetadata('Default', ['EXPIRE' => $_SERVER['REQUEST_TIME'] - 18600]);
-        $this->assertFalse(isset($this->container->foo));
+        self::assertFalse(isset($this->container->foo));
     }
 
-    public function testKeyExistsWithExpirationInPastReturnsFalse()
+    public function testKeyExistsWithExpirationInPastReturnsFalse(): void
     {
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
-        $storage = $this->manager->getStorage();
+        $storage              = $this->manager->getStorage();
         $storage->setMetadata('Default', ['EXPIRE_KEYS' => ['foo' => $_SERVER['REQUEST_TIME'] - 18600]]);
-        $this->assertFalse(isset($this->container->foo));
-        $this->assertTrue(isset($this->container->bar));
+        self::assertFalse(isset($this->container->foo));
+        self::assertTrue(isset($this->container->bar));
     }
 
-    public function testKeyExistsWithContainerExpirationInPastWithSetExpirationSecondsReturnsFalse()
+    public function testKeyExistsWithContainerExpirationInPastWithSetExpirationSecondsReturnsFalse(): void
     {
         $this->container->foo = 'bar';
-        $storage = $this->manager->getStorage();
+        $storage              = $this->manager->getStorage();
         $storage->setMetadata('Default', ['EXPIRE' => $_SERVER['REQUEST_TIME'] - 18600]);
         $this->container->setExpirationSeconds(1);
-        $this->assertFalse(isset($this->container->foo));
+        self::assertFalse(isset($this->container->foo));
     }
 
-    public function testSettingExpiredKeyOverwritesExpiryMetadataForThatKey()
+    public function testSettingExpiredKeyOverwritesExpiryMetadataForThatKey(): void
     {
         $this->container->foo = 'bar';
-        $storage = $this->manager->getStorage();
+        $storage              = $this->manager->getStorage();
         $storage->setMetadata('Default', ['EXPIRE' => $_SERVER['REQUEST_TIME'] - 18600]);
         $this->container->foo = 'baz';
-        $this->assertTrue(isset($this->container->foo));
-        $this->assertEquals('baz', $this->container->foo);
+        self::assertTrue(isset($this->container->foo));
+        self::assertEquals('baz', $this->container->foo);
         $metadata = $storage->getMetadata('Default');
-        $this->assertFalse(isset($metadata['EXPIRE_KEYS']['foo']));
+        self::assertFalse(isset($metadata['EXPIRE_KEYS']['foo']));
     }
 
-    public function testSettingExpirationHopsWithNoVariablesMarksContainerByWritingToStorage()
+    public function testSettingExpirationHopsWithNoVariablesMarksContainerByWritingToStorage(): void
     {
         $this->container->setExpirationHops(2);
-        $storage = $this->manager->getStorage();
+        $storage  = $this->manager->getStorage();
         $metadata = $storage->getMetadata('Default');
-        $this->assertArrayHasKey('EXPIRE_HOPS', $metadata);
-        $this->assertEquals(
+        self::assertArrayHasKey('EXPIRE_HOPS', $metadata);
+        self::assertEquals(
             ['hops' => 2, 'ts' => $storage->getRequestAccessTime()],
             $metadata['EXPIRE_HOPS']
         );
     }
 
-    public function testSettingExpirationHopsWithSingleKeyMarksContainerByWritingToStorage()
+    public function testSettingExpirationHopsWithSingleKeyMarksContainerByWritingToStorage(): void
     {
         $this->container->foo = 'bar';
         $this->container->setExpirationHops(2, 'foo');
-        $storage = $this->manager->getStorage();
+        $storage  = $this->manager->getStorage();
         $metadata = $storage->getMetadata('Default');
-        $this->assertArrayHasKey('EXPIRE_HOPS_KEYS', $metadata);
-        $this->assertArrayHasKey('foo', $metadata['EXPIRE_HOPS_KEYS']);
-        $this->assertEquals(
+        self::assertArrayHasKey('EXPIRE_HOPS_KEYS', $metadata);
+        self::assertArrayHasKey('foo', $metadata['EXPIRE_HOPS_KEYS']);
+        self::assertEquals(
             ['hops' => 2, 'ts' => $storage->getRequestAccessTime()],
             $metadata['EXPIRE_HOPS_KEYS']['foo']
         );
     }
 
-    public function testSettingExpirationHopsWithMultipleKeysMarksContainerByWritingToStorage()
+    public function testSettingExpirationHopsWithMultipleKeysMarksContainerByWritingToStorage(): void
     {
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
         $this->container->baz = 'bat';
         $this->container->setExpirationHops(2, ['foo', 'baz']);
-        $storage = $this->manager->getStorage();
+        $storage  = $this->manager->getStorage();
         $metadata = $storage->getMetadata('Default');
-        $this->assertArrayHasKey('EXPIRE_HOPS_KEYS', $metadata);
+        self::assertArrayHasKey('EXPIRE_HOPS_KEYS', $metadata);
 
         $hops     = $metadata['EXPIRE_HOPS_KEYS'];
         $ts       = $storage->getRequestAccessTime();
@@ -363,66 +362,66 @@ class ContainerTest extends TestCase
                 'ts'   => $ts,
             ],
         ];
-        $this->assertEquals($expected, $hops);
+        self::assertEquals($expected, $hops);
     }
 
-    public function testContainerExpiresAfterSpecifiedHops()
+    public function testContainerExpiresAfterSpecifiedHops(): void
     {
         $this->container->foo = 'bar';
         $this->container->setExpirationHops(1);
 
         $storage = $this->manager->getStorage();
-        $ts = $storage->getRequestAccessTime();
+        $ts      = $storage->getRequestAccessTime();
 
         $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 60);
-        $this->assertEquals('bar', $this->container->foo);
+        self::assertEquals('bar', $this->container->foo);
 
         $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 120);
-        $this->assertNull($this->container->foo);
+        self::assertNull($this->container->foo);
     }
 
-    public function testInstantiatingMultipleContainersInSameRequestDoesNotCreateExtraHops()
+    public function testInstantiatingMultipleContainersInSameRequestDoesNotCreateExtraHops(): void
     {
         $this->container->foo = 'bar';
         $this->container->setExpirationHops(1);
 
         $container = new Container('Default', $this->manager);
-        $this->assertEquals('bar', $container->foo);
-        $this->assertEquals('bar', $this->container->foo);
+        self::assertEquals('bar', $container->foo);
+        self::assertEquals('bar', $this->container->foo);
     }
 
-    public function testKeyExpiresAfterSpecifiedHops()
+    public function testKeyExpiresAfterSpecifiedHops(): void
     {
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
         $this->container->setExpirationHops(1, 'foo');
 
         $storage = $this->manager->getStorage();
-        $ts = $storage->getRequestAccessTime();
+        $ts      = $storage->getRequestAccessTime();
 
         $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 60);
-        $this->assertEquals('bar', $this->container->foo);
-        $this->assertEquals('baz', $this->container->bar);
+        self::assertEquals('bar', $this->container->foo);
+        self::assertEquals('baz', $this->container->bar);
 
         $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 120);
-        $this->assertNull($this->container->foo);
-        $this->assertEquals('baz', $this->container->bar);
+        self::assertNull($this->container->foo);
+        self::assertEquals('baz', $this->container->bar);
     }
 
-    public function testInstantiatingMultipleContainersInSameRequestDoesNotCreateExtraKeyHops()
+    public function testInstantiatingMultipleContainersInSameRequestDoesNotCreateExtraKeyHops(): void
     {
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
         $this->container->setExpirationHops(1, 'foo');
 
         $container = new Container('Default', $this->manager);
-        $this->assertEquals('bar', $container->foo);
-        $this->assertEquals('bar', $this->container->foo);
-        $this->assertEquals('baz', $container->bar);
-        $this->assertEquals('baz', $this->container->bar);
+        self::assertEquals('bar', $container->foo);
+        self::assertEquals('bar', $this->container->foo);
+        self::assertEquals('baz', $container->bar);
+        self::assertEquals('baz', $this->container->bar);
     }
 
-    public function testKeysExpireAfterSpecifiedHops()
+    public function testKeysExpireAfterSpecifiedHops(): void
     {
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
@@ -430,37 +429,37 @@ class ContainerTest extends TestCase
         $this->container->setExpirationHops(1, ['foo', 'baz']);
 
         $storage = $this->manager->getStorage();
-        $ts = $storage->getRequestAccessTime();
+        $ts      = $storage->getRequestAccessTime();
 
         $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 60);
-        $this->assertEquals('bar', $this->container->foo);
-        $this->assertEquals('baz', $this->container->bar);
-        $this->assertEquals('bat', $this->container->baz);
+        self::assertEquals('bar', $this->container->foo);
+        self::assertEquals('baz', $this->container->bar);
+        self::assertEquals('bat', $this->container->baz);
 
         $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 120);
-        $this->assertNull($this->container->foo);
-        $this->assertEquals('baz', $this->container->bar);
-        $this->assertNull($this->container->baz);
+        self::assertNull($this->container->foo);
+        self::assertEquals('baz', $this->container->bar);
+        self::assertNull($this->container->baz);
     }
 
-    public function testCanIterateOverContainer()
+    public function testCanIterateOverContainer(): void
     {
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
         $this->container->baz = 'bat';
-        $expected = [
+        $expected             = [
             'foo' => 'bar',
             'bar' => 'baz',
             'baz' => 'bat',
         ];
-        $test = [];
+        $test                 = [];
         foreach ($this->container as $key => $value) {
             $test[$key] = $value;
         }
-        $this->assertSame($expected, $test);
+        self::assertSame($expected, $test);
     }
 
-    public function testIterationHonorsExpirationHops()
+    public function testIterationHonorsExpirationHops(): void
     {
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
@@ -468,7 +467,7 @@ class ContainerTest extends TestCase
         $this->container->setExpirationHops(1, ['foo', 'baz']);
 
         $storage = $this->manager->getStorage();
-        $ts = $storage->getRequestAccessTime();
+        $ts      = $storage->getRequestAccessTime();
 
         // First hop
         $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 60);
@@ -477,90 +476,90 @@ class ContainerTest extends TestCase
             'bar' => 'baz',
             'baz' => 'bat',
         ];
-        $test = [];
+        $test     = [];
         foreach ($this->container as $key => $value) {
             $test[$key] = $value;
         }
-        $this->assertSame($expected, $test);
+        self::assertSame($expected, $test);
 
         // Second hop
         $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 120);
         $expected = ['bar' => 'baz'];
-        $test = [];
+        $test     = [];
         foreach ($this->container as $key => $value) {
             $test[$key] = $value;
         }
-        $this->assertSame($expected, $test);
+        self::assertSame($expected, $test);
     }
 
-    public function testIterationHonorsExpirationTimestamps()
+    public function testIterationHonorsExpirationTimestamps(): void
     {
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
-        $storage = $this->manager->getStorage();
+        $storage              = $this->manager->getStorage();
         $storage->setMetadata('Default', ['EXPIRE_KEYS' => ['foo' => $_SERVER['REQUEST_TIME'] - 18600]]);
         $expected = ['bar' => 'baz'];
         $test     = [];
         foreach ($this->container as $key => $value) {
             $test[$key] = $value;
         }
-        $this->assertSame($expected, $test);
+        self::assertSame($expected, $test);
     }
 
-    public function testValidationShouldNotRaiseErrorForMissingResponseObject()
+    public function testValidationShouldNotRaiseErrorForMissingResponseObject(): void
     {
-        $session = new Container('test');
+        $session       = new Container('test');
         $session->test = 42;
-        $this->assertEquals(42, $session->test);
+        self::assertEquals(42, $session->test);
     }
 
-    public function testExchangeArray()
+    public function testExchangeArray(): void
     {
         $this->container->offsetSet('old', 'old');
-        $this->assertTrue($this->container->offsetExists('old'));
+        self::assertTrue($this->container->offsetExists('old'));
 
         $old = $this->container->exchangeArray(['new' => 'new']);
-        $this->assertArrayHasKey('old', $old, "'exchangeArray' doesn't return an array of old items");
-        $this->assertFalse($this->container->offsetExists('old'), "'exchangeArray' doesn't remove old items");
-        $this->assertTrue($this->container->offsetExists('new'), "'exchangeArray' doesn't add the new array items");
+        self::assertArrayHasKey('old', $old, "'exchangeArray' doesn't return an array of old items");
+        self::assertFalse($this->container->offsetExists('old'), "'exchangeArray' doesn't remove old items");
+        self::assertTrue($this->container->offsetExists('new'), "'exchangeArray' doesn't add the new array items");
     }
 
-    public function testExchangeArrayObject()
+    public function testExchangeArrayObject(): void
     {
         $this->container->offsetSet('old', 'old');
-        $this->assertTrue($this->container->offsetExists('old'));
+        self::assertTrue($this->container->offsetExists('old'));
 
         $old = $this->container->exchangeArray(new \Laminas\Stdlib\ArrayObject(['new' => 'new']));
-        $this->assertArrayHasKey('old', $old, "'exchangeArray' doesn't return an array of old items");
-        $this->assertFalse($this->container->offsetExists('old'), "'exchangeArray' doesn't remove old items");
-        $this->assertTrue($this->container->offsetExists('new'), "'exchangeArray' doesn't add the new array items");
+        self::assertArrayHasKey('old', $old, "'exchangeArray' doesn't return an array of old items");
+        self::assertFalse($this->container->offsetExists('old'), "'exchangeArray' doesn't remove old items");
+        self::assertTrue($this->container->offsetExists('new'), "'exchangeArray' doesn't add the new array items");
     }
 
-    public function testMultiDimensionalUnset()
+    public function testMultiDimensionalUnset(): void
     {
         $this->container->foo = ['bar' => 'baz'];
         unset($this->container['foo']['bar']);
-        $this->assertSame([], $this->container->foo);
+        self::assertSame([], $this->container->foo);
     }
 
-    public function testUpgradeBehaviors()
+    public function testUpgradeBehaviors(): void
     {
-        $storage = $this->manager->getStorage();
-        $storage['foo'] = new \ArrayObject(['bar' => 'baz']);
+        $storage        = $this->manager->getStorage();
+        $storage['foo'] = new ArrayObject(['bar' => 'baz']);
 
         $container = new Container('foo', $this->manager);
-        $this->assertEquals('baz', $container->bar);
+        self::assertEquals('baz', $container->bar);
         $container->baz = 'boo';
-        $this->assertEquals('boo', $storage['foo']['baz']);
+        self::assertEquals('boo', $storage['foo']['baz']);
     }
 
-    public function testGetArrayCopyAfterExchangeArray()
+    public function testGetArrayCopyAfterExchangeArray(): void
     {
         $this->container->exchangeArray(['foo' => 'bar']);
 
         $contents = $this->container->getArrayCopy();
 
-        $this->assertInternalType('array', $contents);
-        $this->assertArrayHasKey('foo', $contents, "'getArrayCopy' doesn't return exchanged array");
+        self::assertIsArray($contents);
+        self::assertArrayHasKey('foo', $contents, "'getArrayCopy' doesn't return exchanged array");
     }
 }

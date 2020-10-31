@@ -48,7 +48,7 @@ class Id implements ValidatorInterface
     {
         $id = $this->id;
         $saveHandler = ini_get('session.save_handler');
-        if ($saveHandler == 'cluster') { // Zend Server SC, validate only after last dash
+        if ($saveHandler === 'cluster') { // Zend Server SC, validate only after last dash
             $dashPos = strrpos($id, '-');
             if ($dashPos) {
                 $id = substr($id, $dashPos + 1);
@@ -56,10 +56,7 @@ class Id implements ValidatorInterface
         }
 
         // Get the session id bits per character INI setting, using 5 if unavailable
-        $bitsPerCharacter = PHP_VERSION_ID >= 70100
-            ? 'session.sid_bits_per_character'
-            : 'session.hash_bits_per_character';
-        $hashBitsPerChar = ini_get($bitsPerCharacter) ?: 5;
+        $hashBitsPerChar = ini_get('session.sid_bits_per_character') ?: 5;
 
         switch ($hashBitsPerChar) {
             case 4:

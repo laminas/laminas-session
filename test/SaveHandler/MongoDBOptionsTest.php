@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Session\SaveHandler;
 
+use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\SaveHandler\MongoDBOptions;
 use PHPUnit\Framework\TestCase;
 
@@ -16,128 +17,130 @@ use PHPUnit\Framework\TestCase;
  */
 class MongoDBOptionsTest extends TestCase
 {
-    public function testDefaults()
+    public function testDefaults(): void
     {
         $options = new MongoDBOptions();
-        $this->assertNull($options->getDatabase());
-        $this->assertNull($options->getCollection());
-        $mongoVersion = phpversion('mongo') ?: '0.0.0';
+        self::assertNull($options->getDatabase());
+        self::assertNull($options->getCollection());
+        $mongoVersion       = phpversion('mongo') ?: '0.0.0';
         $defaultSaveOptions = version_compare($mongoVersion, '1.3.0', '<') ? ['safe' => true] : ['w' => 1];
-        $this->assertEquals($defaultSaveOptions, $options->getSaveOptions());
-        $this->assertEquals('name', $options->getNameField());
-        $this->assertEquals('data', $options->getDataField());
-        $this->assertEquals('lifetime', $options->getLifetimeField());
-        $this->assertEquals('modified', $options->getModifiedField());
+        self::assertEquals($defaultSaveOptions, $options->getSaveOptions());
+        self::assertEquals('name', $options->getNameField());
+        self::assertEquals('data', $options->getDataField());
+        self::assertEquals('lifetime', $options->getLifetimeField());
+        self::assertEquals('modified', $options->getModifiedField());
     }
 
-    public function testSetConstructor()
+    public function testSetConstructor(): void
     {
-        $options = new MongoDBOptions([
-            'database' => 'testDatabase',
-            'collection' => 'testCollection',
-            'saveOptions' => ['w' => 2],
-            'nameField' => 'testName',
-            'dataField' => 'testData',
-            'lifetimeField' => 'testLifetime',
-            'modifiedField' => 'testModified',
-        ]);
+        $options = new MongoDBOptions(
+            [
+                'database'      => 'testDatabase',
+                'collection'    => 'testCollection',
+                'saveOptions'   => ['w' => 2],
+                'nameField'     => 'testName',
+                'dataField'     => 'testData',
+                'lifetimeField' => 'testLifetime',
+                'modifiedField' => 'testModified',
+            ]
+        );
 
-        $this->assertEquals('testDatabase', $options->getDatabase());
-        $this->assertEquals('testCollection', $options->getCollection());
-        $this->assertEquals(['w' => 2], $options->getSaveOptions());
-        $this->assertEquals('testName', $options->getNameField());
-        $this->assertEquals('testData', $options->getDataField());
-        $this->assertEquals('testLifetime', $options->getLifetimeField());
-        $this->assertEquals('testModified', $options->getModifiedField());
+        self::assertEquals('testDatabase', $options->getDatabase());
+        self::assertEquals('testCollection', $options->getCollection());
+        self::assertEquals(['w' => 2], $options->getSaveOptions());
+        self::assertEquals('testName', $options->getNameField());
+        self::assertEquals('testData', $options->getDataField());
+        self::assertEquals('testLifetime', $options->getLifetimeField());
+        self::assertEquals('testModified', $options->getModifiedField());
     }
 
-    public function testSetters()
+    public function testSetters(): void
     {
         $options = new MongoDBOptions();
         $options->setDatabase('testDatabase')
-                ->setCollection('testCollection')
-                ->setSaveOptions(['w' => 2])
-                ->setNameField('testName')
-                ->setDataField('testData')
-                ->setLifetimeField('testLifetime')
-                ->setModifiedField('testModified');
+            ->setCollection('testCollection')
+            ->setSaveOptions(['w' => 2])
+            ->setNameField('testName')
+            ->setDataField('testData')
+            ->setLifetimeField('testLifetime')
+            ->setModifiedField('testModified');
 
-        $this->assertEquals('testDatabase', $options->getDatabase());
-        $this->assertEquals('testCollection', $options->getCollection());
-        $this->assertEquals(['w' => 2], $options->getSaveOptions());
-        $this->assertEquals('testName', $options->getNameField());
-        $this->assertEquals('testData', $options->getDataField());
-        $this->assertEquals('testLifetime', $options->getLifetimeField());
-        $this->assertEquals('testModified', $options->getModifiedField());
+        self::assertEquals('testDatabase', $options->getDatabase());
+        self::assertEquals('testCollection', $options->getCollection());
+        self::assertEquals(['w' => 2], $options->getSaveOptions());
+        self::assertEquals('testName', $options->getNameField());
+        self::assertEquals('testData', $options->getDataField());
+        self::assertEquals('testLifetime', $options->getLifetimeField());
+        self::assertEquals('testModified', $options->getModifiedField());
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
-    public function testInvalidDatabase()
+    public function testInvalidDatabase(): void
     {
-        $options = new MongoDBOptions([
-            'database' => null,
-        ]);
+        $this->expectException(InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'database' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
-    public function testInvalidCollection()
+    public function testInvalidCollection(): void
     {
-        $options = new MongoDBOptions([
-            'collection' => null,
-        ]);
+        $this->expectException(InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'collection' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
-    public function testInvalidSaveOptions()
+    public function testInvalidSaveOptions(): void
     {
-        $options = new MongoDBOptions([
-            'saveOptions' => null,
-        ]);
+        $this->expectException(InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'saveOptions' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
-    public function testInvalidNameField()
+    public function testInvalidNameField(): void
     {
-        $options = new MongoDBOptions([
-            'nameField' => null,
-        ]);
+        $this->expectException(InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'nameField' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
-    public function testInvalidModifiedField()
+    public function testInvalidModifiedField(): void
     {
-        $options = new MongoDBOptions([
-            'modifiedField' => null,
-        ]);
+        $this->expectException(InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'modifiedField' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
-    public function testInvalidLifetimeField()
+    public function testInvalidLifetimeField(): void
     {
-        $options = new MongoDBOptions([
-            'lifetimeField' => null,
-        ]);
+        $this->expectException(InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'lifetimeField' => null,
+            ]
+        );
     }
 
-    /**
-     * @expectedException Laminas\Session\Exception\InvalidArgumentException
-     */
-    public function testInvalidDataField()
+    public function testInvalidDataField(): void
     {
-        $options = new MongoDBOptions([
-            'dataField' => null,
-        ]);
+        $this->expectException(InvalidArgumentException::class);
+        $options = new MongoDBOptions(
+            [
+                'dataField' => null,
+            ]
+        );
     }
 }

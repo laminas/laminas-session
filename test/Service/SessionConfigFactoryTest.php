@@ -21,48 +21,62 @@ use PHPUnit\Framework\TestCase;
  */
 class SessionConfigFactoryTest extends TestCase
 {
-    protected function setUp()
+    /** @var ServiceManager */
+    private $services;
+
+    protected function setUp(): void
     {
-        $config = new Config([
-            'factories' => [
-                ConfigInterface::class => SessionConfigFactory::class,
-            ],
-        ]);
+        $config         = new Config(
+            [
+                'factories' => [
+                    ConfigInterface::class => SessionConfigFactory::class,
+                ],
+            ]
+        );
         $this->services = new ServiceManager();
         $config->configureServiceManager($this->services);
     }
 
-    public function testCreatesSessionConfigByDefault()
+    public function testCreatesSessionConfigByDefault(): void
     {
-        $this->services->setService('config', [
-            'session_config' => [],
-        ]);
+        $this->services->setService(
+            'config',
+            [
+                'session_config' => [],
+            ]
+        );
         $config = $this->services->get(ConfigInterface::class);
-        $this->assertInstanceOf(SessionConfig::class, $config);
+        self::assertInstanceOf(SessionConfig::class, $config);
     }
 
-    public function testCanCreateAlternateSessionConfigTypeViaConfigClassKey()
+    public function testCanCreateAlternateSessionConfigTypeViaConfigClassKey(): void
     {
-        $this->services->setService('config', [
-            'session_config' => [
-                'config_class' => StandardConfig::class,
-            ],
-        ]);
+        $this->services->setService(
+            'config',
+            [
+                'session_config' => [
+                    'config_class' => StandardConfig::class,
+                ],
+            ]
+        );
         $config = $this->services->get(ConfigInterface::class);
-        $this->assertInstanceOf(StandardConfig::class, $config);
+        self::assertInstanceOf(StandardConfig::class, $config);
         // Since SessionConfig extends StandardConfig, need to assert not SessionConfig
-        $this->assertNotInstanceOf(SessionConfig::class, $config);
+        self::assertNotInstanceOf(SessionConfig::class, $config);
     }
 
-    public function testServiceReceivesConfiguration()
+    public function testServiceReceivesConfiguration(): void
     {
-        $this->services->setService('config', [
-            'session_config' => [
-                'config_class' => StandardConfig::class,
-                'name'         => 'laminas',
-            ],
-        ]);
+        $this->services->setService(
+            'config',
+            [
+                'session_config' => [
+                    'config_class' => StandardConfig::class,
+                    'name'         => 'laminas',
+                ],
+            ]
+        );
         $config = $this->services->get(ConfigInterface::class);
-        $this->assertEquals('laminas', $config->getName());
+        self::assertEquals('laminas', $config->getName());
     }
 }

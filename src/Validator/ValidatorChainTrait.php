@@ -12,6 +12,8 @@ use Laminas\Session\Storage\StorageInterface;
 
 /**
  * Base trait for validator chain implementations
+ *
+ * @deprecated Use {@see \Laminas\Session\ValidatorChain} directly
  */
 trait ValidatorChainTrait
 {

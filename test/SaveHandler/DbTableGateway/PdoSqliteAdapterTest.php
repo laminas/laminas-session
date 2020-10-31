@@ -20,10 +20,12 @@ class PdoSqliteAdapterTest extends DbTableGatewayTest
     protected function getAdapter()
     {
         if (! extension_loaded('pdo_sqlite')) {
-            $this->markTestSkipped(sprintf(
-                '%s tests with PDO_Sqlite adapter are not enabled due to missing PDO_Sqlite extension',
-                DbTableGateway::class
-            ));
+            self::markTestSkipped(
+                sprintf(
+                    '%s tests with PDO_Sqlite adapter are not enabled due to missing PDO_Sqlite extension',
+                    DbTableGateway::class
+                )
+            );
         }
 
         return new Adapter([

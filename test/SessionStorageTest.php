@@ -16,87 +16,87 @@ use PHPUnit\Framework\TestCase;
  */
 class SessionStorageTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
+    {
+        $_SESSION      = [];
+        $this->storage = new SessionStorage();
+    }
+
+    protected function tearDown(): void
     {
         $_SESSION = [];
-        $this->storage = new SessionStorage;
     }
 
-    protected function tearDown()
+    public function testSessionStorageInheritsFromArrayStorage(): void
     {
-        $_SESSION = [];
+        self::assertInstanceOf('Laminas\Session\Storage\SessionStorage', $this->storage);
+        self::assertInstanceOf('Laminas\Session\Storage\ArrayStorage', $this->storage);
     }
 
-    public function testSessionStorageInheritsFromArrayStorage()
-    {
-        $this->assertInstanceOf('Laminas\Session\Storage\SessionStorage', $this->storage);
-        $this->assertInstanceOf('Laminas\Session\Storage\ArrayStorage', $this->storage);
-    }
-
-    public function testStorageWritesToSessionSuperglobal()
+    public function testStorageWritesToSessionSuperglobal(): void
     {
         $this->storage['foo'] = 'bar';
-        $this->assertSame($_SESSION, $this->storage);
+        self::assertSame($_SESSION, $this->storage);
         unset($this->storage['foo']);
-        $this->assertArrayNotHasKey('foo', $_SESSION);
+        self::assertArrayNotHasKey('foo', $_SESSION);
     }
 
-    public function testPassingArrayToConstructorOverwritesSessionSuperglobal()
+    public function testPassingArrayToConstructorOverwritesSessionSuperglobal(): void
     {
         $_SESSION['foo'] = 'bar';
-        $array   = ['foo' => 'FOO'];
-        $storage = new SessionStorage($array);
-        $expected = [
-            'foo' => 'FOO',
+        $array           = ['foo' => 'FOO'];
+        $storage         = new SessionStorage($array);
+        $expected        = [
+            'foo'       => 'FOO',
             '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $storage->getRequestAccessTime(),
             ],
         ];
-        $this->assertSame($expected, $_SESSION->getArrayCopy());
+        self::assertSame($expected, $_SESSION->getArrayCopy());
     }
 
-    public function testModifyingSessionSuperglobalDirectlyUpdatesStorage()
+    public function testModifyingSessionSuperglobalDirectlyUpdatesStorage(): void
     {
         $_SESSION['foo'] = 'bar';
-        $this->assertTrue(isset($this->storage['foo']));
+        self::assertTrue(isset($this->storage['foo']));
     }
 
-    public function testDestructorSetsSessionToArray()
+    public function testDestructorSetsSessionToArray(): void
     {
         $this->storage->foo = 'bar';
-        $expected = [
+        $expected           = [
             '__Laminas' => [
                 '_REQUEST_ACCESS_TIME' => $this->storage->getRequestAccessTime(),
             ],
-            'foo' => 'bar',
+            'foo'       => 'bar',
         ];
         $this->storage->__destruct();
-        $this->assertSame($expected, $_SESSION);
+        self::assertSame($expected, $_SESSION);
     }
 
-    public function testModifyingOneSessionObjectModifiesTheOther()
+    public function testModifyingOneSessionObjectModifiesTheOther(): void
     {
         $this->storage->foo = 'bar';
-        $storage = new SessionStorage();
-        $storage->bar = 'foo';
-        $this->assertEquals('foo', $this->storage->bar);
+        $storage            = new SessionStorage();
+        $storage->bar       = 'foo';
+        self::assertEquals('foo', $this->storage->bar);
     }
 
-    public function testMarkingOneSessionObjectImmutableShouldMarkOtherInstancesImmutable()
+    public function testMarkingOneSessionObjectImmutableShouldMarkOtherInstancesImmutable(): void
     {
         $this->storage->foo = 'bar';
-        $storage = new SessionStorage();
-        $this->assertEquals('bar', $storage['foo']);
+        $storage            = new SessionStorage();
+        self::assertEquals('bar', $storage['foo']);
         $this->storage->markImmutable();
-        $this->assertTrue($storage->isImmutable(), var_export($_SESSION, 1));
+        self::assertTrue($storage->isImmutable(), var_export($_SESSION, 1));
     }
 
-    public function testMultiDimensionalUnset()
+    public function testMultiDimensionalUnset(): void
     {
         $this->storage['foo'] = ['bar' => ['baz' => 'boo']];
         unset($this->storage['foo']['bar']['baz']);
-        $this->assertFalse(isset($this->storage['foo']['bar']['baz']));
+        self::assertFalse(isset($this->storage['foo']['bar']['baz']));
         unset($this->storage['foo']['bar']);
-        $this->assertFalse(isset($this->storage['foo']['bar']));
+        self::assertFalse(isset($this->storage['foo']['bar']));
     }
 }

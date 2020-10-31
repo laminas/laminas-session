@@ -13,6 +13,8 @@ use Laminas\Session\Storage\StorageInterface;
 
 /**
  * Abstract validator chain for validating sessions (for use with laminas-eventmanager v3)
+ *
+ * @deprecated Use {@see \Laminas\Session\ValidatorChain} directly
  */
 abstract class AbstractValidatorChainEM3 extends EventManager
 {

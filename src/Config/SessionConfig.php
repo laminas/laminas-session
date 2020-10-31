@@ -284,6 +284,7 @@ class SessionConfig extends StandardConfig
      * @param  string|int $hashFunction
      * @return SessionConfig
      * @throws Exception\InvalidArgumentException
+     * @deprecated removed in PHP 7.1
      */
     public function setHashFunction($hashFunction)
     {
@@ -308,6 +309,7 @@ class SessionConfig extends StandardConfig
      * @param  int $hashBitsPerCharacter
      * @return SessionConfig
      * @throws Exception\InvalidArgumentException
+     * @deprecated removed in PHP 7.1
      */
     public function setHashBitsPerCharacter($hashBitsPerCharacter)
     {

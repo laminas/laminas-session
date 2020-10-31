@@ -10,7 +10,7 @@ namespace LaminasTest\Session\TestAsset;
 
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Session\AbstractManager;
-use Laminas\Session\Configuration\StandardConfig;
+use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Storage\ArrayStorage;
 
 class TestManager extends AbstractManager
@@ -30,7 +30,7 @@ class TestManager extends AbstractManager
         $this->started = false;
     }
 
-    public function stop()
+    public function stop(): void
     {
     }
 

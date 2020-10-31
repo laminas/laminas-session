@@ -63,17 +63,19 @@ abstract class DbTableGatewayTest extends TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->adapter = $this->getAdapter();
 
-        $this->options = new DbTableGatewayOptions([
-            'nameColumn' => 'name',
-            'idColumn'   => 'id',
-            'dataColumn' => 'data',
-            'modifiedColumn' => 'modified',
-            'lifetimeColumn' => 'lifetime',
-        ]);
+        $this->options = new DbTableGatewayOptions(
+            [
+                'nameColumn'     => 'name',
+                'idColumn'       => 'id',
+                'dataColumn'     => 'data',
+                'modifiedColumn' => 'modified',
+                'lifetimeColumn' => 'lifetime',
+            ]
+        );
 
         $this->setupDb($this->options);
         $this->testArray = ['foo' => 'bar', 'bar' => ['foo' => 'bar']];
@@ -84,60 +86,60 @@ abstract class DbTableGatewayTest extends TestCase
      *
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->adapter) {
             $this->dropTable();
         }
     }
 
-    public function testReadWrite()
+    public function testReadWrite(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
 
         $id = '242';
 
-        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+        self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
         $data = unserialize($saveHandler->read($id));
-        $this->assertEquals(
+        self::assertEquals(
             $this->testArray,
             $data,
             'Expected ' . var_export($this->testArray, 1) . "\nbut got: " . var_export($data, 1)
         );
     }
 
-    public function testReadWriteComplex()
+    public function testReadWriteComplex(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
 
         $id = '242';
 
-        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+        self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
-        $this->assertEquals($this->testArray, unserialize($saveHandler->read($id)));
+        self::assertEquals($this->testArray, unserialize($saveHandler->read($id)));
     }
 
-    public function testReadWriteTwice()
+    public function testReadWriteTwice(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
 
         $id = '242';
 
-        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+        self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
-        $this->assertEquals($this->testArray, unserialize($saveHandler->read($id)));
+        self::assertEquals($this->testArray, unserialize($saveHandler->read($id)));
 
         $updateData = $this->testArray + ['time' => microtime(true)];
-        $this->assertTrue($saveHandler->write($id, serialize($updateData)));
+        self::assertTrue($saveHandler->write($id, serialize($updateData)));
 
-        $this->assertEquals($updateData, unserialize($saveHandler->read($id)));
+        self::assertEquals($updateData, unserialize($saveHandler->read($id)));
     }
 
-    public function testReadShouldAlwaysReturnString()
+    public function testReadShouldAlwaysReturnString(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
@@ -146,10 +148,10 @@ abstract class DbTableGatewayTest extends TestCase
 
         $data = $saveHandler->read($id);
 
-        $this->assertTrue(is_string($data));
+        self::assertTrue(is_string($data));
     }
 
-    public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist()
+    public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
@@ -158,31 +160,31 @@ abstract class DbTableGatewayTest extends TestCase
 
         $result = $saveHandler->destroy($id);
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
-    public function testDestroyReturnsTrueWhenSessionIsDeleted()
+    public function testDestroyReturnsTrueWhenSessionIsDeleted(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
 
         $id = '242';
 
-        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+        self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
         $result = $saveHandler->destroy($id);
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
-    public function testReadDestroysExpiredSession()
+    public function testReadDestroysExpiredSession(): void
     {
         $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
         $saveHandler->open('savepath', 'sessionname');
 
         $id = '345';
 
-        $this->assertTrue($saveHandler->write($id, serialize($this->testArray)));
+        self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
         // set lifetime to 0
         $query = <<<EOD
@@ -196,7 +198,7 @@ EOD;
 
         // check destroy session
         $result = $saveHandler->read($id);
-        $this->assertEquals($result, '');
+        self::assertEquals($result, '');
 
         // check if the record really has been deleted
         $result = $this->adapter->query(
@@ -208,7 +210,7 @@ EOD;
             Adapter::QUERY_MODE_EXECUTE
         );
 
-        $this->assertEquals(0, $result->count());
+        self::assertEquals(0, $result->count());
 
         // cleans the test record from the db
         $this->adapter->query(
@@ -220,10 +222,10 @@ EOD;
     /**
      * Sets up the database connection and creates the table for session data
      *
-     * @param  \Laminas\Session\SaveHandler\DbTableGatewayOptions $options
+     * @param DbTableGatewayOptions $options
      * @return void
      */
-    protected function setupDb(DbTableGatewayOptions $options)
+    protected function setupDb(DbTableGatewayOptions $options): void
     {
         $query = <<<EOD
 CREATE TABLE sessions (
@@ -244,7 +246,7 @@ EOD;
      *
      * @return void
      */
-    protected function dropTable()
+    protected function dropTable(): void
     {
         if (! $this->adapter) {
             return;

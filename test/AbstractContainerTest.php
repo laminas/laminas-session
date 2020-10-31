@@ -36,20 +36,18 @@ class AbstractContainerTest extends TestCase
      */
     protected $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $_SESSION = [];
         Container::setDefaultManager(null);
 
-        $config = new StandardConfig([
-            'storage' => 'Laminas\\Session\\Storage\\ArrayStorage',
-        ]);
+        $config = new StandardConfig();
 
-        $this->manager = $manager = new TestAsset\TestManager($config);
+        $this->manager   = $manager = new TestAsset\TestManager($config);
         $this->container = new TestContainer('Default', $manager);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $_SESSION = [];
         Container::setDefaultManager(null);
@@ -59,7 +57,7 @@ class AbstractContainerTest extends TestCase
      * This test case fails on laminas-session 2.8.0 with the php error below and works fine on 2.7.*.
      * "Only variable references should be returned by reference"
      */
-    public function testOffsetGetMissingKey()
+    public function testOffsetGetMissingKey(): void
     {
         self::assertNull($this->container->offsetGet('this key does not exist in the container'));
     }
