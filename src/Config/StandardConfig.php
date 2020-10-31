@@ -582,6 +582,7 @@ class StandardConfig implements ConfigInterface
      * @param  string $entropyFile
      * @return StandardConfig
      * @throws Exception\InvalidArgumentException
+     * @deprecated removed in PHP 7.1
      */
     public function setEntropyFile($entropyFile)
     {
@@ -605,6 +606,7 @@ class StandardConfig implements ConfigInterface
      * Get session.entropy_file
      *
      * @return string
+     * @deprecated removed in PHP 7.1
      */
     public function getEntropyFile()
     {
@@ -625,6 +627,7 @@ class StandardConfig implements ConfigInterface
      * @param  int $entropyLength
      * @return StandardConfig
      * @throws Exception\InvalidArgumentException
+     * @deprecated removed in PHP 7.1
      */
     public function setEntropyLength($entropyLength)
     {
@@ -648,6 +651,7 @@ class StandardConfig implements ConfigInterface
      * Get session.entropy_length
      *
      * @return string
+     * @deprecated removed in PHP 7.1
      */
     public function getEntropyLength()
     {
@@ -704,6 +708,7 @@ class StandardConfig implements ConfigInterface
      *
      * @param  string $hashFunction
      * @return mixed
+     * @deprecated removed in PHP 7.1
      */
     public function setHashFunction($hashFunction)
     {
@@ -718,6 +723,7 @@ class StandardConfig implements ConfigInterface
      * Get session.hash_function
      *
      * @return string
+     * @deprecated removed in PHP 7.1
      */
     public function getHashFunction()
     {
@@ -734,6 +740,7 @@ class StandardConfig implements ConfigInterface
      * @param  int $hashBitsPerCharacter
      * @return StandardConfig
      * @throws Exception\InvalidArgumentException
+     * @deprecated removed in PHP 7.1
      */
     public function setHashBitsPerCharacter($hashBitsPerCharacter)
     {
@@ -754,6 +761,7 @@ class StandardConfig implements ConfigInterface
      * Get session.hash_bits_per_character
      *
      * @return string
+     * @deprecated removed in PHP 7.1
      */
     public function getHashBitsPerCharacter()
     {
