@@ -29,7 +29,7 @@ options in your local or global config:
 use Laminas\Session;
 
 return [
-    'session_manager' => [
+    'session' => [
         'config' => [
             'class' => Session\Config\SessionConfig::class,
             'options' => [
