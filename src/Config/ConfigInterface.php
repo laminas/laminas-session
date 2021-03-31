@@ -84,15 +84,6 @@ interface ConfigInterface
     public function getCookieDomain();
 
     /**
-     * @param bool $cookieSameSite
-     * @return void
-     */
-    public function setCookieSameSite($cookieSameSite);
-
-    /** @return bool */
-    public function getCookieSameSite();
-
-    /**
      * @param bool $cookieSecure
      * @return void
      */

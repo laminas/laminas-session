@@ -4,10 +4,12 @@ namespace LaminasTest\Session\Service;
 
 use Laminas\ServiceManager\Config;
 use Laminas\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Service\SessionConfigFactory;
+use LaminasTest\Session\TestAsset\TestConfig;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -72,5 +74,21 @@ class SessionConfigFactoryTest extends TestCase
         );
         $config = $this->services->get(ConfigInterface::class);
         self::assertEquals('laminas', $config->getName());
+    }
+
+    public function testServiceNotCreatedWhenInvalidSamesiteConfig()
+    {
+        $this->services->setService(
+            'config',
+            [
+                'session_config' => [
+                    'config_class' => TestConfig::class,
+                    'cookie_samesite' => 'Lax',
+                ],
+            ]
+        );
+        $this->expectException(ServiceNotCreatedException::class);
+        $this->expectExceptionMessage('Invalid configuration class "LaminasTest\Session\TestAsset\TestConfig". When configuration option "cookie_samesite" is used, the configuration class must implement Laminas\Session\Config\SameSiteCookieCapableInterface');
+        $this->services->get(ConfigInterface::class);
     }
 }
