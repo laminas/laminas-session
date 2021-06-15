@@ -1,5 +1,8 @@
 {
     "extensions": [
         "mongodb"
+    ],
+    "ini": [
+        "extension=mongodb.so"
     ]
 }
