@@ -1,19 +1,19 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session;
 
 use ArrayObject;
+use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Container;
 use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\ManagerInterface as Manager;
+use Laminas\Session\Storage\SessionArrayStorage;
 use PHPUnit\Framework\TestCase;
+
+use function microtime;
+use function sleep;
+use function time;
 
 /**
  * @covers \Laminas\Session\Container
@@ -24,18 +24,16 @@ class ContainerTest extends TestCase
     /**
      * Hack to allow running tests in separate processes
      *
-     * @see    http://matthewturland.com/2010/08/19/process-isolation-in-phpunit/
+     * @see http://matthewturland.com/2010/08/19/process-isolation-in-phpunit/
+     *
+     * @var bool
      */
     protected $preserveGlobalState = false;
 
-    /**
-     * @var Manager
-     */
+    /** @var Manager */
     protected $manager;
 
-    /**
-     * @var Container
-     */
+    /** @var Container */
     protected $container;
 
     protected function setUp(): void
@@ -132,7 +130,7 @@ class ContainerTest extends TestCase
     public function testDefaultManagerIsAlwaysPopulated(): void
     {
         $manager = Container::getDefaultManager();
-        self::assertInstanceOf('Laminas\Session\ManagerInterface', $manager);
+        self::assertInstanceOf(Manager::class, $manager);
     }
 
     public function testCanSetDefaultManager(): void
@@ -161,11 +159,11 @@ class ContainerTest extends TestCase
     {
         $container = new Container();
         $manager   = $container->getManager();
-        self::assertInstanceOf('Laminas\Session\ManagerInterface', $manager);
+        self::assertInstanceOf(Manager::class, $manager);
         $config = $manager->getConfig();
-        self::assertInstanceOf('Laminas\Session\Config\SessionConfig', $config);
+        self::assertInstanceOf(SessionConfig::class, $config);
         $storage = $manager->getStorage();
-        self::assertInstanceOf('Laminas\Session\Storage\SessionArrayStorage', $storage);
+        self::assertInstanceOf(SessionArrayStorage::class, $storage);
     }
 
     public function testContainerAllowsInjectingManagerViaConstructor(): void

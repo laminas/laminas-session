@@ -1,15 +1,11 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session\SaveHandler;
 
 use Laminas\Session\Exception;
 use Laminas\Stdlib\AbstractOptions;
+
+use function strlen;
 
 /**
  * DbTableGateway Save Handler Options
@@ -18,30 +14,35 @@ class DbTableGatewayOptions extends AbstractOptions
 {
     /**
      * ID Column
+     *
      * @var string
      */
     protected $idColumn = 'id';
 
     /**
      * Name Column
+     *
      * @var string
      */
     protected $nameColumn = 'name';
 
     /**
      * Data Column
+     *
      * @var string
      */
     protected $dataColumn = 'data';
 
     /**
      * Lifetime Column
+     *
      * @var string
      */
     protected $lifetimeColumn = 'lifetime';
 
     /**
      * Modified Column
+     *
      * @var string
      */
     protected $modifiedColumn = 'modified';

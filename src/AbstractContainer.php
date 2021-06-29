@@ -1,19 +1,24 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session;
 
 use ArrayIterator;
 use Iterator;
 use Laminas\Session\ManagerInterface as Manager;
+use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\StorageInterface as Storage;
 use Laminas\Stdlib\ArrayObject;
 use Traversable;
+
+use function array_filter;
+use function array_flip;
+use function array_keys;
+use function array_map;
+use function is_array;
+use function is_object;
+use function is_scalar;
+use function preg_match;
+use function time;
 
 /**
  * Session storage container
@@ -32,9 +37,7 @@ abstract class AbstractContainer extends ArrayObject
      */
     protected $name;
 
-    /**
-     * @var Manager
-     */
+    /** @var Manager */
     protected $manager;
 
     /**
@@ -42,7 +45,7 @@ abstract class AbstractContainer extends ArrayObject
      *
      * @var string
      */
-    protected static $managerDefaultClass = 'Laminas\\Session\\SessionManager';
+    protected static $managerDefaultClass = SessionManager::class;
 
     /**
      * Default manager to use when instantiating a container without providing a ManagerInterface
@@ -53,8 +56,10 @@ abstract class AbstractContainer extends ArrayObject
 
     /**
      * Default value to return by reference from offsetGet
+     *
+     * @var mixed
      */
-    private $defaultValue = null;
+    private $defaultValue;
 
     /**
      * Constructor
@@ -62,10 +67,9 @@ abstract class AbstractContainer extends ArrayObject
      * Provide a name ('Default' if none provided) and a ManagerInterface instance.
      *
      * @param  null|string                        $name
-     * @param  Manager                            $manager
      * @throws Exception\InvalidArgumentException
      */
-    public function __construct($name = 'Default', Manager $manager = null)
+    public function __construct($name = 'Default', ?Manager $manager = null)
     {
         if (! preg_match('/^[a-z0-9][a-z0-9_\\\\]+$/i', $name)) {
             throw new Exception\InvalidArgumentException(
@@ -85,10 +89,9 @@ abstract class AbstractContainer extends ArrayObject
     /**
      * Set the default ManagerInterface instance to use when none provided to constructor
      *
-     * @param  Manager $manager
      * @return void
      */
-    public static function setDefaultManager(Manager $manager = null)
+    public static function setDefaultManager(?Manager $manager = null)
     {
         static::$defaultManager = $manager;
     }
@@ -99,7 +102,7 @@ abstract class AbstractContainer extends ArrayObject
      * If none provided, instantiates one of type {@link $managerDefaultClass}
      *
      * @return Manager
-     * @throws Exception\InvalidArgumentException if invalid manager default class provided
+     * @throws Exception\InvalidArgumentException If invalid manager default class provided.
      */
     public static function getDefaultManager()
     {
@@ -129,11 +132,10 @@ abstract class AbstractContainer extends ArrayObject
     /**
      * Set session manager
      *
-     * @param  null|Manager                       $manager
      * @return Container
      * @throws Exception\InvalidArgumentException
      */
-    protected function setManager(Manager $manager = null)
+    protected function setManager(?Manager $manager = null)
     {
         if (null === $manager) {
             $manager = static::getDefaultManager();
@@ -244,7 +246,6 @@ abstract class AbstractContainer extends ArrayObject
      * Checks to see if the entire container has expired based on TTL setting,
      * or the individual key.
      *
-     * @param  Storage $storage
      * @param  string  $name    Container name
      * @param  string  $key     Key in container to check
      * @return bool
@@ -254,7 +255,8 @@ abstract class AbstractContainer extends ArrayObject
         $metadata = $storage->getMetadata($name);
 
         // Global container expiry
-        if (is_array($metadata)
+        if (
+            is_array($metadata)
             && isset($metadata['EXPIRE'])
             && ($_SERVER['REQUEST_TIME'] > $metadata['EXPIRE'])
         ) {
@@ -266,7 +268,8 @@ abstract class AbstractContainer extends ArrayObject
         }
 
         // Expire individual key
-        if ((null !== $key)
+        if (
+            (null !== $key)
             && is_array($metadata)
             && isset($metadata['EXPIRE_KEYS'])
             && isset($metadata['EXPIRE_KEYS'][$key])
@@ -280,7 +283,8 @@ abstract class AbstractContainer extends ArrayObject
         }
 
         // Find any keys that have expired
-        if ((null === $key)
+        if (
+            (null === $key)
             && is_array($metadata)
             && isset($metadata['EXPIRE_KEYS'])
         ) {
@@ -306,7 +310,6 @@ abstract class AbstractContainer extends ArrayObject
      * Determines whether the container or an individual key within it has
      * expired based on session hops
      *
-     * @param  Storage $storage
      * @param  string  $name
      * @param  string  $key
      * @return bool
@@ -317,7 +320,8 @@ abstract class AbstractContainer extends ArrayObject
         $metadata = $storage->getMetadata($name);
 
         // Global container expiry
-        if (is_array($metadata)
+        if (
+            is_array($metadata)
             && isset($metadata['EXPIRE_HOPS'])
             && ($ts > $metadata['EXPIRE_HOPS']['ts'])
         ) {
@@ -336,7 +340,8 @@ abstract class AbstractContainer extends ArrayObject
         }
 
         // Single key expiry
-        if ((null !== $key)
+        if (
+            (null !== $key)
             && is_array($metadata)
             && isset($metadata['EXPIRE_HOPS_KEYS'])
             && isset($metadata['EXPIRE_HOPS_KEYS'][$key])
@@ -357,7 +362,8 @@ abstract class AbstractContainer extends ArrayObject
         }
 
         // Find all expired keys
-        if ((null === $key)
+        if (
+            (null === $key)
             && is_array($metadata)
             && isset($metadata['EXPIRE_HOPS_KEYS'])
         ) {
@@ -391,8 +397,8 @@ abstract class AbstractContainer extends ArrayObject
     public function offsetSet($key, $value)
     {
         $this->expireKeys($key);
-        $storage = $this->verifyNamespace();
-        $name    = $this->getName();
+        $storage              = $this->verifyNamespace();
+        $name                 = $this->getName();
         $storage[$name][$key] = $value;
     }
 
@@ -432,7 +438,7 @@ abstract class AbstractContainer extends ArrayObject
             return $this->defaultValue;
         }
         $storage = $this->getStorage();
-        $name = $this->getName();
+        $name    = $this->getName();
 
         return $storage[$name][$key];
     }
@@ -456,9 +462,10 @@ abstract class AbstractContainer extends ArrayObject
     /**
      * Exchange the current array with another array or object.
      *
+     * @see ArrayObject::exchangeArray()
+     *
      * @param  array|object $input
      * @return array        Returns the old array
-     * @see ArrayObject::exchangeArray()
      */
     public function exchangeArray($input)
     {
@@ -473,7 +480,7 @@ abstract class AbstractContainer extends ArrayObject
         $storage = $this->verifyNamespace();
         $name    = $this->getName();
 
-        $old = $storage[$name];
+        $old            = $storage[$name];
         $storage[$name] = $input;
         if ($old instanceof ArrayObject) {
             return $old->getArrayCopy();
@@ -526,13 +533,13 @@ abstract class AbstractContainer extends ArrayObject
             $container = $this;
 
             // Filter out any items not in our container
-            $expires   = array_filter($vars, function ($value) use ($container) {
+            $expires = array_filter($vars, function ($value) use ($container) {
                 return $container->offsetExists($value);
             });
 
             // Map item keys => timestamp
-            $expires   = array_flip($expires);
-            $expires   = array_map(function () use ($ts) {
+            $expires = array_flip($expires);
+            $expires = array_map(function () use ($ts) {
                 return $ts;
             }, $expires);
 
@@ -577,13 +584,13 @@ abstract class AbstractContainer extends ArrayObject
             $container = $this;
 
             // FilterInterface out any items not in our container
-            $expires   = array_filter($vars, function ($value) use ($container) {
+            $expires = array_filter($vars, function ($value) use ($container) {
                 return $container->offsetExists($value);
             });
 
             // Map item keys => timestamp
-            $expires   = array_flip($expires);
-            $expires   = array_map(function () use ($hops, $ts) {
+            $expires = array_flip($expires);
+            $expires = array_map(function () use ($hops, $ts) {
                 return ['hops' => $hops, 'ts' => $ts];
             }, $expires);
 

@@ -1,16 +1,13 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session\SaveHandler;
 
 use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\SaveHandler\MongoDBOptions;
 use PHPUnit\Framework\TestCase;
+
+use function phpversion;
+use function version_compare;
 
 /**
  * @covers \Laminas\Session\SaveHandler\MongoDbOptions

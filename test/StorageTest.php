@@ -1,13 +1,8 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session;
 
+use Laminas\Session\Exception\RuntimeException;
 use Laminas\Session\Storage\ArrayStorage;
 use PHPUnit\Framework\TestCase;
 
@@ -16,9 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class StorageTest extends TestCase
 {
-    /**
-     * @var ArrayStorage
-     */
+    /** @var ArrayStorage */
     protected $storage;
 
     protected function setUp(): void
@@ -70,7 +63,7 @@ class StorageTest extends TestCase
     {
         $this->storage->foo = 'bar';
         $this->storage->lock();
-        $this->expectException('Laminas\Session\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Cannot set key "foo" due to locking');
         $this->storage->foo = 'baz';
     }
@@ -93,7 +86,7 @@ class StorageTest extends TestCase
         $this->storage->bar = 'baz';
         self::assertEquals('baz', $this->storage->bar);
 
-        $this->expectException('Laminas\Session\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Cannot set key "foo" due to locking');
         $this->storage->foo = 'baz';
     }
@@ -214,7 +207,7 @@ class StorageTest extends TestCase
         $this->storage->foo = 'bar';
         $this->storage->bar = 'baz';
         $this->storage->markImmutable();
-        $this->expectException('Laminas\Session\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Cannot clear storage as it is marked immutable');
         $this->storage->clear();
     }

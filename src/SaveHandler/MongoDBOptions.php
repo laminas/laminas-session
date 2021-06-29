@@ -1,15 +1,15 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session\SaveHandler;
 
 use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Stdlib\AbstractOptions;
+
+use function is_array;
+use function phpversion;
+use function strlen;
+use function strtolower;
+use function version_compare;
 
 /**
  * MongoDB session save handler Options
@@ -34,6 +34,7 @@ class MongoDBOptions extends AbstractOptions
      * Save options
      *
      * @see http://php.net/manual/en/mongocollection.save.php
+     *
      * @var string
      */
     protected $saveOptions = ['w' => 1];
@@ -93,11 +94,13 @@ class MongoDBOptions extends AbstractOptions
      *
      * @param string $key
      * @param mixed $value
+     * @return void
      */
     public function __set($key, $value)
     {
         if (strtolower($key) !== 'saveoptions') {
-            return parent::__set($key, $value);
+            parent::__set($key, $value);
+            return;
         }
 
         if (! is_array($value)) {
@@ -164,6 +167,7 @@ class MongoDBOptions extends AbstractOptions
      * Set save options
      *
      * @see http://php.net/manual/en/mongocollection.save.php
+     *
      * @param array $saveOptions
      * @return MongoDBOptions
      */
@@ -303,6 +307,7 @@ class MongoDBOptions extends AbstractOptions
      * Enable expireAfterSeconds index.
      *
      * @see http://docs.mongodb.org/manual/tutorial/expire-data/
+     *
      * @param boolean $useExpireAfterSecondsIndex
      */
     public function setUseExpireAfterSecondsIndex($useExpireAfterSecondsIndex)

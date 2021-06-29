@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session\SaveHandler;
 
 use Laminas\Cache\Storage\ClearExpiredInterface as ClearExpiredCacheStorage;
@@ -32,14 +26,13 @@ class Cache implements SaveHandlerInterface
 
     /**
      * The cache storage
+     *
      * @var CacheStorage
      */
     protected $cacheStorage;
 
     /**
      * Constructor
-     *
-     * @param  CacheStorage $cacheStorage
      */
     public function __construct(CacheStorage $cacheStorage)
     {
@@ -129,7 +122,6 @@ class Cache implements SaveHandlerInterface
     /**
      * Set cache storage
      *
-     * @param  CacheStorage $cacheStorage
      * @return Cache
      */
     public function setCacheStorage(CacheStorage $cacheStorage)
@@ -150,6 +142,8 @@ class Cache implements SaveHandlerInterface
 
     /**
      * @deprecated Misspelled method - use getCacheStorage() instead
+     *
+     * @return CacheStorage
      */
     public function getCacheStorge()
     {

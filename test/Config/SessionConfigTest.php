@@ -1,10 +1,4 @@
-<?php
-
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
+<?php // phpcs:disable Squiz.Commenting.FunctionComment.WrongStyle
 
 namespace LaminasTest\Session\Config;
 
@@ -18,6 +12,13 @@ use ReflectionProperty;
 use SessionHandlerInterface;
 use stdClass;
 
+use function array_merge;
+use function extension_loaded;
+use function hash_algos;
+use function ini_get;
+use function session_start;
+use function var_export;
+
 /**
  * @runTestsInSeparateProcesses
  * @covers \Laminas\Session\Config\SessionConfig
@@ -26,19 +27,21 @@ class SessionConfigTest extends TestCase
 {
     use PHPMock;
 
-    /**
-     * @var SessionConfig
-     */
+    /** @var SessionConfig */
     protected $config;
 
     protected function setUp(): void
     {
-        $this->config = new SessionConfig();
+        SessionConfig::$phpinfo           = 'phpinfo';
+        SessionConfig::$sessionModuleName = 'session_module_name';
+        $this->config                     = new SessionConfig();
     }
 
     protected function tearDown(): void
     {
-        $this->config = null;
+        $this->config                     = null;
+        SessionConfig::$phpinfo           = 'phpinfo';
+        SessionConfig::$sessionModuleName = 'session_module_name';
     }
 
     // session.save_path
@@ -417,7 +420,7 @@ class SessionConfigTest extends TestCase
 
     public function testCookieHttpOnlyDefaultsToIniSettings(): void
     {
-        self::assertSame((bool)ini_get('session.cookie_httponly'), $this->config->getCookieHttpOnly());
+        self::assertSame((bool) ini_get('session.cookie_httponly'), $this->config->getCookieHttpOnly());
     }
 
     public function testCookieHttpOnlyIsMutable(): void
@@ -438,7 +441,7 @@ class SessionConfigTest extends TestCase
 
     public function testUseCookiesDefaultsToIniSettings(): void
     {
-        self::assertSame((bool)ini_get('session.use_cookies'), $this->config->getUseCookies());
+        self::assertSame((bool) ini_get('session.use_cookies'), $this->config->getUseCookies());
     }
 
     public function testUseCookiesIsMutable(): void
@@ -452,28 +455,28 @@ class SessionConfigTest extends TestCase
     {
         $value = ! ini_get('session.use_cookies');
         $this->config->setUseCookies($value);
-        self::assertEquals($value, (bool)ini_get('session.use_cookies'));
+        self::assertEquals($value, (bool) ini_get('session.use_cookies'));
     }
 
     // session.use_only_cookies
 
     public function testUseOnlyCookiesDefaultsToIniSettings(): void
     {
-        self::assertSame((bool)ini_get('session.use_only_cookies'), $this->config->getUseOnlyCookies());
+        self::assertSame((bool) ini_get('session.use_only_cookies'), $this->config->getUseOnlyCookies());
     }
 
     public function testUseOnlyCookiesIsMutable(): void
     {
         $value = ! ini_get('session.use_only_cookies');
         $this->config->setOption('use_only_cookies', $value);
-        self::assertEquals($value, (bool)$this->config->getOption('use_only_cookies'));
+        self::assertEquals($value, (bool) $this->config->getOption('use_only_cookies'));
     }
 
     public function testUseOnlyCookiesAltersIniSetting(): void
     {
         $value = ! ini_get('session.use_only_cookies');
         $this->config->setOption('use_only_cookies', $value);
-        self::assertEquals($value, (bool)ini_get('session.use_only_cookies'));
+        self::assertEquals($value, (bool) ini_get('session.use_only_cookies'));
     }
 
     // session.referer_check
@@ -529,6 +532,7 @@ class SessionConfigTest extends TestCase
 
     // session.cache_limiter
 
+    /** @psalm-return array<array-key, array{0: string}> */
     public function cacheLimiters(): array
     {
         return [
@@ -548,7 +552,7 @@ class SessionConfigTest extends TestCase
     /**
      * @dataProvider cacheLimiters
      */
-    public function testCacheLimiterIsMutable($cacheLimiter): void
+    public function testCacheLimiterIsMutable(string $cacheLimiter): void
     {
         $this->config->setCacheLimiter($cacheLimiter);
         self::assertEquals($cacheLimiter, $this->config->getCacheLimiter());
@@ -557,7 +561,7 @@ class SessionConfigTest extends TestCase
     /**
      * @dataProvider cacheLimiters
      */
-    public function testCacheLimiterAltersIniSetting($cacheLimiter): void
+    public function testCacheLimiterAltersIniSetting(string $cacheLimiter): void
     {
         $this->config->setCacheLimiter($cacheLimiter);
         self::assertEquals($cacheLimiter, ini_get('session.cache_limiter'));
@@ -607,21 +611,21 @@ class SessionConfigTest extends TestCase
 
     public function testUseTransSidDefaultsToIniSettings(): void
     {
-        self::assertSame((bool)ini_get('session.use_trans_sid'), $this->config->getUseTransSid());
+        self::assertSame((bool) ini_get('session.use_trans_sid'), $this->config->getUseTransSid());
     }
 
     public function testUseTransSidIsMutable(): void
     {
         $value = ! ini_get('session.use_trans_sid');
         $this->config->setOption('use_trans_sid', $value);
-        self::assertEquals($value, (bool)$this->config->getOption('use_trans_sid'));
+        self::assertEquals($value, (bool) $this->config->getOption('use_trans_sid'));
     }
 
     public function testUseTransSidAltersIniSetting(): void
     {
         $value = ! ini_get('session.use_trans_sid');
         $this->config->setOption('use_trans_sid', $value);
-        self::assertEquals($value, (bool)ini_get('session.use_trans_sid'));
+        self::assertEquals($value, (bool) ini_get('session.use_trans_sid'));
     }
 
     // session.hash_function
@@ -706,6 +710,7 @@ class SessionConfigTest extends TestCase
 
     // session.sid_bits_per_character
 
+    /** @psalm-return array<array-key, array{0: int}> */
     public function sidSidPerCharacters(): array
     {
         return [
@@ -723,7 +728,7 @@ class SessionConfigTest extends TestCase
     /**
      * @dataProvider sidSidPerCharacters
      */
-    public function testSidBitsPerCharacterIsMutable($sidBitsPerCharacter): void
+    public function testSidBitsPerCharacterIsMutable(int $sidBitsPerCharacter): void
     {
         $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
         self::assertEquals($sidBitsPerCharacter, $this->config->getSidBitsPerCharacter());
@@ -732,7 +737,7 @@ class SessionConfigTest extends TestCase
     /**
      * @dataProvider sidSidPerCharacters
      */
-    public function testSidBitsPerCharacterAltersIniSetting($sidBitsPerCharacter): void
+    public function testSidBitsPerCharacterAltersIniSetting(int $sidBitsPerCharacter): void
     {
         $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
         self::assertEquals($sidBitsPerCharacter, ini_get('session.sid_bits_per_character'));
@@ -788,8 +793,9 @@ class SessionConfigTest extends TestCase
 
     /**
      * @dataProvider optionsProvider
+     * @param mixed $value
      */
-    public function testSetOptionSetsIniSetting($option, $getter, $value): void
+    public function testSetOptionSetsIniSetting(string $option, string $getter, $value): void
     {
         // Leaving out special cases.
         if ($option === 'remember_me_seconds' || $option === 'url_rewriter_tags') {
@@ -825,9 +831,13 @@ class SessionConfigTest extends TestCase
 
     /**
      * @dataProvider optionsProvider
+     * @param mixed $value
      */
-    public function testSetOptionsTranslatesUnderscoreSeparatedKeys($option, $getter, $value): void
-    {
+    public function testSetOptionsTranslatesUnderscoreSeparatedKeys(
+        string $option,
+        string $getter,
+        $value
+    ): void {
         $options = [$option => $value];
         $this->config->setOptions($options);
         if ('getOption' === $getter) {
@@ -837,9 +847,10 @@ class SessionConfigTest extends TestCase
         }
     }
 
+    /** @psalm-return array<array-key, array{0: string, 1: string, 2: mixed}> */
     public function optionsProvider(): array
     {
-        $commonOptions = [
+        return [
             [
                 'save_path',
                 'getSavePath',
@@ -946,8 +957,6 @@ class SessionConfigTest extends TestCase
                 5,
             ],
         ];
-
-        return $commonOptions;
     }
 
     public function testSetPhpSaveHandlerRaisesExceptionForAttemptsToSetUserModule(): void
@@ -979,19 +988,21 @@ class SessionConfigTest extends TestCase
 
     public function testProvidingValidKnownSessionHandlerToSetPhpSaveHandlerResultsInNoErrors(): void
     {
-        $phpinfo = $this->getFunctionMock('Laminas\Session\Config', 'phpinfo');
-        $phpinfo
-            ->expects(self::once())
-            ->will(
-                self::returnCallback(
-                    function () {
-                        echo "Registered save handlers => user files unittest";
-                    }
-                )
-            );
+        /** @return string */
+        $this->config::$phpinfo = function () {
+            echo "Registered save handlers => user files unittest";
+        };
 
-        $sessionModuleName = $this->getFunctionMock('Laminas\Session\Config', 'session_module_name');
-        $sessionModuleName->expects(self::once());
+        /** @return bool|string */
+        $this->config::$sessionModuleName = function (?string $module = null) {
+            static $moduleName;
+
+            if ($module !== null) {
+                $moduleName = $module;
+            }
+
+            return $moduleName;
+        };
 
         self::assertSame($this->config, $this->config->setPhpSaveHandler('unittest'));
         self::assertEquals('unittest', $this->config->getOption('save_handler'));
@@ -999,23 +1010,22 @@ class SessionConfigTest extends TestCase
 
     public function testCanProvidePathWhenUsingRedisSaveHandler(): void
     {
-        $phpinfo = $this->getFunctionMock('Laminas\Session\Config', 'phpinfo');
-        $phpinfo
-            ->expects(self::once())
-            ->will(
-                self::returnCallback(
-                    function () {
-                        echo "Registered save handlers => user files redis";
-                    }
-                )
-            );
+        $this->config::$phpinfo = function () {
+            echo "Registered save handlers => user files redis";
+        };
 
-        $sessionModuleName = $this->getFunctionMock('Laminas\Session\Config', 'session_module_name');
-        $sessionModuleName
-            ->expects(self::once())
-            ->with(self::equalTo('redis'));
+        /** @return bool|string */
+        $this->config::$sessionModuleName = function (?string $module = null) {
+            static $moduleName;
 
-        $url = 'tcp://localhost:6379?auth=foobar&database=1';
+            if ($module !== null) {
+                $moduleName = $module;
+            }
+
+            return $moduleName;
+        };
+
+        $url                              = 'tcp://localhost:6379?auth=foobar&database=1';
 
         $this->config->setOption('save_handler', 'redis');
         $this->config->setOption('save_path', $url);
@@ -1025,11 +1035,14 @@ class SessionConfigTest extends TestCase
 
     public function testNotCallLocateRegisteredSaveHandlersMethodIfSessionHandlerInterfaceWasPassed(): void
     {
-        $phpinfo = $this->getFunctionMock('Laminas\Session\Config', 'phpinfo');
-        $phpinfo
-            ->expects(self::never());
+        $spy                    = new stdClass();
+        $spy->seen              = false;
+        $this->config::$phpinfo = function () use ($spy): void {
+            $spy->seen = true;
+        };
 
         $saveHandler = $this->createMock(SessionHandlerInterface::class);
         $this->config->setPhpSaveHandler($saveHandler);
+        self::assertFalse($spy->seen, 'phpinfo was called and should not have been');
     }
 }

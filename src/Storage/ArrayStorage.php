@@ -1,15 +1,18 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session\Storage;
 
+use ArrayIterator;
 use Laminas\Session\Exception;
 use Laminas\Stdlib\ArrayObject;
+
+use function array_flip;
+use function array_key_exists;
+use function array_keys;
+use function array_replace_recursive;
+use function is_array;
+use function microtime;
+use function sprintf;
 
 /**
  * Array session storage
@@ -21,6 +24,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
 {
     /**
      * Is storage marked isImmutable?
+     *
      * @var bool
      */
     protected $isImmutable = false;
@@ -38,7 +42,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
     public function __construct(
         $input = [],
         $flags = ArrayObject::ARRAY_AS_PROPS,
-        $iteratorClass = '\\ArrayIterator'
+        $iteratorClass = ArrayIterator::class
     ) {
         parent::__construct($input, $flags, $iteratorClass);
         $this->setRequestAccessTime(microtime(true));

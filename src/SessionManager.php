@@ -1,17 +1,32 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session;
 
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Stdlib\ArrayUtils;
 use Traversable;
+
+use function array_key_exists;
+use function array_merge;
+use function constant;
+use function defined;
+use function headers_sent;
+use function is_array;
+use function iterator_to_array;
+use function preg_match;
+use function register_shutdown_function;
+use function session_destroy;
+use function session_id;
+use function session_name;
+use function session_regenerate_id;
+use function session_set_save_handler;
+use function session_start;
+use function session_status;
+use function session_write_close;
+use function setcookie;
+
+use const PHP_SESSION_ACTIVE;
 
 /**
  * Session ManagerInterface implementation utilizing ext/session
@@ -22,6 +37,7 @@ class SessionManager extends AbstractManager
      * Default options when a call to {@link destroy()} is made
      * - send_expire_cookie: whether or not to send a cookie expiring the current session cookie
      * - clear_storage: whether or not to empty the storage object of any stored values
+     *
      * @var array
      */
     protected $defaultDestroyOptions = [
@@ -29,44 +45,33 @@ class SessionManager extends AbstractManager
         'clear_storage'      => false,
     ];
 
-    /**
-     * @var array Default session manager options
-     */
+    /** @var array Default session manager options */
     protected $defaultOptions = [
         'attach_default_validators' => true,
     ];
 
-    /**
-     * @var array Default validators
-     */
+    /** @var array Default validators */
     protected $defaultValidators = [
         Validator\Id::class,
     ];
 
-    /**
-     * @var string value returned by session_name()
-     */
+    /** @var string value returned by session_name() */
     protected $name;
 
-    /**
-     * @var EventManagerInterface Validation chain to determine if session is valid
-     */
+    /** @var EventManagerInterface Validation chain to determine if session is valid */
     protected $validatorChain;
 
     /**
      * Constructor
      *
-     * @param  Config\ConfigInterface|null           $config
-     * @param  Storage\StorageInterface|null         $storage
-     * @param  SaveHandler\SaveHandlerInterface|null $saveHandler
      * @param  array                                 $validators
      * @param  array                                 $options
      * @throws Exception\RuntimeException
      */
     public function __construct(
-        Config\ConfigInterface $config = null,
-        Storage\StorageInterface $storage = null,
-        SaveHandler\SaveHandlerInterface $saveHandler = null,
+        ?Config\ConfigInterface $config = null,
+        ?Storage\StorageInterface $storage = null,
+        ?SaveHandler\SaveHandlerInterface $saveHandler = null,
         array $validators = [],
         array $options = []
     ) {
@@ -86,7 +91,7 @@ class SessionManager extends AbstractManager
      */
     public function sessionExists()
     {
-        if (session_status() == PHP_SESSION_ACTIVE) {
+        if (session_status() === PHP_SESSION_ACTIVE) {
             return true;
         }
         $sid = defined('SID') ? constant('SID') : false;
@@ -187,7 +192,7 @@ class SessionManager extends AbstractManager
      * @param  array $options See {@link $defaultDestroyOptions}
      * @return void
      */
-    public function destroy(array $options = null)
+    public function destroy(?array $options = null)
     {
         if (! $this->sessionExists()) {
             return;
@@ -229,7 +234,7 @@ class SessionManager extends AbstractManager
         // session_write_close() operation, no changes made to it will be
         // flushed to the session handler. As such, we now mark the storage
         // object isImmutable.
-        $storage  = $this->getStorage();
+        $storage = $this->getStorage();
         if (! $storage->isImmutable()) {
             $_SESSION = $storage->toArray(true);
             session_write_close();
@@ -370,7 +375,6 @@ class SessionManager extends AbstractManager
      *
      * In most cases, you should use an instance of {@link ValidatorChain}.
      *
-     * @param  EventManagerInterface $chain
      * @return SessionManager
      */
     public function setValidatorChain(EventManagerInterface $chain)
@@ -481,7 +485,6 @@ class SessionManager extends AbstractManager
      * Since ext/session is coupled to this particular session manager
      * register the save handler with ext/session.
      *
-     * @param SaveHandler\SaveHandlerInterface $saveHandler
      * @return bool
      */
     protected function registerSaveHandler(SaveHandler\SaveHandlerInterface $saveHandler)

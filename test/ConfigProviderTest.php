@@ -14,6 +14,10 @@ use Laminas\Session\Service\StorageFactory;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\StorageInterface;
 use PHPUnit\Framework\TestCase;
+use Zend\Session\Config\ConfigInterface as LegacyConfigInterface;
+use Zend\Session\ManagerInterface as LegacyManagerInterface;
+use Zend\Session\SessionManager as LegacySessionManager;
+use Zend\Session\Storage\StorageInterface as LegacyStorageInterface;
 
 class ConfigProviderTest extends TestCase
 {
@@ -49,9 +53,9 @@ class ConfigProviderTest extends TestCase
     {
         $config = $this->config['dependencies']['aliases'];
 
-        self::assertSame($config['Zend\Session\SessionManager'], SessionManager::class);
-        self::assertSame($config['Zend\Session\Config\ConfigInterface'], ConfigInterface::class);
-        self::assertSame($config['Zend\Session\ManagerInterface'], ManagerInterface::class);
-        self::assertSame($config['Zend\Session\Storage\StorageInterface'], StorageInterface::class);
+        self::assertSame($config[LegacySessionManager::class], SessionManager::class);
+        self::assertSame($config[LegacyConfigInterface::class], ConfigInterface::class);
+        self::assertSame($config[LegacyManagerInterface::class], ManagerInterface::class);
+        self::assertSame($config[LegacyStorageInterface::class], StorageInterface::class);
     }
 }

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session\Validator;
 
 use Laminas\Http\PhpEnvironment\RemoteAddress;
@@ -68,7 +62,7 @@ class RemoteAddr implements SessionValidator
      */
     public function isValid()
     {
-        return ($this->getIpAddress() === $this->getData());
+        return $this->getIpAddress() === $this->getData();
     }
 
     /**
@@ -148,6 +142,6 @@ class RemoteAddr implements SessionValidator
      */
     public function getName()
     {
-        return __CLASS__;
+        return self::class;
     }
 }

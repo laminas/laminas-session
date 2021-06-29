@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session\SaveHandler;
 
 use Laminas\Session\SaveHandler\MongoDB;
@@ -15,15 +9,20 @@ use MongoDB\Collection as MongoCollection;
 use MongoDB\Driver\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 
+use function ini_get;
+use function ini_set;
+use function is_string;
+use function serialize;
+use function sleep;
+use function unserialize;
+
 /**
  * @covers \Laminas\Session\SaveHandler\MongoDb
  * @requires extension mongodb
  */
 class MongoDBTest extends TestCase
 {
-    /**
-     * @var MongoClient
-     */
+    /** @var MongoClient */
     protected $mongoClient;
 
     /**
@@ -33,15 +32,11 @@ class MongoDBTest extends TestCase
      */
     protected $mongoCollection;
 
-    /**
-     * @var MongoDBOptions
-     */
+    /** @var MongoDBOptions */
     protected $options;
 
     /**
      * Setup performed prior to each test method
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -61,8 +56,6 @@ class MongoDBTest extends TestCase
 
     /**
      * Tear-down operations performed after each test method
-     *
-     * @return void
      */
     protected function tearDown(): void
     {

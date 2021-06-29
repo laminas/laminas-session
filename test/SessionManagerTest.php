@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session;
 
 use ArrayIterator;
@@ -23,6 +17,26 @@ use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Traversable;
+
+use function array_merge;
+use function extension_loaded;
+use function headers_sent;
+use function ini_get;
+use function preg_match;
+use function range;
+use function restore_error_handler;
+use function session_destroy;
+use function session_id;
+use function session_name;
+use function session_start;
+use function session_write_close;
+use function set_error_handler;
+use function stristr;
+use function var_export;
+
+use const E_WARNING;
+use const PHP_SAPI;
 
 /**
  * @preserveGlobalState disabled
@@ -33,13 +47,13 @@ class SessionManagerTest extends TestCase
     use ProphecyTrait;
     use ReflectionPropertyTrait;
 
+    /** @var false|string */
     public $error;
 
+    /** @var string */
     public $cookieDateFormat = 'D, d-M-y H:i:s e';
 
-    /**
-     * @var SessionManager
-     */
+    /** @var SessionManager */
     protected $manager;
 
     protected function setUp(): void
@@ -47,16 +61,20 @@ class SessionManagerTest extends TestCase
         $this->error = false;
     }
 
+    /**
+     * @param int $errno
+     * @param string $errstr
+     */
     public function handleErrors($errno, $errstr): void
     {
         $this->error = $errstr;
     }
 
-    public function getTimestampFromCookie($cookie)
+    /** @return false|DateTime */
+    public function getTimestampFromCookie(string $cookie)
     {
         if (preg_match('/expires=([^;]+)/', $cookie, $matches)) {
-            $ts = new DateTime($matches[1]);
-            return $ts;
+            return new DateTime($matches[1]);
         }
         return false;
     }
@@ -220,7 +238,7 @@ class SessionManagerTest extends TestCase
         self::assertFalse($manager->sessionExists());
         $manager->start();
         self::assertTrue($manager->sessionExists());
-        self::assertInstanceOf('\Traversable', $_SESSION);
+        self::assertInstanceOf(Traversable::class, $_SESSION);
         self::assertEquals('value1', $_SESSION->key1);
         self::assertEquals('value2', $_SESSION->key2);
     }
@@ -298,7 +316,7 @@ class SessionManagerTest extends TestCase
     public function testStartWillNotBlockHeaderSentNotices(): void
     {
         $this->manager = new SessionManager();
-        if ('cli' == PHP_SAPI) {
+        if ('cli' === PHP_SAPI) {
             self::markTestSkipped('session_start() will not raise headers_sent warnings in CLI');
         }
         set_error_handler([$this, 'handleErrors'], E_WARNING);
@@ -497,9 +515,9 @@ class SessionManagerTest extends TestCase
     public function testIdShouldBeMutablePriorToCallingStart(): void
     {
         $this->manager = new SessionManager();
-        $this->manager->setId(__CLASS__);
-        self::assertSame(__CLASS__, $this->manager->getId());
-        self::assertSame(__CLASS__, session_id());
+        $this->manager->setId(self::class);
+        self::assertSame(self::class, $this->manager->getId());
+        self::assertSame(self::class, session_id());
     }
 
     /**
@@ -728,7 +746,7 @@ class SessionManagerTest extends TestCase
     {
         $this->manager   = new SessionManager();
         $validatorCalled = false;
-        $validator       = function () use (& $validatorCalled) {
+        $validator       = function () use (&$validatorCalled) {
             $validatorCalled = true;
         };
 

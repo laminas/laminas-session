@@ -1,12 +1,9 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session;
+
+use Zend\Session\Config\ConfigInterface;
+use Zend\Session\Storage\StorageInterface;
 
 class ConfigProvider
 {
@@ -33,18 +30,18 @@ class ConfigProvider
             'abstract_factories' => [
                 Service\ContainerAbstractServiceFactory::class,
             ],
-            'aliases' => [
+            'aliases'            => [
                 SessionManager::class => ManagerInterface::class,
 
                 // Legacy Zend Framework aliases
-                \Zend\Session\SessionManager::class => SessionManager::class,
-                \Zend\Session\Config\ConfigInterface::class => Config\ConfigInterface::class,
+                \Zend\Session\SessionManager::class   => SessionManager::class,
+                ConfigInterface::class                => Config\ConfigInterface::class,
                 \Zend\Session\ManagerInterface::class => ManagerInterface::class,
-                \Zend\Session\Storage\StorageInterface::class => Storage\StorageInterface::class,
+                StorageInterface::class               => Storage\StorageInterface::class,
             ],
-            'factories' => [
-                Config\ConfigInterface::class => Service\SessionConfigFactory::class,
-                ManagerInterface::class => Service\SessionManagerFactory::class,
+            'factories'          => [
+                Config\ConfigInterface::class   => Service\SessionConfigFactory::class,
+                ManagerInterface::class         => Service\SessionManagerFactory::class,
                 Storage\StorageInterface::class => Service\StorageFactory::class,
             ],
         ];

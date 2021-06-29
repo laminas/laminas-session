@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session\Service;
 
 use Interop\Container\ContainerInterface;
@@ -18,6 +12,15 @@ use Laminas\Session\ManagerInterface;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\StorageInterface;
+
+use function array_merge;
+use function class_exists;
+use function get_class;
+use function gettype;
+use function is_array;
+use function is_object;
+use function is_subclass_of;
+use function sprintf;
 
 class SessionManagerFactory implements FactoryInterface
 {
@@ -56,12 +59,11 @@ class SessionManagerFactory implements FactoryInterface
      *   this is true; set it to false to disable.
      * - validators: ...
      *
-     * @param ContainerInterface $container
      * @param string $requestedName
      * @param array $options
      * @return SessionManager
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $config        = null;
         $storage       = null;
@@ -77,7 +79,7 @@ class SessionManagerFactory implements FactoryInterface
                     'SessionManager requires that the %s service implement %s; received "%s"',
                     ConfigInterface::class,
                     ConfigInterface::class,
-                    (is_object($config) ? get_class($config) : gettype($config))
+                    is_object($config) ? get_class($config) : gettype($config)
                 ));
             }
         }
@@ -89,7 +91,7 @@ class SessionManagerFactory implements FactoryInterface
                     'SessionManager requires that the %s service implement %s; received "%s"',
                     StorageInterface::class,
                     StorageInterface::class,
-                    (is_object($storage) ? get_class($storage) : gettype($storage))
+                    is_object($storage) ? get_class($storage) : gettype($storage)
                 ));
             }
         }
@@ -101,7 +103,7 @@ class SessionManagerFactory implements FactoryInterface
                     'SessionManager requires that the %s service implement %s; received "%s"',
                     SaveHandlerInterface::class,
                     SaveHandlerInterface::class,
-                    (is_object($saveHandler) ? get_class($saveHandler) : gettype($saveHandler))
+                    is_object($saveHandler) ? get_class($saveHandler) : gettype($saveHandler)
                 ));
             }
         }
@@ -109,7 +111,8 @@ class SessionManagerFactory implements FactoryInterface
         // Get session manager configuration, if any, and merge with default configuration
         if ($container->has('config')) {
             $configService = $container->get('config');
-            if (isset($configService['session_manager'])
+            if (
+                isset($configService['session_manager'])
                 && is_array($configService['session_manager'])
             ) {
                 $managerConfig = array_merge($managerConfig, $configService['session_manager']);
@@ -137,7 +140,8 @@ class SessionManagerFactory implements FactoryInterface
 
         // If configuration enables the session manager as the default manager for container
         // instances, do so.
-        if (isset($managerConfig['enable_default_container_manager'])
+        if (
+            isset($managerConfig['enable_default_container_manager'])
             && $managerConfig['enable_default_container_manager']
         ) {
             Container::setDefaultManager($manager);
@@ -149,7 +153,6 @@ class SessionManagerFactory implements FactoryInterface
     /**
      * Create a SessionManager instance (v2 usage)
      *
-     * @param ServiceLocatorInterface $services
      * @param null|string $canonicalName
      * @param string $requestedName
      * @return SessionManager

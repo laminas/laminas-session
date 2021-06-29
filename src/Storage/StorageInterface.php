@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session\Storage;
 
 use ArrayAccess;
@@ -21,20 +15,62 @@ use Traversable;
  */
 interface StorageInterface extends Traversable, ArrayAccess, Serializable, Countable
 {
+    /** @return float */
     public function getRequestAccessTime();
 
+    /**
+     * @param null|int|string $key
+     * @return self
+     */
     public function lock($key = null);
+
+    /**
+     * @param null|int|string $key
+     * @return bool
+     */
     public function isLocked($key = null);
+
+    /**
+     * @param null|int|string $key
+     * @return self
+     */
     public function unlock($key = null);
 
+    /** @return self */
     public function markImmutable();
+
+    /** @return bool */
     public function isImmutable();
 
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @param bool $overwriteArray
+     * @return self
+     */
     public function setMetadata($key, $value, $overwriteArray = false);
+
+    /**
+     * @param null|int|string $key
+     * @return mixed
+     */
     public function getMetadata($key = null);
 
+    /**
+     * @param null|int|string $key
+     * @return self
+     */
     public function clear($key = null);
 
+    /**
+     * @param array $array
+     * @return self
+     */
     public function fromArray(array $array);
-    public function toArray($metaData = false);
+
+    /**
+     * @param bool $metadata
+     * @return array
+     */
+    public function toArray($metadata = false);
 }

@@ -1,14 +1,11 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session\Storage;
 
+use ArrayIterator;
 use Laminas\Stdlib\ArrayObject;
+
+use function is_object;
 
 /**
  * Session storage in $_SESSION
@@ -28,8 +25,11 @@ class SessionStorage extends ArrayStorage
      * @param int        $flags
      * @param string     $iteratorClass
      */
-    public function __construct($input = null, $flags = ArrayObject::ARRAY_AS_PROPS, $iteratorClass = '\\ArrayIterator')
-    {
+    public function __construct(
+        $input = null,
+        $flags = ArrayObject::ARRAY_AS_PROPS,
+        $iteratorClass = ArrayIterator::class
+    ) {
         $resetSession = true;
         if ((null === $input) && isset($_SESSION)) {
             $input = $_SESSION;
@@ -98,6 +98,6 @@ class SessionStorage extends ArrayStorage
      */
     public function isImmutable()
     {
-        return (isset($this['_IMMUTABLE']) && $this['_IMMUTABLE']);
+        return isset($this['_IMMUTABLE']) && $this['_IMMUTABLE'];
     }
 }

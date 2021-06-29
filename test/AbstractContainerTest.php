@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session;
 
 use Laminas\Session\Config\StandardConfig;
@@ -22,18 +16,16 @@ class AbstractContainerTest extends TestCase
     /**
      * Hack to allow running tests in separate processes
      *
-     * @see    http://matthewturland.com/2010/08/19/process-isolation-in-phpunit/
+     * @see http://matthewturland.com/2010/08/19/process-isolation-in-phpunit/
+     *
+     * @var bool
      */
     protected $preserveGlobalState = false;
 
-    /**
-     * @var Manager
-     */
+    /** @var Manager */
     protected $manager;
 
-    /**
-     * @var Container
-     */
+    /** @var Container */
     protected $container;
 
     protected function setUp(): void

@@ -1,16 +1,13 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session\SaveHandler\DbTableGateway;
 
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Session\SaveHandler\DbTableGateway;
 use LaminasTest\Session\SaveHandler\DbTableGatewayTest;
+
+use function extension_loaded;
+use function sprintf;
 
 class PdoSqliteAdapterTest extends DbTableGatewayTest
 {
@@ -29,7 +26,7 @@ class PdoSqliteAdapterTest extends DbTableGatewayTest
         }
 
         return new Adapter([
-            'driver' => 'pdo_sqlite',
+            'driver'   => 'pdo_sqlite',
             'database' => ':memory:',
         ]);
     }

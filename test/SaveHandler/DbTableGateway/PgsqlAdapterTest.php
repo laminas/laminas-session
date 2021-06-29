@@ -1,16 +1,14 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session\SaveHandler\DbTableGateway;
 
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Session\SaveHandler\DbTableGateway;
 use LaminasTest\Session\SaveHandler\DbTableGatewayTest;
+
+use function extension_loaded;
+use function getenv;
+use function sprintf;
 
 class PgsqlAdapterTest extends DbTableGatewayTest
 {
@@ -38,11 +36,11 @@ class PgsqlAdapterTest extends DbTableGatewayTest
         }
 
         return new Adapter([
-            'driver' => 'pgsql',
-            'host' => getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_HOSTNAME'),
-            'user' => getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_USERNAME'),
+            'driver'   => 'pgsql',
+            'host'     => getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_HOSTNAME'),
+            'user'     => getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_USERNAME'),
             'password' => getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_PASSWORD'),
-            'dbname' => getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_DATABASE'),
+            'dbname'   => getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_DATABASE'),
         ]);
     }
 }

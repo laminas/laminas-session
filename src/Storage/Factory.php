@@ -1,18 +1,26 @@
-<?php
-
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
+<?php // phpcs:disable WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix,Generic.NamingConventions.ConstructorName.OldStyle
 
 namespace Laminas\Session\Storage;
 
 use ArrayAccess;
 use Laminas\Session\Exception;
+use Laminas\Session\Storage\AbstractSessionArrayStorage;
+use Laminas\Session\Storage\ArrayStorage;
+use Laminas\Session\Storage\StorageInterface;
 use Laminas\Stdlib\ArrayObject;
 use Laminas\Stdlib\ArrayUtils;
 use Traversable;
+
+use function class_exists;
+use function class_implements;
+use function class_parents;
+use function get_class;
+use function gettype;
+use function in_array;
+use function is_array;
+use function is_object;
+use function is_string;
+use function sprintf;
 
 abstract class Factory
 {
@@ -22,7 +30,7 @@ abstract class Factory
      * @param  string                             $type
      * @param  array|Traversable                  $options
      * @return StorageInterface
-     * @throws Exception\InvalidArgumentException for unrecognized $type or individual options
+     * @throws Exception\InvalidArgumentException For unrecognized $type or individual options.
      */
     public static function factory($type, $options = [])
     {
@@ -30,7 +38,7 @@ abstract class Factory
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects the $type argument to be a string class name; received "%s"',
                 __METHOD__,
-                (is_object($type) ? get_class($type) : gettype($type))
+                is_object($type) ? get_class($type) : gettype($type)
             ));
         }
         if (! class_exists($type)) {
@@ -52,17 +60,17 @@ abstract class Factory
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects the $options argument to be an array or Traversable; received "%s"',
                 __METHOD__,
-                (is_object($options) ? get_class($options) : gettype($options))
+                is_object($options) ? get_class($options) : gettype($options)
             ));
         }
 
         switch (true) {
-            case (in_array('Laminas\Session\Storage\AbstractSessionArrayStorage', class_parents($type))):
+            case in_array(AbstractSessionArrayStorage::class, class_parents($type)):
                 return static::createSessionArrayStorage($type, $options);
-            case ($type === 'Laminas\Session\Storage\ArrayStorage'):
-            case (in_array('Laminas\Session\Storage\ArrayStorage', class_parents($type))):
+            case $type === ArrayStorage::class:
+            case in_array(ArrayStorage::class, class_parents($type)):
                 return static::createArrayStorage($type, $options);
-            case (in_array('Laminas\Session\Storage\StorageInterface', class_implements($type))):
+            case in_array(StorageInterface::class, class_implements($type)):
                 return new $type($options);
             default:
                 throw new Exception\InvalidArgumentException(sprintf(
@@ -91,7 +99,7 @@ abstract class Factory
                 throw new Exception\InvalidArgumentException(sprintf(
                     '%s expects the "input" option to be an array; received "%s"',
                     $type,
-                    (is_object($options['input']) ? get_class($options['input']) : gettype($options['input']))
+                    is_object($options['input']) ? get_class($options['input']) : gettype($options['input'])
                 ));
             }
             $input = $options['input'];
@@ -106,10 +114,9 @@ abstract class Factory
                 throw new Exception\InvalidArgumentException(sprintf(
                     '%s expects the "iterator_class" option to be a valid class; received "%s"',
                     $type,
-                    (is_object($options['iterator_class'])
+                    is_object($options['iterator_class'])
                         ? get_class($options['iterator_class'])
                         : gettype($options['iterator_class'])
-                    )
                 ));
             }
             $iteratorClass = $options['iterator_class'];
@@ -124,14 +131,15 @@ abstract class Factory
      * @param  string                             $type
      * @param  array                              $options
      * @return AbstractSessionArrayStorage
-     * @throws Exception\InvalidArgumentException if the input option is invalid
+     * @throws Exception\InvalidArgumentException If the input option is invalid.
      */
     protected static function createSessionArrayStorage($type, array $options)
     {
         $input = null;
         if (isset($options['input'])) {
             $input = $options['input'];
-            if (! is_array($input)
+            if (
+                ! is_array($input)
                 && ! $input instanceof ArrayAccess
             ) {
                 throw new Exception\InvalidArgumentException(sprintf(
