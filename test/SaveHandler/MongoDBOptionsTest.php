@@ -6,6 +6,7 @@ use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\SaveHandler\MongoDBOptions;
 use PHPUnit\Framework\TestCase;
 
+use function getenv;
 use function phpversion;
 use function version_compare;
 
@@ -16,6 +17,10 @@ class MongoDBOptionsTest extends TestCase
 {
     public function testDefaults(): void
     {
+        if (! getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB')) {
+            $this->markTestSkipped('MongoDB tests are disabled');
+        }
+
         $options = new MongoDBOptions();
         self::assertNull($options->getDatabase());
         self::assertNull($options->getCollection());
@@ -74,7 +79,7 @@ class MongoDBOptionsTest extends TestCase
     public function testInvalidDatabase(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $options = new MongoDBOptions(
+        new MongoDBOptions(
             [
                 'database' => null,
             ]
@@ -84,7 +89,7 @@ class MongoDBOptionsTest extends TestCase
     public function testInvalidCollection(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $options = new MongoDBOptions(
+        new MongoDBOptions(
             [
                 'collection' => null,
             ]
@@ -94,7 +99,7 @@ class MongoDBOptionsTest extends TestCase
     public function testInvalidSaveOptions(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $options = new MongoDBOptions(
+        new MongoDBOptions(
             [
                 'saveOptions' => null,
             ]
@@ -104,7 +109,7 @@ class MongoDBOptionsTest extends TestCase
     public function testInvalidNameField(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $options = new MongoDBOptions(
+        new MongoDBOptions(
             [
                 'nameField' => null,
             ]
@@ -114,7 +119,7 @@ class MongoDBOptionsTest extends TestCase
     public function testInvalidModifiedField(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $options = new MongoDBOptions(
+        new MongoDBOptions(
             [
                 'modifiedField' => null,
             ]
@@ -124,7 +129,7 @@ class MongoDBOptionsTest extends TestCase
     public function testInvalidLifetimeField(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $options = new MongoDBOptions(
+        new MongoDBOptions(
             [
                 'lifetimeField' => null,
             ]
@@ -134,7 +139,7 @@ class MongoDBOptionsTest extends TestCase
     public function testInvalidDataField(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $options = new MongoDBOptions(
+        new MongoDBOptions(
             [
                 'dataField' => null,
             ]

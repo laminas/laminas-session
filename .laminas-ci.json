@@ -1,8 +1,7 @@
 {
     "extensions": [
-        "mongodb"
-    ],
-    "ini": [
-        "extension=mongodb.so"
+        "mongodb",
+        "mysql",
+        "pgsql"
     ]
 }

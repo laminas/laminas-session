@@ -9,6 +9,7 @@ use MongoDB\Collection as MongoCollection;
 use MongoDB\Driver\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 
+use function getenv;
 use function ini_get;
 use function ini_set;
 use function is_string;
@@ -40,6 +41,10 @@ class MongoDBTest extends TestCase
      */
     protected function setUp(): void
     {
+        if (! getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB')) {
+            $this->markTestSkipped('MongoDB tests are disabled');
+        }
+
         $this->options = new MongoDBOptions(
             [
                 'database'   => 'laminas_tests',
@@ -47,7 +52,9 @@ class MongoDBTest extends TestCase
             ]
         );
 
-        $this->mongoClient     = new MongoClient();
+        $this->mongoClient     = new MongoClient(
+            getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB_CONNECTION_STRING')
+        );
         $this->mongoCollection = $this->mongoClient->selectCollection(
             $this->options->getDatabase(),
             $this->options->getCollection()
