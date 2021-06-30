@@ -67,7 +67,8 @@ class SessionConfigFactory implements FactoryInterface
             && ! $sessionConfig instanceof SameSiteCookieCapableInterface
         ) {
             throw new ServiceNotCreatedException(sprintf(
-                'Invalid configuration class "%s". When configuration option "cookie_samesite" is used, the configuration class must implement %s',
+                'Invalid configuration class "%s". When configuration option "cookie_samesite" is used,'
+                . ' the configuration class must implement %s',
                 $class,
                 SameSiteCookieCapableInterface::class
             ));

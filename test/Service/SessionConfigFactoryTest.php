@@ -3,8 +3,8 @@
 namespace LaminasTest\Session\Service;
 
 use Laminas\ServiceManager\Config;
-use Laminas\ServiceManager\ServiceManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Config\StandardConfig;
@@ -82,13 +82,13 @@ class SessionConfigFactoryTest extends TestCase
             'config',
             [
                 'session_config' => [
-                    'config_class' => TestConfig::class,
+                    'config_class'    => TestConfig::class,
                     'cookie_samesite' => 'Lax',
                 ],
             ]
         );
         $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionMessage('Invalid configuration class "LaminasTest\Session\TestAsset\TestConfig". When configuration option "cookie_samesite" is used, the configuration class must implement Laminas\Session\Config\SameSiteCookieCapableInterface');
+        $this->expectExceptionMessage('"cookie_samesite"');
         $this->services->get(ConfigInterface::class);
     }
 }

@@ -1,134 +1,168 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session\TestAsset;
 
 use Laminas\Session\Config\ConfigInterface;
 
 class TestConfig implements ConfigInterface
 {
+    /**
+     * @param array $options
+     * @return void
+     */
     public function setOptions($options)
     {
-        return;
     }
 
+    /** @return void */
     public function getOptions()
     {
-        return;
     }
 
+    /**
+     * @param string $option
+     * @param mixed $value
+     * @return void
+     */
     public function setOption($option, $value)
     {
-        return;
     }
 
+    /**
+     * @param string $option
+     * @return void
+     */
     public function getOption($option)
     {
-        return;
     }
 
+    /**
+     * @param string $option
+     * @return void
+     */
     public function hasOption($option)
     {
-        return;
     }
 
+    /** @return void */
     public function toArray()
     {
-        return;
     }
 
+    /**
+     * @param string $name
+     * @return void
+     */
     public function setName($name)
     {
-        return;
     }
 
+    /** @return void */
     public function getName()
     {
-        return;
     }
 
+    /**
+     * @param string $savePath
+     * @return void
+     */
     public function setSavePath($savePath)
     {
-        return;
     }
 
+    /** @return void */
     public function getSavePath()
     {
-        return;
     }
 
+    /**
+     * @param int $cookieLifetime
+     * @return void
+     */
     public function setCookieLifetime($cookieLifetime)
     {
-        return;
     }
 
+    /** @return void */
     public function getCookieLifetime()
     {
-        return;
     }
 
+    /**
+     * @param string $cookiePath
+     * @return void
+     */
     public function setCookiePath($cookiePath)
     {
-        return;
     }
 
+    /** @return void */
     public function getCookiePath()
     {
-        return;
     }
 
+    /**
+     * @param string $cookieDomain
+     * @return void
+     */
     public function setCookieDomain($cookieDomain)
     {
-        return;
     }
 
+    /** @return void */
     public function getCookieDomain()
     {
-        return;
     }
 
+    /**
+     * @param bool $cookieSecure
+     * @return void
+     */
     public function setCookieSecure($cookieSecure)
     {
-        return;
     }
 
+    /** @return void */
     public function getCookieSecure()
     {
-        return;
     }
 
+    /**
+     * @param bool $cookieHttpOnly
+     * @return void
+     */
     public function setCookieHttpOnly($cookieHttpOnly)
     {
-        return;
     }
 
+    /** @return void */
     public function getCookieHttpOnly()
     {
-        return;
     }
 
+    /**
+     * @param bool $useCookies
+     * @return void
+     */
     public function setUseCookies($useCookies)
     {
-        return;
     }
 
+    /** @return void */
     public function getUseCookies()
     {
-        return;
     }
 
+    /**
+     * @param int $rememberMeSeconds
+     * @return void
+     */
     public function setRememberMeSeconds($rememberMeSeconds)
     {
-        return;
     }
 
+    /** @return void */
     public function getRememberMeSeconds()
     {
-        return;
     }
 }

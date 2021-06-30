@@ -33,7 +33,7 @@ use const PHP_VERSION_ID;
 /**
  * Standard session configuration
  */
-class StandardConfig implements SameSiteCookieCapableInterface
+class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
 {
     /**
      * session.name
