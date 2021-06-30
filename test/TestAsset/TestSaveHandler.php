@@ -1,18 +1,17 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session\TestAsset;
 
 use Laminas\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
 
 class TestSaveHandler implements SaveHandler
 {
-    public function open($save_path, $name)
+    /**
+     * @param string $savePath
+     * @param string $name
+     * @return void
+     */
+    public function open($savePath, $name)
     {
     }
 
@@ -20,18 +19,35 @@ class TestSaveHandler implements SaveHandler
     {
     }
 
+    /**
+     * @param int|string $id
+     * @return void
+     */
     public function read($id)
     {
     }
 
+    /**
+     * @param int|string $id
+     * @param array $data
+     * @return void
+     */
     public function write($id, $data)
     {
     }
 
+    /**
+     * @param int|string $id
+     * @return void
+     */
     public function destroy($id)
     {
     }
 
+    /**
+     * @param int $maxlifetime
+     * @return void
+     */
     public function gc($maxlifetime)
     {
     }

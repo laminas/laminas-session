@@ -1,10 +1,4 @@
-<?php
-
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
+<?php // phpcs:disable WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix
 
 namespace LaminasTest\Session\SaveHandler;
 
@@ -12,8 +6,13 @@ use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Session\SaveHandler\DbTableGateway;
 use Laminas\Session\SaveHandler\DbTableGatewayOptions;
-use LaminasTest\Session\TestAsset\TestDbTableGatewaySaveHandler;
 use PHPUnit\Framework\TestCase;
+
+use function is_string;
+use function microtime;
+use function serialize;
+use function unserialize;
+use function var_export;
 
 /**
  * Unit testing for DbTableGateway include all tests for
@@ -23,19 +22,13 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class DbTableGatewayTest extends TestCase
 {
-    /**
-     * @var Adapter
-     */
+    /** @var Adapter */
     protected $adapter;
 
-    /**
-     * @var TableGateway
-     */
+    /** @var TableGateway */
     protected $tableGateway;
 
-    /**
-     * @var DbTableGatewayOptions
-     */
+    /** @var DbTableGatewayOptions */
     protected $options;
 
     /**
@@ -60,8 +53,6 @@ abstract class DbTableGatewayTest extends TestCase
 
     /**
      * Setup performed prior to each test method
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -83,8 +74,6 @@ abstract class DbTableGatewayTest extends TestCase
 
     /**
      * Tear-down operations performed after each test method
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -221,9 +210,6 @@ EOD;
 
     /**
      * Sets up the database connection and creates the table for session data
-     *
-     * @param DbTableGatewayOptions $options
-     * @return void
      */
     protected function setupDb(DbTableGatewayOptions $options): void
     {
@@ -243,8 +229,6 @@ EOD;
 
     /**
      * Drops the database table for session data
-     *
-     * @return void
      */
     protected function dropTable(): void
     {

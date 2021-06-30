@@ -44,5 +44,8 @@
         <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_USERNAME" value="travis" />
         <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_PASSWORD" value="" />
         <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_DATABASE" value="laminas_session_test" />
+
+        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB" value="false" />
+        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB_CONNECTION_STRING" value="mongodb://localhost/" />
     </php>
 </phpunit>

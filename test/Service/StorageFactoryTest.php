@@ -1,17 +1,12 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session\Service;
 
 use ArrayObject;
 use Laminas\ServiceManager\Config;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\ServiceManager;
+use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Service\StorageFactory;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\SessionArrayStorage;
@@ -39,66 +34,88 @@ class StorageFactoryTest extends TestCase
         $config->configureServiceManager($this->services);
     }
 
+    /**
+     * @psalm-return array<string, array{
+     *     0: array<string, mixed>,
+     *     1: class-string
+     * }>
+     */
     public function sessionStorageConfig(): array
     {
         return [
-            'array-storage-short' => [[
-                                          'session_storage' => [
-                                              'type'    => 'ArrayStorage',
-                                              'options' => [
-                                                  'input' => [
-                                                      'foo' => 'bar',
-                                                  ],
-                                              ],
-                                          ],
-                                      ], ArrayStorage::class],
-            'array-storage-fqcn' => [[
-                'session_storage' => [
-                    'type' => ArrayStorage::class,
-                    'options' => [
-                        'input' => [
-                            'foo' => 'bar',
+            'array-storage-short'               => [
+                [
+                    'session_storage' => [
+                        'type'    => 'ArrayStorage',
+                        'options' => [
+                            'input' => [
+                                'foo' => 'bar',
+                            ],
                         ],
                     ],
                 ],
-            ], ArrayStorage::class],
-            'session-array-storage-short' => [[
-                'session_storage' => [
-                    'type' => 'SessionArrayStorage',
-                    'options' => [
-                        'input' => [
-                            'foo' => 'bar',
+                ArrayStorage::class,
+            ],
+            'array-storage-fqcn'                => [
+                [
+                    'session_storage' => [
+                        'type'    => ArrayStorage::class,
+                        'options' => [
+                            'input' => [
+                                'foo' => 'bar',
+                            ],
                         ],
                     ],
                 ],
-            ], SessionArrayStorage::class],
-            'session-array-storage-arrayobject' => [[
-                'session_storage' => [
-                    'type' => 'SessionArrayStorage',
-                    'options' => [
-                        'input' => new ArrayObject([
-                            'foo' => 'bar',
-                        ]),
-                    ],
-                ],
-            ], SessionArrayStorage::class],
-            'session-array-storage-fqcn' => [[
-                'session_storage' => [
-                    'type' => SessionArrayStorage::class,
-                    'options' => [
-                        'input' => [
-                            'foo' => 'bar',
+                ArrayStorage::class,
+            ],
+            'session-array-storage-short'       => [
+                [
+                    'session_storage' => [
+                        'type'    => 'SessionArrayStorage',
+                        'options' => [
+                            'input' => [
+                                'foo' => 'bar',
+                            ],
                         ],
                     ],
                 ],
-            ], SessionArrayStorage::class],
+                SessionArrayStorage::class,
+            ],
+            'session-array-storage-arrayobject' => [
+                [
+                    'session_storage' => [
+                        'type'    => 'SessionArrayStorage',
+                        'options' => [
+                            'input' => new ArrayObject([
+                                'foo' => 'bar',
+                            ]),
+                        ],
+                    ],
+                ],
+                SessionArrayStorage::class,
+            ],
+            'session-array-storage-fqcn'        => [
+                [
+                    'session_storage' => [
+                        'type'    => SessionArrayStorage::class,
+                        'options' => [
+                            'input' => [
+                                'foo' => 'bar',
+                            ],
+                        ],
+                    ],
+                ],
+                SessionArrayStorage::class,
+            ],
         ];
     }
 
     /**
      * @dataProvider sessionStorageConfig
+     * @psalm-param class-string $class
      */
-    public function testUsesConfigurationToCreateStorage($config, $class): void
+    public function testUsesConfigurationToCreateStorage(array $config, string $class): void
     {
         $this->services->setService('config', $config);
         $storage = $this->services->get(StorageInterface::class);
@@ -125,42 +142,51 @@ class StorageFactoryTest extends TestCase
         self::assertSame([], $storage->toArray());
     }
 
+    /** @psalm-return array<string, array{0: array<string, array<string, mixed>>}> */
     public function invalidSessionStorageConfig(): array
     {
         return [
-            'unknown-class-short' => [[
-                                          'session_storage' => [
-                                              'type'    => 'FooStorage',
-                                              'options' => [],
-                                          ],
-                                      ]],
-            'unknown-class-fqcn'  => [[
-                                          'session_storage' => [
-                                              'type'    => 'Foo\Bar\Baz\Bat',
-                                              'options' => [],
-                                          ],
-                                      ]],
-            'bad-class' => [[
-                'session_storage' => [
-                    'type' => 'Laminas\Session\Config\StandardConfig',
-                    'options' => [],
-                ],
-            ]],
-            'good-class-invalid-options' => [[
-                'session_storage' => [
-                    'type' => 'ArrayStorage',
-                    'options' => [
-                        'input' => 'this is invalid',
+            'unknown-class-short'        => [
+                [
+                    'session_storage' => [
+                        'type'    => 'FooStorage',
+                        'options' => [],
                     ],
                 ],
-            ]],
+            ],
+            'unknown-class-fqcn'         => [
+                [
+                    'session_storage' => [
+                        'type'    => 'Foo\Bar\Baz\Bat',
+                        'options' => [],
+                    ],
+                ],
+            ],
+            'bad-class'                  => [
+                [
+                    'session_storage' => [
+                        'type'    => StandardConfig::class,
+                        'options' => [],
+                    ],
+                ],
+            ],
+            'good-class-invalid-options' => [
+                [
+                    'session_storage' => [
+                        'type'    => 'ArrayStorage',
+                        'options' => [
+                            'input' => 'this is invalid',
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 
     /**
      * @dataProvider invalidSessionStorageConfig
      */
-    public function testInvalidConfigurationRaisesServiceNotCreatedException($config): void
+    public function testInvalidConfigurationRaisesServiceNotCreatedException(array $config): void
     {
         $this->services->setService('config', $config);
         $this->expectException(ServiceNotCreatedException::class);

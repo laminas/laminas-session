@@ -1,17 +1,17 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session\SaveHandler;
 
+use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Session\SaveHandler\Cache;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+
+use function is_string;
+use function serialize;
+use function unserialize;
+use function var_export;
 
 /**
  * Unit testing for DbTable include all tests for
@@ -23,14 +23,10 @@ class CacheTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @var CacheAdapter
-     */
+    /** @var CacheAdapter */
     protected $cache;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $testArray;
 
     /**
@@ -48,7 +44,7 @@ class CacheTest extends TestCase
 
     public function testReadWrite(): void
     {
-        $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
+        $cacheStorage = $this->prophesize(StorageInterface::class);
         $cacheStorage->setItem('242', Argument::type('string'))
             ->will(
                 function ($args) {
@@ -72,7 +68,7 @@ class CacheTest extends TestCase
 
     public function testReadWriteComplex(): void
     {
-        $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
+        $cacheStorage = $this->prophesize(StorageInterface::class);
         $cacheStorage->setItem('242', Argument::type('string'))
             ->will(
                 function ($args) {
@@ -92,7 +88,7 @@ class CacheTest extends TestCase
 
     public function testReadWriteTwice(): void
     {
-        $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
+        $cacheStorage = $this->prophesize(StorageInterface::class);
         $cacheStorage->setItem('242', Argument::type('string'))
             ->will(
                 function ($args) {
@@ -116,7 +112,7 @@ class CacheTest extends TestCase
 
     public function testReadShouldAlwaysReturnString(): void
     {
-        $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
+        $cacheStorage = $this->prophesize(StorageInterface::class);
         $cacheStorage->getItem('242')->willReturn(null);
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
@@ -129,7 +125,7 @@ class CacheTest extends TestCase
 
     public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist(): void
     {
-        $cacheStorage             = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
+        $cacheStorage             = $this->prophesize(StorageInterface::class);
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
 
         $id = '242';
@@ -141,15 +137,14 @@ class CacheTest extends TestCase
 
     public function testDestroyReturnsTrueWhenSessionIsDeleted(): void
     {
-        $cacheStorage = $this->prophesize('Laminas\Cache\Storage\StorageInterface');
+        $cacheStorage = $this->prophesize(StorageInterface::class);
         $cacheStorage->setItem('242', Argument::type('string'))
             ->will(
                 function ($args) {
                     $this->getItem('242', Argument::any())
                         ->will(
                             function ($args) {
-                                $return =& $args[1];
-                                return $return;
+                                return $args[1];
                             }
                         );
                     return true;

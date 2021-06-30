@@ -1,15 +1,12 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session;
 
+use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\SessionStorage;
 use PHPUnit\Framework\TestCase;
+
+use function var_export;
 
 /**
  * @covers \Laminas\Session\Storage\SessionStorage
@@ -29,8 +26,8 @@ class SessionStorageTest extends TestCase
 
     public function testSessionStorageInheritsFromArrayStorage(): void
     {
-        self::assertInstanceOf('Laminas\Session\Storage\SessionStorage', $this->storage);
-        self::assertInstanceOf('Laminas\Session\Storage\ArrayStorage', $this->storage);
+        self::assertInstanceOf(SessionStorage::class, $this->storage);
+        self::assertInstanceOf(ArrayStorage::class, $this->storage);
     }
 
     public function testStorageWritesToSessionSuperglobal(): void

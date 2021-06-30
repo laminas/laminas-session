@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session\Service;
 
 use Laminas\ServiceManager\Config;
@@ -23,6 +17,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ContainerAbstractServiceFactoryTest extends TestCase
 {
+    /** @var array */
     public $config = [
         'session_containers' => [
             'foo',
@@ -53,6 +48,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
         $config->configureServiceManager($this->services);
     }
 
+    /** @psalm-return array<array-key, array{0: string, 1: string}> */
     public function validContainers(): array
     {
         $containers = [];
@@ -67,7 +63,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
     /**
      * @dataProvider validContainers
      */
-    public function testCanRetrieveNamedContainers($serviceName, $containerName): void
+    public function testCanRetrieveNamedContainers(string $serviceName, string $containerName): void
     {
         self::assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
         $container = $this->services->get($serviceName);
@@ -78,13 +74,14 @@ class ContainerAbstractServiceFactoryTest extends TestCase
     /**
      * @dataProvider validContainers
      */
-    public function testContainersAreInjectedWithSessionManagerService($serviceName, $containerName): void
+    public function testContainersAreInjectedWithSessionManagerService(string $serviceName, string $containerName): void
     {
         self::assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
         $container = $this->services->get($serviceName);
         self::assertSame($this->services->get(ManagerInterface::class), $container->getManager());
     }
 
+    /** @psalm-return array<array-key, array{0: string}> */
     public function invalidContainers(): array
     {
         $containers = [];
@@ -100,7 +97,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
     /**
      * @dataProvider invalidContainers
      */
-    public function testInvalidContainerNamesAreNotMatchedByAbstractFactory($name): void
+    public function testInvalidContainerNamesAreNotMatchedByAbstractFactory(string $name): void
     {
         self::assertFalse($this->services->has($name));
     }

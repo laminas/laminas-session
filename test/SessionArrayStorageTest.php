@@ -1,17 +1,13 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session;
 
 use Laminas\Session\Container;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\SessionArrayStorage;
 use PHPUnit\Framework\TestCase;
+
+use function var_export;
 
 /**
  * @covers \Laminas\Session\Storage\SessionArrayStorage
@@ -175,12 +171,12 @@ class SessionArrayStorageTest extends TestCase
         $container->foo = 'bar';
         $container->setExpirationHops(1);
 
-        $copy = $_SESSION;
+        $copy     = $_SESSION;
         $_SESSION = null;
         $storage->init($copy);
         self::assertEquals('bar', $container->foo);
 
-        $copy = $_SESSION;
+        $copy     = $_SESSION;
         $_SESSION = null;
         $storage->init($copy);
         self::assertNull($container->foo);

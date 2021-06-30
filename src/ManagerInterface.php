@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session;
 
 use Laminas\EventManager\EventManagerInterface;
@@ -18,32 +12,75 @@ use Laminas\Session\Storage\StorageInterface as Storage;
  */
 interface ManagerInterface
 {
+    /** @return self */
     public function setConfig(Config $config);
+
+    /** @return Config */
     public function getConfig();
 
+    /** @return self */
     public function setStorage(Storage $storage);
+
+    /** @return Storage */
     public function getStorage();
 
+    /** @return self */
     public function setSaveHandler(SaveHandler $saveHandler);
+
+    /** @return SaveHandler */
     public function getSaveHandler();
 
+    /** @return bool */
     public function sessionExists();
+
+    /** @return void */
     public function start();
+
+    /** @return void */
     public function destroy();
+
+    /** @return void */
     public function writeClose();
 
+    /**
+     * @param string $name
+     * @return self
+     */
     public function setName($name);
+
+    /** @return string */
     public function getName();
 
+    /**
+     * @param int|string $id
+     * @return self
+     */
     public function setId($id);
+
+    /** @return int|string */
     public function getId();
+
+    /** @return self */
     public function regenerateId();
 
+    /**
+     * @param null|int $ttl
+     * @return self
+     */
     public function rememberMe($ttl = null);
+
+    /** @return self */
     public function forgetMe();
+
+    /** @return void */
     public function expireSessionCookie();
 
+    /** @return self */
     public function setValidatorChain(EventManagerInterface $chain);
+
+    /** @return EventManagerInterface */
     public function getValidatorChain();
+
+    /** @return bool */
     public function isValid();
 }

@@ -1,23 +1,18 @@
-<?php
-
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
+<?php // phpcs:disable SlevomatCodingStandard.Namespaces.UnusedUses.MismatchingCaseSensitivity
 
 namespace LaminasTest\Session\Validator;
 
-use Generator;
 use Laminas\Session\Validator\Id;
 use PHPUnit\Framework\TestCase;
 
+use function ini_set;
+use function session_id;
+use function session_start;
+
 class IdTest extends TestCase
 {
-    /**
-     * @return Generator
-     */
-    public function id(): ?Generator
+    /** @psalm-return iterable<string, array{0: int, 1: string, 2: bool}> */
+    public function id(): iterable
     {
         yield '4, valid' => [4, '0123456789abcdef', true];
         yield '4, invalid (out of the range)' => [4, '0123456789abcdefg', false];
@@ -33,9 +28,7 @@ class IdTest extends TestCase
 
     /**
      * @runInSeparateProcess
-     *
      * @dataProvider id
-     *
      * @param int    $bitsPerCharacter
      * @param string $id
      * @param bool   $isValid

@@ -58,6 +58,7 @@ class ValidatorChainTest extends TestCase
     private function createValidatorSpy(): ValidatorInterface
     {
         return new class implements ValidatorInterface {
+            /** @var int */
             public static $isValidCallCount = 0;
 
             public function isValid(): bool
@@ -73,7 +74,7 @@ class ValidatorChainTest extends TestCase
 
             public function getName(): string
             {
-                return __CLASS__;
+                return self::class;
             }
         };
     }

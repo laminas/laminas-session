@@ -1,24 +1,19 @@
-<?php
-
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
+<?php // phpcs:disable Squiz.Commenting.FunctionComment.WrongStyle
 
 namespace LaminasTest\Session\Config;
 
 use Laminas\Session\Config\StandardConfig;
+use Laminas\Session\Exception\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+
+use function extension_loaded;
 
 /**
  * @covers \Laminas\Session\Config\StandardConfig
  */
 class StandardConfigTest extends TestCase
 {
-    /**
-     * @var StandardConfig
-     */
+    /** @var StandardConfig */
     protected $config;
 
     protected function setUp(): void
@@ -30,7 +25,7 @@ class StandardConfigTest extends TestCase
 
     public function testSetSavePathErrorsOnInvalidPath(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid save_path provided');
         $this->config->setSavePath(__DIR__ . '/foobarboguspath');
     }
@@ -73,21 +68,21 @@ class StandardConfigTest extends TestCase
 
     public function testSettingInvalidGcProbabilityRaisesException(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid gc_probability; must be numeric');
         $this->config->setGcProbability('foobar_bogus');
     }
 
     public function testSettingInvalidGcProbabilityRaisesException2(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid gc_probability; must be a percentage');
         $this->config->setGcProbability(-1);
     }
 
     public function testSettingInvalidGcProbabilityRaisesException3(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid gc_probability; must be a percentage');
         $this->config->setGcProbability(101);
     }
@@ -102,14 +97,14 @@ class StandardConfigTest extends TestCase
 
     public function testSettingInvalidGcDivisorRaisesException(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid gc_divisor; must be numeric');
         $this->config->setGcDivisor('foobar_bogus');
     }
 
     public function testSettingInvalidGcDivisorRaisesException2(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid gc_divisor; must be a positive integer');
         $this->config->setGcDivisor(-1);
     }
@@ -124,14 +119,14 @@ class StandardConfigTest extends TestCase
 
     public function testSettingInvalidGcMaxlifetimeRaisesException(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid gc_maxlifetime; must be numeric');
         $this->config->setGcMaxlifetime('foobar_bogus');
     }
 
     public function testSettingInvalidGcMaxlifetimeRaisesException2(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid gc_maxlifetime; must be a positive integer');
         $this->config->setGcMaxlifetime(-1);
     }
@@ -161,14 +156,14 @@ class StandardConfigTest extends TestCase
 
     public function testSettingInvalidCookieLifetimeRaisesException(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid cookie_lifetime; must be numeric');
         $this->config->setCookieLifetime('foobar_bogus');
     }
 
     public function testSettingInvalidCookieLifetimeRaisesException2(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid cookie_lifetime; must be a positive integer or zero');
         $this->config->setCookieLifetime(-1);
     }
@@ -183,21 +178,21 @@ class StandardConfigTest extends TestCase
 
     public function testSettingInvalidCookiePathRaisesException(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath(24);
     }
 
     public function testSettingInvalidCookiePathRaisesException2(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath('foo');
     }
 
     public function testSettingInvalidCookiePathRaisesException3(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid cookie path');
         $this->config->setCookiePath('D:\\WINDOWS\\System32\\drivers\\etc\\hosts');
     }
@@ -218,14 +213,14 @@ class StandardConfigTest extends TestCase
 
     public function testSettingInvalidCookieDomainRaisesException(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid cookie domain: must be a string');
         $this->config->setCookieDomain(24);
     }
 
     public function testSettingInvalidCookieDomainRaisesException2(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('does not match the expected structure for a DNS hostname');
         $this->config->setCookieDomain('D:\\WINDOWS\\System32\\drivers\\etc\\hosts');
     }
@@ -251,7 +246,7 @@ class StandardConfigTest extends TestCase
     public function testUseCookiesIsMutable(): void
     {
         $this->config->setUseCookies(true);
-        self::assertEquals(true, (bool)$this->config->getUseCookies());
+        self::assertEquals(true, (bool) $this->config->getUseCookies());
     }
 
     // session.use_only_cookies
@@ -259,7 +254,7 @@ class StandardConfigTest extends TestCase
     public function testUseOnlyCookiesIsMutable(): void
     {
         $this->config->setUseOnlyCookies(true);
-        self::assertEquals(true, (bool)$this->config->getUseOnlyCookies());
+        self::assertEquals(true, (bool) $this->config->getUseOnlyCookies());
     }
 
     // session.referer_check
@@ -302,6 +297,7 @@ class StandardConfigTest extends TestCase
 
     // session.cache_limiter
 
+    /** @psalm-return array<array-key, array{0: string}> */
     public function cacheLimiters(): array
     {
         return [
@@ -315,7 +311,7 @@ class StandardConfigTest extends TestCase
     /**
      * @dataProvider cacheLimiters
      */
-    public function testCacheLimiterIsMutable($cacheLimiter): void
+    public function testCacheLimiterIsMutable(string $cacheLimiter): void
     {
         $this->config->setCacheLimiter($cacheLimiter);
         self::assertEquals($cacheLimiter, $this->config->getCacheLimiter());
@@ -331,14 +327,14 @@ class StandardConfigTest extends TestCase
 
     public function testSettingInvalidCacheExpireRaisesException(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid cache_expire; must be numeric');
         $this->config->setCacheExpire('foobar_bogus');
     }
 
     public function testSettingInvalidCacheExpireRaisesException2(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid cache_expire; must be a positive integer');
         $this->config->setCacheExpire(-1);
     }
@@ -348,7 +344,7 @@ class StandardConfigTest extends TestCase
     public function testUseTransSidIsMutable(): void
     {
         $this->config->setUseTransSid(true);
-        self::assertEquals(true, (bool)$this->config->getUseTransSid());
+        self::assertEquals(true, (bool) $this->config->getUseTransSid());
     }
 
     public function testGetHashFunctionError(): void
@@ -385,20 +381,21 @@ class StandardConfigTest extends TestCase
 
     public function testSettingInvalidSidLengthRaisesException(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid length provided');
         $this->config->setSidLength('foobar_bogus');
     }
 
     public function testSettingOutOfRangeSidLengthRaisesException(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid length provided');
         $this->config->setSidLength(999);
     }
 
     // session.sid_bits_per_character
 
+    /** @psalm-return array<array-key, array{0: int}> */
     public function sidBitsPerCharacters(): array
     {
         return [
@@ -411,7 +408,7 @@ class StandardConfigTest extends TestCase
     /**
      * @dataProvider sidBitsPerCharacters
      */
-    public function testSidBitsPerCharacterIsMutable($sidBitsPerCharacter): void
+    public function testSidBitsPerCharacterIsMutable(int $sidBitsPerCharacter): void
     {
         $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
         self::assertEquals($sidBitsPerCharacter, $this->config->getSidBitsPerCharacter());
@@ -419,7 +416,7 @@ class StandardConfigTest extends TestCase
 
     public function testSettingInvalidSidBitsPerCharacterRaisesException(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid sid bits per character provided');
         $this->config->setSidBitsPerCharacter('foobar_bogus');
     }
@@ -442,14 +439,14 @@ class StandardConfigTest extends TestCase
 
     public function testSettingInvalidRememberMeSecondsRaisesException(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid remember_me_seconds; must be numeric');
         $this->config->setRememberMeSeconds('foobar_bogus');
     }
 
     public function testSettingInvalidRememberMeSecondsRaisesException2(): void
     {
-        $this->expectException('Laminas\Session\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid remember_me_seconds; must be a positive integer');
         $this->config->setRememberMeSeconds(-1);
     }
@@ -458,17 +455,25 @@ class StandardConfigTest extends TestCase
 
     /**
      * @dataProvider optionsProvider
+     * @param mixed $value
      */
-    public function testSetOptionsTranslatesUnderscoreSeparatedKeys($option, $getter, $value): void
+    public function testSetOptionsTranslatesUnderscoreSeparatedKeys(string $option, string $getter, $value): void
     {
         $options = [$option => $value];
         $this->config->setOptions($options);
         self::assertSame($value, $this->config->$getter());
     }
 
+    /**
+     * @psalm-return array<array-key, array{
+     *     0: string,
+     *     1: string,
+     *     2: mixed
+     * }>
+     */
     public function optionsProvider(): array
     {
-        $commonOptions = [
+        return [
             [
                 'save_path',
                 'getSavePath',
@@ -575,7 +580,5 @@ class StandardConfigTest extends TestCase
                 5,
             ],
         ];
-
-        return $commonOptions;
     }
 }

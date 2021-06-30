@@ -1,14 +1,12 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session\SaveHandler;
 
 use Laminas\Db\TableGateway\TableGateway;
+
+use function ini_get;
+use function sprintf;
+use function time;
 
 /**
  * DB Table Gateway session save handler
@@ -31,27 +29,27 @@ class DbTableGateway implements SaveHandlerInterface
 
     /**
      * Lifetime
+     *
      * @var int
      */
     protected $lifetime;
 
     /**
      * Laminas Db Table Gateway
+     *
      * @var TableGateway
      */
     protected $tableGateway;
 
     /**
      * DbTableGateway Options
+     *
      * @var DbTableGatewayOptions
      */
     protected $options;
 
     /**
      * Constructor
-     *
-     * @param TableGateway $tableGateway
-     * @param DbTableGatewayOptions $options
      */
     public function __construct(TableGateway $tableGateway, DbTableGatewayOptions $options)
     {
@@ -100,8 +98,10 @@ class DbTableGateway implements SaveHandlerInterface
         ])->current();
 
         if ($row) {
-            if ($row->{$this->options->getModifiedColumn()} +
-                $row->{$this->options->getLifetimeColumn()} > time()) {
+            if (
+                $row->{$this->options->getModifiedColumn()} +
+                $row->{$this->options->getLifetimeColumn()} > time()
+            ) {
                 return (string) $row->{$this->options->getDataColumn()};
             }
             if ($destroyExpired) {
@@ -172,7 +172,7 @@ class DbTableGateway implements SaveHandlerInterface
             sprintf(
                 '%s < %d',
                 $platform->quoteIdentifier($this->options->getModifiedColumn()),
-                (time() - $this->lifetime)
+                time() - $this->lifetime
             )
         );
     }

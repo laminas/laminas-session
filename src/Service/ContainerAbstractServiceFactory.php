@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session\Service;
 
 use Interop\Container\ContainerInterface;
@@ -13,6 +7,12 @@ use Laminas\ServiceManager\AbstractFactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface;
+
+use function array_change_key_case;
+use function array_flip;
+use function array_key_exists;
+use function is_array;
+use function strtolower;
 
 /**
  * Session container abstract service factory.
@@ -51,15 +51,12 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
      */
     protected $configKey = 'session_containers';
 
-    /**
-     * @var ManagerInterface
-     */
+    /** @var ManagerInterface */
     protected $sessionManager;
 
     /**
      * Can we create an instance of the given service? (v3 usage).
      *
-     * @param ContainerInterface $container
      * @param string $requestedName
      * @return bool
      */
@@ -77,7 +74,6 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Can we create an instance of the given service? (v2 usage)
      *
-     * @param ServiceLocatorInterface $container
      * @param string $name
      * @param string $requestedName
      * @return bool
@@ -90,11 +86,10 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Create and return a named container (v3 usage).
      *
-     * @param ContainerInterface $container
      * @param string $requestedName
      * @return Container
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $manager = $this->getSessionManager($container);
         return new Container($requestedName, $manager);
@@ -103,8 +98,8 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Create and return a named container (v2 usage).
      *
-     * @param  ContainerInterface      $container
-     * @param  string                  $requestedName
+     * @param string $name
+     * @param string $requestedName
      * @return Container
      */
     public function createServiceWithName(ServiceLocatorInterface $container, $name, $requestedName)
@@ -115,7 +110,6 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Retrieve config from service locator, and cache for later
      *
-     * @param  ContainerInterface $container
      * @return false|array
      */
     protected function getConfig(ContainerInterface $container)
@@ -146,7 +140,6 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Retrieve the session manager instance, if any
      *
-     * @param ContainerInterface $container
      * @return null|ManagerInterface
      */
     protected function getSessionManager(ContainerInterface $container)

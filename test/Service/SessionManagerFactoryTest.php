@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session\Service;
 
 use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
@@ -26,6 +20,8 @@ use LaminasTest\Session\TestAsset\TestManager;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+
+use function iterator_to_array;
 
 /**
  * @covers \Laminas\Session\Service\SessionManagerFactory
@@ -95,9 +91,11 @@ class SessionManagerFactoryTest extends TestCase
 
     public function testCanDisableContainerDefaultManagerInjectionViaConfiguration(): void
     {
-        $config = ['session_manager' => [
-            'enable_default_container_manager' => false,
-        ]];
+        $config = [
+            'session_manager' => [
+                'enable_default_container_manager' => false,
+            ],
+        ];
         $this->services->setService('config', $config);
         $manager = $this->services->get(ManagerInterface::class);
         self::assertNotSame($manager, Container::getDefaultManager());
@@ -108,11 +106,13 @@ class SessionManagerFactoryTest extends TestCase
      */
     public function testFactoryWillAddValidatorViaConfiguration(): void
     {
-        $config = ['session_manager' => [
-            'validators' => [
-                Validator\RemoteAddr::class,
+        $config = [
+            'session_manager' => [
+                'validators' => [
+                    Validator\RemoteAddr::class,
+                ],
             ],
-        ]];
+        ];
         $this->services->setService('config', $config);
         $manager = $this->services->get(ManagerInterface::class);
 

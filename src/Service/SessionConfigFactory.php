@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session\Service;
 
 use Interop\Container\ContainerInterface;
@@ -14,6 +8,10 @@ use Laminas\ServiceManager\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\SessionConfig;
+
+use function class_exists;
+use function is_array;
+use function sprintf;
 
 class SessionConfigFactory implements FactoryInterface
 {
@@ -25,14 +23,13 @@ class SessionConfigFactory implements FactoryInterface
      * you may also specify a specific implementation variant using the
      * "config_class" subkey.
      *
-     * @param ContainerInterface $container
      * @param string $requestedName
      * @param null|array $options
      * @return ConfigInterface
-     * @throws ServiceNotCreatedException if session_config is missing, or an
-     *     invalid config_class is used
+     * @throws ServiceNotCreatedException If session_config is missing, or an
+     *     invalid config_class is used.
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $config = $container->get('config');
         if (! isset($config['session_config']) || ! is_array($config['session_config'])) {
@@ -71,7 +68,6 @@ class SessionConfigFactory implements FactoryInterface
     /**
      * Create and return a config instance (v2 usage).
      *
-     * @param ServiceLocatorInterface $services
      * @param null|string $canonicalName
      * @param string $requestedName
      * @return ConfigInterface

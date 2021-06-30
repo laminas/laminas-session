@@ -1,17 +1,16 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session;
 
 use Laminas\Session\Config\ConfigInterface as Config;
+use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\ManagerInterface as Manager;
 use Laminas\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
+use Laminas\Session\Storage\SessionArrayStorage;
 use Laminas\Session\Storage\StorageInterface as Storage;
+
+use function class_exists;
+use function sprintf;
 
 /**
  * Base ManagerInterface implementation
@@ -20,51 +19,42 @@ use Laminas\Session\Storage\StorageInterface as Storage;
  */
 abstract class AbstractManager implements Manager
 {
-    /**
-     * @var Config
-     */
+    /** @var Config */
     protected $config;
 
     /**
      * Default configuration class to use when no configuration provided
+     *
      * @var string
      */
-    protected $defaultConfigClass = 'Laminas\Session\Config\SessionConfig';
+    protected $defaultConfigClass = SessionConfig::class;
 
-    /**
-     * @var Storage
-     */
+    /** @var Storage */
     protected $storage;
 
     /**
      * Default storage class to use when no storage provided
+     *
      * @var string
      */
-    protected $defaultStorageClass = 'Laminas\Session\Storage\SessionArrayStorage';
+    protected $defaultStorageClass = SessionArrayStorage::class;
 
-    /**
-     * @var SaveHandler
-     */
+    /** @var SaveHandler */
     protected $saveHandler;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $validators;
 
     /**
      * Constructor
      *
-     * @param  Config|null      $config
-     * @param  Storage|null     $storage
-     * @param  SaveHandler|null $saveHandler
      * @param  array            $validators
      * @throws Exception\RuntimeException
      */
     public function __construct(
-        Config $config = null,
-        Storage $storage = null,
-        SaveHandler $saveHandler = null,
+        ?Config $config = null,
+        ?Storage $storage = null,
+        ?SaveHandler $saveHandler = null,
         array $validators = []
     ) {
         // init config
@@ -122,7 +112,6 @@ abstract class AbstractManager implements Manager
     /**
      * Set configuration object
      *
-     * @param  Config $config
      * @return AbstractManager
      */
     public function setConfig(Config $config)
@@ -144,7 +133,6 @@ abstract class AbstractManager implements Manager
     /**
      * Set session storage object
      *
-     * @param  Storage $storage
      * @return AbstractManager
      */
     public function setStorage(Storage $storage)
@@ -166,7 +154,6 @@ abstract class AbstractManager implements Manager
     /**
      * Set session save handler object
      *
-     * @param  SaveHandler $saveHandler
      * @return AbstractManager
      */
     public function setSaveHandler(SaveHandler $saveHandler)

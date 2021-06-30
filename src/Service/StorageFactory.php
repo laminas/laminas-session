@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session\Service;
 
 use Interop\Container\ContainerInterface;
@@ -15,6 +9,9 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Session\Exception\ExceptionInterface as SessionException;
 use Laminas\Session\Storage\Factory;
 use Laminas\Session\Storage\StorageInterface;
+
+use function is_array;
+use function sprintf;
 
 class StorageFactory implements FactoryInterface
 {
@@ -26,12 +23,12 @@ class StorageFactory implements FactoryInterface
      * type to use, and optionally "options", containing any options to be used in
      * creating the StorageInterface instance.
      *
-     * @param  ContainerInterface         $container
+     * @param string $requestedName
      * @return StorageInterface
-     * @throws ServiceNotCreatedException if session_storage is missing, or the
+     * @throws ServiceNotCreatedException If session_storage is missing, or the
      *         factory cannot create the storage instance.
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $config = $container->get('config');
         if (! isset($config['session_storage']) || ! is_array($config['session_storage'])) {
@@ -46,8 +43,8 @@ class StorageFactory implements FactoryInterface
                 '"session_storage" configuration is missing a "type" key'
             );
         }
-        $type = $config['type'];
-        $options = isset($config['options']) ? $config['options'] : [];
+        $type    = $config['type'];
+        $options = $config['options'] ?? [];
 
         try {
             $storage = Factory::factory($type, $options);
@@ -64,7 +61,6 @@ class StorageFactory implements FactoryInterface
     /**
      * Create and return a storage instance (v2 usage).
      *
-     * @param ServiceLocatorInterface $services
      * @param null|string $canonicalName
      * @param string $requestedName
      * @return StorageInterface

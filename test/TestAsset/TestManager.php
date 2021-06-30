@@ -1,23 +1,29 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Session\TestAsset;
 
 use Laminas\EventManager\EventManagerInterface;
+use Laminas\Sessin\Storage\StorageInterface;
 use Laminas\Session\AbstractManager;
+use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Storage\ArrayStorage;
 
 class TestManager extends AbstractManager
 {
+    /** @var bool */
     public $started = false;
 
+    /**
+     * @var string
+     * @psalm-var class-string<ConfigInterface>
+     */
     protected $configDefaultClass = StandardConfig::class;
+
+    /**
+     * @var string
+     * @psalm-var class-string<StorageInterface>
+     */
     protected $storageDefaultClass = ArrayStorage::class;
 
     public function start()
@@ -43,6 +49,10 @@ class TestManager extends AbstractManager
     {
     }
 
+    /**
+     * @param string $name
+     * @return void
+     */
     public function setName($name)
     {
     }
@@ -51,6 +61,10 @@ class TestManager extends AbstractManager
     {
     }
 
+    /**
+     * @param string|int $id
+     * @return void
+     */
     public function setId($id)
     {
     }
@@ -59,6 +73,10 @@ class TestManager extends AbstractManager
     {
     }
 
+    /**
+     * @param null|int $ttl
+     * @return void
+     */
     public function rememberMe($ttl = null)
     {
     }

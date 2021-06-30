@@ -1,16 +1,14 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-session for the canonical source repository
- * @copyright https://github.com/laminas/laminas-session/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-session/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Session;
 
 use Laminas\EventManager\EventManager;
 use Laminas\Session\Storage\StorageInterface;
 use Laminas\Session\Validator\ValidatorInterface;
+
+use function array_shift;
+use function array_unshift;
+use function is_array;
 
 class ValidatorChain extends EventManager
 {
@@ -34,7 +32,6 @@ class ValidatorChain extends EventManager
      * Attach a listener to the session validator chain.
      *
      * @param string   $eventName
-     * @param callable $callback
      * @param int      $priority
      * @return callable
      */
