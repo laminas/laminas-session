@@ -327,7 +327,7 @@
 against the originally stored <code>$_SERVER['HTTP_USER_AGENT']</code> variable. Validation
 will fail in the event that this does not match and throws an exception in
 <code>Laminas\Session\SessionManager</code> after <code>session_start()</code> has been called.</p>
-<h3>Basic Usage</h3>
+<h3 id="basic-usage">Basic Usage</h3>
 <pre class="highlight"><code class="language-php">use Laminas\Session\Validator\HttpUserAgent;
 use Laminas\Session\SessionManager;
 
@@ -339,7 +339,12 @@ $manager-&gt;getValidatorChain()
 against the originally stored <code>$_SERVER['REMOTE_ADDR']</code> variable. Validation
 will fail in the event that this does not match and throws an exception in
 <code>Laminas\Session\SessionManager</code> after <code>session_start()</code> has been called.</p>
-<h3>Basic Usage</h3>
+<blockquote>
+<h3 id="installation-requirements">Installation Requirements</h3>
+<p>The validation of the IP address depends on the <a href="https://docs.laminas.dev/laminas-http/">laminas-http</a> component, so be sure to have it installed before getting started:</p>
+<pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-http</code></pre>
+</blockquote>
+<h3 id="basic-usage_1">Basic Usage</h3>
 <pre class="highlight"><code class="language-php">use Laminas\Session\Validator\RemoteAddr;
 use Laminas\Session\SessionManager;
 
@@ -379,16 +384,6 @@ To create a custom validator you <em>must</em> implement the validation interfac
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-session/edit/master/docs/book/validator.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>
@@ -499,6 +494,7 @@ To create a custom validator you <em>must</em> implement the validation interfac
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -571,7 +567,7 @@ To create a custom validator you <em>must</em> implement the validation interfac
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/laminas/laminas-session/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>
