@@ -46,7 +46,7 @@ return [
 > The configuration for the session itself is optional, but the
 > [factory `Laminas\Session\Config\SessionConfig`](../config.md#service-manager-factory),
 > which is registered for configuration data, expects an array under the key
-> `session_config`.  
+> `session_config`.
 >
 > A minimum configuration is:
 >
@@ -79,10 +79,11 @@ class AlbumController extends AbstractActionController
 ```
 
 To [register the controller](https://docs.laminas.dev/laminas-mvc/quick-start/#create-a-route)
-for the application, extend the configuration of the module.  
+for the application, extend the configuration of the module.
 Add the following lines to the module configuration file, e.g.
 `module/Album/config/module.config.php`:
 
+<!-- markdownlint-disable MD033 -->
 <pre class="language-php" data-line="8-9"><code>
 namespace Album;
 
@@ -128,4 +129,3 @@ public function addAction()
     ];
 }
 ```
-
