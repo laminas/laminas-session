@@ -7,6 +7,7 @@ use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Session\Config\ConfigInterface;
+use Laminas\Session\Config\SameSiteCookieCapableInterface;
 use Laminas\Session\Config\SessionConfig;
 
 use function class_exists;
@@ -58,6 +59,18 @@ class SessionConfigFactory implements FactoryInterface
                 'Invalid configuration class "%s" specified in "config_class" session configuration; must implement %s',
                 $class,
                 ConfigInterface::class
+            ));
+        }
+
+        if (
+            isset($config['cookie_samesite'])
+            && ! $sessionConfig instanceof SameSiteCookieCapableInterface
+        ) {
+            throw new ServiceNotCreatedException(sprintf(
+                'Invalid configuration class "%s". When configuration option "cookie_samesite" is used,'
+                . ' the configuration class must implement %s',
+                $class,
+                SameSiteCookieCapableInterface::class
             ));
         }
         $sessionConfig->setOptions($config);
