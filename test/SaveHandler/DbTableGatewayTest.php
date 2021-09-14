@@ -13,6 +13,7 @@ use function microtime;
 use function serialize;
 use function unserialize;
 use function var_export;
+use const PHP_VERSION_ID;
 
 /**
  * Unit testing for DbTableGateway include all tests for
@@ -56,6 +57,10 @@ abstract class DbTableGatewayTest extends TestCase
      */
     protected function setUp(): void
     {
+        if (PHP_VERSION_ID >= 80100) {
+            self::fail('Waiting for https://github.com/laminas/laminas-db/pull/204');
+        }
+
         $this->adapter = $this->getAdapter();
 
         $this->options = new DbTableGatewayOptions(
