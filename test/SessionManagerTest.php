@@ -33,6 +33,7 @@ use function session_write_close;
 use function set_error_handler;
 use function stristr;
 use function var_export;
+use function xdebug_get_headers;
 
 use const E_WARNING;
 use const PHP_SAPI;
