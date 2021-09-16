@@ -19,6 +19,8 @@ use function serialize;
 use function sprintf;
 use function unserialize;
 
+use ReturnTypeWillChange;
+
 /**
  * Session storage in $_SESSION
  *
@@ -121,7 +123,7 @@ abstract class AbstractSessionArrayStorage implements
      * @param  mixed   $key
      * @return bool
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetExists($key)
     {
         return isset($_SESSION[$key]);
@@ -133,7 +135,7 @@ abstract class AbstractSessionArrayStorage implements
      * @param  mixed $key
      * @return mixed
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($key)
     {
         if (isset($_SESSION[$key])) {
@@ -150,7 +152,7 @@ abstract class AbstractSessionArrayStorage implements
      * @param  mixed $value
      * @return void
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
         $_SESSION[$key] = $value;
@@ -162,7 +164,7 @@ abstract class AbstractSessionArrayStorage implements
      * @param  mixed $key
      * @return void
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetUnset($key)
     {
         unset($_SESSION[$key]);
@@ -173,7 +175,7 @@ abstract class AbstractSessionArrayStorage implements
      *
      * @return int
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function count()
     {
         return count($_SESSION);
@@ -205,7 +207,7 @@ abstract class AbstractSessionArrayStorage implements
      *
      * @return ArrayIterator
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
         return new ArrayIterator($_SESSION);

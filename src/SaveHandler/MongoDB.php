@@ -14,6 +14,8 @@ use function ini_get;
 use function microtime;
 use function time;
 
+use ReturnTypeWillChange;
+
 /**
  * MongoDB session save handler
  */
@@ -81,7 +83,7 @@ class MongoDB implements SaveHandlerInterface
      * @param string $name
      * @return bool
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function open($savePath, $name)
     {
         // Note: session save path is not used
@@ -106,7 +108,7 @@ class MongoDB implements SaveHandlerInterface
      *
      * @return bool
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function close()
     {
         return true;
@@ -118,7 +120,7 @@ class MongoDB implements SaveHandlerInterface
      * @param string $id
      * @return string
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function read($id)
     {
         $session = $this->mongoCollection->findOne([
@@ -151,7 +153,7 @@ class MongoDB implements SaveHandlerInterface
      * @param string $data
      * @return bool
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function write($id, $data)
     {
         $saveOptions = array_replace(
@@ -189,7 +191,7 @@ class MongoDB implements SaveHandlerInterface
      * @param string $id
      * @return bool
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function destroy($id)
     {
         $result = $this->mongoCollection->deleteOne(
@@ -217,7 +219,7 @@ class MongoDB implements SaveHandlerInterface
      * @param int $maxlifetime
      * @return bool
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
         /* Note: unlike DbTableGateway, we do not use the lifetime field in

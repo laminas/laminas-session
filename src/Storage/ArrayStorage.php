@@ -14,6 +14,8 @@ use function is_array;
 use function microtime;
 use function sprintf;
 
+use ReturnTypeWillChange;
+
 /**
  * Array session storage
  *
@@ -87,7 +89,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * @param  mixed                      $value
      * @throws Exception\RuntimeException
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
         if ($this->isImmutable()) {

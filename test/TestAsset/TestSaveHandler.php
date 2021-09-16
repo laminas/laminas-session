@@ -4,14 +4,15 @@ namespace LaminasTest\Session\TestAsset;
 
 use Laminas\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
 
+use ReturnTypeWillChange;
+
 class TestSaveHandler implements SaveHandler
 {
     /**
      * @param string $savePath
      * @param string $name
-     * @return void
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function open($savePath, $name): void
     {
     }
@@ -25,7 +26,7 @@ class TestSaveHandler implements SaveHandler
      * @param int|string $id
      * @return void
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function read($id)
     {
     }
@@ -53,7 +54,7 @@ class TestSaveHandler implements SaveHandler
      * @param int $maxlifetime
      * @return void
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
     }
