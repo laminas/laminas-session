@@ -7,6 +7,7 @@ use MongoDB\BSON\Binary;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Client as MongoClient;
 use MongoDB\Collection as MongoCollection;
+use ReturnTypeWillChange;
 
 use function array_replace;
 use function floor;
@@ -14,10 +15,10 @@ use function ini_get;
 use function microtime;
 use function time;
 
-use ReturnTypeWillChange;
-
 /**
  * MongoDB session save handler
+ *
+ * @see ReturnTypeWillChange
  */
 class MongoDB implements SaveHandlerInterface
 {

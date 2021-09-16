@@ -5,6 +5,7 @@ namespace Laminas\Session\Storage;
 use ArrayIterator;
 use Laminas\Session\Exception;
 use Laminas\Stdlib\ArrayObject;
+use ReturnTypeWillChange;
 
 use function array_flip;
 use function array_key_exists;
@@ -14,13 +15,13 @@ use function is_array;
 use function microtime;
 use function sprintf;
 
-use ReturnTypeWillChange;
-
 /**
  * Array session storage
  *
  * Defines an ArrayObject interface for accessing session storage, with options
  * for setting metadata, locking, and marking as isImmutable.
+ *
+ * @see ReturnTypeWillChange
  */
 class ArrayStorage extends ArrayObject implements StorageInterface
 {

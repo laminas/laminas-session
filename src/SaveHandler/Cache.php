@@ -4,11 +4,12 @@ namespace Laminas\Session\SaveHandler;
 
 use Laminas\Cache\Storage\ClearExpiredInterface as ClearExpiredCacheStorage;
 use Laminas\Cache\Storage\StorageInterface as CacheStorage;
-
 use ReturnTypeWillChange;
 
 /**
  * Cache session save handler
+ *
+ * @see ReturnTypeWillChange
  */
 class Cache implements SaveHandlerInterface
 {

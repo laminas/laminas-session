@@ -3,9 +3,11 @@
 namespace LaminasTest\Session\TestAsset;
 
 use Laminas\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
-
 use ReturnTypeWillChange;
 
+/**
+ * @see ReturnTypeWillChange
+ */
 class TestSaveHandler implements SaveHandler
 {
     /**
@@ -34,7 +36,6 @@ class TestSaveHandler implements SaveHandler
     /**
      * @param int|string $id
      * @param array $data
-     * @return void
      */
     public function write($id, $data): bool
     {
@@ -43,7 +44,6 @@ class TestSaveHandler implements SaveHandler
 
     /**
      * @param int|string $id
-     * @return void
      */
     public function destroy($id): bool
     {

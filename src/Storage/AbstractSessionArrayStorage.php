@@ -6,6 +6,7 @@ use ArrayIterator;
 use ArrayObject;
 use IteratorAggregate;
 use Laminas\Session\Exception;
+use ReturnTypeWillChange;
 
 use function array_flip;
 use function array_key_exists;
@@ -19,13 +20,13 @@ use function serialize;
 use function sprintf;
 use function unserialize;
 
-use ReturnTypeWillChange;
-
 /**
  * Session storage in $_SESSION
  *
  * Replaces the $_SESSION superglobal with an ArrayObject that allows for
  * property access, metadata storage, locking, and immutability.
+ *
+ * @see ReturnTypeWillChange
  */
 abstract class AbstractSessionArrayStorage implements
     IteratorAggregate,

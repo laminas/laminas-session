@@ -58,7 +58,10 @@
     "autoload-dev": {
         "psr-4": {
             "LaminasTest\\Session\\": "test/"
-        }
+        },
+        "files": [
+            "autoload-dev/ReturnTypeWillChange.php"
+        ]
     },
     "scripts": {
         "check": [

@@ -3,15 +3,16 @@
 namespace Laminas\Session\SaveHandler;
 
 use Laminas\Db\TableGateway\TableGateway;
+use ReturnTypeWillChange;
 
 use function ini_get;
 use function sprintf;
 use function time;
 
-use ReturnTypeWillChange;
-
 /**
  * DB Table Gateway session save handler
+ *
+ * @see ReturnTypeWillChange
  */
 class DbTableGateway implements SaveHandlerInterface
 {

@@ -3,9 +3,11 @@
 namespace LaminasTest\Session\TestAsset;
 
 use Laminas\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
-
 use ReturnTypeWillChange;
 
+/**
+ * @see ReturnTypeWillChange
+ */
 class TestSaveHandlerWithValidator implements SaveHandler
 {
     /**
