@@ -4,13 +4,13 @@ namespace LaminasTest\Session\SaveHandler\DbTableGateway;
 
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Session\SaveHandler\DbTableGateway;
-use LaminasTest\Session\SaveHandler\DbTableGatewayTest;
+use LaminasTest\Session\SaveHandler\AbstractDbTableGatewayTest;
 
 use function extension_loaded;
 use function getenv;
 use function sprintf;
 
-class PgsqlAdapterTest extends DbTableGatewayTest
+class PgsqlAdapterTest extends AbstractDbTableGatewayTest
 {
     /**
      * @return Adapter
