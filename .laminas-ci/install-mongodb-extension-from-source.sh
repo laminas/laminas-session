@@ -22,5 +22,7 @@ phpize
 make
 make install
 
+echo "extension=mongodb.so" > /etc/php/${PHP_VERSION}/mods-available/mongodb.ini
+
 cd $CURRENT_WORKING_DIRECTORY
 
