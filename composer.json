@@ -31,7 +31,7 @@
     },
     "require-dev": {
         "container-interop/container-interop": "^1.1",
-        "laminas/laminas-cache": "^2.6.1",
+        "laminas/laminas-cache": "3.0.x-dev",
         "laminas/laminas-coding-standard": "~2.2.1",
         "laminas/laminas-db": "^2.13",
         "laminas/laminas-http": "^2.15",
