@@ -12,11 +12,10 @@ use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\SessionArrayStorage;
 use Laminas\Session\Storage\SessionStorage;
-use Laminas\Session\Storage\StorageInterface;
 use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
+use LaminasTest\Session\TestAsset\Php81CompatibleStorageInterface;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Traversable;
 
 use function array_merge;
@@ -34,6 +33,7 @@ use function session_write_close;
 use function set_error_handler;
 use function stristr;
 use function var_export;
+use function xdebug_get_headers;
 
 use const E_WARNING;
 use const PHP_SAPI;
@@ -44,7 +44,6 @@ use const PHP_SAPI;
  */
 class SessionManagerTest extends TestCase
 {
-    use ProphecyTrait;
     use ReflectionPropertyTrait;
 
     /** @var false|string */
@@ -281,9 +280,13 @@ class SessionManagerTest extends TestCase
 
         $key            = 'testData';
         $data           = [$key => 'test'];
-        $sessionStorage = $this->prophesize(StorageInterface::class);
-        $_SESSION       = $sessionStorage->reveal();
-        $sessionStorage->toArray()->shouldBeCalledTimes(1)->willReturn($data);
+        $sessionStorage = $this
+            ->createMock(Php81CompatibleStorageInterface::class);
+        $_SESSION       = $sessionStorage;
+        $sessionStorage
+            ->expects(self::once())
+            ->method('toArray')
+            ->willReturn($data);
 
         $this->manager->start();
 

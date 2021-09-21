@@ -7,6 +7,7 @@ use MongoDB\BSON\Binary;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Client as MongoClient;
 use MongoDB\Collection as MongoCollection;
+use ReturnTypeWillChange;
 
 use function array_replace;
 use function floor;
@@ -16,6 +17,8 @@ use function time;
 
 /**
  * MongoDB session save handler
+ *
+ * @see ReturnTypeWillChange
  */
 class MongoDB implements SaveHandlerInterface
 {
@@ -81,6 +84,7 @@ class MongoDB implements SaveHandlerInterface
      * @param string $name
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function open($savePath, $name)
     {
         // Note: session save path is not used
@@ -105,6 +109,7 @@ class MongoDB implements SaveHandlerInterface
      *
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function close()
     {
         return true;
@@ -116,6 +121,7 @@ class MongoDB implements SaveHandlerInterface
      * @param string $id
      * @return string
      */
+    #[ReturnTypeWillChange]
     public function read($id)
     {
         $session = $this->mongoCollection->findOne([
@@ -148,6 +154,7 @@ class MongoDB implements SaveHandlerInterface
      * @param string $data
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function write($id, $data)
     {
         $saveOptions = array_replace(
@@ -185,6 +192,7 @@ class MongoDB implements SaveHandlerInterface
      * @param string $id
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function destroy($id)
     {
         $result = $this->mongoCollection->deleteOne(
@@ -212,6 +220,7 @@ class MongoDB implements SaveHandlerInterface
      * @param int $maxlifetime
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
         /* Note: unlike DbTableGateway, we do not use the lifetime field in

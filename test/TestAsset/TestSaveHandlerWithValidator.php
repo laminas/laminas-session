@@ -3,7 +3,11 @@
 namespace LaminasTest\Session\TestAsset;
 
 use Laminas\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
+use ReturnTypeWillChange;
 
+/**
+ * @see ReturnTypeWillChange
+ */
 class TestSaveHandlerWithValidator implements SaveHandler
 {
     /**
@@ -11,13 +15,12 @@ class TestSaveHandlerWithValidator implements SaveHandler
      * @param string $name
      * @return string
      */
-    public function open($savePath, $name)
+    public function open($savePath, $name): bool
     {
         return true;
     }
 
-    /** @return bool */
-    public function close()
+    public function close(): bool
     {
         return true;
     }
@@ -26,6 +29,7 @@ class TestSaveHandlerWithValidator implements SaveHandler
      * @param int|string $id
      * @return string
      */
+    #[ReturnTypeWillChange]
     public function read($id)
     {
         return '__Laminas|a:1:{s:6:"_VALID";a:1:{s:50:"LaminasTest\Session\TestAsset\TestFailingValidator";s:0:"";}}';
@@ -36,6 +40,7 @@ class TestSaveHandlerWithValidator implements SaveHandler
      * @param array $data
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function write($id, $data)
     {
         return true;
@@ -43,9 +48,8 @@ class TestSaveHandlerWithValidator implements SaveHandler
 
     /**
      * @param int|string $id
-     * @return bool
      */
-    public function destroy($id)
+    public function destroy($id): bool
     {
         return true;
     }
@@ -54,6 +58,7 @@ class TestSaveHandlerWithValidator implements SaveHandler
      * @param int $maxlifetime
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
         return true;

@@ -1,4 +1,4 @@
-<?php // phpcs:disable WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix
+<?php
 
 namespace LaminasTest\Session\SaveHandler;
 
@@ -20,7 +20,7 @@ use function var_export;
  *
  * @covers \Laminas\Session\SaveHandler\DbTableGateway
  */
-abstract class DbTableGatewayTest extends TestCase
+abstract class AbstractDbTableGatewayTest extends TestCase
 {
     /** @var Adapter */
     protected $adapter;
