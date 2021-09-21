@@ -34,7 +34,7 @@
         "laminas/laminas-cache": "3.0.x-dev",
         "laminas/laminas-cache-storage-adapter-memory": "2.0.x-dev",
         "laminas/laminas-coding-standard": "~2.2.1",
-        "laminas/laminas-db": "^2.13",
+        "laminas/laminas-db": "^2.13.4",
         "laminas/laminas-http": "^2.15",
         "laminas/laminas-servicemanager": "^3.7",
         "laminas/laminas-validator": "^2.15",
