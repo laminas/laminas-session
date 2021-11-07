@@ -88,11 +88,11 @@ class Module
         $container->httpUserAgent = $request->getServer()->get('HTTP_USER_AGENT');
 
         $config = $serviceManager->get('Config');
-        if (! isset($config['session'])) {
+        if (! isset($config['session_manager'])) {
             return;
         }
 
-        $sessionConfig = $config['session'];
+        $sessionConfig = $config['session_manager'];
 
         if (! isset($sessionConfig['validators'])) {
             return;
@@ -123,23 +123,18 @@ class Module
             'factories' => [
                 SessionManager::class => function ($container) {
                     $config = $container->get('config');
-                    if (! isset($config['session'])) {
+                    if (! isset($config['session_manager'])) {
                         $sessionManager = new SessionManager();
                         Container::setDefaultManager($sessionManager);
                         return $sessionManager;
                     }
 
-                    $session = $config['session'];
+                    $session = $config['session_manager'];
 
                     $sessionConfig = null;
                     if (isset($session['config'])) {
-                        $class = isset($session['config']['class'])
-                            ?  $session['config']['class']
-                            : SessionConfig::class;
-
-                        $options = isset($session['config']['options'])
-                            ?  $session['config']['options']
-                            : [];
+                        $class = $session['config']['class'] ?? SessionConfig::class;
+                        $options = $session['config']['options'] ?? [];
 
                         $sessionConfig = new $class();
                         $sessionConfig->setOptions($options);
