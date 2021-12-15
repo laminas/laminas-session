@@ -157,6 +157,10 @@ abstract class AbstractContainer extends ArrayObject
      */
     public function getManager()
     {
+        if (null === $this->manager) {
+            $this->setManager();
+        }
+
         return $this->manager;
     }
 
