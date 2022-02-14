@@ -14,6 +14,9 @@ use function var_export;
  */
 class SessionArrayStorageTest extends TestCase
 {
+    /** @var SessionArrayStorage */
+    private $storage;
+
     protected function setUp(): void
     {
         $_SESSION      = [];
@@ -199,5 +202,21 @@ class SessionArrayStorageTest extends TestCase
         $container->foo = 'bar';
         $container->baz = 'qux';
         self::assertSame(['foo' => 'bar', 'baz' => 'qux'], $container->getArrayCopy());
+    }
+
+    public function testClearMetaDataIfDontExistInSession(): void
+    {
+        $this->storage->setMetadata('foo', 'bar');
+        $this->storage->clear('foo');
+
+        self::assertFalse($this->storage->getMetaData('foo'));
+    }
+
+    public function testClearRemoveFromSession(): void
+    {
+        $this->storage->foo = 'bar';
+        $this->storage->clear('foo');
+
+        self::assertArrayNotHasKey('foo', $_SESSION);
     }
 }
