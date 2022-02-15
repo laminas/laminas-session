@@ -2,6 +2,8 @@
 
 namespace Laminas\Session;
 
+use function count;
+
 /**
  * Session storage container
  *
@@ -29,5 +31,18 @@ class Container extends AbstractContainer
         $ret     = &$storage[$name][$key];
 
         return $ret;
+    }
+
+    /**
+     * Get the number of set values in container.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        $storage = $this->getStorage();
+        $name    = $this->getName();
+
+        return count($storage[$name]);
     }
 }

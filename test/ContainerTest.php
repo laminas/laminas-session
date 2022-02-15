@@ -560,4 +560,19 @@ class ContainerTest extends TestCase
         self::assertIsArray($contents);
         self::assertArrayHasKey('foo', $contents, "'getArrayCopy' doesn't return exchanged array");
     }
+
+    /**
+     * Test count method is retrieving
+     * set values quantity.
+     *
+     * @test
+     */
+    public function testCountIsRetrievingSetValuesQuantity(): void
+    {
+        $this->container->foo = ['bar' => 'baz'];
+        $this->container->bar = ['foo' => 'baz'];
+        $this->container->baz = ['bar' => 'foo'];
+
+        self::assertCount(3, $this->container);
+    }
 }
