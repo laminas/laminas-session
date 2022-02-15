@@ -436,16 +436,9 @@ abstract class AbstractSessionArrayStorage implements
             return $this;
         }
 
-        if (! isset($_SESSION[$key])) {
-            return $this;
-        }
-
-        // Clear key data
         unset($_SESSION[$key]);
-
-        // Clear key metadata
         $this->setMetadata($key, null)
-             ->unlock($key);
+            ->unlock($key);
 
         return $this;
     }
