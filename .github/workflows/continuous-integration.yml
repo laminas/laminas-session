@@ -4,82 +4,8 @@ on:
   pull_request:
   push:
     branches:
-      - '[0-9]+.[0-9]+.x'
-      - 'refs/pull/*'
     tags:
 
 jobs:
-  matrix:
-    name: Generate job matrix
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.matrix.outputs.matrix }}
-    steps:
-      - name: Gather CI configuration
-        id: matrix
-        uses: laminas/laminas-ci-matrix-action@v1
-
-  qa:
-    name: QA Checks
-    needs: [matrix]
-    runs-on: ${{ matrix.operatingSystem }}
-    services:
-      mongo:
-        image: mongo:4.4
-        options: >-
-          --health-cmd="mongo --quiet --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: github
-          MYSQL_ROOT_HOST: '%'
-          MYSQL_USER: github
-          MYSQL_PASSWORD: github
-          MYSQL_DATABASE: laminas_session_test
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
-      postgres:
-        image: postgres:13.3-alpine
-        env:
-          POSTGRES_USER: github
-          POSTGRES_PASSWORD: github
-          POSTGRES_DB: laminas_session_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJSON(needs.matrix.outputs.matrix) }}
-    steps:
-      - name: ${{ matrix.name }}
-        uses: laminas/laminas-continuous-integration-action@v1
-        with:
-          job: ${{ matrix.job }}
-        env:
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL: true
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_HOSTNAME: mysql
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_USERNAME: github
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_PASSWORD: github
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_DATABASE: laminas_session_test
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL: true
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_HOSTNAME: postgres
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_USERNAME: github
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_PASSWORD: github
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_DATABASE: laminas_session_test
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB: true
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB_CONNECTION_STRING: mongodb://mongo/
+  ci:
+    uses: laminas/workflow-continuous-integration/.github/workflows/continuous-integration.yml@1.x

@@ -525,12 +525,14 @@ class SessionConfigTest extends TestCase
 
     public function testSetEntropyFileError(): void
     {
+        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
         $this->expectDeprecation();
         $this->config->getEntropyFile();
     }
 
     public function testGetEntropyFileError(): void
     {
+        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
         $this->expectDeprecation();
         $this->config->setEntropyFile(__FILE__);
     }
@@ -539,12 +541,14 @@ class SessionConfigTest extends TestCase
 
     public function testGetEntropyLengthError(): void
     {
+        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
         $this->expectDeprecation();
         $this->config->getEntropyLength();
     }
 
     public function testSetEntropyLengthError(): void
     {
+        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
         $this->expectDeprecation();
         $this->config->setEntropyLength(0);
     }
@@ -661,12 +665,14 @@ class SessionConfigTest extends TestCase
 
     public function testGetHashFunctionError(): void
     {
+        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
         $this->expectDeprecation();
         $this->config->getHashFunction();
     }
 
     public function testSetHashFunctionError(): void
     {
+        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
         $this->expectDeprecation();
         $this->config->setHashFunction('foobar_bogus');
     }
@@ -684,12 +690,14 @@ class SessionConfigTest extends TestCase
 
     public function testGetHashBitsPerCharacterError(): void
     {
+        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
         $this->expectDeprecation();
         $this->config->getHashBitsPerCharacter();
     }
 
     public function testSetHashBitsPerCharacterError(): void
     {
+        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
         $this->expectDeprecation();
         $this->config->setHashBitsPerCharacter(5);
     }
