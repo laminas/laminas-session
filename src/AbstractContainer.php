@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session;
 
 use ArrayIterator;
 use Iterator;
 use Laminas\Session\ManagerInterface as Manager;
-use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\StorageInterface as Storage;
 use Laminas\Stdlib\ArrayObject;
 use Traversable;

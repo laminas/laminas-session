@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session\Config;
 
 use Laminas\Session\Exception;
@@ -560,7 +562,7 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
     /**
      * Get session.cookie_secure
      *
-     * @return bool
+     * @return bool|string
      */
     public function getCookieSecure()
     {
@@ -589,7 +591,7 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
     /**
      * Get session.cookie_httponly
      *
-     * @return bool
+     * @return bool|string
      */
     public function getCookieHttpOnly()
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session\Config;
 
 use Laminas\Session\Exception;
@@ -384,7 +386,7 @@ class SessionConfig extends StandardConfig
 
         $sidBitsPerCharacter = (int) $sidBitsPerCharacter;
         $this->setOption('sid_bits_per_character', $sidBitsPerCharacter);
-        ini_set('session.sid_bits_per_character', $sidBitsPerCharacter);
+        ini_set('session.sid_bits_per_character', (string) $sidBitsPerCharacter);
         return $this;
     }
 

@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session\Service;
+
+// phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\AbstractFactoryInterface;

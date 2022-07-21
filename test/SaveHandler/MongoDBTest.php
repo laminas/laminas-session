@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Session\SaveHandler;
 
 use Laminas\Session\SaveHandler\MongoDB;

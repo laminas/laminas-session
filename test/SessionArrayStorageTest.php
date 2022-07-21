@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Session;
 
 use Laminas\Session\Container;
@@ -83,7 +85,7 @@ class SessionArrayStorageTest extends TestCase
         $storage            = new SessionArrayStorage();
         self::assertEquals('bar', $storage['foo']);
         $this->storage->markImmutable();
-        self::assertTrue($storage->isImmutable(), var_export($_SESSION, 1));
+        self::assertTrue($storage->isImmutable(), var_export($_SESSION, true));
     }
 
     public function testAssignment(): void

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session;
 
 use Laminas\Session\Config\ConfigInterface as Config;

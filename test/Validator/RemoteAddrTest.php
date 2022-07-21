@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Session\Validator;
 
 use Laminas\Session\Validator\RemoteAddr;

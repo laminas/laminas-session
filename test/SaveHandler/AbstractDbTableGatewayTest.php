@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Session\SaveHandler;
 
 use Laminas\Db\Adapter\Adapter;
@@ -95,7 +97,7 @@ abstract class AbstractDbTableGatewayTest extends TestCase
         self::assertEquals(
             $this->testArray,
             $data,
-            'Expected ' . var_export($this->testArray, 1) . "\nbut got: " . var_export($data, 1)
+            'Expected ' . var_export($this->testArray, true) . "\nbut got: " . var_export($data, true)
         );
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session;
 
 use Laminas\EventManager\Event;
@@ -449,8 +451,8 @@ class SessionManager extends AbstractManager
             $_SERVER['REQUEST_TIME'] - 42000, // TTL for cookie
             $config->getCookiePath(),
             $config->getCookieDomain(),
-            $config->getCookieSecure(),
-            $config->getCookieHttpOnly()
+            (bool) $config->getCookieSecure(),
+            (bool) $config->getCookieHttpOnly()
         );
     }
 
