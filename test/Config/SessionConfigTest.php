@@ -1057,7 +1057,7 @@ class SessionConfigTest extends TestCase
             return $moduleName;
         };
 
-        $url                              = 'tcp://localhost:6379?auth=foobar&database=1';
+        $url = 'tcp://localhost:6379?auth=foobar&database=1';
 
         $this->config->setOption('save_handler', 'redis');
         $this->config->setOption('save_path', $url);
