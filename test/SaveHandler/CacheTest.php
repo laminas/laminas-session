@@ -145,7 +145,7 @@ class CacheTest extends TestCase
                 function ($args) {
                     $this->getItem('242', Argument::any())
                         ->will(
-                            static fn($args) => $args[1]
+                            fn($args) => $args[1]
                         );
                     return true;
                 }
