@@ -16,8 +16,7 @@ use function var_export;
  */
 class SessionArrayStorageTest extends TestCase
 {
-    /** @var SessionArrayStorage */
-    private $storage;
+    private SessionArrayStorage $storage;
 
     protected function setUp(): void
     {

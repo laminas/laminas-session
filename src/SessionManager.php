@@ -415,9 +415,7 @@ class SessionManager extends AbstractManager
         $event->setTarget($this);
         $event->setParams($this);
 
-        $falseResult = function ($test) {
-            return false === $test;
-        };
+        $falseResult = static fn($test) => false === $test;
 
         $responses = $validator->triggerEventUntil($falseResult, $event);
 

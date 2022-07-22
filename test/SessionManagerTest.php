@@ -532,9 +532,7 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $this->expectException(
-            RuntimeException::class,
-            'Session has already been started);
-        $this->expectExceptionMessage(to change the session ID call regenerateId()'
+            RuntimeException::class
         );
         $this->manager->start();
         $origId = $this->manager->getId();
@@ -751,7 +749,7 @@ class SessionManagerTest extends TestCase
     {
         $this->manager   = new SessionManager();
         $validatorCalled = false;
-        $validator       = function () use (&$validatorCalled) {
+        $validator       = static function () use (&$validatorCalled) {
             $validatorCalled = true;
         };
 

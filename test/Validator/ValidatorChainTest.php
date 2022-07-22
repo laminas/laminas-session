@@ -16,8 +16,7 @@ use function property_exists;
 
 class ValidatorChainTest extends TestCase
 {
-    /** @var ValidatorChain */
-    private $validatorChain;
+    private ValidatorChain $validatorChain;
 
     protected function setUp(): void
     {
