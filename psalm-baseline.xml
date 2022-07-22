@@ -118,7 +118,10 @@
       <code>null !== $vars</code>
       <code>null !== $vars</code>
     </RedundantConditionGivenDocblockType>
-    <TooManyArguments occurrences="2"/>
+    <TooManyArguments occurrences="2">
+      <code>static fn() =&gt; $ts</code>
+      <code>static fn() =&gt; ['hops' =&gt; $hops, 'ts' =&gt; $ts]</code>
+    </TooManyArguments>
   </file>
   <file src="src/AbstractManager.php">
     <MixedMethodCall occurrences="2">
@@ -611,9 +614,6 @@
     <MissingClosureParamType occurrences="1">
       <code>$test</code>
     </MissingClosureParamType>
-    <MissingClosureReturnType occurrences="1">
-      <code>function ($test) {</code>
-    </MissingClosureReturnType>
     <MissingReturnType occurrences="1">
       <code>initializeValidatorChain</code>
     </MissingReturnType>
@@ -920,11 +920,9 @@
       <code>24</code>
       <code>24</code>
     </InvalidScalarArgument>
-    <MissingClosureReturnType occurrences="4">
-      <code>function () {</code>
-      <code>function () {</code>
-      <code>function (?string $module = null) {</code>
-      <code>function (?string $module = null) {</code>
+    <MissingClosureReturnType occurrences="2">
+      <code>static function (?string $module = null) {</code>
+      <code>static function (?string $module = null) {</code>
     </MissingClosureReturnType>
     <MissingReturnType occurrences="3">
       <code>testCookieSameSiteAltersIniSetting</code>
@@ -1125,18 +1123,13 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/SaveHandler/CacheTest.php">
-    <MissingClosureParamType occurrences="5">
-      <code>$args</code>
+    <MissingClosureParamType occurrences="4">
       <code>$args</code>
       <code>$args</code>
       <code>$args</code>
       <code>$args</code>
     </MissingClosureParamType>
-    <MissingClosureReturnType occurrences="1">
-      <code>function ($args) {</code>
-    </MissingClosureReturnType>
-    <MixedArrayAccess occurrences="4">
-      <code>$args[1]</code>
+    <MixedArrayAccess occurrences="3">
       <code>$args[1]</code>
       <code>$args[1]</code>
       <code>$args[1]</code>
@@ -1340,9 +1333,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$_SESSION</code>
     </InvalidScalarArgument>
-    <MissingClosureReturnType occurrences="1">
-      <code>function () use (&amp;$validatorCalled) {</code>
-    </MissingClosureReturnType>
     <MixedArgument occurrences="18">
       <code>$_SESSION</code>
       <code>$compare</code>
@@ -1368,7 +1358,7 @@
       <code>$_SESSION[$key]</code>
       <code>$_SESSION['__Laminas']['_VALID']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="27">
+    <MixedAssignment occurrences="26">
       <code>$compare</code>
       <code>$config</code>
       <code>$config</code>
@@ -1384,7 +1374,6 @@
       <code>$header</code>
       <code>$header</code>
       <code>$metaData</code>
-      <code>$origId</code>
       <code>$sName</code>
       <code>$sName</code>
       <code>$sName</code>
@@ -1417,14 +1406,10 @@
       <code>assertFalse</code>
       <code>assertSame</code>
     </RedundantCondition>
-    <TooManyArguments occurrences="1">
-      <code>expectException</code>
-    </TooManyArguments>
     <TypeDoesNotContainType occurrences="1">
       <code>assertIsArray</code>
     </TypeDoesNotContainType>
-    <UnusedVariable occurrences="2">
-      <code>$origId</code>
+    <UnusedVariable occurrences="1">
       <code>$origId</code>
     </UnusedVariable>
   </file>
