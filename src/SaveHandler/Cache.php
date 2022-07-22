@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Session\SaveHandler;
 
 use Laminas\Cache\Storage\ClearExpiredInterface as ClearExpiredCacheStorage;
