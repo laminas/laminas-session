@@ -48,8 +48,8 @@
         "php-mock/php-mock-phpunit": "^1.1.2 || ^2.0",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5.9",
-        "psalm/plugin-phpunit": "^0.16.1",
-        "vimeo/psalm": "^4.22"
+        "psalm/plugin-phpunit": "^0.17.0",
+        "vimeo/psalm": "^4.24.0"
     },
     "suggest": {
         "laminas/laminas-cache": "Laminas\\Cache component",

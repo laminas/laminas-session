@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.22.0@fc2c6ab4d5fa5d644d8617089f012f3bb84b8703">
+<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
   <file src="src/AbstractContainer.php">
     <DocblockTypeContradiction occurrences="5">
       <code>null === $key</code>
@@ -149,9 +149,8 @@
     <InvalidNullableReturnType occurrences="1">
       <code>SessionConfig</code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument occurrences="2">
+    <InvalidScalarArgument occurrences="1">
       <code>$hashBitsPerCharacter</code>
-      <code>$sidBitsPerCharacter</code>
     </InvalidScalarArgument>
     <MissingConstructor occurrences="2">
       <code>$serializeHandler</code>
@@ -212,7 +211,7 @@
       <code>null === $this-&gt;savePath</code>
       <code>null === $this-&gt;useCookies</code>
     </DocblockTypeContradiction>
-    <ImplementedReturnTypeMismatch occurrences="13">
+    <ImplementedReturnTypeMismatch occurrences="15">
       <code>StandardConfig</code>
       <code>StandardConfig</code>
       <code>StandardConfig</code>
@@ -224,6 +223,8 @@
       <code>StandardConfig</code>
       <code>StandardConfig</code>
       <code>StandardConfig</code>
+      <code>bool|string</code>
+      <code>bool|string</code>
       <code>null|string</code>
       <code>string|null</code>
     </ImplementedReturnTypeMismatch>
@@ -261,9 +262,6 @@
       <code>$key</code>
       <code>$key</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$validator-&gt;getMessages()</code>
-    </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="13">
       <code>$key</code>
       <code>$this-&gt;cookieDomain</code>
@@ -281,8 +279,8 @@
     </MixedAssignment>
     <MixedInferredReturnType occurrences="20">
       <code>bool</code>
-      <code>bool</code>
-      <code>bool</code>
+      <code>bool|string</code>
+      <code>bool|string</code>
       <code>int</code>
       <code>int</code>
       <code>int</code>
@@ -344,9 +342,13 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/ConfigProvider.php">
-    <DuplicateArrayKey occurrences="1">
-      <code>\Zend\Session\SessionManager::class   =&gt; SessionManager::class</code>
-    </DuplicateArrayKey>
+    <MixedArrayOffset occurrences="1"/>
+    <UndefinedClass occurrences="4">
+      <code>ConfigInterface</code>
+      <code>StorageInterface</code>
+      <code>\Zend\Session\ManagerInterface</code>
+      <code>\Zend\Session\SessionManager</code>
+    </UndefinedClass>
   </file>
   <file src="src/Container.php">
     <MixedArrayAccess occurrences="1">
@@ -587,10 +589,6 @@
     <DeprecatedInterface occurrences="1">
       <code>StorageFactory</code>
     </DeprecatedInterface>
-    <InvalidCatch occurrences="1"/>
-    <InvalidScalarArgument occurrences="1">
-      <code>$e-&gt;getCode()</code>
-    </InvalidScalarArgument>
     <MixedArgument occurrences="2">
       <code>$options</code>
       <code>$type</code>
@@ -614,7 +612,7 @@
       <code>$test</code>
     </MissingClosureParamType>
     <MissingClosureReturnType occurrences="1">
-      <code>function ($test) {&#13;</code>
+      <code>function ($test) {</code>
     </MissingClosureReturnType>
     <MissingReturnType occurrences="1">
       <code>initializeValidatorChain</code>
@@ -642,7 +640,9 @@
       <code>$validatorChain</code>
       <code>SessionManager</code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="1">
+    <RedundantCastGivenDocblockType occurrences="3">
+      <code>(bool) $config-&gt;getCookieHttpOnly()</code>
+      <code>(bool) $config-&gt;getCookieSecure()</code>
       <code>(bool) $deleteOldSession</code>
     </RedundantCastGivenDocblockType>
     <RedundantConditionGivenDocblockType occurrences="2">
@@ -900,16 +900,6 @@
     <ArgumentTypeCoercion occurrences="1">
       <code>'InvalidArgumentException'</code>
     </ArgumentTypeCoercion>
-    <DeprecatedMethod occurrences="8">
-      <code>getEntropyFile</code>
-      <code>getEntropyLength</code>
-      <code>getHashBitsPerCharacter</code>
-      <code>getHashFunction</code>
-      <code>setEntropyFile</code>
-      <code>setEntropyLength</code>
-      <code>setHashBitsPerCharacter</code>
-      <code>setHashFunction</code>
-    </DeprecatedMethod>
     <InvalidArgument occurrences="2">
       <code>$handler</code>
       <code>$saveHandler</code>
@@ -931,10 +921,10 @@
       <code>24</code>
     </InvalidScalarArgument>
     <MissingClosureReturnType occurrences="4">
-      <code>function () {&#13;</code>
-      <code>function () {&#13;</code>
-      <code>function (?string $module = null) {&#13;</code>
-      <code>function (?string $module = null) {&#13;</code>
+      <code>function () {</code>
+      <code>function () {</code>
+      <code>function (?string $module = null) {</code>
+      <code>function (?string $module = null) {</code>
     </MissingClosureReturnType>
     <MissingReturnType occurrences="3">
       <code>testCookieSameSiteAltersIniSetting</code>
@@ -950,6 +940,24 @@
     <RedundantCondition occurrences="1">
       <code>assertFalse</code>
     </RedundantCondition>
+    <UnevaluatedCode occurrences="16">
+      <code>$this-&gt;config-&gt;getEntropyFile();</code>
+      <code>$this-&gt;config-&gt;getEntropyLength();</code>
+      <code>$this-&gt;config-&gt;getHashBitsPerCharacter();</code>
+      <code>$this-&gt;config-&gt;getHashFunction();</code>
+      <code>$this-&gt;config-&gt;setEntropyFile(__FILE__);</code>
+      <code>$this-&gt;config-&gt;setEntropyLength(0);</code>
+      <code>$this-&gt;config-&gt;setHashBitsPerCharacter(5);</code>
+      <code>$this-&gt;config-&gt;setHashFunction('foobar_bogus');</code>
+      <code>$this-&gt;expectDeprecation();</code>
+      <code>$this-&gt;expectDeprecation();</code>
+      <code>$this-&gt;expectDeprecation();</code>
+      <code>$this-&gt;expectDeprecation();</code>
+      <code>$this-&gt;expectDeprecation();</code>
+      <code>$this-&gt;expectDeprecation();</code>
+      <code>$this-&gt;expectDeprecation();</code>
+      <code>$this-&gt;expectDeprecation();</code>
+    </UnevaluatedCode>
   </file>
   <file src="test/Config/StandardConfigTest.php">
     <DeprecatedMethod occurrences="8">
@@ -999,6 +1007,12 @@
       <code>$factories[StorageInterface::class]</code>
       <code>$this-&gt;config['dependencies']['aliases']</code>
     </MixedArrayAccess>
+    <MixedArrayOffset occurrences="4">
+      <code>$config[LegacyConfigInterface::class]</code>
+      <code>$config[LegacyManagerInterface::class]</code>
+      <code>$config[LegacySessionManager::class]</code>
+      <code>$config[LegacyStorageInterface::class]</code>
+    </MixedArrayOffset>
     <MixedAssignment occurrences="5">
       <code>$abstractFactories</code>
       <code>$aliases</code>
@@ -1009,6 +1023,12 @@
     <MixedPropertyTypeCoercion occurrences="1">
       <code>(new ConfigProvider())()</code>
     </MixedPropertyTypeCoercion>
+    <UndefinedClass occurrences="4">
+      <code>LegacyConfigInterface</code>
+      <code>LegacyManagerInterface</code>
+      <code>LegacySessionManager</code>
+      <code>LegacyStorageInterface</code>
+    </UndefinedClass>
   </file>
   <file src="test/ContainerTest.php">
     <MixedArgument occurrences="7">
@@ -1091,17 +1111,9 @@
       <code>! $this-&gt;adapter</code>
       <code>$this-&gt;adapter</code>
     </DocblockTypeContradiction>
-    <InvalidScalarArgument occurrences="2">
-      <code>1</code>
-      <code>1</code>
-    </InvalidScalarArgument>
     <MixedAssignment occurrences="1">
       <code>$data</code>
     </MixedAssignment>
-    <PossiblyNullOperand occurrences="2">
-      <code>var_export($data, 1)</code>
-      <code>var_export($this-&gt;testArray, 1)</code>
-    </PossiblyNullOperand>
     <PossiblyUndefinedMethod occurrences="1">
       <code>count</code>
     </PossiblyUndefinedMethod>
@@ -1113,10 +1125,6 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/SaveHandler/CacheTest.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>1</code>
-      <code>1</code>
-    </InvalidScalarArgument>
     <MissingClosureParamType occurrences="5">
       <code>$args</code>
       <code>$args</code>
@@ -1125,7 +1133,7 @@
       <code>$args</code>
     </MissingClosureParamType>
     <MissingClosureReturnType occurrences="1">
-      <code>function ($args) {&#13;</code>
+      <code>function ($args) {</code>
     </MissingClosureReturnType>
     <MixedArrayAccess occurrences="4">
       <code>$args[1]</code>
@@ -1143,10 +1151,6 @@
       <code>willReturn</code>
       <code>willReturn</code>
     </MixedMethodCall>
-    <PossiblyNullOperand occurrences="2">
-      <code>var_export($data, 1)</code>
-      <code>var_export($this-&gt;testArray, 1)</code>
-    </PossiblyNullOperand>
     <RedundantConditionGivenDocblockType occurrences="2">
       <code>assertTrue</code>
       <code>is_string($data)</code>
@@ -1181,8 +1185,10 @@
       <code>count</code>
       <code>count</code>
     </DeprecatedMethod>
-    <InvalidScalarArgument occurrences="7">
+    <InvalidArgument occurrences="1">
       <code>0</code>
+    </InvalidArgument>
+    <InvalidScalarArgument occurrences="6">
       <code>123</code>
       <code>123</code>
       <code>123</code>
@@ -1305,10 +1311,9 @@
     </UnusedVariable>
   </file>
   <file src="test/SessionArrayStorageTest.php">
-    <InvalidScalarArgument occurrences="3">
+    <InvalidScalarArgument occurrences="2">
       <code>$_SESSION</code>
       <code>$_SESSION</code>
-      <code>1</code>
     </InvalidScalarArgument>
     <MixedArrayAccess occurrences="4">
       <code>$_SESSION['test']['foo']</code>
@@ -1321,39 +1326,27 @@
       <code>$this-&gt;storage['bar'][]</code>
       <code>$this-&gt;storage['baz']['foo']</code>
     </MixedArrayAssignment>
-    <PossiblyNullArgument occurrences="1">
-      <code>var_export($_SESSION, 1)</code>
-    </PossiblyNullArgument>
   </file>
   <file src="test/SessionManagerTest.php">
     <DocblockTypeContradiction occurrences="1">
       <code>assertIsArray</code>
     </DocblockTypeContradiction>
-    <InvalidArgument occurrences="2">
+    <InvalidArgument occurrences="4">
       <code>$this-&gt;error</code>
+      <code>1</code>
+      <code>1</code>
       <code>[$this, 'handleErrors']</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="3">
+    <InvalidScalarArgument occurrences="1">
       <code>$_SESSION</code>
-      <code>1</code>
-      <code>1</code>
     </InvalidScalarArgument>
     <MissingClosureReturnType occurrences="1">
-      <code>function () use (&amp;$validatorCalled) {&#13;</code>
+      <code>function () use (&amp;$validatorCalled) {</code>
     </MissingClosureReturnType>
-    <MixedArgument occurrences="27">
+    <MixedArgument occurrences="18">
       <code>$_SESSION</code>
       <code>$compare</code>
       <code>$compare + 10</code>
-      <code>$header</code>
-      <code>$header</code>
-      <code>$header</code>
-      <code>$header</code>
-      <code>$header</code>
-      <code>$header</code>
-      <code>$header</code>
-      <code>$header</code>
-      <code>$header</code>
       <code>$header</code>
       <code>$header</code>
       <code>$header</code>
@@ -1375,7 +1368,7 @@
       <code>$_SESSION[$key]</code>
       <code>$_SESSION['__Laminas']['_VALID']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="29">
+    <MixedAssignment occurrences="27">
       <code>$compare</code>
       <code>$config</code>
       <code>$config</code>
@@ -1383,8 +1376,6 @@
       <code>$config</code>
       <code>$config</code>
       <code>$config</code>
-      <code>$cookie</code>
-      <code>$cookie</code>
       <code>$cookieTs</code>
       <code>$header</code>
       <code>$header</code>
@@ -1441,9 +1432,8 @@
     <InvalidMethodCall occurrences="1">
       <code>getArrayCopy</code>
     </InvalidMethodCall>
-    <InvalidScalarArgument occurrences="2">
+    <InvalidScalarArgument occurrences="1">
       <code>$_SESSION</code>
-      <code>1</code>
     </InvalidScalarArgument>
     <MixedArrayAssignment occurrences="2">
       <code>$this-&gt;storage['foo']</code>
@@ -1462,9 +1452,6 @@
     <MixedPropertyFetch occurrences="1">
       <code>$this-&gt;storage-&gt;bar</code>
     </MixedPropertyFetch>
-    <PossiblyNullArgument occurrences="1">
-      <code>var_export($_SESSION, 1)</code>
-    </PossiblyNullArgument>
     <UndefinedThisPropertyAssignment occurrences="3">
       <code>$this-&gt;storage</code>
       <code>$this-&gt;storage</code>
