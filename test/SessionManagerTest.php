@@ -576,7 +576,7 @@ class SessionManagerTest extends TestCase
         $config        = $this->manager->getConfig();
         $config->setUseCookies(true);
         $this->manager->start();
-        $origId = $this->manager->getId();
+        $this->manager->getId();
         $this->manager->regenerateId();
 
         $headers = xdebug_get_headers();
@@ -749,7 +749,7 @@ class SessionManagerTest extends TestCase
     {
         $this->manager   = new SessionManager();
         $validatorCalled = false;
-        $validator       = static function () use (&$validatorCalled) {
+        $validator       = static function () use (&$validatorCalled): void {
             $validatorCalled = true;
         };
 

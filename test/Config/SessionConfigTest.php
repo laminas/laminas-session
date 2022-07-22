@@ -1020,8 +1020,7 @@ class SessionConfigTest extends TestCase
 
     public function testProvidingValidKnownSessionHandlerToSetPhpSaveHandlerResultsInNoErrors(): void
     {
-        /** @return string */
-        $this->config::$phpinfo = static function () {
+        $this->config::$phpinfo = static function (): void {
             echo "Registered save handlers => user files unittest";
         };
 
@@ -1040,7 +1039,7 @@ class SessionConfigTest extends TestCase
 
     public function testCanProvidePathWhenUsingRedisSaveHandler(): void
     {
-        $this->config::$phpinfo = static function () {
+        $this->config::$phpinfo = static function (): void {
             echo "Registered save handlers => user files redis";
         };
 
