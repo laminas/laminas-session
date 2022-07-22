@@ -16,8 +16,7 @@ use function var_export;
  */
 class SessionArrayStorageTest extends TestCase
 {
-    /** @var SessionArrayStorage */
-    private $storage;
+    private \Laminas\Session\Storage\SessionArrayStorage $storage;
 
     protected function setUp(): void
     {

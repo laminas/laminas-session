@@ -43,10 +43,8 @@ abstract class AbstractDbTableGatewayTest extends TestCase
 
     /**
      * Test data container.
-     *
-     * @var array
      */
-    private $testArray;
+    private array $testArray;
 
     /**
      * @return Adapter

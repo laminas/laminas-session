@@ -22,7 +22,7 @@ use Zend\Session\Storage\StorageInterface as LegacyStorageInterface;
 class ConfigProviderTest extends TestCase
 {
     /** @var array<string, mixed> */
-    private $config;
+    private array $config;
 
     protected function setUp(): void
     {

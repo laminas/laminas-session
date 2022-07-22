@@ -20,8 +20,7 @@ use PHPUnit\Framework\TestCase;
  */
 class StorageFactoryTest extends TestCase
 {
-    /** @var ServiceManager */
-    private $services;
+    private \Laminas\ServiceManager\ServiceManager $services;
 
     protected function setUp(): void
     {

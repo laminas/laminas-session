@@ -807,7 +807,7 @@ class SessionConfigTest extends TestCase
 
     public function testRememberMeSecondsDefaultsToTwoWeeks(): void
     {
-        self::assertEquals(1209600, $this->config->getRememberMeSeconds());
+        self::assertEquals(1_209_600, $this->config->getRememberMeSeconds());
     }
 
     public function testRememberMeSecondsIsMutable(): void
@@ -1021,18 +1021,16 @@ class SessionConfigTest extends TestCase
     public function testProvidingValidKnownSessionHandlerToSetPhpSaveHandlerResultsInNoErrors(): void
     {
         /** @return string */
-        $this->config::$phpinfo = function () {
+        $this->config::$phpinfo = static function () {
             echo "Registered save handlers => user files unittest";
         };
 
         /** @return bool|string */
-        $this->config::$sessionModuleName = function (?string $module = null) {
+        $this->config::$sessionModuleName = static function (?string $module = null) {
             static $moduleName;
-
             if ($module !== null) {
                 $moduleName = $module;
             }
-
             return $moduleName;
         };
 
@@ -1042,18 +1040,16 @@ class SessionConfigTest extends TestCase
 
     public function testCanProvidePathWhenUsingRedisSaveHandler(): void
     {
-        $this->config::$phpinfo = function () {
+        $this->config::$phpinfo = static function () {
             echo "Registered save handlers => user files redis";
         };
 
         /** @return bool|string */
-        $this->config::$sessionModuleName = function (?string $module = null) {
+        $this->config::$sessionModuleName = static function (?string $module = null) {
             static $moduleName;
-
             if ($module !== null) {
                 $moduleName = $module;
             }
-
             return $moduleName;
         };
 
@@ -1069,7 +1065,7 @@ class SessionConfigTest extends TestCase
     {
         $spy                    = new stdClass();
         $spy->seen              = false;
-        $this->config::$phpinfo = function () use ($spy): void {
+        $this->config::$phpinfo = static function () use ($spy) : void {
             $spy->seen = true;
         };
 
