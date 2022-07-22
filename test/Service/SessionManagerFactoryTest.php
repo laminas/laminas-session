@@ -33,7 +33,7 @@ class SessionManagerFactoryTest extends TestCase
     use EventListenerIntrospectionTrait;
     use ReflectionPropertyTrait;
 
-    private \Laminas\ServiceManager\ServiceManager $services;
+    private ServiceManager $services;
 
     protected function setUp(): void
     {

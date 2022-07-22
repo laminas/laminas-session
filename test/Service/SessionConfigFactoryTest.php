@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
  */
 class SessionConfigFactoryTest extends TestCase
 {
-    private \Laminas\ServiceManager\ServiceManager $services;
+    private ServiceManager $services;
 
     protected function setUp(): void
     {

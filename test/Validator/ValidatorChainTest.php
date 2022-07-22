@@ -16,7 +16,7 @@ use function property_exists;
 
 class ValidatorChainTest extends TestCase
 {
-    private \Laminas\Session\ValidatorChain $validatorChain;
+    private ValidatorChain $validatorChain;
 
     protected function setUp(): void
     {

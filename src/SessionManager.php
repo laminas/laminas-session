@@ -445,11 +445,11 @@ class SessionManager extends AbstractManager
             $this->getName(), // session name
             '', // value
             [
-                'expires' => $_SERVER['REQUEST_TIME'] - 42000, // TTL for cookie
-                'path' => $config->getCookiePath(),
-                'domain' => $config->getCookieDomain(),
-                'secure' => (bool) $config->getCookieSecure(),
-                'httponly' => (bool) $config->getCookieHttpOnly()
+                'expires'  => $_SERVER['REQUEST_TIME'] - 42000, // TTL for cookie
+                'path'     => $config->getCookiePath(),
+                'domain'   => $config->getCookieDomain(),
+                'secure'   => (bool) $config->getCookieSecure(),
+                'httponly' => (bool) $config->getCookieHttpOnly(),
             ]
         );
     }

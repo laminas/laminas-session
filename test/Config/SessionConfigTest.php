@@ -1065,7 +1065,7 @@ class SessionConfigTest extends TestCase
     {
         $spy                    = new stdClass();
         $spy->seen              = false;
-        $this->config::$phpinfo = static function () use ($spy) : void {
+        $this->config::$phpinfo = static function () use ($spy): void {
             $spy->seen = true;
         };
 
