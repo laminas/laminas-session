@@ -2,9 +2,8 @@
 
 namespace Laminas\Session\Exception;
 
-/**
- * Laminas\Session\Exception
- */
-interface ExceptionInterface
+use Throwable;
+
+interface ExceptionInterface extends Throwable
 {
 }

@@ -560,7 +560,7 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
     /**
      * Get session.cookie_secure
      *
-     * @return bool
+     * @return bool|string
      */
     public function getCookieSecure()
     {
@@ -589,7 +589,7 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
     /**
      * Get session.cookie_httponly
      *
-     * @return bool
+     * @return bool|string
      */
     public function getCookieHttpOnly()
     {

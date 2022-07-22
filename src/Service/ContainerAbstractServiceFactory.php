@@ -2,6 +2,8 @@
 
 namespace Laminas\Session\Service;
 
+// phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
+
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\AbstractFactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Session\SaveHandler\DbTableGateway;
 
 use Laminas\Db\Adapter\Adapter;

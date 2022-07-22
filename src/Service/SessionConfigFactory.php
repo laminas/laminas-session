@@ -2,6 +2,8 @@
 
 namespace Laminas\Session\Service;
 
+// phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
+
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\FactoryInterface;
