@@ -44,7 +44,7 @@
         "laminas/laminas-db": "^2.13.4",
         "laminas/laminas-http": "^2.15",
         "laminas/laminas-validator": "^2.15",
-        "mongodb/mongodb": "~1.12.0",
+        "mongodb/mongodb": "~1.13.0",
         "php-mock/php-mock-phpunit": "^1.1.2 || ^2.0",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5.9",
