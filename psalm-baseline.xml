@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
+<files psalm-version="4.28.0@52e96bea381e6cb07a672aefec791a5817694a26">
   <file src="src/AbstractContainer.php">
     <DocblockTypeContradiction occurrences="5">
       <code>null === $key</code>
@@ -105,6 +105,11 @@
       <code>$storage</code>
       <code>$storage</code>
     </PossiblyNullReference>
+    <PossiblyUndefinedArrayOffset occurrences="3">
+      <code>$_SERVER['REQUEST_TIME']</code>
+      <code>$_SERVER['REQUEST_TIME']</code>
+      <code>$_SERVER['REQUEST_TIME']</code>
+    </PossiblyUndefinedArrayOffset>
     <PropertyNotSetInConstructor occurrences="3">
       <code>$manager</code>
       <code>AbstractContainer</code>
@@ -443,10 +448,6 @@
     <InvalidOperand occurrences="1">
       <code>(string) $session[$this-&gt;options-&gt;getModifiedField()]</code>
     </InvalidOperand>
-    <InvalidScalarArgument occurrences="2">
-      <code>$microseconds</code>
-      <code>floor(microtime(true) * 1000)</code>
-    </InvalidScalarArgument>
     <MixedAssignment occurrences="2">
       <code>$timestamp</code>
       <code>$timestamp</code>
@@ -617,8 +618,7 @@
     <MissingReturnType occurrences="1">
       <code>initializeValidatorChain</code>
     </MissingReturnType>
-    <MixedArgument occurrences="2">
-      <code>$_SERVER['REQUEST_TIME'] - 42000</code>
+    <MixedArgument occurrences="1">
       <code>$validator</code>
     </MixedArgument>
     <MixedAssignment occurrences="3">
@@ -629,12 +629,12 @@
     <MixedMethodCall occurrences="1">
       <code>new $validator(null)</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="1">
-      <code>$_SERVER['REQUEST_TIME']</code>
-    </MixedOperand>
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$id</code>
     </MoreSpecificImplementedParamType>
+    <PossiblyUndefinedArrayOffset occurrences="1">
+      <code>$_SERVER['REQUEST_TIME']</code>
+    </PossiblyUndefinedArrayOffset>
     <PropertyNotSetInConstructor occurrences="3">
       <code>$name</code>
       <code>$validatorChain</code>
@@ -857,11 +857,9 @@
     </UndefinedDocblockClass>
   </file>
   <file src="src/Validator/HttpUserAgent.php">
-    <MixedAssignment occurrences="3">
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>$data</code>
-      <code>$this-&gt;data</code>
-      <code>$userAgent</code>
-    </MixedAssignment>
+    </PossiblyNullPropertyAssignmentValue>
   </file>
   <file src="src/Validator/ValidatorChainTrait.php">
     <MixedArgumentTypeCoercion occurrences="1">
@@ -1084,18 +1082,18 @@
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedOperand occurrences="7">
-      <code>$_SERVER['REQUEST_TIME']</code>
-      <code>$_SERVER['REQUEST_TIME']</code>
-      <code>$_SERVER['REQUEST_TIME']</code>
-      <code>$_SERVER['REQUEST_TIME']</code>
-      <code>$_SERVER['REQUEST_TIME']</code>
-      <code>$_SERVER['REQUEST_TIME']</code>
-      <code>$_SERVER['REQUEST_TIME']</code>
-    </MixedOperand>
     <NoInterfaceProperties occurrences="1">
       <code>$this-&gt;manager-&gt;started</code>
     </NoInterfaceProperties>
+    <PossiblyUndefinedArrayOffset occurrences="7">
+      <code>$_SERVER['REQUEST_TIME']</code>
+      <code>$_SERVER['REQUEST_TIME']</code>
+      <code>$_SERVER['REQUEST_TIME']</code>
+      <code>$_SERVER['REQUEST_TIME']</code>
+      <code>$_SERVER['REQUEST_TIME']</code>
+      <code>$_SERVER['REQUEST_TIME']</code>
+      <code>$_SERVER['REQUEST_TIME']</code>
+    </PossiblyUndefinedArrayOffset>
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>assertIsArray</code>
     </RedundantConditionGivenDocblockType>
@@ -1387,8 +1385,8 @@
       <code>$value</code>
     </MixedAssignment>
     <MixedOperand occurrences="2">
-      <code>$_SERVER['REQUEST_TIME']</code>
       <code>$compare</code>
+      <code>$ttl</code>
     </MixedOperand>
     <MixedPropertyFetch occurrences="2">
       <code>$_SESSION-&gt;key1</code>
@@ -1398,6 +1396,10 @@
       <code>var_export($headers, 1)</code>
       <code>var_export($headers, 1)</code>
     </PossiblyNullOperand>
+    <PossiblyUndefinedArrayOffset occurrences="2">
+      <code>$_SERVER['REQUEST_TIME']</code>
+      <code>$_SERVER['REQUEST_TIME']</code>
+    </PossiblyUndefinedArrayOffset>
     <PossiblyUndefinedVariable occurrences="2">
       <code>$header</code>
       <code>$header</code>
