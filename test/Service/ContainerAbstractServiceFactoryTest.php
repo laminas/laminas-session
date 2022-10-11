@@ -30,6 +30,8 @@ class ContainerAbstractServiceFactoryTest extends TestCase
         ],
     ];
 
+    private ServiceManager $services;
+
     protected function setUp(): void
     {
         $config         = new Config(

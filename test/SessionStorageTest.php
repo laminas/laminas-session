@@ -15,6 +15,8 @@ use function var_export;
  */
 class SessionStorageTest extends TestCase
 {
+    private SessionStorage $storage;
+
     protected function setUp(): void
     {
         $_SESSION      = [];
