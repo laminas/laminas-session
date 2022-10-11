@@ -3,5 +3,8 @@
         "mongodb",
         "mysql",
         "pgsql"
-    ]
+    ],
+    "ignore_php_platform_requirements": {
+        "8.2": true
+    }
 }
