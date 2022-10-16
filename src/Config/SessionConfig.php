@@ -10,7 +10,6 @@ use function array_search;
 use function array_shift;
 use function class_exists;
 use function explode;
-use function get_class;
 use function hash_algos;
 use function implode;
 use function in_array;
@@ -524,14 +523,14 @@ class SessionConfig extends StandardConfig
         if (! $phpSaveHandler instanceof SessionHandlerInterface) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Invalid save handler specified ("%s"); must implement %s',
-                get_class($phpSaveHandler),
+                $phpSaveHandler::class,
                 SessionHandlerInterface::class
             ));
         }
 
         session_set_save_handler($phpSaveHandler);
 
-        return get_class($phpSaveHandler);
+        return $phpSaveHandler::class;
     }
 
     /**
