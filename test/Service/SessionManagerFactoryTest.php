@@ -199,7 +199,7 @@ class SessionManagerFactoryTest extends TestCase
         $manager = $this->services->get(ManagerInterface::class);
         try {
             $manager->start();
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException) {
             // Ignore exception, because we are not interested whether session validation passes in this test
         }
 

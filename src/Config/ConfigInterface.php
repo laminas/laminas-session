@@ -18,10 +18,9 @@ interface ConfigInterface
 
     /**
      * @param string $option
-     * @param mixed $value
      * @return void
      */
-    public function setOption($option, $value);
+    public function setOption($option, mixed $value);
 
     /**
      * @param string $option

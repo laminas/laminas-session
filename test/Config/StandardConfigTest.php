@@ -460,12 +460,10 @@ class StandardConfigTest extends TestCase
     }
 
     // setOptions
-
     /**
      * @dataProvider optionsProvider
-     * @param mixed $value
      */
-    public function testSetOptionsTranslatesUnderscoreSeparatedKeys(string $option, string $getter, $value): void
+    public function testSetOptionsTranslatesUnderscoreSeparatedKeys(string $option, string $getter, mixed $value): void
     {
         $options = [$option => $value];
         $this->config->setOptions($options);

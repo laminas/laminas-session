@@ -38,26 +38,18 @@ class DbTableGateway implements SaveHandlerInterface
     protected $lifetime;
 
     /**
-     * Laminas Db Table Gateway
-     *
-     * @var TableGateway
-     */
-    protected $tableGateway;
-
-    /**
-     * DbTableGateway Options
-     *
-     * @var DbTableGatewayOptions
-     */
-    protected $options;
-
-    /**
      * Constructor
      */
-    public function __construct(TableGateway $tableGateway, DbTableGatewayOptions $options)
-    {
-        $this->tableGateway = $tableGateway;
-        $this->options      = $options;
+    public function __construct(
+        /**
+         * Laminas Db Table Gateway
+         */
+        protected TableGateway $tableGateway,
+        /**
+         * DbTableGateway Options
+         */
+        protected DbTableGatewayOptions $options
+    ) {
     }
 
     /**

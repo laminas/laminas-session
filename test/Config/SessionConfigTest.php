@@ -814,12 +814,10 @@ class SessionConfigTest extends TestCase
     }
 
     // setOption
-
     /**
      * @dataProvider optionsProvider
-     * @param mixed $value
      */
-    public function testSetOptionSetsIniSetting(string $option, string $getter, $value): void
+    public function testSetOptionSetsIniSetting(string $option, string $getter, mixed $value): void
     {
         // Leaving out special cases.
         if ($option === 'remember_me_seconds' || $option === 'url_rewriter_tags') {
@@ -852,15 +850,13 @@ class SessionConfigTest extends TestCase
     }
 
     // setOptions
-
     /**
      * @dataProvider optionsProvider
-     * @param mixed $value
      */
     public function testSetOptionsTranslatesUnderscoreSeparatedKeys(
         string $option,
         string $getter,
-        $value
+        mixed $value
     ): void {
         $options = [$option => $value];
         $this->config->setOptions($options);

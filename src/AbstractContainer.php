@@ -532,11 +532,11 @@ abstract class AbstractContainer extends ArrayObject
             $container = $this;
 
             // Filter out any items not in our container
-            $expires = array_filter($vars, static fn($value) => $container->offsetExists($value));
+            $expires = array_filter($vars, static fn($value): bool => $container->offsetExists($value));
 
             // Map item keys => timestamp
             $expires = array_flip($expires);
-            $expires = array_map(static fn() => $ts, $expires);
+            $expires = array_map(static fn(): int => $ts, $expires);
 
             // Create metadata array to merge in
             $data = ['EXPIRE_KEYS' => $expires];
@@ -579,11 +579,11 @@ abstract class AbstractContainer extends ArrayObject
             $container = $this;
 
             // FilterInterface out any items not in our container
-            $expires = array_filter($vars, static fn($value) => $container->offsetExists($value));
+            $expires = array_filter($vars, static fn($value): bool => $container->offsetExists($value));
 
             // Map item keys => timestamp
             $expires = array_flip($expires);
-            $expires = array_map(static fn() => ['hops' => $hops, 'ts' => $ts], $expires);
+            $expires = array_map(static fn(): array => ['hops' => $hops, 'ts' => $ts], $expires);
 
             // Create metadata array to merge in
             $data = ['EXPIRE_HOPS_KEYS' => $expires];
