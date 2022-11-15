@@ -14,9 +14,12 @@ use Traversable;
 use function class_exists;
 use function class_implements;
 use function class_parents;
+use function get_class;
 use function get_debug_type;
+use function gettype;
 use function in_array;
 use function is_array;
+use function is_object;
 use function is_string;
 use function sprintf;
 
@@ -62,16 +65,21 @@ abstract class Factory
             ));
         }
 
-        return match (true) {
-            in_array(AbstractSessionArrayStorage::class, class_parents($type)) => static::createSessionArrayStorage($type, $options),
-            $type === ArrayStorage::class, in_array(ArrayStorage::class, class_parents($type)) => static::createArrayStorage($type, $options),
-            in_array(StorageInterface::class, class_implements($type)) => new $type($options),
-            default => throw new Exception\InvalidArgumentException(sprintf(
-                'Unrecognized type "%s" provided; expects a class implementing %s\StorageInterface',
-                $type,
-                __NAMESPACE__
-            )),
-        };
+        switch (true) {
+            case in_array(AbstractSessionArrayStorage::class, class_parents($type)):
+                return static::createSessionArrayStorage($type, $options);
+            case $type === ArrayStorage::class:
+            case in_array(ArrayStorage::class, class_parents($type)):
+                return static::createArrayStorage($type, $options);
+            case in_array(StorageInterface::class, class_implements($type)):
+                return new $type($options);
+            default:
+                throw new Exception\InvalidArgumentException(sprintf(
+                    'Unrecognized type "%s" provided; expects a class implementing %s\StorageInterface',
+                    $type,
+                    __NAMESPACE__
+                ));
+        }
     }
 
     /**
@@ -92,7 +100,7 @@ abstract class Factory
                 throw new Exception\InvalidArgumentException(sprintf(
                     '%s expects the "input" option to be an array; received "%s"',
                     $type,
-                    get_debug_type($options['input'])
+                    is_object($options['input']) ? get_class($options['input']) : gettype($options['input'])
                 ));
             }
             $input = $options['input'];
@@ -107,7 +115,9 @@ abstract class Factory
                 throw new Exception\InvalidArgumentException(sprintf(
                     '%s expects the "iterator_class" option to be a valid class; received "%s"',
                     $type,
-                    get_debug_type($options['iterator_class'])
+                    is_object($options['iterator_class'])
+                        ? get_class($options['iterator_class'])
+                        : gettype($options['iterator_class'])
                 ));
             }
             $iteratorClass = $options['iterator_class'];
@@ -120,6 +130,7 @@ abstract class Factory
      * Create a storage object from a class extending AbstractSessionArrayStorage
      *
      * @param  string                             $type
+     * @param  array                              $options
      * @return AbstractSessionArrayStorage
      * @throws Exception\InvalidArgumentException If the input option is invalid.
      */
@@ -135,7 +146,7 @@ abstract class Factory
                 throw new Exception\InvalidArgumentException(sprintf(
                     '%s expects the "input" option to be null, an array, or to implement ArrayAccess; received "%s"',
                     $type,
-                    get_debug_type($input)
+                    is_object($input) ? $input::class : gettype($input)
                 ));
             }
         }
