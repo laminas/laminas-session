@@ -202,10 +202,20 @@ class SessionConfig extends StandardConfig
     public function getStorageOption($storageOption)
     {
         return match ($storageOption) {
+             // No remote storage option; just return the current value
             'remember_me_seconds' => $this->rememberMeSeconds,
+
             'url_rewriter_tags' => ini_get('url_rewriter.tags'),
-            'use_cookies', 'use_only_cookies', 'use_trans_sid', 'cookie_httponly' => (bool) ini_get('session.' . $storageOption),
+
+            // The following all need a transformation on the retrieved value;
+            // however they use the same key naming scheme
+            'use_cookies',
+            'use_only_cookies',
+            'use_trans_sid',
+            'cookie_httponly' => (bool) ini_get('session.' . $storageOption),
+
             'save_handler' => $this->saveHandler ?: $this->sessionModuleName(),
+
             default => ini_get('session.' . $storageOption),
         };
     }
