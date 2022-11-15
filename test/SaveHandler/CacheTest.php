@@ -7,8 +7,6 @@ namespace LaminasTest\Session\SaveHandler;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Session\SaveHandler\Cache;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 use function is_string;
 use function serialize;
@@ -23,8 +21,6 @@ use function var_export;
  */
 class CacheTest extends TestCase
 {
-    use ProphecyTrait;
-
     /** @var CacheAdapter */
     protected $cache;
 
@@ -46,15 +42,19 @@ class CacheTest extends TestCase
 
     public function testReadWrite(): void
     {
-        $cacheStorage = $this->prophesize(StorageInterface::class);
-        $cacheStorage->setItem('242', Argument::type('string'))
-            ->will(
-                function ($args) {
-                    $this->getItem('242')->willReturn($args[1]);
-                    return true;
-                }
-            );
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
+        $cacheStorage = $this->createMock(StorageInterface::class);
+        $cacheStorage->expects(self::any())
+            ->method('setItem')
+            ->with('242', self::anything())
+            ->willReturnCallback(function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
+                $cacheStorage->expects(self::any())
+                ->method('getItem')
+                ->with('242')
+                ->willReturn($secondArgs);
+                return true;
+            });
+
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
 
@@ -70,15 +70,18 @@ class CacheTest extends TestCase
 
     public function testReadWriteComplex(): void
     {
-        $cacheStorage = $this->prophesize(StorageInterface::class);
-        $cacheStorage->setItem('242', Argument::type('string'))
-            ->will(
-                function ($args) {
-                    $this->getItem('242')->willReturn($args[1]);
-                    return true;
-                }
-            );
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
+        $cacheStorage = $this->createMock(StorageInterface::class);
+        $cacheStorage->expects(self::any())
+            ->method('setItem')
+            ->with('242', self::anything())
+            ->willReturnCallback(function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
+                $cacheStorage->expects(self::any())
+                ->method('getItem')
+                ->with('242')
+                ->willReturn($secondArgs);
+                return true;
+            });
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
         $saveHandler->open('savepath', 'sessionname');
 
         $id = '242';
@@ -90,16 +93,19 @@ class CacheTest extends TestCase
 
     public function testReadWriteTwice(): void
     {
-        $cacheStorage = $this->prophesize(StorageInterface::class);
-        $cacheStorage->setItem('242', Argument::type('string'))
-            ->will(
-                function ($args) {
-                    $this->getItem('242')->willReturn($args[1])->shouldBeCalledTimes(2);
-                    return true;
-                }
-            )
-            ->shouldBeCalledTimes(2);
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
+        $cacheStorage = $this->createMock(StorageInterface::class);
+        $cacheStorage->expects(self::exactly(2))
+            ->method('setItem')
+            ->with('242', self::anything())
+            ->willReturnCallback(function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
+                $cacheStorage->expects(self::any())
+                ->method('getItem')
+                ->with('242')
+                ->willReturn($secondArgs);
+                return true;
+            });
+
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
 
@@ -114,9 +120,9 @@ class CacheTest extends TestCase
 
     public function testReadShouldAlwaysReturnString(): void
     {
-        $cacheStorage = $this->prophesize(StorageInterface::class);
-        $cacheStorage->getItem('242')->willReturn(null);
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
+        $cacheStorage = $this->createMock(StorageInterface::class);
+        $cacheStorage->expects(self::any())->method('getItem')->willReturn(null);
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
 
@@ -127,8 +133,8 @@ class CacheTest extends TestCase
 
     public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist(): void
     {
-        $cacheStorage             = $this->prophesize(StorageInterface::class);
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
+        $cacheStorage             = $this->createMock(StorageInterface::class);
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
 
@@ -139,18 +145,19 @@ class CacheTest extends TestCase
 
     public function testDestroyReturnsTrueWhenSessionIsDeleted(): void
     {
-        $cacheStorage = $this->prophesize(StorageInterface::class);
-        $cacheStorage->setItem('242', Argument::type('string'))
-            ->will(
-                function ($args) {
-                    $this->getItem('242', Argument::any())
-                        ->will(
-                            fn($args) => $args[1]
-                        );
-                    return true;
-                }
-            );
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage->reveal());
+        $cacheStorage = $this->createMock(StorageInterface::class);
+        $cacheStorage->expects(self::any())
+            ->method('setItem')
+            ->with('242', self::anything())
+            ->willReturnCallback(function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
+                $cacheStorage->expects(self::any())
+                ->method('getItem')
+                ->with('242')
+                ->willReturn($secondArgs);
+                return true;
+            });
+
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
 

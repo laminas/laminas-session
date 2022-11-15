@@ -11,7 +11,6 @@ use LaminasTest\Session\TestAsset\TestFailingValidator;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
-use function get_class;
 use function property_exists;
 
 class ValidatorChainTest extends TestCase
@@ -45,7 +44,7 @@ class ValidatorChainTest extends TestCase
     {
         $validator = $this->createValidatorSpy();
         $storage   = new ArrayStorage();
-        $storage->setMetadata('_VALID', [get_class($validator) => $validator->getData()]);
+        $storage->setMetadata('_VALID', [$validator::class => $validator->getData()]);
 
         $this->validatorChain = new ValidatorChain($storage);
 

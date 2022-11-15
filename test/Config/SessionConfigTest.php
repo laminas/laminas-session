@@ -6,7 +6,6 @@ use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Exception;
 use Laminas\Session\Exception\InvalidArgumentException;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
-use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use SessionHandlerInterface;
@@ -25,8 +24,6 @@ use function var_export;
  */
 class SessionConfigTest extends TestCase
 {
-    use PHPMock;
-
     /** @var SessionConfig */
     protected $config;
 
