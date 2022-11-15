@@ -29,7 +29,7 @@ use function session_status;
 use function session_write_close;
 use function set_error_handler;
 use function sprintf;
-use function strpos;
+use function str_contains;
 use function strtolower;
 use function trigger_error;
 use function trim;
@@ -201,26 +201,23 @@ class SessionConfig extends StandardConfig
      */
     public function getStorageOption($storageOption)
     {
-        switch ($storageOption) {
-            case 'remember_me_seconds':
-                // No remote storage option; just return the current value
-                return $this->rememberMeSeconds;
-            case 'url_rewriter_tags':
-                return ini_get('url_rewriter.tags');
+        return match ($storageOption) {
+             // No remote storage option; just return the current value
+            'remember_me_seconds' => $this->rememberMeSeconds,
+
+            'url_rewriter_tags' => ini_get('url_rewriter.tags'),
+
             // The following all need a transformation on the retrieved value;
             // however they use the same key naming scheme
-            case 'use_cookies':
-            case 'use_only_cookies':
-            case 'use_trans_sid':
-            case 'cookie_httponly':
-                return (bool) ini_get('session.' . $storageOption);
-            case 'save_handler':
-                // Save handlers must be treated differently due to changes
-                // introduced in PHP 7.2.
-                return $this->saveHandler ?: $this->sessionModuleName();
-            default:
-                return ini_get('session.' . $storageOption);
-        }
+            'use_cookies',
+            'use_only_cookies',
+            'use_trans_sid',
+            'cookie_httponly' => (bool) ini_get('session.' . $storageOption),
+
+            'save_handler' => $this->saveHandler ?: $this->sessionModuleName(),
+
+            default => ini_get('session.' . $storageOption),
+        };
     }
 
     /**
@@ -445,7 +442,7 @@ class SessionConfig extends StandardConfig
 
         $content = array_shift($matches);
 
-        $handlers = false !== strpos($content, '</td>')
+        $handlers = str_contains($content, '</td>')
             ? $this->parseSaveHandlersFromHtml($content)
             : $this->parseSaveHandlersFromPlainText($content);
 

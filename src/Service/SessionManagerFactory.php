@@ -17,9 +17,8 @@ use Laminas\Session\Storage\StorageInterface;
 
 use function array_merge;
 use function class_exists;
-use function gettype;
+use function get_debug_type;
 use function is_array;
-use function is_object;
 use function is_subclass_of;
 use function sprintf;
 
@@ -80,7 +79,7 @@ class SessionManagerFactory implements FactoryInterface
                     'SessionManager requires that the %s service implement %s; received "%s"',
                     ConfigInterface::class,
                     ConfigInterface::class,
-                    is_object($config) ? $config::class : gettype($config)
+                    get_debug_type($config)
                 ));
             }
         }
@@ -92,7 +91,7 @@ class SessionManagerFactory implements FactoryInterface
                     'SessionManager requires that the %s service implement %s; received "%s"',
                     StorageInterface::class,
                     StorageInterface::class,
-                    is_object($storage) ? $storage::class : gettype($storage)
+                    get_debug_type($storage)
                 ));
             }
         }
@@ -104,7 +103,7 @@ class SessionManagerFactory implements FactoryInterface
                     'SessionManager requires that the %s service implement %s; received "%s"',
                     SaveHandlerInterface::class,
                     SaveHandlerInterface::class,
-                    is_object($saveHandler) ? $saveHandler::class : gettype($saveHandler)
+                    get_debug_type($saveHandler)
                 ));
             }
         }

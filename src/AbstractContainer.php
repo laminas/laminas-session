@@ -532,7 +532,7 @@ abstract class AbstractContainer extends ArrayObject
             $container = $this;
 
             // Filter out any items not in our container
-            $expires = array_filter($vars, static fn($value) => $container->offsetExists($value));
+            $expires = array_filter($vars, static fn($value): bool => $container->offsetExists($value));
 
             // Map item keys => timestamp
             $expires = array_flip($expires);
@@ -579,7 +579,7 @@ abstract class AbstractContainer extends ArrayObject
             $container = $this;
 
             // FilterInterface out any items not in our container
-            $expires = array_filter($vars, static fn($value) => $container->offsetExists($value));
+            $expires = array_filter($vars, static fn($value): bool => $container->offsetExists($value));
 
             // Map item keys => timestamp
             $expires = array_flip($expires);

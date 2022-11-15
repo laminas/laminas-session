@@ -46,7 +46,7 @@ class CacheTest extends TestCase
         $cacheStorage->expects(self::any())
             ->method('setItem')
             ->with('242', self::anything())
-            ->willReturnCallback(function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
+            ->willReturnCallback(static function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
                 $cacheStorage->expects(self::any())
                 ->method('getItem')
                 ->with('242')
@@ -74,7 +74,7 @@ class CacheTest extends TestCase
         $cacheStorage->expects(self::any())
             ->method('setItem')
             ->with('242', self::anything())
-            ->willReturnCallback(function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
+            ->willReturnCallback(static function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
                 $cacheStorage->expects(self::any())
                 ->method('getItem')
                 ->with('242')
@@ -97,7 +97,7 @@ class CacheTest extends TestCase
         $cacheStorage->expects(self::exactly(2))
             ->method('setItem')
             ->with('242', self::anything())
-            ->willReturnCallback(function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
+            ->willReturnCallback(static function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
                 $cacheStorage->expects(self::any())
                 ->method('getItem')
                 ->with('242')
@@ -149,7 +149,7 @@ class CacheTest extends TestCase
         $cacheStorage->expects(self::any())
             ->method('setItem')
             ->with('242', self::anything())
-            ->willReturnCallback(function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
+            ->willReturnCallback(static function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
                 $cacheStorage->expects(self::any())
                 ->method('getItem')
                 ->with('242')

@@ -168,7 +168,6 @@ class MongoDBOptions extends AbstractOptions
      *
      * @see http://php.net/manual/en/mongocollection.save.php
      *
-     * @param array $saveOptions
      * @return MongoDBOptions
      */
     public function setSaveOptions(array $saveOptions)
