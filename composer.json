@@ -45,7 +45,6 @@
         "laminas/laminas-http": "^2.17.1",
         "laminas/laminas-validator": "^2.28",
         "mongodb/mongodb": "~1.13.0",
-        "php-mock/php-mock-phpunit": "^1.1.2 || ^2.6.1",
         "phpunit/phpunit": "^9.5.26",
         "psalm/plugin-phpunit": "^0.17.0",
         "vimeo/psalm": "^4.30"
