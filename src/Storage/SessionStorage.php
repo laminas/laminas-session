@@ -70,8 +70,8 @@ class SessionStorage extends ArrayStorage
      *
      * Ensures $_SESSION is set to an instance of the object when complete.
      *
-     * @param  array          $array
-     * @return SessionStorage
+     * @param array<TKey, TValue> $array
+     * @return $this
      */
     public function fromArray(array $array)
     {
@@ -86,7 +86,7 @@ class SessionStorage extends ArrayStorage
     /**
      * Mark object as isImmutable
      *
-     * @return SessionStorage
+     * @return $this
      */
     public function markImmutable()
     {
