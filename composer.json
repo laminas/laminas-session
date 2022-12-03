@@ -47,7 +47,7 @@
         "mongodb/mongodb": "~1.13.0",
         "phpunit/phpunit": "^9.5.26",
         "psalm/plugin-phpunit": "^0.18.0",
-        "vimeo/psalm": "^4.30"
+        "vimeo/psalm": "^5.0"
     },
     "suggest": {
         "laminas/laminas-cache": "Laminas\\Cache component",
