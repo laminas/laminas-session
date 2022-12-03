@@ -6,15 +6,9 @@
       <code>null === $key</code>
       <code>null === static::$defaultManager</code>
     </DocblockTypeContradiction>
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>Iterator</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidStringClass occurrences="1">
       <code>new static::$managerDefaultClass()</code>
     </InvalidStringClass>
-    <LessSpecificImplementedReturnType occurrences="1">
-      <code>Iterator</code>
-    </LessSpecificImplementedReturnType>
     <LessSpecificReturnStatement occurrences="4">
       <code>$container</code>
       <code>$this</code>
@@ -83,14 +77,15 @@
       <code>$old</code>
       <code>$old</code>
     </MixedReturnStatement>
-    <MixedReturnTypeCoercion occurrences="1">
+    <MixedReturnTypeCoercion occurrences="3">
       <code>$old-&gt;getArrayCopy()</code>
+      <code>getIterator</code>
+      <code>new ArrayIterator($container)</code>
     </MixedReturnTypeCoercion>
-    <MoreSpecificReturnType occurrences="4">
+    <MoreSpecificReturnType occurrences="3">
       <code>Container</code>
       <code>Container</code>
       <code>Container</code>
-      <code>Iterator</code>
     </MoreSpecificReturnType>
     <ParamNameMismatch occurrences="1">
       <code>$input</code>
@@ -1097,18 +1092,8 @@
       <code>$storage['foo']['baz']</code>
       <code>$this-&gt;container['foo']['bar']</code>
     </MixedArrayAccess>
-    <MixedArrayOffset occurrences="4">
-      <code>$test[$key]</code>
-      <code>$test[$key]</code>
-      <code>$test[$key]</code>
-      <code>$test[$key]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="22">
+    <MixedAssignment occurrences="10">
       <code>$hops</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$key</code>
       <code>$metadata</code>
       <code>$metadata</code>
       <code>$metadata</code>
@@ -1118,14 +1103,6 @@
       <code>$metadata</code>
       <code>$metadata</code>
       <code>$metadata</code>
-      <code>$test[$key]</code>
-      <code>$test[$key]</code>
-      <code>$test[$key]</code>
-      <code>$test[$key]</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
     </MixedAssignment>
     <NoInterfaceProperties occurrences="1">
       <code>$this-&gt;manager-&gt;started</code>

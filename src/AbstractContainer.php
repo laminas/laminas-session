@@ -485,11 +485,7 @@ abstract class AbstractContainer extends ArrayObject
         return $old;
     }
 
-    /**
-     * Iterate over session container
-     *
-     * @return Iterator
-     */
+    /** @inheritDoc */
     public function getIterator()
     {
         $this->expireKeys();
