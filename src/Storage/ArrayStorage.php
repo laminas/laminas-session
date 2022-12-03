@@ -22,6 +22,11 @@ use function sprintf;
  * for setting metadata, locking, and marking as isImmutable.
  *
  * @see ReturnTypeWillChange
+ *
+ * @template-covariant TKey of string
+ * @template-covariant TValue
+ * @template-extends ArrayObject<TKey, TValue>
+ * @template-implements StorageInterface<TKey, TValue>
  */
 class ArrayStorage extends ArrayObject implements StorageInterface
 {

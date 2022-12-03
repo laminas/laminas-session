@@ -27,6 +27,11 @@ use function unserialize;
  * property access, metadata storage, locking, and immutability.
  *
  * @see ReturnTypeWillChange
+ *
+ * @template-covariant TKey of string
+ * @template-covariant TValue
+ * @template-implements IteratorAggregate<TKey, TValue>
+ * @template-implements StorageInterface<TKey, TValue>
  */
 abstract class AbstractSessionArrayStorage implements
     IteratorAggregate,

@@ -26,6 +26,10 @@ use function time;
  * may have their own expiries, or even expiries per key in the container.
  * Additionally, expiries may be absolute TTLs or measured in "hops", which
  * are based on how many times the key or container were accessed.
+ *
+ * @template-covariant TKey of string
+ * @template-covariant TValue
+ * @template-extends ArrayObject<TKey, TValue>
  */
 abstract class AbstractContainer extends ArrayObject
 {
