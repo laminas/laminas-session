@@ -11,10 +11,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Laminas\Session\Storage\ArrayStorage
  */
-class StorageTest extends TestCase
+final class StorageTest extends TestCase
 {
-    /** @var ArrayStorage */
-    protected $storage;
+    private ArrayStorage $storage;
 
     protected function setUp(): void
     {
