@@ -27,8 +27,8 @@ use function time;
  * Additionally, expiries may be absolute TTLs or measured in "hops", which
  * are based on how many times the key or container were accessed.
  *
- * @template-covariant TKey of string
- * @template-covariant TValue
+ * @template TKey of string
+ * @template TValue
  * @template-extends ArrayObject<TKey, TValue>
  */
 abstract class AbstractContainer extends ArrayObject
@@ -462,14 +462,7 @@ abstract class AbstractContainer extends ArrayObject
         unset($storage[$name][$key]);
     }
 
-    /**
-     * Exchange the current array with another array or object.
-     *
-     * @see ArrayObject::exchangeArray()
-     *
-     * @param  array|object $input
-     * @return array        Returns the old array
-     */
+    /** @inheritDoc */
     public function exchangeArray($input)
     {
         // handle arrayobject, iterators and the like:
@@ -605,11 +598,7 @@ abstract class AbstractContainer extends ArrayObject
         return $this;
     }
 
-    /**
-     * Creates a copy of the specific container name
-     *
-     * @return array
-     */
+    /** @inheritDoc */
     public function getArrayCopy()
     {
         $storage   = $this->verifyNamespace();

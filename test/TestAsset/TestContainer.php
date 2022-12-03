@@ -7,8 +7,8 @@ namespace LaminasTest\Session\TestAsset;
 use Laminas\Session\AbstractContainer;
 
 /**
- * @template-covariant TKey of string
- * @template-covariant TValue
+ * @template TKey of string
+ * @template TValue
  * @template-extends AbstractContainer<TKey, TValue>
  */
 class TestContainer extends AbstractContainer

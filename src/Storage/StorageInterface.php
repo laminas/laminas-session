@@ -13,8 +13,8 @@ use Traversable;
  * Defines the minimum requirements for handling userland, in-script session
  * storage (e.g., the $_SESSION superglobal array).
  *
- * @template-covariant TKey of array-key
- * @template-covariant TValue
+ * @template TKey of array-key
+ * @template TValue
  * @template-extends Traversable<TKey, TValue>
  * @template-extends ArrayAccess<TKey, TValue>
  */

@@ -23,8 +23,8 @@ use function sprintf;
  *
  * @see ReturnTypeWillChange
  *
- * @template-covariant TKey of string
- * @template-covariant TValue
+ * @template TKey of array-key
+ * @template TValue
  * @template-extends ArrayObject<TKey, TValue>
  * @template-implements StorageInterface<TKey, TValue>
  */

@@ -42,8 +42,8 @@ abstract class AbstractValidatorChainEM3 extends EventManager
      * @param int $priority
      * @return CallbackHandler
      */
-    public function attach($eventName, callable $callback, $priority = 1)
+    public function attach($eventName, callable $listener, $priority = 1)
     {
-        return $this->attachValidator($eventName, $callback, $priority);
+        return $this->attachValidator($eventName, $listener, $priority);
     }
 }

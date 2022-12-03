@@ -13,8 +13,8 @@ use function is_object;
  * Replaces the $_SESSION superglobal with an ArrayObject that allows for
  * property access, metadata storage, locking, and immutability.
  *
- * @template-covariant TKey
- * @template-covariant TValue
+ * @template TKey of array-key
+ * @template TValue
  * @template-extends ArrayStorage<TKey, TValue>
  */
 class SessionStorage extends ArrayStorage

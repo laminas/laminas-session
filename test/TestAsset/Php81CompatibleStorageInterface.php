@@ -7,8 +7,8 @@ namespace LaminasTest\Session\TestAsset;
 use Laminas\Session\Storage\StorageInterface;
 
 /**
- * @template-covariant TKey of array-key
- * @template-covariant TValue
+ * @template TKey of array-key
+ * @template TValue
  * @template-extends StorageInterface<TKey, TValue>
  */
 interface Php81CompatibleStorageInterface extends StorageInterface
