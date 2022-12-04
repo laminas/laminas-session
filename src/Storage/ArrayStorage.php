@@ -22,6 +22,11 @@ use function sprintf;
  * for setting metadata, locking, and marking as isImmutable.
  *
  * @see ReturnTypeWillChange
+ *
+ * @template TKey of array-key
+ * @template TValue
+ * @template-extends ArrayObject<TKey, TValue>
+ * @template-implements StorageInterface<TKey, TValue>
  */
 class ArrayStorage extends ArrayObject implements StorageInterface
 {
@@ -55,7 +60,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * Set the request access time
      *
      * @param  float        $time
-     * @return ArrayStorage
+     * @return $this
      */
     protected function setRequestAccessTime($time)
     {
@@ -111,7 +116,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * Lock this storage instance, or a key within it
      *
      * @param  null|int|string $key
-     * @return ArrayStorage
+     * @return $this
      */
     public function lock($key = null)
     {
@@ -167,7 +172,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * Unlock an object or key marked as locked
      *
      * @param  null|int|string $key
-     * @return ArrayStorage
+     * @return $this
      */
     public function unlock($key = null)
     {
@@ -201,7 +206,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
     /**
      * Mark the storage container as isImmutable
      *
-     * @return ArrayStorage
+     * @return $this
      */
     public function markImmutable()
     {
@@ -233,7 +238,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * @param  string                     $key
      * @param  mixed                      $value
      * @param  bool                       $overwriteArray Whether to overwrite or merge array values; by default, merges
-     * @return ArrayStorage
+     * @return $this
      * @throws Exception\RuntimeException
      */
     public function setMetadata($key, $value, $overwriteArray = false)
@@ -301,7 +306,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * Clear the storage object or a subkey of the object
      *
      * @param  null|int|string            $key
-     * @return ArrayStorage
+     * @return $this
      * @throws Exception\RuntimeException
      */
     public function clear($key = null)
@@ -335,7 +340,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * Overwrites any data that was previously set.
      *
      * @param  array        $array
-     * @return ArrayStorage
+     * @return $this
      */
     public function fromArray(array $array)
     {
@@ -350,7 +355,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * Cast the object to an array
      *
      * @param  bool $metaData Whether to include metadata
-     * @return array
+     * @return array<TKey, TValue>
      */
     public function toArray($metaData = false)
     {

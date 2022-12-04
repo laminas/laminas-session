@@ -27,6 +27,11 @@ use function unserialize;
  * property access, metadata storage, locking, and immutability.
  *
  * @see ReturnTypeWillChange
+ *
+ * @template TKey of array-key
+ * @template TValue
+ * @template-implements IteratorAggregate<TKey, TValue>
+ * @template-implements StorageInterface<TKey, TValue>
  */
 abstract class AbstractSessionArrayStorage implements
     IteratorAggregate,
@@ -193,11 +198,7 @@ abstract class AbstractSessionArrayStorage implements
         return unserialize($session);
     }
 
-    /**
-     * Get Iterator
-     *
-     * @return ArrayIterator
-     */
+    /** @inheritDoc */
     #[ReturnTypeWillChange]
     public function getIterator()
     {
@@ -247,7 +248,7 @@ abstract class AbstractSessionArrayStorage implements
      * Lock this storage instance, or a key within it
      *
      * @param  null|int|string $key
-     * @return ArrayStorage
+     * @return $this
      */
     public function lock($key = null)
     {
@@ -304,7 +305,7 @@ abstract class AbstractSessionArrayStorage implements
      * Unlock an object or key marked as locked
      *
      * @param  null|int|string $key
-     * @return ArrayStorage
+     * @return $this
      */
     public function unlock($key = null)
     {
@@ -348,7 +349,7 @@ abstract class AbstractSessionArrayStorage implements
      * @param  string                     $key
      * @param  mixed                      $value
      * @param  bool                       $overwriteArray Whether to overwrite or merge array values; by default, merges
-     * @return ArrayStorage
+     * @return $this
      * @throws Exception\RuntimeException
      */
     public function setMetadata($key, $value, $overwriteArray = false)
@@ -412,7 +413,7 @@ abstract class AbstractSessionArrayStorage implements
      * Clear the storage object or a subkey of the object
      *
      * @param  null|int|string            $key
-     * @return ArrayStorage
+     * @return $this
      * @throws Exception\RuntimeException
      */
     public function clear($key = null)
@@ -447,7 +448,7 @@ abstract class AbstractSessionArrayStorage implements
      * Set the request access time
      *
      * @param  float        $time
-     * @return ArrayStorage
+     * @return $this
      */
     protected function setRequestAccessTime($time)
     {
@@ -460,7 +461,7 @@ abstract class AbstractSessionArrayStorage implements
      * Cast the object to an array
      *
      * @param  bool $metaData Whether to include metadata
-     * @return array
+     * @return array<TKey, TValue>
      */
     public function toArray($metaData = false)
     {

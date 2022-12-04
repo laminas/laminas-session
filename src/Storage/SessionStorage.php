@@ -12,6 +12,10 @@ use function is_object;
  *
  * Replaces the $_SESSION superglobal with an ArrayObject that allows for
  * property access, metadata storage, locking, and immutability.
+ *
+ * @template TKey of array-key
+ * @template TValue
+ * @template-extends ArrayStorage<TKey, TValue>
  */
 class SessionStorage extends ArrayStorage
 {
@@ -66,8 +70,8 @@ class SessionStorage extends ArrayStorage
      *
      * Ensures $_SESSION is set to an instance of the object when complete.
      *
-     * @param  array          $array
-     * @return SessionStorage
+     * @param array<TKey, TValue> $array
+     * @return $this
      */
     public function fromArray(array $array)
     {
@@ -82,7 +86,7 @@ class SessionStorage extends ArrayStorage
     /**
      * Mark object as isImmutable
      *
-     * @return SessionStorage
+     * @return $this
      */
     public function markImmutable()
     {

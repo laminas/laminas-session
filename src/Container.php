@@ -9,6 +9,10 @@ namespace Laminas\Session;
  * may have their own expiries, or even expiries per key in the container.
  * Additionally, expiries may be absolute TTLs or measured in "hops", which
  * are based on how many times the key or container were accessed.
+ *
+ * @template TKey of string
+ * @template TValue
+ * @template-extends AbstractContainer<TKey, TValue>
  */
 class Container extends AbstractContainer
 {
