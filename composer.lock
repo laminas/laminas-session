@@ -1297,16 +1297,16 @@
         },
         {
             "name": "laminas/laminas-db",
-            "version": "2.16.1",
+            "version": "2.16.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-db.git",
-                "reference": "2bdc91a08d903fb981b451adfb8548eeb8a87c80"
+                "reference": "f382589868928e628118d80144321223944625ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-db/zipball/2bdc91a08d903fb981b451adfb8548eeb8a87c80",
-                "reference": "2bdc91a08d903fb981b451adfb8548eeb8a87c80",
+                "url": "https://api.github.com/repos/laminas/laminas-db/zipball/f382589868928e628118d80144321223944625ca",
+                "reference": "f382589868928e628118d80144321223944625ca",
                 "shasum": ""
             },
             "require": {
@@ -1364,7 +1364,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-12-05T18:24:57+00:00"
+            "time": "2022-12-11T12:56:04+00:00"
         },
         {
             "name": "laminas/laminas-escaper",
