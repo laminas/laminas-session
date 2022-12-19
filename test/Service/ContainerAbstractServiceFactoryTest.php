@@ -19,8 +19,8 @@ use PHPUnit\Framework\TestCase;
  */
 class ContainerAbstractServiceFactoryTest extends TestCase
 {
-    /** @var array */
-    public $config = [
+    /** @var array{session_containers: list<string>} */
+    private array $config = [
         'session_containers' => [
             'foo',
             'bar',
@@ -29,6 +29,8 @@ class ContainerAbstractServiceFactoryTest extends TestCase
             'With\Digits_0123',
         ],
     ];
+
+    private ServiceManager $services;
 
     protected function setUp(): void
     {

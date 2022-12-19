@@ -15,10 +15,15 @@ use function var_export;
  */
 class SessionStorageTest extends TestCase
 {
+    /** @var SessionStorage<string, mixed> */
+    private SessionStorage $storage;
+
     protected function setUp(): void
     {
-        $_SESSION      = [];
-        $this->storage = new SessionStorage();
+        $_SESSION = [];
+        /** @var SessionStorage<string, mixed> $sessionStorage */
+        $sessionStorage = new SessionStorage();
+        $this->storage  = $sessionStorage;
     }
 
     protected function tearDown(): void
@@ -93,6 +98,8 @@ class SessionStorageTest extends TestCase
     public function testMultiDimensionalUnset(): void
     {
         $this->storage['foo'] = ['bar' => ['baz' => 'boo']];
+        self::assertIsArray($this->storage['foo']);
+        self::assertIsArray($this->storage['foo']['bar']);
         unset($this->storage['foo']['bar']['baz']);
         self::assertFalse(isset($this->storage['foo']['bar']['baz']));
         unset($this->storage['foo']['bar']);
