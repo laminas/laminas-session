@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dea9f95c3fff0c3de3a17554ec05110e",
+    "content-hash": "97a214254e86a6643f974764f1012bfc",
     "packages": [
         {
             "name": "laminas/laminas-eventmanager",
-            "version": "3.9.0",
+            "version": "3.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-eventmanager.git",
-                "reference": "74c091fb0da37744e7d215ef5bd3564c77f6385e"
+                "reference": "55f7c337f4e49baf6dca87220619d40d9518e6b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-eventmanager/zipball/74c091fb0da37744e7d215ef5bd3564c77f6385e",
-                "reference": "74c091fb0da37744e7d215ef5bd3564c77f6385e",
+                "url": "https://api.github.com/repos/laminas/laminas-eventmanager/zipball/55f7c337f4e49baf6dca87220619d40d9518e6b6",
+                "reference": "55f7c337f4e49baf6dca87220619d40d9518e6b6",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-12-10T16:36:52+00:00"
+            "time": "2022-12-20T19:45:38+00:00"
         },
         {
             "name": "laminas/laminas-servicemanager",
@@ -4066,16 +4066,16 @@
         },
         {
             "name": "spatie/array-to-xml",
-            "version": "2.17.0",
+            "version": "2.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/array-to-xml.git",
-                "reference": "df0f116f26f6d3f84041e94d46811ee6b64fe7d5"
+                "reference": "5cbec9c6ab17e320c58a259f0cebe88bde4a7c46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/df0f116f26f6d3f84041e94d46811ee6b64fe7d5",
-                "reference": "df0f116f26f6d3f84041e94d46811ee6b64fe7d5",
+                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/5cbec9c6ab17e320c58a259f0cebe88bde4a7c46",
+                "reference": "5cbec9c6ab17e320c58a259f0cebe88bde4a7c46",
                 "shasum": ""
             },
             "require": {
@@ -4114,7 +4114,7 @@
                 "xml"
             ],
             "support": {
-                "source": "https://github.com/spatie/array-to-xml/tree/2.17.0"
+                "source": "https://github.com/spatie/array-to-xml/tree/2.17.1"
             },
             "funding": [
                 {
@@ -4126,7 +4126,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-13T09:08:39+00:00"
+            "time": "2022-12-26T08:22:07+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
