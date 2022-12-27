@@ -857,12 +857,14 @@ class SessionManagerTest extends TestCase
         $this->manager->start();
     }
 
+    /** @param non-empty-string $property */
     private function assertAttributeEquals(mixed $expected, string $property, object $object): void
     {
         $value = $this->getReflectionProperty($object, $property);
         self::assertEquals($expected, $value);
     }
 
+    /** @param non-empty-string $property */
     private function assertAttributeContains(mixed $expected, string $property, object $object): void
     {
         $value = $this->getReflectionProperty($object, $property);
