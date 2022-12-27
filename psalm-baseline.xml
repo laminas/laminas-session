@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.2.0@fb685a16df3050d4c18d8a4100fe83abe6458cba">
+<files psalm-version="5.4.0@62db5d4f6a7ae0a20f7cc5a4952d730272fc0863">
   <file src="src/AbstractContainer.php">
     <DocblockTypeContradiction occurrences="5">
       <code>null === $key</code>
@@ -685,9 +685,8 @@
       <code>$locks</code>
       <code>$locks</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="2">
+    <MixedArrayAccess occurrences="1">
       <code>$_SESSION['__Laminas'][$key]</code>
-      <code>$locks[$key]</code>
     </MixedArrayAccess>
     <MixedArrayOffset occurrences="4">
       <code>$_SESSION[$key]</code>
@@ -762,9 +761,8 @@
       <code>$this['__Laminas']</code>
       <code>$this['__Laminas']</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="4">
+    <MixedArrayAccess occurrences="3">
       <code>$array[$key]</code>
-      <code>$locks[$key]</code>
       <code>$this['__Laminas'][$key]</code>
       <code>$this['__Laminas'][$key]</code>
     </MixedArrayAccess>

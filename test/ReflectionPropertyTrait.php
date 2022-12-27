@@ -10,6 +10,7 @@ trait ReflectionPropertyTrait
 {
     /**
      * @return mixed
+     * @param non-empty-string $property
      */
     private function getReflectionProperty(object $object, string $property)
     {
