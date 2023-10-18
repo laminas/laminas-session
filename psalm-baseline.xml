@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.4.0@62db5d4f6a7ae0a20f7cc5a4952d730272fc0863">
+<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
   <file src="src/AbstractContainer.php">
-    <DocblockTypeContradiction occurrences="5">
+    <DocblockTypeContradiction>
+      <code><![CDATA[(null === $key)
+            && is_array($metadata)]]></code>
+      <code><![CDATA[(null === $key)
+            && is_array($metadata)]]></code>
       <code>null === $key</code>
       <code>null === $key</code>
       <code>null === static::$defaultManager</code>
     </DocblockTypeContradiction>
-    <InvalidStringClass occurrences="1">
+    <InvalidStringClass>
       <code>new static::$managerDefaultClass()</code>
     </InvalidStringClass>
-    <LessSpecificReturnStatement occurrences="4">
+    <LessSpecificReturnStatement>
       <code>$container</code>
       <code>$this</code>
       <code>$this</code>
       <code>$this</code>
     </LessSpecificReturnStatement>
-    <MixedArgument occurrences="5">
+    <MixedArgument>
       <code>$container</code>
       <code>$metadata['EXPIRE_HOPS_KEYS']</code>
       <code>$metadata['EXPIRE_KEYS']</code>
       <code>$value</code>
       <code>$value</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="15">
+    <MixedArrayAccess>
       <code>$metadata['EXPIRE_HOPS']['hops']</code>
       <code>$metadata['EXPIRE_HOPS']['ts']</code>
       <code>$metadata['EXPIRE_HOPS_KEYS'][$key]</code>
@@ -39,7 +43,7 @@
       <code>$storage[$name][$key]</code>
       <code>$storage[$name][$key]</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="10">
+    <MixedArrayAssignment>
       <code>$metadata['EXPIRE_HOPS']['hops']</code>
       <code>$metadata['EXPIRE_HOPS']['ts']</code>
       <code>$metadata['EXPIRE_HOPS_KEYS'][$key]</code>
@@ -51,7 +55,7 @@
       <code>$metadata['EXPIRE_HOPS_KEYS'][$key]['ts']</code>
       <code>$metadata['EXPIRE_HOPS_KEYS'][$key]['ts']</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="9">
+    <MixedAssignment>
       <code>$container</code>
       <code>$container</code>
       <code>$metadata</code>
@@ -62,148 +66,152 @@
       <code>$old</code>
       <code>$storage[$name][$key]</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
+    <MixedInferredReturnType>
       <code>exchangeArray</code>
       <code>getArrayCopy</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="3">
+    <MixedOperand>
       <code>$metadata['EXPIRE_HOPS']['hops']</code>
       <code>$metadata['EXPIRE_HOPS_KEYS'][$key]['hops']</code>
       <code>$metadata['EXPIRE_HOPS_KEYS'][$key]['hops']</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="4">
-      <code>$container instanceof ArrayObject ? $container-&gt;getArrayCopy() : $container</code>
-      <code>$container instanceof ArrayObject ? $container-&gt;getArrayCopy() : $container</code>
+    <MixedReturnStatement>
+      <code><![CDATA[$container instanceof ArrayObject ? $container->getArrayCopy() : $container]]></code>
+      <code><![CDATA[$container instanceof ArrayObject ? $container->getArrayCopy() : $container]]></code>
       <code>$old</code>
       <code>$old</code>
     </MixedReturnStatement>
-    <MixedReturnTypeCoercion occurrences="3">
-      <code>$old-&gt;getArrayCopy()</code>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[$old->getArrayCopy()]]></code>
       <code>getIterator</code>
       <code>new ArrayIterator($container)</code>
     </MixedReturnTypeCoercion>
-    <MoreSpecificReturnType occurrences="3">
+    <MoreSpecificReturnType>
       <code>Container</code>
       <code>Container</code>
       <code>Container</code>
     </MoreSpecificReturnType>
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$input</code>
     </ParamNameMismatch>
-    <PossiblyNullArgument occurrences="4">
+    <PossiblyNullArgument>
       <code>$key</code>
       <code>$key</code>
       <code>$name</code>
       <code>$storage</code>
     </PossiblyNullArgument>
-    <PossiblyNullArrayAccess occurrences="2">
+    <PossiblyNullArrayAccess>
       <code>$storage[$name]</code>
-      <code>$storage[$this-&gt;getName()]</code>
+      <code><![CDATA[$storage[$this->getName()]]]></code>
     </PossiblyNullArrayAccess>
-    <PossiblyNullArrayAssignment occurrences="1">
+    <PossiblyNullArrayAssignment>
       <code>$storage[$name]</code>
     </PossiblyNullArrayAssignment>
-    <PossiblyNullPropertyAssignmentValue occurrences="1">
+    <PossiblyNullPropertyAssignmentValue>
       <code>$name</code>
     </PossiblyNullPropertyAssignmentValue>
-    <PossiblyNullReference occurrences="3">
+    <PossiblyNullReference>
       <code>$storage</code>
       <code>$storage</code>
       <code>$storage</code>
     </PossiblyNullReference>
-    <PossiblyUndefinedArrayOffset occurrences="3">
+    <PossiblyUndefinedArrayOffset>
       <code>$_SERVER['REQUEST_TIME']</code>
       <code>$_SERVER['REQUEST_TIME']</code>
       <code>$_SERVER['REQUEST_TIME']</code>
     </PossiblyUndefinedArrayOffset>
-    <PropertyNotSetInConstructor occurrences="3">
+    <PropertyNotSetInConstructor>
       <code>$manager</code>
       <code>AbstractContainer</code>
       <code>AbstractContainer</code>
     </PropertyNotSetInConstructor>
-    <RedundantConditionGivenDocblockType occurrences="8">
-      <code>is_scalar($vars) &amp;&amp; (null !== $vars)</code>
-      <code>is_scalar($vars) &amp;&amp; null !== $vars</code>
+    <RedundantConditionGivenDocblockType>
+      <code><![CDATA[(null !== $key)
+            && is_array($metadata)]]></code>
+      <code><![CDATA[(null !== $key)
+            && is_array($metadata)]]></code>
+      <code>is_array($vars)</code>
+      <code>is_array($vars)</code>
+      <code><![CDATA[is_scalar($vars) && null !== $vars]]></code>
       <code>null !== $key</code>
       <code>null !== $key</code>
-      <code>null !== $vars</code>
       <code>null !== $vars</code>
     </RedundantConditionGivenDocblockType>
-    <TooManyArguments occurrences="2">
-      <code>static fn() =&gt; $ts</code>
-      <code>static fn() =&gt; ['hops' =&gt; $hops, 'ts' =&gt; $ts]</code>
+    <TooManyArguments>
+      <code><![CDATA[static fn() => $ts]]></code>
+      <code><![CDATA[static fn() => ['hops' => $hops, 'ts' => $ts]]]></code>
     </TooManyArguments>
   </file>
   <file src="src/AbstractManager.php">
-    <MixedMethodCall occurrences="2">
-      <code>new $this-&gt;defaultConfigClass()</code>
-      <code>new $this-&gt;defaultStorageClass()</code>
+    <MixedMethodCall>
+      <code><![CDATA[new $this->defaultConfigClass()]]></code>
+      <code><![CDATA[new $this->defaultStorageClass()]]></code>
     </MixedMethodCall>
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor>
       <code>$saveHandler</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/AbstractValidatorChain.php">
-    <DeprecatedClass occurrences="1">
+    <DeprecatedClass>
       <code>AbstractValidatorChainEM3</code>
     </DeprecatedClass>
   </file>
   <file src="src/Config/SessionConfig.php">
-    <DocblockTypeContradiction occurrences="2">
+    <DocblockTypeContradiction>
       <code>! is_numeric($hashBitsPerCharacter)</code>
       <code>! is_numeric($sidBitsPerCharacter)</code>
     </DocblockTypeContradiction>
-    <ImplementedReturnTypeMismatch occurrences="1">
+    <ImplementedReturnTypeMismatch>
       <code>SessionConfig</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidArgument occurrences="2">
+    <InvalidArgument>
       <code>[$this, 'handleError']</code>
       <code>[$this, 'handleError']</code>
     </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
+    <InvalidNullableReturnType>
       <code>SessionConfig</code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument occurrences="1">
+    <InvalidScalarArgument>
       <code>$hashBitsPerCharacter</code>
     </InvalidScalarArgument>
-    <MissingConstructor occurrences="2">
+    <MissingConstructor>
       <code>$serializeHandler</code>
       <code>$validHashFunctions</code>
     </MissingConstructor>
-    <MixedArgument occurrences="1">
+    <MixedArgument>
       <code>$value</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
+    <MixedArgumentTypeCoercion>
       <code>$knownHandlers</code>
     </MixedArgumentTypeCoercion>
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType>
       <code>false|string</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
+    <MixedReturnStatement>
       <code>$callback($module)</code>
       <code>$callback()</code>
     </MixedReturnStatement>
-    <PossiblyFalsePropertyAssignmentValue occurrences="2">
+    <PossiblyFalsePropertyAssignmentValue>
       <code>false</code>
       <code>false</code>
     </PossiblyFalsePropertyAssignmentValue>
-    <RedundantCast occurrences="1">
+    <RedundantCast>
       <code>(string) $iniGet</code>
     </RedundantCast>
-    <RedundantCastGivenDocblockType occurrences="5">
+    <RedundantCastGivenDocblockType>
       <code>(int) $hashBitsPerCharacter</code>
       <code>(int) $sidBitsPerCharacter</code>
       <code>(string) $cacheLimiter</code>
       <code>(string) $serializeHandler</code>
       <code>(string) $serializeHandler</code>
     </RedundantCastGivenDocblockType>
-    <UnusedVariable occurrences="1">
+    <UnusedVariable>
       <code>$prefix</code>
     </UnusedVariable>
   </file>
   <file src="src/Config/StandardConfig.php">
-    <DocblockTypeContradiction occurrences="22">
-      <code>! is_array($options) &amp;&amp; ! $options instanceof Traversable</code>
+    <DocblockTypeContradiction>
+      <code><![CDATA[! is_array($options) && ! $options instanceof Traversable]]></code>
       <code>! is_numeric($sidLength)</code>
       <code>is_numeric($cacheExpire)</code>
       <code>is_numeric($cookieLifetime)</code>
@@ -215,18 +223,18 @@
       <code>is_numeric($rememberMeSeconds)</code>
       <code>is_numeric($sidBitsPerCharacter)</code>
       <code>is_string($cookieDomain)</code>
-      <code>null === $this-&gt;cookieDomain</code>
-      <code>null === $this-&gt;cookieHttpOnly</code>
-      <code>null === $this-&gt;cookieLifetime</code>
-      <code>null === $this-&gt;cookiePath</code>
-      <code>null === $this-&gt;cookieSameSite</code>
-      <code>null === $this-&gt;cookieSecure</code>
-      <code>null === $this-&gt;name</code>
-      <code>null === $this-&gt;rememberMeSeconds</code>
-      <code>null === $this-&gt;savePath</code>
-      <code>null === $this-&gt;useCookies</code>
+      <code><![CDATA[null === $this->cookieDomain]]></code>
+      <code><![CDATA[null === $this->cookieHttpOnly]]></code>
+      <code><![CDATA[null === $this->cookieLifetime]]></code>
+      <code><![CDATA[null === $this->cookiePath]]></code>
+      <code><![CDATA[null === $this->cookieSameSite]]></code>
+      <code><![CDATA[null === $this->cookieSecure]]></code>
+      <code><![CDATA[null === $this->name]]></code>
+      <code><![CDATA[null === $this->rememberMeSeconds]]></code>
+      <code><![CDATA[null === $this->savePath]]></code>
+      <code><![CDATA[null === $this->useCookies]]></code>
     </DocblockTypeContradiction>
-    <ImplementedReturnTypeMismatch occurrences="15">
+    <ImplementedReturnTypeMismatch>
       <code>StandardConfig</code>
       <code>StandardConfig</code>
       <code>StandardConfig</code>
@@ -243,16 +251,16 @@
       <code>null|string</code>
       <code>string|null</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidArgument occurrences="1">
+    <InvalidArgument>
       <code>HostnameValidator::ALLOW_ALL</code>
     </InvalidArgument>
-    <InvalidReturnType occurrences="1">
+    <InvalidReturnType>
       <code>mixed</code>
     </InvalidReturnType>
-    <LessSpecificImplementedReturnType occurrences="1">
+    <LessSpecificImplementedReturnType>
       <code>array</code>
     </LessSpecificImplementedReturnType>
-    <MissingConstructor occurrences="19">
+    <MissingConstructor>
       <code>$cookieDomain</code>
       <code>$cookieDomain</code>
       <code>$cookieHttpOnly</code>
@@ -273,26 +281,26 @@
       <code>$useCookies</code>
       <code>$useCookies</code>
     </MissingConstructor>
-    <MixedArgument occurrences="2">
+    <MixedArgument>
       <code>$key</code>
       <code>$key</code>
     </MixedArgument>
-    <MixedAssignment occurrences="13">
+    <MixedAssignment>
       <code>$key</code>
-      <code>$this-&gt;cookieDomain</code>
-      <code>$this-&gt;cookieHttpOnly</code>
-      <code>$this-&gt;cookieLifetime</code>
-      <code>$this-&gt;cookiePath</code>
-      <code>$this-&gt;cookieSameSite</code>
-      <code>$this-&gt;cookieSecure</code>
-      <code>$this-&gt;name</code>
-      <code>$this-&gt;rememberMeSeconds</code>
-      <code>$this-&gt;savePath</code>
-      <code>$this-&gt;useCookies</code>
+      <code><![CDATA[$this->cookieDomain]]></code>
+      <code><![CDATA[$this->cookieHttpOnly]]></code>
+      <code><![CDATA[$this->cookieLifetime]]></code>
+      <code><![CDATA[$this->cookiePath]]></code>
+      <code><![CDATA[$this->cookieSameSite]]></code>
+      <code><![CDATA[$this->cookieSecure]]></code>
+      <code><![CDATA[$this->name]]></code>
+      <code><![CDATA[$this->rememberMeSeconds]]></code>
+      <code><![CDATA[$this->savePath]]></code>
+      <code><![CDATA[$this->useCookies]]></code>
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="20">
+    <MixedInferredReturnType>
       <code>bool</code>
       <code>bool|string</code>
       <code>bool|string</code>
@@ -314,39 +322,45 @@
       <code>string</code>
       <code>string|null</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="30">
-      <code>$this-&gt;cookieDomain</code>
-      <code>$this-&gt;cookieDomain</code>
-      <code>$this-&gt;cookieHttpOnly</code>
-      <code>$this-&gt;cookieHttpOnly</code>
-      <code>$this-&gt;cookieLifetime</code>
-      <code>$this-&gt;cookieLifetime</code>
-      <code>$this-&gt;cookiePath</code>
-      <code>$this-&gt;cookiePath</code>
-      <code>$this-&gt;cookieSameSite</code>
-      <code>$this-&gt;cookieSameSite</code>
-      <code>$this-&gt;cookieSecure</code>
-      <code>$this-&gt;cookieSecure</code>
-      <code>$this-&gt;getOption('hash_function')</code>
-      <code>$this-&gt;name</code>
-      <code>$this-&gt;name</code>
-      <code>$this-&gt;options['cache_expire']</code>
-      <code>$this-&gt;options['entropy_file']</code>
-      <code>$this-&gt;options['entropy_length']</code>
-      <code>$this-&gt;options['gc_divisor']</code>
-      <code>$this-&gt;options['gc_maxlifetime']</code>
-      <code>$this-&gt;options['gc_probability']</code>
-      <code>$this-&gt;options['hash_bits_per_character']</code>
-      <code>$this-&gt;options['sid_bits_per_character']</code>
-      <code>$this-&gt;options['sid_length']</code>
-      <code>$this-&gt;rememberMeSeconds</code>
-      <code>$this-&gt;rememberMeSeconds</code>
-      <code>$this-&gt;savePath</code>
-      <code>$this-&gt;savePath</code>
-      <code>$this-&gt;useCookies</code>
-      <code>$this-&gt;useCookies</code>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->cookieDomain]]></code>
+      <code><![CDATA[$this->cookieDomain]]></code>
+      <code><![CDATA[$this->cookieHttpOnly]]></code>
+      <code><![CDATA[$this->cookieHttpOnly]]></code>
+      <code><![CDATA[$this->cookieLifetime]]></code>
+      <code><![CDATA[$this->cookieLifetime]]></code>
+      <code><![CDATA[$this->cookiePath]]></code>
+      <code><![CDATA[$this->cookiePath]]></code>
+      <code><![CDATA[$this->cookieSameSite]]></code>
+      <code><![CDATA[$this->cookieSameSite]]></code>
+      <code><![CDATA[$this->cookieSecure]]></code>
+      <code><![CDATA[$this->cookieSecure]]></code>
+      <code><![CDATA[$this->getOption('hash_function')]]></code>
+      <code><![CDATA[$this->name]]></code>
+      <code><![CDATA[$this->name]]></code>
+      <code><![CDATA[$this->options['cache_expire']]]></code>
+      <code><![CDATA[$this->options['entropy_file']]]></code>
+      <code><![CDATA[$this->options['entropy_length']]]></code>
+      <code><![CDATA[$this->options['gc_divisor']]]></code>
+      <code><![CDATA[$this->options['gc_maxlifetime']]]></code>
+      <code><![CDATA[$this->options['gc_probability']]]></code>
+      <code><![CDATA[$this->options['hash_bits_per_character']]]></code>
+      <code><![CDATA[$this->options['sid_bits_per_character']]]></code>
+      <code><![CDATA[$this->options['sid_length']]]></code>
+      <code><![CDATA[$this->rememberMeSeconds]]></code>
+      <code><![CDATA[$this->rememberMeSeconds]]></code>
+      <code><![CDATA[$this->savePath]]></code>
+      <code><![CDATA[$this->savePath]]></code>
+      <code><![CDATA[$this->useCookies]]></code>
+      <code><![CDATA[$this->useCookies]]></code>
     </MixedReturnStatement>
-    <RedundantCastGivenDocblockType occurrences="15">
+    <PossiblyInvalidArgument>
+      <code>str_replace('_', ' ', $key)</code>
+    </PossiblyInvalidArgument>
+    <PossiblyInvalidCast>
+      <code>str_replace('_', ' ', $key)</code>
+    </PossiblyInvalidCast>
+    <RedundantCastGivenDocblockType>
       <code>(bool) $cookieHttpOnly</code>
       <code>(bool) $cookieSecure</code>
       <code>(bool) $useCookies</code>
@@ -365,7 +379,7 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/ConfigProvider.php">
-    <UndefinedClass occurrences="4">
+    <UndefinedClass>
       <code>ConfigInterface</code>
       <code>StorageInterface</code>
       <code>\Zend\Session\ManagerInterface</code>
@@ -373,63 +387,71 @@
     </UndefinedClass>
   </file>
   <file src="src/Container.php">
-    <MixedArrayAccess occurrences="1">
+    <MixedArrayAccess>
       <code>$storage[$name][$key]</code>
     </MixedArrayAccess>
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor>
       <code>Container</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/SaveHandler/Cache.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
+    <ImplementedReturnTypeMismatch>
       <code>bool</code>
     </ImplementedReturnTypeMismatch>
-    <PropertyNotSetInConstructor occurrences="2">
+    <PropertyNotSetInConstructor>
       <code>$sessionName</code>
       <code>$sessionSavePath</code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="1">
-      <code>(bool) $this-&gt;getCacheStorage()-&gt;removeItem($id)</code>
+    <RedundantCastGivenDocblockType>
+      <code><![CDATA[(bool) $this->getCacheStorage()->removeItem($id)]]></code>
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/SaveHandler/DbTableGateway.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
+    <ImplementedReturnTypeMismatch>
       <code>true</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidPropertyAssignmentValue occurrences="1">
+    <InvalidPropertyAssignmentValue>
       <code>ini_get('session.gc_maxlifetime')</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidReturnStatement occurrences="1"/>
-    <InvalidReturnType occurrences="1">
+    <InvalidReturnStatement>
+      <code><![CDATA[(bool) $this->tableGateway->delete(
+            sprintf(
+                '%s < %d',
+                $platform->quoteIdentifier($this->options->getModifiedColumn()),
+                time() - $this->lifetime
+            )
+        )]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
       <code>true</code>
     </InvalidReturnType>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment>
       <code>$row</code>
       <code>$rows</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$row-&gt;{$this-&gt;options-&gt;getModifiedColumn()}</code>
+    <MixedOperand>
+      <code><![CDATA[$row->{$this->options->getModifiedColumn()}]]></code>
     </MixedOperand>
-    <MixedPropertyFetch occurrences="3">
-      <code>$row-&gt;{$this-&gt;options-&gt;getDataColumn()}</code>
-      <code>$row-&gt;{$this-&gt;options-&gt;getLifetimeColumn()}</code>
-      <code>$row-&gt;{$this-&gt;options-&gt;getModifiedColumn()}</code>
+    <MixedPropertyFetch>
+      <code><![CDATA[$row->{$this->options->getDataColumn()}]]></code>
+      <code><![CDATA[$row->{$this->options->getLifetimeColumn()}]]></code>
+      <code><![CDATA[$row->{$this->options->getModifiedColumn()}]]></code>
     </MixedPropertyFetch>
-    <PropertyNotSetInConstructor occurrences="3">
+    <PropertyNotSetInConstructor>
       <code>$lifetime</code>
       <code>$sessionName</code>
       <code>$sessionSavePath</code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="1">
+    <RedundantCastGivenDocblockType>
       <code>(string) $data</code>
     </RedundantCastGivenDocblockType>
-    <UndefinedInterfaceMethod occurrences="2">
+    <UndefinedInterfaceMethod>
       <code>current</code>
       <code>current</code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="src/SaveHandler/DbTableGatewayOptions.php">
-    <RedundantCastGivenDocblockType occurrences="5">
+    <RedundantCastGivenDocblockType>
       <code>(string) $dataColumn</code>
       <code>(string) $idColumn</code>
       <code>(string) $lifetimeColumn</code>
@@ -438,75 +460,75 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/SaveHandler/MongoDB.php">
-    <DocblockTypeContradiction occurrences="2">
-      <code>null === ($collection = $options-&gt;getCollection())</code>
-      <code>null === ($database = $options-&gt;getDatabase())</code>
+    <DocblockTypeContradiction>
+      <code><![CDATA[null === ($collection = $options->getCollection())]]></code>
+      <code><![CDATA[null === ($database = $options->getDatabase())]]></code>
     </DocblockTypeContradiction>
-    <ImplementedReturnTypeMismatch occurrences="1">
+    <ImplementedReturnTypeMismatch>
       <code>bool</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidArgument occurrences="3">
-      <code>$this-&gt;options-&gt;getSaveOptions()</code>
-      <code>$this-&gt;options-&gt;getSaveOptions()</code>
-      <code>$this-&gt;options-&gt;getSaveOptions()</code>
+    <InvalidArgument>
+      <code><![CDATA[$this->options->getSaveOptions()]]></code>
+      <code><![CDATA[$this->options->getSaveOptions()]]></code>
+      <code><![CDATA[$this->options->getSaveOptions()]]></code>
     </InvalidArgument>
-    <InvalidOperand occurrences="1">
-      <code>(string) $session[$this-&gt;options-&gt;getModifiedField()]</code>
+    <InvalidOperand>
+      <code><![CDATA[(string) $session[$this->options->getModifiedField()]]]></code>
     </InvalidOperand>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment>
       <code>$timestamp</code>
       <code>$timestamp</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType>
       <code>string</code>
     </MixedInferredReturnType>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>getData</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="1">
+    <MixedOperand>
       <code>$timestamp</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="1">
-      <code>$session[$this-&gt;options-&gt;getDataField()]-&gt;getData()</code>
+    <MixedReturnStatement>
+      <code><![CDATA[$session[$this->options->getDataField()]->getData()]]></code>
     </MixedReturnStatement>
-    <PossiblyInvalidArrayAccess occurrences="3">
-      <code>$session[$this-&gt;options-&gt;getDataField()]</code>
-      <code>$session[$this-&gt;options-&gt;getLifetimeField()]</code>
-      <code>$session[$this-&gt;options-&gt;getModifiedField()]</code>
+    <PossiblyInvalidArrayAccess>
+      <code><![CDATA[$session[$this->options->getDataField()]]]></code>
+      <code><![CDATA[$session[$this->options->getLifetimeField()]]]></code>
+      <code><![CDATA[$session[$this->options->getModifiedField()]]]></code>
     </PossiblyInvalidArrayAccess>
-    <PropertyNotSetInConstructor occurrences="3">
+    <PropertyNotSetInConstructor>
       <code>$lifetime</code>
       <code>$mongoCollection</code>
       <code>$sessionName</code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="1">
+    <RedundantCastGivenDocblockType>
       <code>(string) $data</code>
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/SaveHandler/MongoDBOptions.php">
-    <DocblockTypeContradiction occurrences="2">
-      <code>$this-&gt;saveOptions === ['w' =&gt; 1]</code>
-      <code>$this-&gt;saveOptions === ['w' =&gt; 1]</code>
+    <DocblockTypeContradiction>
+      <code><![CDATA[$this->saveOptions === ['w' => 1]]]></code>
+      <code><![CDATA[$this->saveOptions === ['w' => 1]]]></code>
     </DocblockTypeContradiction>
-    <InvalidPropertyAssignmentValue occurrences="3">
+    <InvalidPropertyAssignmentValue>
       <code>$saveOptions</code>
-      <code>['safe' =&gt; true]</code>
-      <code>['w' =&gt; 1]</code>
+      <code><![CDATA[['safe' => true]]]></code>
+      <code><![CDATA[['w' => 1]]]></code>
     </InvalidPropertyAssignmentValue>
-    <MissingParamType occurrences="1">
+    <MissingParamType>
       <code>$options</code>
     </MissingParamType>
-    <MissingReturnType occurrences="1">
+    <MissingReturnType>
       <code>setUseExpireAfterSecondsIndex</code>
     </MissingReturnType>
-    <MixedArgument occurrences="1">
+    <MixedArgument>
       <code>$options</code>
     </MixedArgument>
-    <PropertyNotSetInConstructor occurrences="2">
+    <PropertyNotSetInConstructor>
       <code>$collection</code>
       <code>$database</code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="7">
+    <RedundantCastGivenDocblockType>
       <code>(bool) $useExpireAfterSecondsIndex</code>
       <code>(string) $collection</code>
       <code>(string) $dataField</code>
@@ -517,67 +539,67 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Service/ContainerAbstractServiceFactory.php">
-    <DeprecatedInterface occurrences="1">
+    <DeprecatedInterface>
       <code>ContainerAbstractServiceFactory</code>
     </DeprecatedInterface>
-    <MissingConstructor occurrences="2">
+    <MissingConstructor>
       <code>$config</code>
       <code>$sessionManager</code>
     </MissingConstructor>
-    <MixedArgument occurrences="1">
+    <MixedArgument>
       <code>$config</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$config[$this-&gt;configKey]</code>
+    <MixedArrayAccess>
+      <code><![CDATA[$config[$this->configKey]]]></code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="3">
+    <MixedAssignment>
       <code>$config</code>
       <code>$config</code>
-      <code>$this-&gt;sessionManager</code>
+      <code><![CDATA[$this->sessionManager]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType>
       <code>null|ManagerInterface</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
-      <code>$this-&gt;sessionManager</code>
-      <code>$this-&gt;sessionManager</code>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->sessionManager]]></code>
+      <code><![CDATA[$this->sessionManager]]></code>
     </MixedReturnStatement>
-    <ParamNameMismatch occurrences="2">
+    <ParamNameMismatch>
       <code>$container</code>
       <code>$container</code>
     </ParamNameMismatch>
-    <RedundantConditionGivenDocblockType occurrences="2">
-      <code>$this-&gt;sessionManager !== null</code>
-      <code>null !== $this-&gt;config</code>
+    <RedundantConditionGivenDocblockType>
+      <code><![CDATA[$this->sessionManager !== null]]></code>
+      <code><![CDATA[null !== $this->config]]></code>
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Service/SessionConfigFactory.php">
-    <DeprecatedInterface occurrences="1">
+    <DeprecatedInterface>
       <code>SessionConfigFactory</code>
     </DeprecatedInterface>
-    <MixedArgument occurrences="3">
+    <MixedArgument>
       <code>$config</code>
       <code>$config['config_class']</code>
       <code>$config['config_class']</code>
     </MixedArgument>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$config</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>new $class()</code>
     </MixedMethodCall>
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$services</code>
     </ParamNameMismatch>
   </file>
   <file src="src/Service/SessionManagerFactory.php">
-    <DeprecatedInterface occurrences="1">
+    <DeprecatedInterface>
       <code>SessionManagerFactory</code>
     </DeprecatedInterface>
-    <LessSpecificReturnStatement occurrences="1">
+    <LessSpecificReturnStatement>
       <code>$manager</code>
     </LessSpecificReturnStatement>
-    <MixedAssignment occurrences="6">
+    <MixedAssignment>
       <code>$config</code>
       <code>$configService</code>
       <code>$options</code>
@@ -585,82 +607,82 @@
       <code>$storage</code>
       <code>$validators</code>
     </MixedAssignment>
-    <MoreSpecificReturnType occurrences="1">
+    <MoreSpecificReturnType>
       <code>SessionManager</code>
     </MoreSpecificReturnType>
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$services</code>
     </ParamNameMismatch>
   </file>
   <file src="src/Service/StorageFactory.php">
-    <DeprecatedInterface occurrences="1">
+    <DeprecatedInterface>
       <code>StorageFactory</code>
     </DeprecatedInterface>
-    <MixedArgument occurrences="2">
+    <MixedArgument>
       <code>$options</code>
       <code>$type</code>
     </MixedArgument>
-    <MixedAssignment occurrences="3">
+    <MixedAssignment>
       <code>$config</code>
       <code>$options</code>
       <code>$type</code>
     </MixedAssignment>
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$services</code>
     </ParamNameMismatch>
   </file>
   <file src="src/SessionManager.php">
-    <DocblockTypeContradiction occurrences="3">
+    <DocblockTypeContradiction>
       <code>$_SESSION !== $storage</code>
-      <code>null === $this-&gt;name</code>
-      <code>null === $this-&gt;validatorChain</code>
+      <code><![CDATA[null === $this->name]]></code>
+      <code><![CDATA[null === $this->validatorChain]]></code>
     </DocblockTypeContradiction>
-    <MissingClosureParamType occurrences="1">
+    <MissingClosureParamType>
       <code>$test</code>
     </MissingClosureParamType>
-    <MissingReturnType occurrences="1">
+    <MissingReturnType>
       <code>initializeValidatorChain</code>
     </MissingReturnType>
-    <MixedArgument occurrences="1">
+    <MixedArgument>
       <code>$validator</code>
     </MixedArgument>
-    <MixedAssignment occurrences="3">
+    <MixedAssignment>
       <code>$sid</code>
       <code>$validator</code>
       <code>$validatorValues</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>new $validator(null)</code>
     </MixedMethodCall>
-    <MoreSpecificImplementedParamType occurrences="1">
+    <MoreSpecificImplementedParamType>
       <code>$id</code>
     </MoreSpecificImplementedParamType>
-    <NoValue occurrences="1">
+    <NoValue>
       <code>$oldSessionData</code>
     </NoValue>
-    <PossiblyUndefinedArrayOffset occurrences="1">
+    <PossiblyUndefinedArrayOffset>
       <code>$_SERVER['REQUEST_TIME']</code>
     </PossiblyUndefinedArrayOffset>
-    <PropertyNotSetInConstructor occurrences="3">
+    <PropertyNotSetInConstructor>
       <code>$name</code>
       <code>$validatorChain</code>
       <code>SessionManager</code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="3">
-      <code>(bool) $config-&gt;getCookieHttpOnly()</code>
-      <code>(bool) $config-&gt;getCookieSecure()</code>
+    <RedundantCastGivenDocblockType>
+      <code><![CDATA[(bool) $config->getCookieHttpOnly()]]></code>
+      <code><![CDATA[(bool) $config->getCookieSecure()]]></code>
       <code>(bool) $deleteOldSession</code>
     </RedundantCastGivenDocblockType>
-    <RedundantCondition occurrences="2">
-      <code>! empty($oldSessionData) &amp;&amp; is_array($oldSessionData)</code>
+    <RedundantCondition>
+      <code><![CDATA[! empty($oldSessionData) && is_array($oldSessionData)]]></code>
       <code>is_array($oldSessionData)</code>
     </RedundantCondition>
-    <TypeDoesNotContainType occurrences="1">
+    <TypeDoesNotContainType>
       <code>$oldSessionData instanceof Traversable</code>
     </TypeDoesNotContainType>
   </file>
   <file src="src/Storage/AbstractSessionArrayStorage.php">
-    <InvalidReturnStatement occurrences="6">
+    <InvalidReturnStatement>
       <code>$_SESSION</code>
       <code>$this</code>
       <code>$this</code>
@@ -668,67 +690,67 @@
       <code>$values</code>
       <code>new ArrayIterator($_SESSION)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="5">
+    <InvalidReturnType>
       <code>SessionStorage</code>
       <code>SessionStorage</code>
       <code>array</code>
-      <code>array&lt;TKey, TValue&gt;</code>
+      <code><![CDATA[array<TKey, TValue>]]></code>
       <code>getIterator</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="1">
+    <InvalidScalarArgument>
       <code>$_SESSION</code>
     </InvalidScalarArgument>
-    <MixedArgument occurrences="5">
+    <MixedArgument>
       <code>$_SESSION['__Laminas']</code>
       <code>$_SESSION['__Laminas'][$key]</code>
       <code>$locks</code>
       <code>$locks</code>
       <code>$locks</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="1">
+    <MixedArrayAccess>
       <code>$_SESSION['__Laminas'][$key]</code>
     </MixedArrayAccess>
-    <MixedArrayOffset occurrences="4">
+    <MixedArrayOffset>
       <code>$_SESSION[$key]</code>
       <code>$_SESSION[$key]</code>
       <code>$_SESSION[$key]</code>
       <code>$_SESSION[$key]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="5">
+    <MixedAssignment>
       <code>$_SESSION[$key]</code>
       <code>$_SESSION['__Laminas'][$key]</code>
       <code>$locks</code>
       <code>$locks</code>
       <code>$readOnly</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
+    <MixedInferredReturnType>
       <code>bool</code>
       <code>float</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
-      <code>$this-&gt;getMetadata('_READONLY')</code>
-      <code>$this-&gt;getMetadata('_REQUEST_ACCESS_TIME')</code>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->getMetadata('_READONLY')]]></code>
+      <code><![CDATA[$this->getMetadata('_REQUEST_ACCESS_TIME')]]></code>
     </MixedReturnStatement>
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$metaData</code>
     </ParamNameMismatch>
-    <PossiblyInvalidArgument occurrences="1">
+    <PossiblyInvalidArgument>
       <code>$key</code>
     </PossiblyInvalidArgument>
-    <RedundantCondition occurrences="2">
+    <RedundantCondition>
       <code>$_SESSION instanceof ArrayObject</code>
       <code>$locks</code>
     </RedundantCondition>
-    <TypeDoesNotContainType occurrences="1">
+    <TypeDoesNotContainType>
       <code>is_object($input)</code>
     </TypeDoesNotContainType>
   </file>
   <file src="src/Storage/ArrayStorage.php">
-    <ArgumentTypeCoercion occurrences="2">
+    <ArgumentTypeCoercion>
       <code>$flags</code>
       <code>$iteratorClass</code>
     </ArgumentTypeCoercion>
-    <InvalidArgument occurrences="15">
+    <InvalidArgument>
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
@@ -745,7 +767,7 @@
       <code>'__Laminas'</code>
       <code>'__Laminas'</code>
     </InvalidArgument>
-    <MixedArgument occurrences="10">
+    <MixedArgument>
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
@@ -757,21 +779,21 @@
       <code>$this['__Laminas'][$key]</code>
       <code>$value</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
+    <MixedArgumentTypeCoercion>
       <code>$this['__Laminas']</code>
       <code>$this['__Laminas']</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="3">
+    <MixedArrayAccess>
       <code>$array[$key]</code>
       <code>$this['__Laminas'][$key]</code>
       <code>$this['__Laminas'][$key]</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="3">
+    <MixedArrayAssignment>
       <code>$this['__Laminas'][$key]</code>
       <code>$this['__Laminas'][$key]</code>
       <code>$this['__Laminas'][$key]</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="6">
+    <MixedAssignment>
       <code>$array</code>
       <code>$locks</code>
       <code>$locks</code>
@@ -779,153 +801,156 @@
       <code>$this['__Laminas']</code>
       <code>$this['__Laminas'][$key]</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
+    <MixedInferredReturnType>
       <code>bool</code>
       <code>float</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
-      <code>$this-&gt;getMetadata('_READONLY')</code>
-      <code>$this-&gt;getMetadata('_REQUEST_ACCESS_TIME')</code>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->getMetadata('_READONLY')]]></code>
+      <code><![CDATA[$this->getMetadata('_REQUEST_ACCESS_TIME')]]></code>
     </MixedReturnStatement>
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$metaData</code>
     </ParamNameMismatch>
-    <PossiblyInvalidArgument occurrences="1">
+    <PossiblyInvalidArgument>
       <code>$key</code>
     </PossiblyInvalidArgument>
-    <PossiblyNullArgument occurrences="1">
+    <PossiblyNullArgument>
       <code>$this['__Laminas']</code>
     </PossiblyNullArgument>
-    <PossiblyNullArrayAccess occurrences="1">
+    <PossiblyNullArrayAccess>
       <code>$this['__Laminas'][$key]</code>
     </PossiblyNullArrayAccess>
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor>
       <code>ArrayStorage</code>
     </PropertyNotSetInConstructor>
+    <RedundantCondition>
+      <code>$locks</code>
+    </RedundantCondition>
   </file>
   <file src="src/Storage/Factory.php">
-    <DocblockTypeContradiction occurrences="2">
+    <DocblockTypeContradiction>
       <code>is_array($options)</code>
       <code>is_string($type)</code>
     </DocblockTypeContradiction>
-    <InvalidStringClass occurrences="2">
+    <InvalidStringClass>
       <code>new $type($input)</code>
       <code>new $type($input, $flags, $iteratorClass)</code>
     </InvalidStringClass>
-    <LessSpecificReturnStatement occurrences="3">
+    <LessSpecificReturnStatement>
       <code>new $type($input)</code>
       <code>new $type($input, $flags, $iteratorClass)</code>
       <code>new $type($options)</code>
     </LessSpecificReturnStatement>
-    <MixedArgument occurrences="1">
+    <MixedArgument>
       <code>$options['iterator_class']</code>
     </MixedArgument>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment>
       <code>$flags</code>
       <code>$input</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>new $type($options)</code>
     </MixedMethodCall>
-    <MoreSpecificReturnType occurrences="3">
+    <MoreSpecificReturnType>
       <code>AbstractSessionArrayStorage</code>
       <code>ArrayStorage</code>
       <code>StorageInterface</code>
     </MoreSpecificReturnType>
   </file>
   <file src="src/Storage/SessionArrayStorage.php">
-    <MixedArrayOffset occurrences="2">
+    <MixedArrayOffset>
       <code>$_SESSION[$key]</code>
       <code>$_SESSION[$key]</code>
     </MixedArrayOffset>
   </file>
   <file src="src/Storage/SessionStorage.php">
-    <InvalidArgument occurrences="3">
+    <InvalidArgument>
       <code>'_IMMUTABLE'</code>
       <code>'_IMMUTABLE'</code>
       <code>'_IMMUTABLE'</code>
     </InvalidArgument>
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor>
       <code>SessionStorage</code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="1">
-      <code>(array) $this-&gt;getArrayCopy()</code>
+    <RedundantCastGivenDocblockType>
+      <code><![CDATA[(array) $this->getArrayCopy()]]></code>
     </RedundantCastGivenDocblockType>
-    <RedundantCondition occurrences="3">
+    <RedundantCondition>
       <code>$_SESSION !== $this</code>
       <code>$_SESSION !== $this</code>
       <code>$_SESSION instanceof ArrayObject</code>
     </RedundantCondition>
-    <TypeDoesNotContainType occurrences="2">
+    <TypeDoesNotContainType>
       <code>is_object($input)</code>
       <code>is_object($input)</code>
     </TypeDoesNotContainType>
   </file>
   <file src="src/Validator/AbstractValidatorChainEM3.php">
-    <DeprecatedTrait occurrences="1">
+    <DeprecatedTrait>
       <code>ValidatorChainTrait</code>
     </DeprecatedTrait>
-    <ImplementedReturnTypeMismatch occurrences="1">
+    <ImplementedReturnTypeMismatch>
       <code>CallbackHandler</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;attachValidator($eventName, $listener, $priority)</code>
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->attachValidator($eventName, $listener, $priority)]]></code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
+    <InvalidReturnType>
       <code>CallbackHandler</code>
     </InvalidReturnType>
-    <MixedAssignment occurrences="3">
+    <MixedAssignment>
       <code>$data</code>
       <code>$validator</code>
       <code>$validators</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>new $validator($data)</code>
     </MixedMethodCall>
-    <UndefinedDocblockClass occurrences="1">
+    <UndefinedDocblockClass>
       <code>CallbackHandler</code>
     </UndefinedDocblockClass>
   </file>
   <file src="src/Validator/HttpUserAgent.php">
-    <PossiblyNullPropertyAssignmentValue occurrences="1">
+    <PossiblyNullPropertyAssignmentValue>
       <code>$data</code>
     </PossiblyNullPropertyAssignmentValue>
   </file>
   <file src="src/Validator/ValidatorChainTrait.php">
-    <MixedArgumentTypeCoercion occurrences="1">
+    <MixedArgumentTypeCoercion>
       <code>$callback</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$data</code>
     </MixedAssignment>
-    <UndefinedDocblockClass occurrences="1">
+    <UndefinedDocblockClass>
       <code>CallbackHandler|callable</code>
     </UndefinedDocblockClass>
   </file>
   <file src="src/ValidatorChain.php">
-    <MixedArgumentTypeCoercion occurrences="1">
+    <MixedArgumentTypeCoercion>
       <code>$callback</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment>
       <code>$data</code>
       <code>$data</code>
       <code>$validator</code>
       <code>$validators</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>new $validator($data)</code>
     </MixedMethodCall>
   </file>
   <file src="test/AbstractContainerTest.php">
-    <InvalidPropertyAssignmentValue occurrences="1">
+    <InvalidPropertyAssignmentValue>
       <code>new TestContainer('Default', $manager)</code>
     </InvalidPropertyAssignmentValue>
   </file>
   <file src="test/Config/SessionConfigTest.php">
-    <ArgumentTypeCoercion occurrences="1">
+    <ArgumentTypeCoercion>
       <code>'InvalidArgumentException'</code>
     </ArgumentTypeCoercion>
-    <InvalidArgument occurrences="11">
+    <InvalidArgument>
       <code>$handler</code>
       <code>$saveHandler</code>
       <code>'foobar_bogus'</code>
@@ -938,52 +963,60 @@
       <code>24</code>
       <code>24</code>
     </InvalidArgument>
-    <InvalidCast occurrences="2">
+    <InvalidCast>
       <code>$handler</code>
       <code>$saveHandler</code>
     </InvalidCast>
-    <InvalidScalarArgument occurrences="1">
+    <InvalidScalarArgument>
       <code>1</code>
     </InvalidScalarArgument>
-    <MissingClosureReturnType occurrences="2">
+    <MissingClosureReturnType>
       <code>static function (?string $module = null) {</code>
       <code>static function (?string $module = null) {</code>
     </MissingClosureReturnType>
-    <MissingReturnType occurrences="3">
+    <MissingReturnType>
       <code>testCookieSameSiteAltersIniSetting</code>
       <code>testCookieSameSiteDefaultsToIniSettings</code>
       <code>testCookieSameSiteIsMutable</code>
     </MissingReturnType>
-    <PossiblyNullArgument occurrences="1">
-      <code>var_export($this-&gt;config-&gt;toArray(), 1)</code>
+    <PossiblyNullArgument>
+      <code><![CDATA[var_export($this->config->toArray(), 1)]]></code>
     </PossiblyNullArgument>
-    <PossiblyNullPropertyAssignmentValue occurrences="1">
+    <PossiblyNullPropertyAssignmentValue>
       <code>null</code>
     </PossiblyNullPropertyAssignmentValue>
-    <RedundantCondition occurrences="1">
+    <RedundantCondition>
       <code>assertFalse</code>
     </RedundantCondition>
-    <UnevaluatedCode occurrences="16">
-      <code>$this-&gt;config-&gt;getEntropyFile();</code>
-      <code>$this-&gt;config-&gt;getEntropyLength();</code>
-      <code>$this-&gt;config-&gt;getHashBitsPerCharacter();</code>
-      <code>$this-&gt;config-&gt;getHashFunction();</code>
-      <code>$this-&gt;config-&gt;setEntropyFile(__FILE__);</code>
-      <code>$this-&gt;config-&gt;setEntropyLength(0);</code>
-      <code>$this-&gt;config-&gt;setHashBitsPerCharacter(5);</code>
-      <code>$this-&gt;config-&gt;setHashFunction('foobar_bogus');</code>
-      <code>$this-&gt;expectDeprecation();</code>
-      <code>$this-&gt;expectDeprecation();</code>
-      <code>$this-&gt;expectDeprecation();</code>
-      <code>$this-&gt;expectDeprecation();</code>
-      <code>$this-&gt;expectDeprecation();</code>
-      <code>$this-&gt;expectDeprecation();</code>
-      <code>$this-&gt;expectDeprecation();</code>
-      <code>$this-&gt;expectDeprecation();</code>
+    <UnevaluatedCode>
+      <code><![CDATA[$this->config->getEntropyFile();]]></code>
+      <code><![CDATA[$this->config->getEntropyLength();]]></code>
+      <code><![CDATA[$this->config->getHashBitsPerCharacter();]]></code>
+      <code><![CDATA[$this->config->getHashFunction();]]></code>
+      <code><![CDATA[$this->config->setEntropyFile(__FILE__);]]></code>
+      <code><![CDATA[$this->config->setEntropyLength(0);]]></code>
+      <code><![CDATA[$this->config->setHashBitsPerCharacter(5);]]></code>
+      <code><![CDATA[$this->config->setHashFunction('foobar_bogus');]]></code>
+      <code><![CDATA[$this->expectDeprecation();]]></code>
+      <code><![CDATA[$this->expectDeprecation();]]></code>
+      <code><![CDATA[$this->expectDeprecation();]]></code>
+      <code><![CDATA[$this->expectDeprecation();]]></code>
+      <code><![CDATA[$this->expectDeprecation();]]></code>
+      <code><![CDATA[$this->expectDeprecation();]]></code>
+      <code><![CDATA[$this->expectDeprecation();]]></code>
+      <code><![CDATA[$this->expectDeprecation();]]></code>
     </UnevaluatedCode>
   </file>
   <file src="test/Config/StandardConfigTest.php">
-    <DeprecatedMethod occurrences="8">
+    <DeprecatedMethod>
+      <code>expectDeprecation</code>
+      <code>expectDeprecation</code>
+      <code>expectDeprecation</code>
+      <code>expectDeprecation</code>
+      <code>expectDeprecation</code>
+      <code>expectDeprecation</code>
+      <code>expectDeprecation</code>
+      <code>expectDeprecation</code>
       <code>getEntropyFile</code>
       <code>getEntropyLength</code>
       <code>getHashBitsPerCharacter</code>
@@ -993,7 +1026,7 @@
       <code>setHashBitsPerCharacter</code>
       <code>setHashFunction</code>
     </DeprecatedMethod>
-    <InvalidArgument occurrences="10">
+    <InvalidArgument>
       <code>'foobar_bogus'</code>
       <code>'foobar_bogus'</code>
       <code>'foobar_bogus'</code>
@@ -1005,18 +1038,18 @@
       <code>24</code>
       <code>24</code>
     </InvalidArgument>
-    <MissingReturnType occurrences="1">
+    <MissingReturnType>
       <code>testCookieSameSiteIsMutable</code>
     </MissingReturnType>
-    <RedundantCastGivenDocblockType occurrences="1">
-      <code>(bool) $this-&gt;config-&gt;getUseCookies()</code>
+    <RedundantCastGivenDocblockType>
+      <code><![CDATA[(bool) $this->config->getUseCookies()]]></code>
     </RedundantCastGivenDocblockType>
   </file>
   <file src="test/ConfigProviderTest.php">
-    <MixedArgument occurrences="1">
+    <MixedArgument>
       <code>$abstractFactories</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="12">
+    <MixedArrayAccess>
       <code>$aliases[SessionManager::class]</code>
       <code>$config['abstract_factories']</code>
       <code>$config['aliases']</code>
@@ -1028,25 +1061,25 @@
       <code>$factories[ConfigInterface::class]</code>
       <code>$factories[ManagerInterface::class]</code>
       <code>$factories[StorageInterface::class]</code>
-      <code>$this-&gt;config['dependencies']['aliases']</code>
+      <code><![CDATA[$this->config['dependencies']['aliases']]]></code>
     </MixedArrayAccess>
-    <MixedArrayOffset occurrences="4">
+    <MixedArrayOffset>
       <code>$config[LegacyConfigInterface::class]</code>
       <code>$config[LegacyManagerInterface::class]</code>
       <code>$config[LegacySessionManager::class]</code>
       <code>$config[LegacyStorageInterface::class]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="5">
+    <MixedAssignment>
       <code>$abstractFactories</code>
       <code>$aliases</code>
       <code>$config</code>
       <code>$config</code>
       <code>$factories</code>
     </MixedAssignment>
-    <MixedPropertyTypeCoercion occurrences="1">
+    <MixedPropertyTypeCoercion>
       <code>(new ConfigProvider())()</code>
     </MixedPropertyTypeCoercion>
-    <UndefinedClass occurrences="4">
+    <UndefinedClass>
       <code>LegacyConfigInterface</code>
       <code>LegacyManagerInterface</code>
       <code>LegacySessionManager</code>
@@ -1054,7 +1087,7 @@
     </UndefinedClass>
   </file>
   <file src="test/ContainerTest.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument>
       <code>$metadata</code>
       <code>$metadata</code>
       <code>$metadata</code>
@@ -1063,7 +1096,7 @@
       <code>$metadata['EXPIRE_HOPS_KEYS']</code>
       <code>$metadata['EXPIRE_KEYS']</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="19">
+    <MixedArrayAccess>
       <code>$metadata['EXPIRE']</code>
       <code>$metadata['EXPIRE']</code>
       <code>$metadata['EXPIRE_HOPS']</code>
@@ -1082,9 +1115,9 @@
       <code>$metadata['EXPIRE_KEYS']['foo']</code>
       <code>$storage['Default']['foo']</code>
       <code>$storage['foo']['baz']</code>
-      <code>$this-&gt;container['foo']['bar']</code>
+      <code><![CDATA[$this->container['foo']['bar']]]></code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="10">
+    <MixedAssignment>
       <code>$hops</code>
       <code>$metadata</code>
       <code>$metadata</code>
@@ -1096,10 +1129,10 @@
       <code>$metadata</code>
       <code>$metadata</code>
     </MixedAssignment>
-    <NoInterfaceProperties occurrences="1">
-      <code>$this-&gt;manager-&gt;started</code>
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->manager->started]]></code>
     </NoInterfaceProperties>
-    <PossiblyUndefinedArrayOffset occurrences="7">
+    <PossiblyUndefinedArrayOffset>
       <code>$_SERVER['REQUEST_TIME']</code>
       <code>$_SERVER['REQUEST_TIME']</code>
       <code>$_SERVER['REQUEST_TIME']</code>
@@ -1108,51 +1141,45 @@
       <code>$_SERVER['REQUEST_TIME']</code>
       <code>$_SERVER['REQUEST_TIME']</code>
     </PossiblyUndefinedArrayOffset>
-    <RedundantConditionGivenDocblockType occurrences="1">
+    <RedundantConditionGivenDocblockType>
       <code>assertIsArray</code>
     </RedundantConditionGivenDocblockType>
-    <UnusedVariable occurrences="2">
+    <UnusedVariable>
       <code>$container</code>
       <code>$container</code>
     </UnusedVariable>
   </file>
   <file src="test/SaveHandler/AbstractDbTableGatewayTest.php">
-    <DocblockTypeContradiction occurrences="2">
-      <code>! $this-&gt;adapter</code>
-      <code>$this-&gt;adapter</code>
+    <DocblockTypeContradiction>
+      <code><![CDATA[! $this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
     </DocblockTypeContradiction>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$data</code>
     </MixedAssignment>
-    <PossiblyUndefinedMethod occurrences="1">
+    <PossiblyUndefinedMethod>
       <code>count</code>
     </PossiblyUndefinedMethod>
-    <RedundantConditionGivenDocblockType occurrences="3">
-      <code>$this-&gt;adapter</code>
+    <RedundantConditionGivenDocblockType>
+      <code><![CDATA[$this->adapter]]></code>
       <code>assertTrue</code>
       <code>is_string($data)</code>
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/SaveHandler/CacheTest.php">
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$data</code>
     </MixedAssignment>
-    <RedundantConditionGivenDocblockType occurrences="2">
+    <RedundantConditionGivenDocblockType>
       <code>assertTrue</code>
       <code>is_string($data)</code>
     </RedundantConditionGivenDocblockType>
-    <UndefinedDocblockClass occurrences="1">
+    <UndefinedDocblockClass>
       <code>CacheAdapter</code>
     </UndefinedDocblockClass>
-    <UnusedClosureParam occurrences="4">
-      <code>$firstArgs</code>
-      <code>$firstArgs</code>
-      <code>$firstArgs</code>
-      <code>$firstArgs</code>
-    </UnusedClosureParam>
   </file>
   <file src="test/SaveHandler/DbTableGatewayOptionsTest.php">
-    <UnusedVariable occurrences="5">
+    <UnusedVariable>
       <code>$options</code>
       <code>$options</code>
       <code>$options</code>
@@ -1161,14 +1188,14 @@
     </UnusedVariable>
   </file>
   <file src="test/SaveHandler/MongoDBTest.php">
-    <DeprecatedMethod occurrences="5">
+    <DeprecatedMethod>
       <code>count</code>
       <code>count</code>
       <code>count</code>
       <code>count</code>
       <code>count</code>
     </DeprecatedMethod>
-    <InvalidArgument occurrences="7">
+    <InvalidArgument>
       <code>0</code>
       <code>123</code>
       <code>123</code>
@@ -1177,46 +1204,46 @@
       <code>456</code>
       <code>456</code>
     </InvalidArgument>
-    <PossiblyFalseArgument occurrences="1">
+    <PossiblyFalseArgument>
       <code>getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB_CONNECTION_STRING')</code>
     </PossiblyFalseArgument>
-    <RedundantConditionGivenDocblockType occurrences="3">
-      <code>$this-&gt;mongoCollection</code>
+    <RedundantConditionGivenDocblockType>
+      <code><![CDATA[$this->mongoCollection]]></code>
       <code>assertTrue</code>
       <code>is_string($data)</code>
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/Service/ContainerAbstractServiceFactoryTest.php">
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$container</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>getManager</code>
     </MixedMethodCall>
   </file>
   <file src="test/Service/SessionConfigFactoryTest.php">
-    <MissingReturnType occurrences="1">
+    <MissingReturnType>
       <code>testServiceNotCreatedWhenInvalidSamesiteConfig</code>
     </MissingReturnType>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$config</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>getName</code>
     </MixedMethodCall>
   </file>
   <file src="test/Service/SessionManagerFactoryTest.php">
-    <MixedArgument occurrences="3">
+    <MixedArgument>
       <code>$chain</code>
       <code>$chain</code>
       <code>$manager</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="3">
+    <MixedArrayAccess>
       <code>$listener[0]</code>
       <code>$validatorData[Validator\HttpUserAgent::class]</code>
       <code>$validatorData[Validator\RemoteAddr::class]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="15">
+    <MixedAssignment>
       <code>$chain</code>
       <code>$chain</code>
       <code>$listener</code>
@@ -1233,7 +1260,7 @@
       <code>$manager</code>
       <code>$validatorData</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="9">
+    <MixedMethodCall>
       <code>getConfig</code>
       <code>getSaveHandler</code>
       <code>getStorage</code>
@@ -1244,63 +1271,63 @@
       <code>start</code>
       <code>start</code>
     </MixedMethodCall>
-    <UnusedVariable occurrences="2">
+    <UnusedVariable>
       <code>$manager</code>
       <code>$manager</code>
     </UnusedVariable>
   </file>
   <file src="test/Service/StorageFactoryTest.php">
-    <MixedArrayAccess occurrences="2">
+    <MixedArrayAccess>
       <code>$config['session_storage']['options']</code>
       <code>$config['session_storage']['options']['input']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="3">
+    <MixedAssignment>
       <code>$storage</code>
       <code>$storage</code>
       <code>$test</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>toArray</code>
     </MixedMethodCall>
-    <UnusedVariable occurrences="1">
+    <UnusedVariable>
       <code>$storage</code>
     </UnusedVariable>
   </file>
   <file src="test/SessionArrayStorageTest.php">
-    <InvalidScalarArgument occurrences="2">
+    <InvalidScalarArgument>
       <code>$_SESSION</code>
       <code>$_SESSION</code>
     </InvalidScalarArgument>
-    <MixedArrayAccess occurrences="5">
+    <MixedArrayAccess>
       <code>$_SESSION['test']['foo']</code>
-      <code>$this-&gt;storage['foo']['bar']</code>
-      <code>$this-&gt;storage['foo']['bar']</code>
-      <code>$this-&gt;storage['foo']['bar']</code>
-      <code>$this-&gt;storage['foo']['bar']['baz']</code>
+      <code><![CDATA[$this->storage['foo']['bar']]]></code>
+      <code><![CDATA[$this->storage['foo']['bar']]]></code>
+      <code><![CDATA[$this->storage['foo']['bar']]]></code>
+      <code><![CDATA[$this->storage['foo']['bar']['baz']]]></code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="3">
+    <MixedArrayAssignment>
       <code>$_SESSION['foo']['bar']</code>
-      <code>$this-&gt;storage['bar'][]</code>
-      <code>$this-&gt;storage['baz']['foo']</code>
+      <code><![CDATA[$this->storage['bar'][]]]></code>
+      <code><![CDATA[$this->storage['baz']['foo']]]></code>
     </MixedArrayAssignment>
-    <TypeDoesNotContainType occurrences="1">
+    <TypeDoesNotContainType>
       <code>assertSame</code>
     </TypeDoesNotContainType>
   </file>
   <file src="test/SessionManagerTest.php">
-    <DocblockTypeContradiction occurrences="1">
+    <DocblockTypeContradiction>
       <code>assertIsArray</code>
     </DocblockTypeContradiction>
-    <InvalidArgument occurrences="4">
-      <code>$this-&gt;error</code>
+    <InvalidArgument>
+      <code><![CDATA[$this->error]]></code>
       <code>1</code>
       <code>1</code>
       <code>[$this, 'handleErrors']</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="1">
+    <InvalidScalarArgument>
       <code>$_SESSION</code>
     </InvalidScalarArgument>
-    <MixedArgument occurrences="18">
+    <MixedArgument>
       <code>$_SESSION</code>
       <code>$compare</code>
       <code>$compare + 10</code>
@@ -1320,12 +1347,12 @@
       <code>$sName</code>
       <code>$value</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="3">
+    <MixedArrayAccess>
       <code>$_SESSION[$key]</code>
       <code>$_SESSION[$key]</code>
       <code>$_SESSION['__Laminas']['_VALID']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="26">
+    <MixedAssignment>
       <code>$compare</code>
       <code>$config</code>
       <code>$config</code>
@@ -1353,62 +1380,62 @@
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
+    <MixedOperand>
       <code>$compare</code>
       <code>$ttl</code>
     </MixedOperand>
-    <MixedPropertyFetch occurrences="2">
-      <code>$_SESSION-&gt;key1</code>
-      <code>$_SESSION-&gt;key2</code>
+    <MixedPropertyFetch>
+      <code><![CDATA[$_SESSION->key1]]></code>
+      <code><![CDATA[$_SESSION->key2]]></code>
     </MixedPropertyFetch>
-    <NoValue occurrences="1">
+    <NoValue>
       <code>$_SESSION</code>
     </NoValue>
-    <PossiblyNullOperand occurrences="2">
+    <PossiblyNullOperand>
       <code>var_export($headers, 1)</code>
       <code>var_export($headers, 1)</code>
     </PossiblyNullOperand>
-    <PossiblyUndefinedArrayOffset occurrences="2">
+    <PossiblyUndefinedArrayOffset>
       <code>$_SERVER['REQUEST_TIME']</code>
       <code>$_SERVER['REQUEST_TIME']</code>
     </PossiblyUndefinedArrayOffset>
-    <PossiblyUndefinedVariable occurrences="2">
+    <PossiblyUndefinedVariable>
       <code>$header</code>
       <code>$header</code>
     </PossiblyUndefinedVariable>
-    <RedundantCondition occurrences="2">
+    <RedundantCondition>
       <code>assertFalse</code>
       <code>assertSame</code>
     </RedundantCondition>
-    <TypeDoesNotContainType occurrences="1">
+    <TypeDoesNotContainType>
       <code>assertIsArray</code>
     </TypeDoesNotContainType>
-    <UnusedVariable occurrences="1">
+    <UnusedVariable>
       <code>$origId</code>
     </UnusedVariable>
   </file>
   <file src="test/SessionStorageTest.php">
-    <InvalidMethodCall occurrences="1">
+    <InvalidMethodCall>
       <code>getArrayCopy</code>
     </InvalidMethodCall>
-    <InvalidScalarArgument occurrences="1">
+    <InvalidScalarArgument>
       <code>$_SESSION</code>
     </InvalidScalarArgument>
   </file>
   <file src="test/StorageTest.php">
-    <MixedArrayAccess occurrences="3">
-      <code>$this-&gt;storage['foo']['bar']</code>
-      <code>$this-&gt;storage['foo']['bar']</code>
-      <code>$this-&gt;storage['foo']['bar']['baz']</code>
+    <MixedArrayAccess>
+      <code><![CDATA[$this->storage['foo']['bar']]]></code>
+      <code><![CDATA[$this->storage['foo']['bar']]]></code>
+      <code><![CDATA[$this->storage['foo']['bar']['baz']]]></code>
     </MixedArrayAccess>
-    <PossiblyNullArrayAccess occurrences="3">
-      <code>$this-&gt;storage['foo']['bar']</code>
-      <code>$this-&gt;storage['foo']['bar']</code>
-      <code>$this-&gt;storage['foo']['bar']['baz']</code>
+    <PossiblyNullArrayAccess>
+      <code><![CDATA[$this->storage['foo']['bar']]]></code>
+      <code><![CDATA[$this->storage['foo']['bar']]]></code>
+      <code><![CDATA[$this->storage['foo']['bar']['baz']]]></code>
     </PossiblyNullArrayAccess>
   </file>
   <file src="test/TestAsset/TestConfig.php">
-    <ImplementedReturnTypeMismatch occurrences="12">
+    <ImplementedReturnTypeMismatch>
       <code>void</code>
       <code>void</code>
       <code>void</code>
@@ -1424,31 +1451,31 @@
     </ImplementedReturnTypeMismatch>
   </file>
   <file src="test/TestAsset/TestContainer.php">
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor>
       <code>TestContainer</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/TestAsset/TestDbTableGatewaySaveHandler.php">
-    <PossiblyInvalidArgument occurrences="2">
+    <PossiblyInvalidArgument>
       <code>$id</code>
       <code>$id</code>
     </PossiblyInvalidArgument>
-    <PropertyNotSetInConstructor occurrences="3">
+    <PropertyNotSetInConstructor>
       <code>TestDbTableGatewaySaveHandler</code>
       <code>TestDbTableGatewaySaveHandler</code>
       <code>TestDbTableGatewaySaveHandler</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/TestAsset/TestManager.php">
-    <ImplementedReturnTypeMismatch occurrences="3">
+    <ImplementedReturnTypeMismatch>
       <code>void</code>
       <code>void</code>
       <code>void</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidPropertyAssignmentValue occurrences="1">
+    <InvalidPropertyAssignmentValue>
       <code>ArrayStorage::class</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidReturnType occurrences="8">
+    <InvalidReturnType>
       <code>forgetMe</code>
       <code>getId</code>
       <code>getName</code>
@@ -1458,51 +1485,51 @@
       <code>sessionExists</code>
       <code>setValidatorChain</code>
     </InvalidReturnType>
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor>
       <code>TestManager</code>
     </PropertyNotSetInConstructor>
-    <UndefinedDocblockClass occurrences="2">
-      <code>class-string&lt;StorageInterface&gt;</code>
+    <UndefinedDocblockClass>
+      <code><![CDATA[class-string<StorageInterface>]]></code>
       <code>protected $storageDefaultClass = ArrayStorage::class;</code>
     </UndefinedDocblockClass>
   </file>
   <file src="test/TestAsset/TestSaveHandler.php">
-    <ImplementedParamTypeMismatch occurrences="1">
+    <ImplementedParamTypeMismatch>
       <code>$data</code>
     </ImplementedParamTypeMismatch>
-    <ImplementedReturnTypeMismatch occurrences="3">
+    <ImplementedReturnTypeMismatch>
       <code>void</code>
       <code>void</code>
       <code>void</code>
     </ImplementedReturnTypeMismatch>
   </file>
   <file src="test/TestAsset/TestSaveHandlerWithValidator.php">
-    <ImplementedParamTypeMismatch occurrences="1">
+    <ImplementedParamTypeMismatch>
       <code>$data</code>
     </ImplementedParamTypeMismatch>
-    <ImplementedReturnTypeMismatch occurrences="2">
+    <ImplementedReturnTypeMismatch>
       <code>bool</code>
       <code>string</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidReturnType occurrences="1">
+    <InvalidReturnType>
       <code>string</code>
     </InvalidReturnType>
-    <MismatchingDocblockReturnType occurrences="1">
+    <MismatchingDocblockReturnType>
       <code>string</code>
     </MismatchingDocblockReturnType>
   </file>
   <file src="test/Validator/IdTest.php">
-    <InvalidScalarArgument occurrences="1">
+    <InvalidScalarArgument>
       <code>$bitsPerCharacter</code>
     </InvalidScalarArgument>
   </file>
   <file src="test/Validator/RemoteAddrTest.php">
-    <MissingConstructor occurrences="1">
+    <MissingConstructor>
       <code>$backup</code>
     </MissingConstructor>
   </file>
   <file src="test/Validator/ValidatorChainTest.php">
-    <NoInterfaceProperties occurrences="1">
+    <NoInterfaceProperties>
       <code>$validator::$isValidCallCount</code>
     </NoInterfaceProperties>
   </file>
