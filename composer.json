@@ -18,7 +18,7 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.0.99"
+            "php": "8.1.99"
         },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
@@ -32,22 +32,22 @@
         }
     },
     "require": {
-        "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0",
-        "laminas/laminas-eventmanager": "^3.5",
-        "laminas/laminas-servicemanager": "^3.15.1",
-        "laminas/laminas-stdlib": "^3.10.1"
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+        "laminas/laminas-eventmanager": "^3.12",
+        "laminas/laminas-servicemanager": "^3.22.1",
+        "laminas/laminas-stdlib": "^3.18.0"
     },
     "require-dev": {
-        "laminas/laminas-cache": "^3.9",
-        "laminas/laminas-cache-storage-adapter-memory": "^2.2",
+        "laminas/laminas-cache": "^3.11.0",
+        "laminas/laminas-cache-storage-adapter-memory": "^2.3",
         "laminas/laminas-coding-standard": "~2.5.0",
-        "laminas/laminas-db": "^2.16.3",
+        "laminas/laminas-db": "^2.18.0",
         "laminas/laminas-http": "^2.18",
-        "laminas/laminas-validator": "^2.29",
-        "mongodb/mongodb": "~1.13.0",
-        "phpunit/phpunit": "^9.5.27",
+        "laminas/laminas-validator": "^2.41.0",
+        "mongodb/mongodb": "~1.16.0",
+        "phpunit/phpunit": "^9.6.13",
         "psalm/plugin-phpunit": "^0.18.4",
-        "vimeo/psalm": "^5.4"
+        "vimeo/psalm": "^5.15"
     },
     "suggest": {
         "laminas/laminas-cache": "Laminas\\Cache component",

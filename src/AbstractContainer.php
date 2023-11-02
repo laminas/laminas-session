@@ -559,7 +559,7 @@ abstract class AbstractContainer extends ArrayObject
         $storage = $this->getStorage();
         $ts      = $storage->getRequestAccessTime();
 
-        if (is_scalar($vars) && (null !== $vars)) {
+        if (is_scalar($vars)) {
             $vars = (array) $vars;
         }
 
