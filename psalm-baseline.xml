@@ -141,6 +141,9 @@
       <code><![CDATA[static fn() => $ts]]></code>
       <code><![CDATA[static fn() => ['hops' => $hops, 'ts' => $ts]]]></code>
     </TooManyArguments>
+    <MethodSignatureMustProvideReturnType occurrences="5">
+      <code>offsetSet</code>
+    </MethodSignatureMustProvideReturnType>
   </file>
   <file src="src/AbstractManager.php">
     <MixedMethodCall>
@@ -393,6 +396,9 @@
     <PropertyNotSetInConstructor>
       <code>Container</code>
     </PropertyNotSetInConstructor>
+    <MethodSignatureMustProvideReturnType>
+      <code>offsetGet</code>
+    </MethodSignatureMustProvideReturnType>
   </file>
   <file src="src/SaveHandler/Cache.php">
     <ImplementedReturnTypeMismatch>
@@ -682,6 +688,10 @@
     </TypeDoesNotContainType>
   </file>
   <file src="src/Storage/AbstractSessionArrayStorage.php">
+    <MethodSignatureMustProvideReturnType occurrences="2">
+      <code>serialize</code>
+      <code>unserialize</code>
+    </MethodSignatureMustProvideReturnType>
     <InvalidReturnStatement>
       <code>$_SESSION</code>
       <code>$this</code>
@@ -859,6 +869,9 @@
     </MoreSpecificReturnType>
   </file>
   <file src="src/Storage/SessionArrayStorage.php">
+    <MethodSignatureMustProvideReturnType>
+      <code>offsetGet</code>
+    </MethodSignatureMustProvideReturnType>
     <MixedArrayOffset>
       <code>$_SESSION[$key]</code>
       <code>$_SESSION[$key]</code>
@@ -946,7 +959,15 @@
       <code>new TestContainer('Default', $manager)</code>
     </InvalidPropertyAssignmentValue>
   </file>
+  <file src="test/ReflectionPropertyTrait.php">
+    <UnusedMethodCall>
+      <code>setAccessible</code>
+    </UnusedMethodCall>
+  </file>
   <file src="test/Config/SessionConfigTest.php">
+    <UnusedMethodCall>
+      <code>setAccessible</code>
+    </UnusedMethodCall>
     <ArgumentTypeCoercion>
       <code>'InvalidArgumentException'</code>
     </ArgumentTypeCoercion>
@@ -1456,6 +1477,10 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/TestAsset/TestDbTableGatewaySaveHandler.php">
+    <MethodSignatureMustProvideReturnType>
+      <code>read</code>
+      <code>destroy</code>
+    </MethodSignatureMustProvideReturnType>
     <PossiblyInvalidArgument>
       <code>$id</code>
       <code>$id</code>

@@ -14,6 +14,13 @@
         </ignoreFiles>
     </projectFiles>
 
+    <issueHandlers>
+        <DeprecatedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Laminas\ServiceManager\Config"/>
+            </errorLevel>
+        </DeprecatedClass>
+    </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
     </plugins>
