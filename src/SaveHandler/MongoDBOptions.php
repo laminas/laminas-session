@@ -13,8 +13,6 @@ use function version_compare;
 
 /**
  * MongoDB session save handler Options
- *
- * @psalm-suppress MissingTemplateParam
  */
 class MongoDBOptions extends AbstractOptions
 {

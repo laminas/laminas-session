@@ -37,17 +37,13 @@ class SessionManagerFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $config         = new Config(
-            [
+        $this->services = new ServiceManager([
                 'factories' => [
                     ManagerInterface::class => SessionManagerFactory::class,
                     TestManager::class      => SessionManagerFactory::class,
                     TestSaveHandler::class  => SessionManagerFactory::class,
                 ],
-            ]
-        );
-        $this->services = new ServiceManager($config);
-        $config->configureServiceManager($this->services);
+            ]);
     }
 
     public function testCreatesSessionManager(): void

@@ -457,6 +457,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="src/SaveHandler/DbTableGatewayOptions.php">
+    <MissingTemplateParam>
+      <code>DbTableGatewayOptions</code>
+    </MissingTemplateParam>
     <RedundantCastGivenDocblockType>
       <code>(string) $dataColumn</code>
       <code>(string) $idColumn</code>
@@ -512,6 +515,9 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/SaveHandler/MongoDBOptions.php">
+    <MissingTemplateParam>
+      <code>MongoDBOptions</code>
+    </MissingTemplateParam>
     <DocblockTypeContradiction>
       <code><![CDATA[$this->saveOptions === ['w' => 1]]]></code>
       <code><![CDATA[$this->saveOptions === ['w' => 1]]]></code>
@@ -1227,6 +1233,9 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/Service/ContainerAbstractServiceFactoryTest.php">
+    <DeprecatedClass occurrences="1">
+      <code>new Config</code>
+    </DeprecatedClass>
     <MixedAssignment>
       <code>$container</code>
     </MixedAssignment>

@@ -9,8 +9,6 @@ use function strlen;
 
 /**
  * DbTableGateway Save Handler Options
- *
- * @psalm-suppress MissingTemplateParam
  */
 class DbTableGatewayOptions extends AbstractOptions
 {

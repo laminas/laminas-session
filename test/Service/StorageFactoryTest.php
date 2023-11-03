@@ -24,15 +24,11 @@ class StorageFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $config         = new Config(
-            [
+        $this->services = new ServiceManager([
                 'factories' => [
                     StorageInterface::class => StorageFactory::class,
                 ],
-            ]
-        );
-        $this->services = new ServiceManager($config);
-        $config->configureServiceManager($this->services);
+            ]);
     }
 
     /**

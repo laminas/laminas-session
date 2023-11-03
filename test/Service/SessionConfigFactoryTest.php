@@ -23,15 +23,11 @@ class SessionConfigFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $config         = new Config(
-            [
+        $this->services = new ServiceManager([
                 'factories' => [
                     ConfigInterface::class => SessionConfigFactory::class,
                 ],
-            ]
-        );
-        $this->services = new ServiceManager($config);
-        $config->configureServiceManager($this->services);
+            ]);
     }
 
     public function testCreatesSessionConfigByDefault(): void

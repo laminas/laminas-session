@@ -34,8 +34,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $config         = new Config(
-            [
+        $this->services = new ServiceManager([
                 'services'           => [
                     'config'                => $this->config,
                     StorageInterface::class => new ArrayStorage(),
@@ -46,10 +45,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
                 'abstract_factories' => [
                     ContainerAbstractServiceFactory::class,
                 ],
-            ]
-        );
-        $this->services = new ServiceManager($config);
-        $config->configureServiceManager($this->services);
+            ]);
     }
 
     /** @psalm-return array<array-key, array{0: string, 1: string}> */
