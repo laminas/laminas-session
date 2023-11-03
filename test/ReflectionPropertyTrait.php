@@ -16,7 +16,6 @@ trait ReflectionPropertyTrait
     {
         $reflectionObject   = new ReflectionObject($object);
         $reflectionProperty = $reflectionObject->getProperty($property);
-        $reflectionProperty->setAccessible(true);
         return $reflectionProperty->getValue($object);
     }
 }

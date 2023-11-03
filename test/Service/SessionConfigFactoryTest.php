@@ -30,7 +30,7 @@ class SessionConfigFactoryTest extends TestCase
                 ],
             ]
         );
-        $this->services = new ServiceManager();
+        $this->services = new ServiceManager($config);
         $config->configureServiceManager($this->services);
     }
 

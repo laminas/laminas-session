@@ -959,15 +959,7 @@
       <code>new TestContainer('Default', $manager)</code>
     </InvalidPropertyAssignmentValue>
   </file>
-  <file src="test/ReflectionPropertyTrait.php">
-    <UnusedMethodCall>
-      <code>setAccessible</code>
-    </UnusedMethodCall>
-  </file>
   <file src="test/Config/SessionConfigTest.php">
-    <UnusedMethodCall>
-      <code>setAccessible</code>
-    </UnusedMethodCall>
     <ArgumentTypeCoercion>
       <code>'InvalidArgumentException'</code>
     </ArgumentTypeCoercion>
