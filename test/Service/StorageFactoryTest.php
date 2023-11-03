@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace LaminasTest\Session\Service;
 
 use ArrayObject;
-use Laminas\ServiceManager\Config;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Config\StandardConfig;
@@ -25,10 +24,10 @@ class StorageFactoryTest extends TestCase
     protected function setUp(): void
     {
         $this->services = new ServiceManager([
-                'factories' => [
-                    StorageInterface::class => StorageFactory::class,
-                ],
-            ]);
+            'factories' => [
+                StorageInterface::class => StorageFactory::class,
+            ],
+        ]);
     }
 
     /**

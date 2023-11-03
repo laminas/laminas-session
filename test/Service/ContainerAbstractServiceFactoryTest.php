@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\Service;
 
-use Laminas\ServiceManager\Config;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface;
@@ -35,17 +34,17 @@ class ContainerAbstractServiceFactoryTest extends TestCase
     protected function setUp(): void
     {
         $this->services = new ServiceManager([
-                'services'           => [
-                    'config'                => $this->config,
-                    StorageInterface::class => new ArrayStorage(),
-                ],
-                'factories'          => [
-                    ManagerInterface::class => SessionManagerFactory::class,
-                ],
-                'abstract_factories' => [
-                    ContainerAbstractServiceFactory::class,
-                ],
-            ]);
+            'services'           => [
+                'config'                => $this->config,
+                StorageInterface::class => new ArrayStorage(),
+            ],
+            'factories'          => [
+                ManagerInterface::class => SessionManagerFactory::class,
+            ],
+            'abstract_factories' => [
+                ContainerAbstractServiceFactory::class,
+            ],
+        ]);
     }
 
     /** @psalm-return array<array-key, array{0: string, 1: string}> */

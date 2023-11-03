@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\Service;
 
-use Laminas\ServiceManager\Config;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Config\ConfigInterface;
@@ -24,10 +23,10 @@ class SessionConfigFactoryTest extends TestCase
     protected function setUp(): void
     {
         $this->services = new ServiceManager([
-                'factories' => [
-                    ConfigInterface::class => SessionConfigFactory::class,
-                ],
-            ]);
+            'factories' => [
+                ConfigInterface::class => SessionConfigFactory::class,
+            ],
+        ]);
     }
 
     public function testCreatesSessionConfigByDefault(): void

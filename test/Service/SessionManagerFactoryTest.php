@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace LaminasTest\Session\Service;
 
 use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
-use Laminas\ServiceManager\Config;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Config\ConfigInterface;
@@ -38,12 +37,12 @@ class SessionManagerFactoryTest extends TestCase
     protected function setUp(): void
     {
         $this->services = new ServiceManager([
-                'factories' => [
-                    ManagerInterface::class => SessionManagerFactory::class,
-                    TestManager::class      => SessionManagerFactory::class,
-                    TestSaveHandler::class  => SessionManagerFactory::class,
-                ],
-            ]);
+            'factories' => [
+                ManagerInterface::class => SessionManagerFactory::class,
+                TestManager::class      => SessionManagerFactory::class,
+                TestSaveHandler::class  => SessionManagerFactory::class,
+            ],
+        ]);
     }
 
     public function testCreatesSessionManager(): void
