@@ -1233,9 +1233,6 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/Service/ContainerAbstractServiceFactoryTest.php">
-    <DeprecatedClass occurrences="1">
-      <code>new Config</code>
-    </DeprecatedClass>
     <MixedAssignment>
       <code>$container</code>
     </MixedAssignment>
