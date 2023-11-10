@@ -994,7 +994,6 @@ class SessionConfigTest extends TestCase
     public function testErrorSettingKnownSaveHandlerResultsInException(): void
     {
         $r = new ReflectionProperty($this->config, 'knownSaveHandlers');
-        $r->setAccessible(true);
         $r->setValue($this->config, ['files', 'notreallyredis']);
 
         $this->expectException(Exception\InvalidArgumentException::class);

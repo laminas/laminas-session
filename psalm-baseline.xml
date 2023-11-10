@@ -141,6 +141,9 @@
       <code><![CDATA[static fn() => $ts]]></code>
       <code><![CDATA[static fn() => ['hops' => $hops, 'ts' => $ts]]]></code>
     </TooManyArguments>
+    <MethodSignatureMustProvideReturnType occurrences="5">
+      <code>offsetSet</code>
+    </MethodSignatureMustProvideReturnType>
   </file>
   <file src="src/AbstractManager.php">
     <MixedMethodCall>
@@ -393,6 +396,9 @@
     <PropertyNotSetInConstructor>
       <code>Container</code>
     </PropertyNotSetInConstructor>
+    <MethodSignatureMustProvideReturnType>
+      <code>offsetGet</code>
+    </MethodSignatureMustProvideReturnType>
   </file>
   <file src="src/SaveHandler/Cache.php">
     <ImplementedReturnTypeMismatch>
@@ -451,6 +457,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="src/SaveHandler/DbTableGatewayOptions.php">
+    <MissingTemplateParam>
+      <code>DbTableGatewayOptions</code>
+    </MissingTemplateParam>
     <RedundantCastGivenDocblockType>
       <code>(string) $dataColumn</code>
       <code>(string) $idColumn</code>
@@ -506,6 +515,9 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/SaveHandler/MongoDBOptions.php">
+    <MissingTemplateParam>
+      <code>MongoDBOptions</code>
+    </MissingTemplateParam>
     <DocblockTypeContradiction>
       <code><![CDATA[$this->saveOptions === ['w' => 1]]]></code>
       <code><![CDATA[$this->saveOptions === ['w' => 1]]]></code>
@@ -682,6 +694,10 @@
     </TypeDoesNotContainType>
   </file>
   <file src="src/Storage/AbstractSessionArrayStorage.php">
+    <MethodSignatureMustProvideReturnType occurrences="2">
+      <code>serialize</code>
+      <code>unserialize</code>
+    </MethodSignatureMustProvideReturnType>
     <InvalidReturnStatement>
       <code>$_SESSION</code>
       <code>$this</code>
@@ -859,6 +875,9 @@
     </MoreSpecificReturnType>
   </file>
   <file src="src/Storage/SessionArrayStorage.php">
+    <MethodSignatureMustProvideReturnType>
+      <code>offsetGet</code>
+    </MethodSignatureMustProvideReturnType>
     <MixedArrayOffset>
       <code>$_SESSION[$key]</code>
       <code>$_SESSION[$key]</code>
@@ -1456,6 +1475,10 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/TestAsset/TestDbTableGatewaySaveHandler.php">
+    <MethodSignatureMustProvideReturnType>
+      <code>read</code>
+      <code>destroy</code>
+    </MethodSignatureMustProvideReturnType>
     <PossiblyInvalidArgument>
       <code>$id</code>
       <code>$id</code>
