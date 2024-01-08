@@ -12,12 +12,7 @@ use ReturnTypeWillChange;
  */
 class TestSaveHandlerWithValidator implements SaveHandler
 {
-    /**
-     * @param string $savePath
-     * @param string $name
-     * @return string
-     */
-    public function open($savePath, $name): bool
+    public function open(string $path, string $name): bool
     {
         return true;
     }

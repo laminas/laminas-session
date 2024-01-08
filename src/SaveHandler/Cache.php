@@ -45,15 +45,15 @@ class Cache implements SaveHandlerInterface
     /**
      * Open Session
      *
-     * @param string $savePath
+     * @param string $path
      * @param string $name
      * @return bool
      */
     #[ReturnTypeWillChange]
-    public function open($savePath, $name)
+    public function open($path, $name)
     {
         // @todo figure out if we want to use these
-        $this->sessionSavePath = $savePath;
+        $this->sessionSavePath = $path;
         $this->sessionName     = $name;
 
         return true;
