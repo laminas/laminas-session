@@ -38,16 +38,16 @@
         "laminas/laminas-stdlib": "^3.18"
     },
     "require-dev": {
-        "laminas/laminas-cache": "^3.10.1",
+        "laminas/laminas-cache": "^3.12.0",
         "laminas/laminas-cache-storage-adapter-memory": "^2.3",
         "laminas/laminas-coding-standard": "~2.5.0",
         "laminas/laminas-db": "^2.18.0",
-        "laminas/laminas-http": "^2.18",
-        "laminas/laminas-validator": "^2.30.1",
-        "mongodb/mongodb": "~1.16.0",
-        "phpunit/phpunit": "^9.6.13",
+        "laminas/laminas-http": "^2.19",
+        "laminas/laminas-validator": "^2.46.0",
+        "mongodb/mongodb": "~1.16.1",
+        "phpunit/phpunit": "^9.6.15",
         "psalm/plugin-phpunit": "^0.18.4",
-        "vimeo/psalm": "^5.15"
+        "vimeo/psalm": "^5.18"
     },
     "suggest": {
         "laminas/laminas-cache": "Laminas\\Cache component",
