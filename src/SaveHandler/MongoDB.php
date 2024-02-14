@@ -71,12 +71,12 @@ class MongoDB implements SaveHandlerInterface
     /**
      * Open session
      *
-     * @param string $savePath
+     * @param string $path
      * @param string $name
      * @return bool
      */
     #[ReturnTypeWillChange]
-    public function open($savePath, $name)
+    public function open($path, $name)
     {
         // Note: session save path is not used
         $this->sessionName = $name;

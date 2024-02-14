@@ -150,9 +150,9 @@ abstract class AbstractSessionArrayStorage implements
      * @return void
      */
     #[ReturnTypeWillChange]
-    public function offsetSet(mixed $key, mixed $value)
+    public function offsetSet(mixed $offset, mixed $value)
     {
-        $_SESSION[$key] = $value;
+        $_SESSION[$offset] = $value;
     }
 
     /**
@@ -161,9 +161,9 @@ abstract class AbstractSessionArrayStorage implements
      * @return void
      */
     #[ReturnTypeWillChange]
-    public function offsetUnset(mixed $key)
+    public function offsetUnset(mixed $offset)
     {
-        unset($_SESSION[$key]);
+        unset($_SESSION[$offset]);
     }
 
     /**

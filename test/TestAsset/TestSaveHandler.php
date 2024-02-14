@@ -12,13 +12,10 @@ use ReturnTypeWillChange;
  */
 class TestSaveHandler implements SaveHandler
 {
-    /**
-     * @param string $savePath
-     * @param string $name
-     */
     #[ReturnTypeWillChange]
-    public function open($savePath, $name): void
+    public function open(string $path, string $name): bool
     {
+        return true;
     }
 
     public function close(): bool

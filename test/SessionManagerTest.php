@@ -621,6 +621,7 @@ class SessionManagerTest extends TestCase
 
         self::assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
 
+        self::assertIsString($cookie);
         $ts = $this->getTimestampFromCookie($cookie);
         if (! $ts) {
             self::fail('Cookie did not contain expiry? ' . var_export($headers, true));
@@ -629,7 +630,7 @@ class SessionManagerTest extends TestCase
         self::assertGreaterThan(
             $_SERVER['REQUEST_TIME'],
             $ts->getTimestamp(),
-            'Session cookie: ' . var_export($headers, 1)
+            'Session cookie: ' . var_export($headers, true)
         );
     }
 
@@ -663,6 +664,7 @@ class SessionManagerTest extends TestCase
         }
 
         self::assertTrue($found, 'No session cookie found: ' . var_export($headers, true));
+        self::assertIsString($cookie);
 
         $ts = $this->getTimestampFromCookie($cookie);
         if (! $ts) {

@@ -392,16 +392,16 @@ abstract class AbstractContainer extends ArrayObject
     /**
      * Store a value within the container
      *
-     * @param  string $key
+     * @param  string $offset
      * @param  mixed  $value
      * @return void
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($offset, $value)
     {
-        $this->expireKeys($key);
-        $storage              = $this->verifyNamespace();
-        $name                 = $this->getName();
-        $storage[$name][$key] = $value;
+        $this->expireKeys($offset);
+        $storage                 = $this->verifyNamespace();
+        $name                    = $this->getName();
+        $storage[$name][$offset] = $value;
     }
 
     /**

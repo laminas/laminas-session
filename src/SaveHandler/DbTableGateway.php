@@ -55,14 +55,14 @@ class DbTableGateway implements SaveHandlerInterface
     /**
      * Open Session
      *
-     * @param  string $savePath
+     * @param  string $path
      * @param  string $name
      * @return bool
      */
     #[ReturnTypeWillChange]
-    public function open($savePath, $name)
+    public function open($path, $name)
     {
-        $this->sessionSavePath = $savePath;
+        $this->sessionSavePath = $path;
         $this->sessionName     = $name;
         $this->lifetime        = ini_get('session.gc_maxlifetime');
 

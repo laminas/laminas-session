@@ -85,31 +85,26 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * If the object is marked as isImmutable, or the object or key is marked as
      * locked, raises an exception.
      *
-     * @param  string $key
-     * @param  mixed  $value
+     * @param array-key $offset
+     * @param mixed $value
      * @return void
-     */
-
-    /**
-     * @param  mixed                      $key
-     * @param  mixed                      $value
      * @throws Exception\RuntimeException
      */
     #[ReturnTypeWillChange]
-    public function offsetSet($key, $value)
+    public function offsetSet($offset, $value)
     {
         if ($this->isImmutable()) {
             throw new Exception\RuntimeException(
-                sprintf('Cannot set key "%s" as storage is marked isImmutable', $key)
+                sprintf('Cannot set key "%s" as storage is marked isImmutable', $offset)
             );
         }
-        if ($this->isLocked($key)) {
+        if ($this->isLocked($offset)) {
             throw new Exception\RuntimeException(
-                sprintf('Cannot set key "%s" due to locking', $key)
+                sprintf('Cannot set key "%s" due to locking', $offset)
             );
         }
 
-        parent::offsetSet($key, $value);
+        parent::offsetSet($offset, $value);
     }
 
     /**
