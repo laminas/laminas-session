@@ -198,6 +198,10 @@ class SessionManager extends AbstractManager
             return;
         }
 
+        if (headers_sent()) {
+            return;
+        }
+
         if (null === $options) {
             $options = $this->defaultDestroyOptions;
         } else {
