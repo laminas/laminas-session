@@ -194,7 +194,9 @@ class SessionManager extends AbstractManager
      */
     public function destroy(?array $options = null)
     {
-        if (headers_sent() || ! $this->sessionExists()) {
+        // session_destroy() requires active session while method
+        // $this->sessionExists() includes other conditions
+        if (session_status() !== PHP_SESSION_ACTIVE) {
             return;
         }
 
@@ -205,7 +207,7 @@ class SessionManager extends AbstractManager
         }
 
         session_destroy();
-        if ($options['send_expire_cookie']) {
+        if (! headers_sent() && $options['send_expire_cookie']) {
             $this->expireSessionCookie();
         }
 

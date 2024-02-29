@@ -24,6 +24,7 @@ use function array_merge;
 use function extension_loaded;
 use function headers_sent;
 use function ini_get;
+use function ob_flush;
 use function preg_match;
 use function range;
 use function restore_error_handler;
@@ -477,6 +478,21 @@ class SessionManagerTest extends TestCase
         $this->manager->start();
         $storage        = $this->manager->getStorage();
         $storage['foo'] = 'bar';
+        $this->manager->destroy(['clear_storage' => true]);
+        self::assertFalse(isset($storage['foo']));
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testDestroySessionWhenHeadersHaveBeenSent(): void
+    {
+        $this->manager = new SessionManager();
+        $this->manager->start();
+        $storage        = $this->manager->getStorage();
+        $storage['foo'] = 'bar';
+        echo ' ';
+        ob_flush();
         $this->manager->destroy(['clear_storage' => true]);
         self::assertFalse(isset($storage['foo']));
     }
