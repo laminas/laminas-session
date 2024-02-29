@@ -194,7 +194,7 @@ class SessionManager extends AbstractManager
      */
     public function destroy(?array $options = null)
     {
-        if (headers_sent() || ! $this->sessionExists()) {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
             return;
         }
 
