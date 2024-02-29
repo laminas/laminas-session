@@ -194,8 +194,11 @@ class SessionManager extends AbstractManager
      */
     public function destroy(?array $options = null)
     {
-        // session_destroy() requires active session while method $this->sessionExists() includes other conditions 
+        // session_destroy() requires active session while method
+        // $this->sessionExists() includes other conditions
         if (session_status() !== PHP_SESSION_ACTIVE) {
+            return;
+        }
 
         if (null === $options) {
             $options = $this->defaultDestroyOptions;
