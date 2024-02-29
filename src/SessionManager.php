@@ -205,7 +205,7 @@ class SessionManager extends AbstractManager
         }
 
         session_destroy();
-        if ($options['send_expire_cookie']) {
+        if (! headers_sent() && $options['send_expire_cookie']) {
             $this->expireSessionCookie();
         }
 
