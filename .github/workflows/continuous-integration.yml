@@ -24,6 +24,21 @@ jobs:
     services:
       mongo:
         image: mongo
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: 'password'
+          MYSQL_ROOT_HOST: '%'
+          MYSQL_USER: 'gha'
+          MYSQL_PASSWORD: 'password'
+          MYSQL_DATABASE: 'laminas_session'
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+        ports:
+          - 3306
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.matrix.outputs.matrix) }}
@@ -35,3 +50,8 @@ jobs:
         env:
           TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB: true
           TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB_CONNECTION_STRING: mongodb://mongo/
+          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL: true
+          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_HOSTNAME: mysql
+          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_USERNAME: gha
+          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_PASSWORD: password
+          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_DATABASE: laminas_session
