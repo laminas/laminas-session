@@ -48,7 +48,7 @@
       <code><![CDATA[$storage[$name][$key]]]></code>
       <code><![CDATA[$storage[$name][$key]]]></code>
       <code><![CDATA[$storage[$name][$key]]]></code>
-      <code><![CDATA[$storage[$name][$key]]]></code>
+      <code><![CDATA[$storage[$name][$offset]]]></code>
     </MixedArrayAccess>
     <MixedArrayAssignment>
       <code><![CDATA[$metadata['EXPIRE_HOPS']['hops']]]></code>
@@ -100,7 +100,6 @@
     </MoreSpecificReturnType>
     <ParamNameMismatch>
       <code><![CDATA[$input]]></code>
-      <code><![CDATA[$key]]></code>
     </ParamNameMismatch>
     <PossiblyNullArgument>
       <code><![CDATA[$key]]></code>

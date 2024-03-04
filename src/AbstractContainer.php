@@ -448,17 +448,17 @@ abstract class AbstractContainer extends ArrayObject
     /**
      * Unset a single key in the container
      *
-     * @param  string $key
+     * @param  string $offset
      * @return void
      */
-    public function offsetUnset($key)
+    public function offsetUnset($offset)
     {
-        if (! $this->offsetExists($key)) {
+        if (! $this->offsetExists($offset)) {
             return;
         }
         $storage = $this->getStorage();
         $name    = $this->getName();
-        unset($storage[$name][$key]);
+        unset($storage[$name][$offset]);
     }
 
     /** @inheritDoc */
