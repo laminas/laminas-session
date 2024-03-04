@@ -14,12 +14,10 @@ use function sprintf;
 
 class PgsqlAdapterTest extends AbstractDbTableGatewayTest
 {
-    /**
-     * @return Adapter
-     */
-    protected function getAdapter()
+    protected function getAdapter(): Adapter
     {
-        if (! getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL')) {
+        $enabled = (bool) getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL');
+        if (! $enabled) {
             self::markTestSkipped(
                 sprintf(
                     '%s tests with Pgsql adapter are disabled',
@@ -28,7 +26,7 @@ class PgsqlAdapterTest extends AbstractDbTableGatewayTest
             );
         }
 
-        if (! extension_loaded('mysqli')) {
+        if (! extension_loaded('pdo_pgsql')) {
             self::markTestSkipped(
                 sprintf(
                     '%s tests with Pgsql adapter are not enabled due to missing Pgsql extension',

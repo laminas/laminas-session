@@ -25,27 +25,22 @@ use function unserialize;
  */
 class MongoDBTest extends TestCase
 {
-    /** @var MongoClient */
-    protected $mongoClient;
-
-    /**
-     * MongoCollection instance
-     *
-     * @var MongoCollection
-     */
-    protected $mongoCollection;
-
-    /** @var MongoDBOptions */
-    protected $options;
+    private MongoClient $mongoClient;
+    private MongoCollection $mongoCollection;
+    private MongoDBOptions $options;
+    private bool $enabled = false;
 
     /**
      * Setup performed prior to each test method
      */
     protected function setUp(): void
     {
-        if (! getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB')) {
+        $enabled = (bool) getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB');
+        if (! $enabled) {
             $this->markTestSkipped('MongoDB tests are disabled');
         }
+
+        $this->enabled = true;
 
         $this->options = new MongoDBOptions(
             [
@@ -54,9 +49,11 @@ class MongoDBTest extends TestCase
             ]
         );
 
-        $this->mongoClient     = new MongoClient(
-            getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB_CONNECTION_STRING')
-        );
+        $mongoDsn = getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB_CONNECTION_STRING');
+        self::assertIsString($mongoDsn);
+        self::assertNotEquals('', $mongoDsn);
+
+        $this->mongoClient     = new MongoClient($mongoDsn);
         $this->mongoCollection = $this->mongoClient->selectCollection(
             $this->options->getDatabase(),
             $this->options->getCollection()
@@ -68,9 +65,11 @@ class MongoDBTest extends TestCase
      */
     protected function tearDown(): void
     {
-        if ($this->mongoCollection) {
-            $this->mongoCollection->drop();
+        if (! $this->enabled) {
+            return;
         }
+
+        $this->mongoCollection->drop();
     }
 
     public function testReadWrite(): void

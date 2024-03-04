@@ -214,7 +214,7 @@ class SessionConfig extends StandardConfig
             'use_trans_sid',
             'cookie_httponly' => (bool) ini_get('session.' . $storageOption),
 
-            'save_handler' => $this->saveHandler ?: $this->sessionModuleName(),
+            'save_handler' => $this->saveHandler ?? $this->sessionModuleName(),
 
             default => ini_get('session.' . $storageOption),
         };

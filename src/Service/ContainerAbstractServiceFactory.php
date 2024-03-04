@@ -65,7 +65,7 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     public function canCreate(ContainerInterface $container, $requestedName)
     {
         $config = $this->getConfig($container);
-        if (empty($config)) {
+        if ($config === []) {
             return false;
         }
 
@@ -112,7 +112,7 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Retrieve config from service locator, and cache for later
      *
-     * @return false|array
+     * @return array
      */
     protected function getConfig(ContainerInterface $container)
     {

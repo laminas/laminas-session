@@ -3,6 +3,7 @@
 namespace Laminas\Session\Validator;
 
 use function ini_get;
+use function is_numeric;
 use function preg_match;
 use function session_id;
 use function strrpos;
@@ -30,7 +31,7 @@ class Id implements ValidatorInterface
      */
     public function __construct($id = null)
     {
-        if (empty($id)) {
+        if ($id === null || $id === '') {
             $id = session_id();
         }
 
@@ -50,13 +51,14 @@ class Id implements ValidatorInterface
         $saveHandler = ini_get('session.save_handler');
         if ($saveHandler === 'cluster') { // Zend Server SC, validate only after last dash
             $dashPos = strrpos($id, '-');
-            if ($dashPos) {
+            if ($dashPos !== false) {
                 $id = substr($id, $dashPos + 1);
             }
         }
 
         // Get the session id bits per character INI setting, using 5 if unavailable
-        $hashBitsPerChar = ini_get('session.sid_bits_per_character') ?: 5;
+        $hashBitsPerChar = ini_get('session.sid_bits_per_character');
+        $hashBitsPerChar = is_numeric($hashBitsPerChar) ? (int) $hashBitsPerChar : 5;
 
         switch ($hashBitsPerChar) {
             case 4:

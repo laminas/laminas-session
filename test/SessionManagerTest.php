@@ -413,7 +413,10 @@ class SessionManagerTest extends TestCase
         $sName   = $this->manager->getName();
 
         foreach ($headers as $header) {
-            if (stristr($header, 'Set-Cookie:') && stristr($header, $sName)) {
+            if (
+                stristr($header, 'Set-Cookie:') !== false
+                && stristr($header, $sName) !== false
+            ) {
                 $found = true;
             }
         }
@@ -443,7 +446,10 @@ class SessionManagerTest extends TestCase
         $sName   = $this->manager->getName();
 
         foreach ($headers as $header) {
-            if (stristr($header, 'Set-Cookie:') && stristr($header, $sName)) {
+            if (
+                stristr($header, 'Set-Cookie:') !== false
+                && stristr($header, $sName) !== false
+            ) {
                 $found = true;
             }
         }
@@ -600,7 +606,10 @@ class SessionManagerTest extends TestCase
         $sName   = $this->manager->getName();
 
         foreach ($headers as $header) {
-            if (stristr($header, 'Set-Cookie:') && stristr($header, $sName)) {
+            if (
+                stristr($header, 'Set-Cookie:') !== false
+                && stristr($header, $sName) !== false
+            ) {
                 $found = true;
             }
         }
@@ -629,7 +638,11 @@ class SessionManagerTest extends TestCase
         $cookie  = false;
 
         foreach ($headers as $header) {
-            if (stristr($header, 'Set-Cookie:') && stristr($header, $sName) && ! stristr($header, '=deleted')) {
+            if (
+                stristr($header, 'Set-Cookie:') !== false
+                && stristr($header, $sName) !== false
+                && stristr($header, '=deleted') === false
+            ) {
                 $found  = true;
                 $cookie = $header;
             }
@@ -673,7 +686,11 @@ class SessionManagerTest extends TestCase
         $cookie  = false;
 
         foreach ($headers as $header) {
-            if (stristr($header, 'Set-Cookie:') && stristr($header, $sName) && ! stristr($header, '=deleted')) {
+            if (
+                stristr($header, 'Set-Cookie:') !== false
+                && stristr($header, $sName) !== false
+                && stristr($header, '=deleted') === false
+            ) {
                 $found  = true;
                 $cookie = $header;
             }
@@ -687,9 +704,15 @@ class SessionManagerTest extends TestCase
             self::fail('Cookie did not contain expiry? ' . var_export($headers, true));
         }
 
+        self::assertIsInt($_SERVER['REQUEST_TIME']);
+
         $compare  = $_SERVER['REQUEST_TIME'] + $ttl;
         $cookieTs = $ts->getTimestamp();
-        self::assertContains($cookieTs, range($compare, $compare + 10), 'Session cookie: ' . var_export($headers, true));
+        self::assertContains(
+            $cookieTs,
+            range($compare, $compare + 10),
+            'Session cookie: ' . var_export($headers, true),
+        );
     }
 
     /**
@@ -712,7 +735,11 @@ class SessionManagerTest extends TestCase
         $sName   = $this->manager->getName();
 
         foreach ($headers as $header) {
-            if (stristr($header, 'Set-Cookie:') && stristr($header, $sName) && ! stristr($header, '=deleted')) {
+            if (
+                stristr($header, 'Set-Cookie:') !== false
+                && stristr($header, $sName) !== false
+                && stristr($header, '=deleted') === false
+            ) {
                 $found = true;
             }
         }

@@ -19,14 +19,16 @@ class MongoDBOptionsTest extends TestCase
 {
     public function testDefaults(): void
     {
-        if (! getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB')) {
+        $enabled = (bool) getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB');
+        if (! $enabled) {
             $this->markTestSkipped('MongoDB tests are disabled');
         }
 
         $options = new MongoDBOptions();
         self::assertNull($options->getDatabase());
         self::assertNull($options->getCollection());
-        $mongoVersion       = phpversion('mongo') ?: '0.0.0';
+        $mongoVersion       = phpversion('mongo');
+        $mongoVersion       = $mongoVersion === false ? '0.0.0' : $mongoVersion;
         $defaultSaveOptions = version_compare($mongoVersion, '1.3.0', '<') ? ['safe' => true] : ['w' => 1];
         self::assertEquals($defaultSaveOptions, $options->getSaveOptions());
         self::assertEquals('name', $options->getNameField());

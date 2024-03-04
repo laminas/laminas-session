@@ -19,7 +19,7 @@ class HttpUserAgent implements ValidatorInterface
      */
     public function __construct($data = null)
     {
-        if (empty($data)) {
+        if ($data === null || $data === '') {
             $data = $_SERVER['HTTP_USER_AGENT'] ?? null;
         }
         $this->data = $data;

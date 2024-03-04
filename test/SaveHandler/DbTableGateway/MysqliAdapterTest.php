@@ -14,12 +14,10 @@ use function sprintf;
 
 class MysqliAdapterTest extends AbstractDbTableGatewayTest
 {
-    /**
-     * @return Adapter
-     */
-    protected function getAdapter()
+    protected function getAdapter(): Adapter
     {
-        if (! getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL')) {
+        $enabled = (bool) getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL');
+        if (! $enabled) {
             self::markTestSkipped(
                 sprintf(
                     '%s tests with MySQL are disabled',

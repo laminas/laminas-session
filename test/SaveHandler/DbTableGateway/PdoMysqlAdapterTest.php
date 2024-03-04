@@ -19,7 +19,8 @@ class PdoMysqlAdapterTest extends AbstractDbTableGatewayTest
      */
     protected function getAdapter()
     {
-        if (! getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL')) {
+        $enabled = (bool) getenv('TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL');
+        if (! $enabled) {
             self::markTestSkipped(
                 sprintf(
                     '%s tests with MySQL are disabled',
@@ -28,7 +29,7 @@ class PdoMysqlAdapterTest extends AbstractDbTableGatewayTest
             );
         }
 
-        if (! extension_loaded('mysqli')) {
+        if (! extension_loaded('pdo_mysql')) {
             self::markTestSkipped(
                 sprintf(
                     '%s tests with PDO_Mysql adapter are not enabled due to missing PDO_Mysql extension',
