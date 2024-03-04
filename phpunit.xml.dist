@@ -28,12 +28,6 @@
     <php>
         <ini name="date.timezone" value="UTC" />
 
-        <!-- OB_ENABLED should be enabled for some tests to check if all
-             functionality works as expected. Such tests include those for
-             Laminas\Soap and Laminas\Session, which require that headers not be sent
-             in order to work. -->
-        <env name="TESTS_LAMINAS_OB_ENABLED" value="false" />
-
         <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL" value="false" />
         <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="localhost" />
         <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_USERNAME" value="travis" />
