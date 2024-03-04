@@ -418,14 +418,14 @@ class SessionConfigTest extends TestCase
 
     public function testCookieSecureIsMutable(): void
     {
-        $value = ! ((bool) ini_get('session.cookie_secure'));
+        $value = ! (bool) ini_get('session.cookie_secure');
         $this->config->setCookieSecure($value);
         self::assertEquals($value, $this->config->getCookieSecure());
     }
 
     public function testCookieSecureAltersIniSetting(): void
     {
-        $value = ! ((bool) ini_get('session.cookie_secure'));
+        $value = ! (bool) ini_get('session.cookie_secure');
         $this->config->setCookieSecure($value);
         self::assertEquals($value, ini_get('session.cookie_secure'));
     }
@@ -439,14 +439,14 @@ class SessionConfigTest extends TestCase
 
     public function testCookieHttpOnlyIsMutable(): void
     {
-        $value = ! ((bool) ini_get('session.cookie_httponly'));
+        $value = ! (bool) ini_get('session.cookie_httponly');
         $this->config->setCookieHttpOnly($value);
         self::assertEquals($value, $this->config->getCookieHttpOnly());
     }
 
     public function testCookieHttpOnlyAltersIniSetting(): void
     {
-        $value = ! ((bool) ini_get('session.cookie_httponly'));
+        $value = ! (bool) ini_get('session.cookie_httponly');
         $this->config->setCookieHttpOnly($value);
         self::assertEquals($value, ini_get('session.cookie_httponly'));
     }
@@ -460,14 +460,14 @@ class SessionConfigTest extends TestCase
 
     public function testUseCookiesIsMutable(): void
     {
-        $value = ! ((bool) ini_get('session.use_cookies'));
+        $value = ! (bool) ini_get('session.use_cookies');
         $this->config->setUseCookies($value);
         self::assertEquals($value, $this->config->getUseCookies());
     }
 
     public function testUseCookiesAltersIniSetting(): void
     {
-        $value = ! ((bool) ini_get('session.use_cookies'));
+        $value = ! (bool) ini_get('session.use_cookies');
         $this->config->setUseCookies($value);
         self::assertEquals($value, (bool) ini_get('session.use_cookies'));
     }
@@ -481,14 +481,14 @@ class SessionConfigTest extends TestCase
 
     public function testUseOnlyCookiesIsMutable(): void
     {
-        $value = ! ((bool) ini_get('session.use_only_cookies'));
+        $value = ! (bool) ini_get('session.use_only_cookies');
         $this->config->setOption('use_only_cookies', $value);
         self::assertEquals($value, (bool) $this->config->getOption('use_only_cookies'));
     }
 
     public function testUseOnlyCookiesAltersIniSetting(): void
     {
-        $value = ! ((bool) ini_get('session.use_only_cookies'));
+        $value = ! (bool) ini_get('session.use_only_cookies');
         $this->config->setOption('use_only_cookies', $value);
         self::assertEquals($value, (bool) ini_get('session.use_only_cookies'));
     }
@@ -517,7 +517,6 @@ class SessionConfigTest extends TestCase
         $this->config->setOption('referer_check', 'BARBAZ');
         self::assertEquals('BARBAZ', ini_get('session.referer_check'));
     }
-
 
     // session.cache_limiter
 
@@ -605,14 +604,14 @@ class SessionConfigTest extends TestCase
 
     public function testUseTransSidIsMutable(): void
     {
-        $value = ! ((bool) ini_get('session.use_trans_sid'));
+        $value = ! (bool) ini_get('session.use_trans_sid');
         $this->config->setOption('use_trans_sid', $value);
         self::assertEquals($value, (bool) $this->config->getOption('use_trans_sid'));
     }
 
     public function testUseTransSidAltersIniSetting(): void
     {
-        $value = ! ((bool) ini_get('session.use_trans_sid'));
+        $value = ! (bool) ini_get('session.use_trans_sid');
         $this->config->setOption('use_trans_sid', $value);
         self::assertEquals($value, (bool) ini_get('session.use_trans_sid'));
     }
