@@ -689,7 +689,7 @@ class SessionManagerTest extends TestCase
 
         $compare  = $_SERVER['REQUEST_TIME'] + $ttl;
         $cookieTs = $ts->getTimestamp();
-        self::assertContains($cookieTs, range($compare, $compare + 10), 'Session cookie: ' . var_export($headers, 1));
+        self::assertContains($cookieTs, range($compare, $compare + 10), 'Session cookie: ' . var_export($headers, true));
     }
 
     /**
