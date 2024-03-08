@@ -11,9 +11,7 @@ use ReflectionProperty;
 use SessionHandlerInterface;
 use stdClass;
 
-use function array_merge;
 use function extension_loaded;
-use function hash_algos;
 use function ini_get;
 use function session_start;
 use function var_export;
@@ -420,14 +418,14 @@ class SessionConfigTest extends TestCase
 
     public function testCookieSecureIsMutable(): void
     {
-        $value = ! ini_get('session.cookie_secure');
+        $value = ! (bool) ini_get('session.cookie_secure');
         $this->config->setCookieSecure($value);
         self::assertEquals($value, $this->config->getCookieSecure());
     }
 
     public function testCookieSecureAltersIniSetting(): void
     {
-        $value = ! ini_get('session.cookie_secure');
+        $value = ! (bool) ini_get('session.cookie_secure');
         $this->config->setCookieSecure($value);
         self::assertEquals($value, ini_get('session.cookie_secure'));
     }
@@ -441,14 +439,14 @@ class SessionConfigTest extends TestCase
 
     public function testCookieHttpOnlyIsMutable(): void
     {
-        $value = ! ini_get('session.cookie_httponly');
+        $value = ! (bool) ini_get('session.cookie_httponly');
         $this->config->setCookieHttpOnly($value);
         self::assertEquals($value, $this->config->getCookieHttpOnly());
     }
 
     public function testCookieHttpOnlyAltersIniSetting(): void
     {
-        $value = ! ini_get('session.cookie_httponly');
+        $value = ! (bool) ini_get('session.cookie_httponly');
         $this->config->setCookieHttpOnly($value);
         self::assertEquals($value, ini_get('session.cookie_httponly'));
     }
@@ -462,14 +460,14 @@ class SessionConfigTest extends TestCase
 
     public function testUseCookiesIsMutable(): void
     {
-        $value = ! ini_get('session.use_cookies');
+        $value = ! (bool) ini_get('session.use_cookies');
         $this->config->setUseCookies($value);
         self::assertEquals($value, $this->config->getUseCookies());
     }
 
     public function testUseCookiesAltersIniSetting(): void
     {
-        $value = ! ini_get('session.use_cookies');
+        $value = ! (bool) ini_get('session.use_cookies');
         $this->config->setUseCookies($value);
         self::assertEquals($value, (bool) ini_get('session.use_cookies'));
     }
@@ -483,14 +481,14 @@ class SessionConfigTest extends TestCase
 
     public function testUseOnlyCookiesIsMutable(): void
     {
-        $value = ! ini_get('session.use_only_cookies');
+        $value = ! (bool) ini_get('session.use_only_cookies');
         $this->config->setOption('use_only_cookies', $value);
         self::assertEquals($value, (bool) $this->config->getOption('use_only_cookies'));
     }
 
     public function testUseOnlyCookiesAltersIniSetting(): void
     {
-        $value = ! ini_get('session.use_only_cookies');
+        $value = ! (bool) ini_get('session.use_only_cookies');
         $this->config->setOption('use_only_cookies', $value);
         self::assertEquals($value, (bool) ini_get('session.use_only_cookies'));
     }
@@ -518,36 +516,6 @@ class SessionConfigTest extends TestCase
     {
         $this->config->setOption('referer_check', 'BARBAZ');
         self::assertEquals('BARBAZ', ini_get('session.referer_check'));
-    }
-
-    public function testSetEntropyFileError(): void
-    {
-        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
-        $this->expectDeprecation();
-        $this->config->getEntropyFile();
-    }
-
-    public function testGetEntropyFileError(): void
-    {
-        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
-        $this->expectDeprecation();
-        $this->config->setEntropyFile(__FILE__);
-    }
-
-    // session.entropy_length
-
-    public function testGetEntropyLengthError(): void
-    {
-        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
-        $this->expectDeprecation();
-        $this->config->getEntropyLength();
-    }
-
-    public function testSetEntropyLengthError(): void
-    {
-        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
-        $this->expectDeprecation();
-        $this->config->setEntropyLength(0);
     }
 
     // session.cache_limiter
@@ -636,67 +604,16 @@ class SessionConfigTest extends TestCase
 
     public function testUseTransSidIsMutable(): void
     {
-        $value = ! ini_get('session.use_trans_sid');
+        $value = ! (bool) ini_get('session.use_trans_sid');
         $this->config->setOption('use_trans_sid', $value);
         self::assertEquals($value, (bool) $this->config->getOption('use_trans_sid'));
     }
 
     public function testUseTransSidAltersIniSetting(): void
     {
-        $value = ! ini_get('session.use_trans_sid');
+        $value = ! (bool) ini_get('session.use_trans_sid');
         $this->config->setOption('use_trans_sid', $value);
         self::assertEquals($value, (bool) ini_get('session.use_trans_sid'));
-    }
-
-    // session.hash_function
-
-    public function hashFunctions(): array
-    {
-        $hashFunctions = array_merge([0, 1], hash_algos());
-        $provider      = [];
-        foreach ($hashFunctions as $function) {
-            $provider[] = [$function];
-        }
-        return $provider;
-    }
-
-    public function testGetHashFunctionError(): void
-    {
-        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
-        $this->expectDeprecation();
-        $this->config->getHashFunction();
-    }
-
-    public function testSetHashFunctionError(): void
-    {
-        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
-        $this->expectDeprecation();
-        $this->config->setHashFunction('foobar_bogus');
-    }
-
-    // session.hash_bits_per_character
-
-    public function hashBitsPerCharacters(): array
-    {
-        return [
-            [4],
-            [5],
-            [6],
-        ];
-    }
-
-    public function testGetHashBitsPerCharacterError(): void
-    {
-        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
-        $this->expectDeprecation();
-        $this->config->getHashBitsPerCharacter();
-    }
-
-    public function testSetHashBitsPerCharacterError(): void
-    {
-        $this->markTestSkipped('This functionality is deprecated as of PHP 7.1 and should not be used anyways');
-        $this->expectDeprecation();
-        $this->config->setHashBitsPerCharacter(5);
     }
 
     // session.sid_length

@@ -259,6 +259,7 @@ class ContainerTest extends TestCase
 
     public function testGetKeyWithContainerExpirationInPastResetsToNull(): void
     {
+        self::assertIsInt($_SERVER['REQUEST_TIME']);
         $this->container->foo = 'bar';
         $storage              = $this->manager->getStorage();
         $storage->setMetadata('Default', ['EXPIRE' => $_SERVER['REQUEST_TIME'] - 18600]);
@@ -267,6 +268,7 @@ class ContainerTest extends TestCase
 
     public function testGetKeyWithExpirationInPastResetsToNull(): void
     {
+        self::assertIsInt($_SERVER['REQUEST_TIME']);
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
         $storage              = $this->manager->getStorage();
@@ -277,6 +279,7 @@ class ContainerTest extends TestCase
 
     public function testKeyExistsWithContainerExpirationInPastReturnsFalse(): void
     {
+        self::assertIsInt($_SERVER['REQUEST_TIME']);
         $this->container->foo = 'bar';
         $storage              = $this->manager->getStorage();
         $storage->setMetadata('Default', ['EXPIRE' => $_SERVER['REQUEST_TIME'] - 18600]);
@@ -285,6 +288,7 @@ class ContainerTest extends TestCase
 
     public function testKeyExistsWithExpirationInPastReturnsFalse(): void
     {
+        self::assertIsInt($_SERVER['REQUEST_TIME']);
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
         $storage              = $this->manager->getStorage();
@@ -295,6 +299,7 @@ class ContainerTest extends TestCase
 
     public function testKeyExistsWithContainerExpirationInPastWithSetExpirationSecondsReturnsFalse(): void
     {
+        self::assertIsInt($_SERVER['REQUEST_TIME']);
         $this->container->foo = 'bar';
         $storage              = $this->manager->getStorage();
         $storage->setMetadata('Default', ['EXPIRE' => $_SERVER['REQUEST_TIME'] - 18600]);
@@ -304,6 +309,7 @@ class ContainerTest extends TestCase
 
     public function testSettingExpiredKeyOverwritesExpiryMetadataForThatKey(): void
     {
+        self::assertIsInt($_SERVER['REQUEST_TIME']);
         $this->container->foo = 'bar';
         $storage              = $this->manager->getStorage();
         $storage->setMetadata('Default', ['EXPIRE' => $_SERVER['REQUEST_TIME'] - 18600]);
@@ -494,6 +500,7 @@ class ContainerTest extends TestCase
 
     public function testIterationHonorsExpirationTimestamps(): void
     {
+        self::assertIsInt($_SERVER['REQUEST_TIME']);
         $this->container->foo = 'bar';
         $this->container->bar = 'baz';
         $storage              = $this->manager->getStorage();

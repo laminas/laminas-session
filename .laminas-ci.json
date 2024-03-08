@@ -2,9 +2,11 @@
     "extensions": [
         "mongodb",
         "mysql",
-        "pgsql"
+        "pgsql",
+        "xdebug"
     ],
     "ignore_php_platform_requirements": {
-        "8.3": true
-    }
+        "8.3": false
+    },
+    "backwardCompatibilityCheck": true
 }

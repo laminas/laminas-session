@@ -13,10 +13,7 @@ use function sprintf;
 
 class PdoSqliteAdapterTest extends AbstractDbTableGatewayTest
 {
-    /**
-     * @return Adapter
-     */
-    protected function getAdapter()
+    protected function getAdapter(): Adapter
     {
         if (! extension_loaded('pdo_sqlite')) {
             self::markTestSkipped(

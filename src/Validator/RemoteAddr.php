@@ -48,7 +48,7 @@ class RemoteAddr implements SessionValidator
      */
     public function __construct($data = null)
     {
-        if (empty($data)) {
+        if ($data === null || $data === '') {
             $data = $this->getIpAddress();
         }
         $this->data = $data;
