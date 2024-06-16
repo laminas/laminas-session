@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.22.2@d768d914152dbbf3486c36398802f74e80cfde48">
+<files psalm-version="5.24.0@462c80e31c34e58cc4f750c656be3927e80e550e">
   <file src="src/AbstractContainer.php">
     <DocblockTypeContradiction>
       <code><![CDATA[(null === $key)
@@ -405,6 +405,9 @@
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[bool]]></code>
     </ImplementedReturnTypeMismatch>
+    <ParamNameMismatch>
+      <code><![CDATA[$maxlifetime]]></code>
+    </ParamNameMismatch>
     <PropertyNotSetInConstructor>
       <code><![CDATA[$sessionName]]></code>
       <code><![CDATA[$sessionSavePath]]></code>
@@ -444,6 +447,9 @@
       <code><![CDATA[$row->{$this->options->getLifetimeColumn()}]]></code>
       <code><![CDATA[$row->{$this->options->getModifiedColumn()}]]></code>
     </MixedPropertyFetch>
+    <ParamNameMismatch>
+      <code><![CDATA[$maxlifetime]]></code>
+    </ParamNameMismatch>
     <PropertyNotSetInConstructor>
       <code><![CDATA[$lifetime]]></code>
       <code><![CDATA[$sessionName]]></code>
@@ -501,6 +507,9 @@
     <MixedReturnStatement>
       <code><![CDATA[$session[$this->options->getDataField()]->getData()]]></code>
     </MixedReturnStatement>
+    <ParamNameMismatch>
+      <code><![CDATA[$maxlifetime]]></code>
+    </ParamNameMismatch>
     <PossiblyInvalidArrayAccess>
       <code><![CDATA[$session[$this->options->getDataField()]]]></code>
       <code><![CDATA[$session[$this->options->getLifetimeField()]]]></code>
@@ -753,6 +762,7 @@
     </MixedReturnStatement>
     <ParamNameMismatch>
       <code><![CDATA[$metaData]]></code>
+      <code><![CDATA[$session]]></code>
     </ParamNameMismatch>
     <PossiblyInvalidArgument>
       <code><![CDATA[$key]]></code>
@@ -1469,6 +1479,9 @@
       <code><![CDATA[void]]></code>
       <code><![CDATA[void]]></code>
     </ImplementedReturnTypeMismatch>
+    <ParamNameMismatch>
+      <code><![CDATA[$maxlifetime]]></code>
+    </ParamNameMismatch>
   </file>
   <file src="test/TestAsset/TestSaveHandlerWithValidator.php">
     <ImplementedParamTypeMismatch>
@@ -1477,6 +1490,9 @@
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[bool]]></code>
     </ImplementedReturnTypeMismatch>
+    <ParamNameMismatch>
+      <code><![CDATA[$maxlifetime]]></code>
+    </ParamNameMismatch>
   </file>
   <file src="test/Validator/RemoteAddrTest.php">
     <MissingConstructor>
