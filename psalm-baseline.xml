@@ -1494,6 +1494,14 @@
       <code><![CDATA[$maxlifetime]]></code>
     </ParamNameMismatch>
   </file>
+  <file src="test/Validator/CsrfTest.php">
+    <DocblockTypeContradiction>
+      <code><![CDATA[$container->hash]]></code>
+    </DocblockTypeContradiction>
+    <TypeDoesNotContainType>
+      <code><![CDATA[assertIsString]]></code>
+    </TypeDoesNotContainType>
+  </file>
   <file src="test/Validator/RemoteAddrTest.php">
     <MissingConstructor>
       <code><![CDATA[$backup]]></code>

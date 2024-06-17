@@ -2,6 +2,7 @@
 
 namespace Laminas\Session;
 
+use Laminas\ServiceManager\Factory\InvokableFactory;
 use Zend\Session\Config\ConfigInterface;
 use Zend\Session\Storage\StorageInterface;
 
@@ -16,6 +17,14 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencyConfig(),
+            'validators'   => [
+                'factories' => [
+                    Validator\Csrf::class => InvokableFactory::class,
+                ],
+                'aliases'   => [
+                    'csrf' => Validator\Csrf::class,
+                ],
+            ],
         ];
     }
 
