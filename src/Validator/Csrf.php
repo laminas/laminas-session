@@ -46,7 +46,7 @@ final class Csrf extends AbstractValidator
     /**
      * Actual hash used.
      */
-    protected string|null $hash = null;
+    protected ?string $hash = null;
 
     /**
      * Name of CSRF element (used to create non-colliding hashes)
@@ -62,7 +62,7 @@ final class Csrf extends AbstractValidator
      */
     protected string $salt = 'salt';
 
-    protected Container|null $session = null;
+    protected ?Container $session = null;
 
     /**
      * TTL for CSRF token
