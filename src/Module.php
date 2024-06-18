@@ -2,8 +2,6 @@
 
 namespace Laminas\Session;
 
-use Laminas\ServiceManager\Factory\InvokableFactory;
-
 class Module
 {
     /**
@@ -16,14 +14,7 @@ class Module
         $provider = new ConfigProvider();
         return [
             'service_manager' => $provider->getDependencyConfig(),
-            'validators'      => [
-                'factories' => [
-                    Validator\Csrf::class => InvokableFactory::class,
-                ],
-                'aliases'   => [
-                    'csrf' => Validator\Csrf::class,
-                ],
-            ],
+            'validators'      => $provider->getValidatorConfig(),
         ];
     }
 }

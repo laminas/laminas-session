@@ -382,14 +382,6 @@
       <code><![CDATA[(string) $name]]></code>
     </RedundantCastGivenDocblockType>
   </file>
-  <file src="src/ConfigProvider.php">
-    <UndefinedClass>
-      <code><![CDATA[ConfigInterface]]></code>
-      <code><![CDATA[StorageInterface]]></code>
-      <code><![CDATA[\Zend\Session\ManagerInterface]]></code>
-      <code><![CDATA[\Zend\Session\SessionManager]]></code>
-    </UndefinedClass>
-  </file>
   <file src="src/Container.php">
     <MethodSignatureMustProvideReturnType>
       <code><![CDATA[offsetGet]]></code>
