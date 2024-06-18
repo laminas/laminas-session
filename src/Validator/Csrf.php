@@ -46,28 +46,28 @@ final class Csrf extends AbstractValidator
     /**
      * Actual hash used.
      */
-    protected ?string $hash = null;
+    private ?string $hash = null;
 
     /**
      * Name of CSRF element (used to create non-colliding hashes)
      *
      * @var non-empty-string
      */
-    protected string $name = 'csrf';
+    private string $name = 'csrf';
 
     /**
      * Salt for CSRF token
      *
      * @var non-empty-string
      */
-    protected string $salt = 'salt';
+    private string $salt = 'salt';
 
-    protected ?Container $session = null;
+    private ?Container $session = null;
 
     /**
      * TTL for CSRF token
      */
-    protected int|null $timeout = 300;
+    private int|null $timeout = 300;
 
     /** @param OptionsArgument $options */
     public function __construct(array $options = [])
@@ -214,7 +214,7 @@ final class Csrf extends AbstractValidator
     /**
      * Initialize CSRF token in session
      */
-    protected function initCsrfToken(): void
+    private function initCsrfToken(): void
     {
         $session = $this->getSession();
         $timeout = $this->getTimeout();
@@ -240,7 +240,7 @@ final class Csrf extends AbstractValidator
      *
      * Generates CSRF token and stores both in {@link $hash} and element value.
      */
-    protected function generateHash(): void
+    private function generateHash(): void
     {
         $token = md5($this->getSalt() . random_bytes(32) . $this->getName());
 
@@ -250,7 +250,7 @@ final class Csrf extends AbstractValidator
         $this->initCsrfToken();
     }
 
-    protected function generateTokenId(): string
+    private function generateTokenId(): string
     {
         return md5(random_bytes(32));
     }
@@ -260,7 +260,7 @@ final class Csrf extends AbstractValidator
      *
      * Retrieve token from session, if it exists.
      */
-    protected function getValidationToken(string|null $tokenId = null): string|null
+    private function getValidationToken(string|null $tokenId = null): string|null
     {
         $session = $this->getSession();
 
