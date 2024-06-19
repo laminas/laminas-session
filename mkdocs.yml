@@ -11,7 +11,7 @@ nav:
         - Introduction: validators/introduction.md
         - "Http User Agent": validators/httpuseragent.md
         - "Remote Address": validators/remoteaddr.md
-        - "CSRF Validator": validator/csrf.md
+        - "CSRF Validator": validators/csrf.md
         - "Writing Custom Validators": validators/writing-custom-validators.md
     - "Application Integration":
         - "Usage in a laminas-mvc application": application-integration/usage-in-a-laminas-mvc-application.md
