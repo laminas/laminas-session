@@ -2,9 +2,10 @@
 
 namespace Laminas\Session;
 
-use Zend\Session\Config\ConfigInterface;
-use Zend\Session\Storage\StorageInterface;
+use Laminas\ServiceManager\Factory\InvokableFactory;
+use Laminas\ServiceManager\ServiceManager;
 
+/** @psalm-import-type ServiceManagerConfiguration from ServiceManager */
 class ConfigProvider
 {
     /**
@@ -16,13 +17,14 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencyConfig(),
+            'validators'   => $this->getValidatorConfig(),
         ];
     }
 
     /**
      * Retrieve dependency config for laminas-session.
      *
-     * @return array
+     * @return ServiceManagerConfiguration
      */
     public function getDependencyConfig()
     {
@@ -34,15 +36,28 @@ class ConfigProvider
                 SessionManager::class => ManagerInterface::class,
 
                 // Legacy Zend Framework aliases
-                \Zend\Session\SessionManager::class   => SessionManager::class,
-                ConfigInterface::class                => Config\ConfigInterface::class,
-                \Zend\Session\ManagerInterface::class => ManagerInterface::class,
-                StorageInterface::class               => Storage\StorageInterface::class,
+                'Zend\Session\SessionManager'           => SessionManager::class,
+                'Zend\Session\Config\ConfigInterface'   => Config\ConfigInterface::class,
+                'Zend\Session\ManagerInterface'         => ManagerInterface::class,
+                'Zend\Session\Storage\StorageInterface' => Storage\StorageInterface::class,
             ],
             'factories'          => [
                 Config\ConfigInterface::class   => Service\SessionConfigFactory::class,
                 ManagerInterface::class         => Service\SessionManagerFactory::class,
                 Storage\StorageInterface::class => Service\StorageFactory::class,
+            ],
+        ];
+    }
+
+    /** @return ServiceManagerConfiguration */
+    public function getValidatorConfig(): array
+    {
+        return [
+            'factories' => [
+                Validator\Csrf::class => InvokableFactory::class,
+            ],
+            'aliases'   => [
+                'csrf' => Validator\Csrf::class,
             ],
         ];
     }
