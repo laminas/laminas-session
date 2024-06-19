@@ -13,10 +13,10 @@
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-session">
 
-    <link rel="canonical" href="https://docs.laminas.dev/laminas-session/manager/">
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-session/installation/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>Session Manager - laminas-session - Laminas Docs</title>
+    <title>This Is Only a Placeholder - laminas-session - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -164,8 +164,8 @@
                     
                     
                         
-                            <li class="subnavigation__list-item subnavigation__list-item--active">
-                                <a href="./" class="subnavigation__link">Session Manager</a>
+                            <li class="subnavigation__list-item ">
+                                <a href="../manager/" class="subnavigation__link">Session Manager</a>
                             </li>
                         
                     
@@ -334,17 +334,6 @@
 
     
     
-        <div class="toc">
-            <h6 class="toc__headline">On this page</h6>
-            <ul class="toc__list">
-                
-                    <li class="toc__entry">
-                        <a href="#initializing-the-session-manager" class="toc__link nav-link">Initializing the Session Manager</a>
-                    </li>
-                
-            </ul>
-        </div>
-    
 
                 
 
@@ -360,7 +349,7 @@
 
                 
 
-                <li class="breadcrumb-item active" aria-current="page">Session Manager</li>
+                <li class="breadcrumb-item active" aria-current="page">This Is Only a Placeholder</li>
             
         
     </ol>
@@ -374,200 +363,12 @@
     
     
 
-    <h1 id="session-manager">Session Manager</h1>
-<p>The session manager, <code>Laminas\Session\SessionManager</code>, is the class responsible for
-all aspects of session management. It initializes configuration, storage, and
-save handlers.  Additionally the session manager can be injected into the
-session container to provide a wrapper or namespace around your session data.</p>
-<p>The session manager is responsible for starting a session, testing if a session
-exists, writing to the session, regenerating the session identifier, setting the
-session time-to-live, and destroying the session. The session manager can
-validate sessions from a validator chain to ensure that the session data is
-correct.</p>
-<h2 id="initializing-the-session-manager">Initializing the Session Manager</h2>
-<p>Generally speaking, you will always want to initialize the session manager and
-ensure that your application was responsible for its initialization; this puts
-in place a simple solution to prevent against session fixation. Generally you
-will setup configuration and then inside of an application module bootstrap the
-session manager.</p>
-<p>Additionally you will likely want to supply validators to prevent against
-session hijacking.</p>
-<p>The following illustrates how you may configure the session manager by setting
-options in your local or global config:</p>
-<pre class="highlight"><code class="language-php">use Laminas\Session;
-
-return [
-    'session_manager' =&gt; [
-        'config' =&gt; [
-            'class' =&gt; Session\Config\SessionConfig::class,
-            'options' =&gt; [
-                'name' =&gt; 'myapp',
-            ],
-        ],
-        'storage' =&gt; Session\Storage\SessionArrayStorage::class,
-        'validators' =&gt; [
-            Session\Validator\RemoteAddr::class,
-            Session\Validator\HttpUserAgent::class,
-        ],
-    ],
-];</code></pre>
-<p>The following illustrates how you might utilize the above configuration to
-create the session manager:</p>
-<pre class="highlight"><code class="language-php">use Laminas\Mvc\ModuleRouteListener;
-use Laminas\Mvc\MvcEvent;
-use Laminas\Session\SessionManager;
-use Laminas\Session\Config\SessionConfig;
-use Laminas\Session\Container;
-use Laminas\Session\Validator;
-
-class Module
-{
-    public function onBootstrap(MvcEvent $e)
-    {
-        $eventManager        = $e-&gt;getApplication()-&gt;getEventManager();
-        $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener-&gt;attach($eventManager);
-        $this-&gt;bootstrapSession($e);
-    }
-
-    public function bootstrapSession(MvcEvent $e)
-    {
-        $session = $e-&gt;getApplication()
-            -&gt;getServiceManager()
-            -&gt;get(SessionManager::class);
-        $session-&gt;start();
-
-        $container = new Container('initialized');
-
-        if (isset($container-&gt;init)) {
-            return;
-        }
-
-        $serviceManager = $e-&gt;getApplication()-&gt;getServiceManager();
-        $request        = $serviceManager-&gt;get('Request');
-
-        $session-&gt;regenerateId(true);
-        $container-&gt;init          = 1;
-        $container-&gt;remoteAddr    = $request-&gt;getServer()-&gt;get('REMOTE_ADDR');
-        $container-&gt;httpUserAgent = $request-&gt;getServer()-&gt;get('HTTP_USER_AGENT');
-
-        $config = $serviceManager-&gt;get('Config');
-        if (! isset($config['session'])) {
-            return;
-        }
-
-        $sessionConfig = $config['session'];
-
-        if (! isset($sessionConfig['validators'])) {
-            return;
-        }
-
-        $chain   = $session-&gt;getValidatorChain();
-
-        foreach ($sessionConfig['validators'] as $validator) {
-            switch ($validator) {
-                case Validator\HttpUserAgent::class:
-                    $validator = new $validator($container-&gt;httpUserAgent);
-                    break;
-                case Validator\RemoteAddr::class:
-                    $validator  = new $validator($container-&gt;remoteAddr);
-                    break;
-                default:
-                    $validator = new $validator();
-                    break;
-            }
-
-            $chain-&gt;attach('session.validate', array($validator, 'isValid'));
-        }
-    }
-
-    public function getServiceConfig()
-    {
-        return [
-            'factories' =&gt; [
-                SessionManager::class =&gt; function ($container) {
-                    $config = $container-&gt;get('config');
-                    if (! isset($config['session'])) {
-                        $sessionManager = new SessionManager();
-                        Container::setDefaultManager($sessionManager);
-                        return $sessionManager;
-                    }
-
-                    $session = $config['session'];
-
-                    $sessionConfig = null;
-                    if (isset($session['config'])) {
-                        $class = isset($session['config']['class'])
-                            ?  $session['config']['class']
-                            : SessionConfig::class;
-
-                        $options = isset($session['config']['options'])
-                            ?  $session['config']['options']
-                            : [];
-
-                        $sessionConfig = new $class();
-                        $sessionConfig-&gt;setOptions($options);
-                    }
-
-                    $sessionStorage = null;
-                    if (isset($session['storage'])) {
-                        $class = $session['storage'];
-                        $sessionStorage = new $class();
-                    }
-
-                    $sessionSaveHandler = null;
-                    if (isset($session['save_handler'])) {
-                        // class should be fetched from service manager
-                        // since it will require constructor arguments
-                        $sessionSaveHandler = $container-&gt;get($session['save_handler']);
-                    }
-
-                    $sessionManager = new SessionManager(
-                        $sessionConfig,
-                        $sessionStorage,
-                        $sessionSaveHandler
-                    );
-
-                    Container::setDefaultManager($sessionManager);
-                    return $sessionManager;
-                },
-            ],
-        ];
-    }
-}</code></pre>
-<p>When you create a new <code>Laminas\Session\Container</code> (see
-<a href="../container/">Session Container</a> page) in a controller, for example, it will
-use the session configured above.</p>
+    <h1 id="this-is-only-a-placeholder">This Is Only a Placeholder</h1>
+<p>The content of this page can be found under:</p>
+<p>https://github.com/laminas/documentation-theme/blob/master/theme/pages/installation.html</p>
 
 
 
-
-    <nav>
-    <ul class="page-nav hidden-print">
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../container/">
-                    <small class="page-nav__label">Previous</small>
-                    <i class="fa fa-chevron-left"></i>
-                    Session Container
-                </a>
-            
-        </li>
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../save-handler/">
-                    <small class="page-nav__label">Next</small>
-                    Session Save Handlers
-                    <i class="fa fa-chevron-right"></i>
-                </a>
-            
-        </li>
-    </ul>
-</nav>
 
 
 
@@ -636,8 +437,8 @@ use the session configured above.</p>
                     
                     
                         
-                            <li class="subnavigation__list-item subnavigation__list-item--active">
-                                <a href="./" class="subnavigation__link">Session Manager</a>
+                            <li class="subnavigation__list-item ">
+                                <a href="../manager/" class="subnavigation__link">Session Manager</a>
                             </li>
                         
                     

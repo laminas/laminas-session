@@ -2,42 +2,67 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.laminas.dev/laminas-session/</loc>
-         <lastmod>2024-03-08</lastmod>
+         <lastmod>2024-06-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/config/</loc>
-         <lastmod>2024-03-08</lastmod>
+         <lastmod>2024-06-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/container/</loc>
-         <lastmod>2024-03-08</lastmod>
+         <lastmod>2024-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://docs.laminas.dev/laminas-session/installation/</loc>
+         <lastmod>2024-06-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/manager/</loc>
-         <lastmod>2024-03-08</lastmod>
+         <lastmod>2024-06-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/save-handler/</loc>
-         <lastmod>2024-03-08</lastmod>
+         <lastmod>2024-06-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/storage/</loc>
-         <lastmod>2024-03-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://docs.laminas.dev/laminas-session/validator/</loc>
-         <lastmod>2024-03-08</lastmod>
+         <lastmod>2024-06-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/application-integration/usage-in-a-laminas-mvc-application/</loc>
-         <lastmod>2024-03-08</lastmod>
+         <lastmod>2024-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://docs.laminas.dev/laminas-session/validators/csrf/</loc>
+         <lastmod>2024-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://docs.laminas.dev/laminas-session/validators/httpuseragent/</loc>
+         <lastmod>2024-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://docs.laminas.dev/laminas-session/validators/introduction/</loc>
+         <lastmod>2024-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://docs.laminas.dev/laminas-session/validators/remoteaddr/</loc>
+         <lastmod>2024-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://docs.laminas.dev/laminas-session/validators/writing-custom-validators/</loc>
+         <lastmod>2024-06-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
