@@ -22,7 +22,7 @@ use function strtr;
  *     name?: non-empty-string,
  *     salt?: non-empty-string,
  *     session?: Container,
- *     timeout?: int,
+ *     timeout?: ?int,
  * }
  */
 final class Csrf extends AbstractValidator
