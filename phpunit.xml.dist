@@ -1,46 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="./vendor/autoload.php"
-         convertDeprecationsToExceptions="true"
-         colors="true">
-    <testsuites>
-        <testsuite name="laminas-session Test Suite">
-            <directory>./test/</directory>
-        </testsuite>
-    </testsuites>
-
-    <groups>
-        <exclude>
-            <group>disable</group>
-        </exclude>
-    </groups>
-
-    <coverage>
-        <include>
-            <directory suffix=".php">./src</directory>
-        </include>
-        <exclude>
-            <file>src/compatibility/autoload.php</file>
-        </exclude>
-    </coverage>
-
-    <php>
-        <ini name="date.timezone" value="UTC" />
-
-        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL" value="false" />
-        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="localhost" />
-        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_USERNAME" value="travis" />
-        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_PASSWORD" value="" />
-        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_DATABASE" value="laminas_session_test" />
-
-        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL" value="false" />
-        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="localhost" />
-        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_USERNAME" value="travis" />
-        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_PASSWORD" value="" />
-        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_DATABASE" value="laminas_session_test" />
-
-        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB" value="false" />
-        <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB_CONNECTION_STRING" value="mongodb://localhost/" />
-    </php>
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+        bootstrap="./vendor/autoload.php"
+        colors="true"
+        cacheDirectory=".phpunit.cache"
+        failOnDeprecation="true"
+        failOnNotice="true"
+        failOnWarning="true"
+        failOnPhpunitDeprecation="true"
+        displayDetailsOnPhpunitDeprecations="true"
+        displayDetailsOnTestsThatTriggerDeprecations="true"
+        displayDetailsOnTestsThatTriggerNotices="true"
+        displayDetailsOnTestsThatTriggerWarnings="true">
+  <testsuites>
+    <testsuite name="laminas-session Test Suite">
+      <directory>./test/</directory>
+    </testsuite>
+  </testsuites>
+  <groups>
+    <exclude>
+      <group>disable</group>
+    </exclude>
+  </groups>
+  <php>
+    <ini name="date.timezone" value="UTC"/>
+    <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL" value="false"/>
+    <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="localhost"/>
+    <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_USERNAME" value="travis"/>
+    <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_PASSWORD" value=""/>
+    <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_DATABASE" value="laminas_session_test"/>
+    <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL" value="false"/>
+    <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="localhost"/>
+    <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_USERNAME" value="travis"/>
+    <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_PASSWORD" value=""/>
+    <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_PGSQL_DATABASE" value="laminas_session_test"/>
+    <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB" value="false"/>
+    <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB_CONNECTION_STRING" value="mongodb://localhost/"/>
+  </php>
+  <source>
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+    <exclude>
+      <file>src/compatibility/autoload.php</file>
+    </exclude>
+  </source>
 </phpunit>

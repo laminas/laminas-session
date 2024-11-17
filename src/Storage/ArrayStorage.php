@@ -334,7 +334,6 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      *
      * Overwrites any data that was previously set.
      *
-     * @param  array        $array
      * @return $this
      */
     public function fromArray(array $array)

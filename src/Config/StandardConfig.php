@@ -836,6 +836,8 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
     /**
      * Set session.sid_length
      *
+     * @deprecated see https://wiki.php.net/rfc/deprecations_php_8_4#sessionsid_length_and_sessionsid_bits_per_character
+     *
      * @param  int $sidLength
      * @return StandardConfig
      * @throws Exception\InvalidArgumentException

@@ -206,7 +206,6 @@ abstract class AbstractSessionArrayStorage implements
      *
      * Ensures $_SESSION is set to an instance of the object when complete.
      *
-     * @param  array          $array
      * @return SessionStorage
      */
     public function fromArray(array $array)

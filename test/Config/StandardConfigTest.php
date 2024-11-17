@@ -2,11 +2,16 @@
 
 namespace LaminasTest\Session\Config;
 
+use Exception;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Exception\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 use function extension_loaded;
+use function restore_error_handler;
+use function set_error_handler;
+
+use const E_USER_DEPRECATED;
 
 /**
  * @covers \Laminas\Session\Config\StandardConfig
@@ -281,32 +286,48 @@ class StandardConfigTest extends TestCase
 
     public function testSetEntropyFileError(): void
     {
-        $this->expectDeprecation();
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new Exception($errstr, $errno);
+        }, E_USER_DEPRECATED);
+        $this->expectExceptionMessage('session.entropy_file is removed starting with PHP 7.1');
         $this->config->getEntropyFile();
+        restore_error_handler();
     }
 
     public function testGetEntropyFileError(): void
     {
-        $this->expectDeprecation();
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new Exception($errstr, $errno);
+        }, E_USER_DEPRECATED);
+        $this->expectExceptionMessage('session.entropy_file is removed starting with PHP 7.1');
         $this->config->setEntropyFile(__FILE__);
+        restore_error_handler();
     }
 
     public function testGetEntropyLengthError(): void
     {
-        $this->expectDeprecation();
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new Exception($errstr, $errno);
+        }, E_USER_DEPRECATED);
+        $this->expectExceptionMessage('session.entropy_length is removed starting with PHP 7.1');
         $this->config->getEntropyLength();
+        restore_error_handler();
     }
 
     public function testSetEntropyLengthError(): void
     {
-        $this->expectDeprecation();
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new Exception($errstr, $errno);
+        }, E_USER_DEPRECATED);
+        $this->expectExceptionMessage('session.entropy_length is removed starting with PHP 7.1');
         $this->config->setEntropyLength(0);
+        restore_error_handler();
     }
 
     // session.cache_limiter
 
     /** @psalm-return array<array-key, array{0: string}> */
-    public function cacheLimiters(): array
+    public static function cacheLimiters(): array
     {
         return [
             ['nocache'],
@@ -357,26 +378,42 @@ class StandardConfigTest extends TestCase
 
     public function testGetHashFunctionError(): void
     {
-        $this->expectDeprecation();
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new Exception($errstr, $errno);
+        }, E_USER_DEPRECATED);
+        $this->expectExceptionMessage('session.hash_function is removed starting with PHP 7.1');
         $this->config->getHashFunction();
+        restore_error_handler();
     }
 
     public function testSetHashFunctionError(): void
     {
-        $this->expectDeprecation();
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new Exception($errstr, $errno);
+        }, E_USER_DEPRECATED);
+        $this->expectExceptionMessage('session.hash_function is removed starting with PHP 7.1');
         $this->config->setHashFunction('foobar_bogus');
+        restore_error_handler();
     }
 
     public function testGetHashBitsPerCharacterError(): void
     {
-        $this->expectDeprecation();
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new Exception($errstr, $errno);
+        }, E_USER_DEPRECATED);
+        $this->expectExceptionMessage('session.hash_bits_per_character is removed starting with PHP 7.1');
         $this->config->getHashBitsPerCharacter();
+        restore_error_handler();
     }
 
     public function testSetHashBitsPerCharacterError(): void
     {
-        $this->expectDeprecation();
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new Exception($errstr, $errno);
+        }, E_USER_DEPRECATED);
+        $this->expectExceptionMessage('session.hash_bits_per_character is removed starting with PHP 7.1');
         $this->config->setHashBitsPerCharacter(5);
+        restore_error_handler();
     }
 
     // session.sid_length
@@ -404,7 +441,7 @@ class StandardConfigTest extends TestCase
     // session.sid_bits_per_character
 
     /** @psalm-return array<array-key, array{0: int}> */
-    public function sidBitsPerCharacters(): array
+    public static function sidBitsPerCharacters(): array
     {
         return [
             [4],
@@ -477,7 +514,7 @@ class StandardConfigTest extends TestCase
      *     2: mixed
      * }>
      */
-    public function optionsProvider(): array
+    public static function optionsProvider(): array
     {
         return [
             [

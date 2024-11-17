@@ -365,6 +365,8 @@ class SessionConfig extends StandardConfig
     /**
      * Set session.sid_bits_per_character
      *
+     * @deprecated see https://wiki.php.net/rfc/deprecations_php_8_4#sessionsid_length_and_sessionsid_bits_per_character
+     *
      * @param  int $sidBitsPerCharacter
      * @return SessionConfig
      * @throws Exception\InvalidArgumentException

@@ -36,7 +36,7 @@ class StorageFactoryTest extends TestCase
      *     1: class-string
      * }>
      */
-    public function sessionStorageConfig(): array
+    public static function sessionStorageConfig(): array
     {
         return [
             'array-storage-short'               => [
@@ -139,7 +139,7 @@ class StorageFactoryTest extends TestCase
     }
 
     /** @psalm-return array<string, array{0: array<string, array<string, mixed>>}> */
-    public function invalidSessionStorageConfig(): array
+    public static function invalidSessionStorageConfig(): array
     {
         return [
             'unknown-class-short'        => [

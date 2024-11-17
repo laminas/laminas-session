@@ -6,6 +6,8 @@ use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Exception;
 use Laminas\Session\Exception\InvalidArgumentException;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use SessionHandlerInterface;
@@ -22,8 +24,7 @@ use function var_export;
  */
 class SessionConfigTest extends TestCase
 {
-    /** @var SessionConfig */
-    protected $config;
+    protected SessionConfig|null $config = null;
 
     protected function setUp(): void
     {
@@ -479,6 +480,7 @@ class SessionConfigTest extends TestCase
         self::assertSame((bool) ini_get('session.use_only_cookies'), $this->config->getUseOnlyCookies());
     }
 
+    #[IgnoreDeprecations]
     public function testUseOnlyCookiesIsMutable(): void
     {
         $value = ! (bool) ini_get('session.use_only_cookies');
@@ -486,6 +488,7 @@ class SessionConfigTest extends TestCase
         self::assertEquals($value, (bool) $this->config->getOption('use_only_cookies'));
     }
 
+    #[IgnoreDeprecations]
     public function testUseOnlyCookiesAltersIniSetting(): void
     {
         $value = ! (bool) ini_get('session.use_only_cookies');
@@ -500,6 +503,7 @@ class SessionConfigTest extends TestCase
         self::assertSame(ini_get('session.referer_check'), $this->config->getRefererCheck());
     }
 
+    #[IgnoreDeprecations]
     public function testRefererCheckIsMutable(): void
     {
         $this->config->setOption('referer_check', 'FOOBAR');
@@ -512,6 +516,7 @@ class SessionConfigTest extends TestCase
         self::assertEquals('', $this->config->getOption('referer_check'));
     }
 
+    #[IgnoreDeprecations]
     public function testRefererCheckAltersIniSetting(): void
     {
         $this->config->setOption('referer_check', 'BARBAZ');
@@ -521,7 +526,7 @@ class SessionConfigTest extends TestCase
     // session.cache_limiter
 
     /** @psalm-return array<array-key, array{0: string}> */
-    public function cacheLimiters(): array
+    public static function cacheLimiters(): array
     {
         return [
             [''],
@@ -602,6 +607,7 @@ class SessionConfigTest extends TestCase
         self::assertSame((bool) ini_get('session.use_trans_sid'), $this->config->getUseTransSid());
     }
 
+    #[IgnoreDeprecations]
     public function testUseTransSidIsMutable(): void
     {
         $value = ! (bool) ini_get('session.use_trans_sid');
@@ -609,6 +615,7 @@ class SessionConfigTest extends TestCase
         self::assertEquals($value, (bool) $this->config->getOption('use_trans_sid'));
     }
 
+    #[IgnoreDeprecations]
     public function testUseTransSidAltersIniSetting(): void
     {
         $value = ! (bool) ini_get('session.use_trans_sid');
@@ -623,18 +630,21 @@ class SessionConfigTest extends TestCase
         self::assertSame(ini_get('session.sid_length'), $this->config->getSidLength());
     }
 
+    #[IgnoreDeprecations]
     public function testSidLengthIsMutable(): void
     {
         $this->config->setSidLength(40);
         self::assertEquals(40, $this->config->getSidLength());
     }
 
+    #[IgnoreDeprecations]
     public function testSidLengthAltersIniSetting(): void
     {
         $this->config->setSidLength(40);
         self::assertEquals(40, ini_get('session.sid_length'));
     }
 
+    #[IgnoreDeprecations]
     public function testSettingInvalidSidLengthRaisesException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -642,6 +652,7 @@ class SessionConfigTest extends TestCase
         $this->config->setSidLength('foobar_bogus');
     }
 
+    #[IgnoreDeprecations]
     public function testSettingOutOfRangeSidLengthRaisesException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -652,7 +663,7 @@ class SessionConfigTest extends TestCase
     // session.sid_bits_per_character
 
     /** @psalm-return array<array-key, array{0: int}> */
-    public function sidSidPerCharacters(): array
+    public static function sidSidPerCharacters(): array
     {
         return [
             [4],
@@ -666,24 +677,23 @@ class SessionConfigTest extends TestCase
         self::assertSame(ini_get('session.sid_bits_per_character'), $this->config->getSidBitsPerCharacter());
     }
 
-    /**
-     * @dataProvider sidSidPerCharacters
-     */
+    #[DataProvider('sidSidPerCharacters')]
+    #[IgnoreDeprecations]
     public function testSidBitsPerCharacterIsMutable(int $sidBitsPerCharacter): void
     {
         $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
         self::assertEquals($sidBitsPerCharacter, $this->config->getSidBitsPerCharacter());
     }
 
-    /**
-     * @dataProvider sidSidPerCharacters
-     */
+    #[DataProvider('sidSidPerCharacters')]
+    #[IgnoreDeprecations]
     public function testSidBitsPerCharacterAltersIniSetting(int $sidBitsPerCharacter): void
     {
         $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
         self::assertEquals($sidBitsPerCharacter, ini_get('session.sid_bits_per_character'));
     }
 
+    #[IgnoreDeprecations]
     public function testSettingInvalidSidBitsPerCharacterRaisesException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -691,6 +701,7 @@ class SessionConfigTest extends TestCase
         $this->config->setSidBitsPerCharacter('foobar_bogus');
     }
 
+    #[IgnoreDeprecations]
     public function testSettingOutOfBoundSidBitsPerCharacterRaisesException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -731,9 +742,8 @@ class SessionConfigTest extends TestCase
     }
 
     // setOption
-    /**
-     * @dataProvider optionsProvider
-     */
+    #[IgnoreDeprecations]
+    #[DataProvider('optionsProvider')]
     public function testSetOptionSetsIniSetting(string $option, string $getter, mixed $value): void
     {
         // Leaving out special cases.
@@ -767,9 +777,8 @@ class SessionConfigTest extends TestCase
     }
 
     // setOptions
-    /**
-     * @dataProvider optionsProvider
-     */
+    #[IgnoreDeprecations]
+    #[DataProvider('optionsProvider')]
     public function testSetOptionsTranslatesUnderscoreSeparatedKeys(
         string $option,
         string $getter,
@@ -785,7 +794,7 @@ class SessionConfigTest extends TestCase
     }
 
     /** @psalm-return array<array-key, array{0: string, 1: string, 2: mixed}> */
-    public function optionsProvider(): array
+    public static function optionsProvider(): array
     {
         return [
             [

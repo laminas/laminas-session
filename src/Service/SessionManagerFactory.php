@@ -60,7 +60,6 @@ class SessionManagerFactory implements FactoryInterface
      * - validators: ...
      *
      * @param string $requestedName
-     * @param array $options
      * @return SessionManager
      */
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)

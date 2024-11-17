@@ -125,7 +125,6 @@ abstract class Factory
      * Create a storage object from a class extending AbstractSessionArrayStorage
      *
      * @param  string                             $type
-     * @param  array                              $options
      * @return AbstractSessionArrayStorage
      * @throws Exception\InvalidArgumentException If the input option is invalid.
      */

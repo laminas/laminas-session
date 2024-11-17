@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 class ContainerAbstractServiceFactoryTest extends TestCase
 {
     /** @var array{session_containers: list<string>} */
-    private array $config = [
+    private static array $config = [
         'session_containers' => [
             'foo',
             'bar',
@@ -35,7 +35,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
     {
         $this->services = new ServiceManager([
             'services'           => [
-                'config'                => $this->config,
+                'config'                => self::$config,
                 StorageInterface::class => new ArrayStorage(),
             ],
             'factories'          => [
@@ -48,10 +48,10 @@ class ContainerAbstractServiceFactoryTest extends TestCase
     }
 
     /** @psalm-return array<array-key, array{0: string, 1: string}> */
-    public function validContainers(): array
+    public static function validContainers(): array
     {
         $containers = [];
-        $config     = $this->config;
+        $config     = self::$config;
         foreach ($config['session_containers'] as $name) {
             $containers[] = [$name, $name];
         }
@@ -81,10 +81,10 @@ class ContainerAbstractServiceFactoryTest extends TestCase
     }
 
     /** @psalm-return array<array-key, array{0: string}> */
-    public function invalidContainers(): array
+    public static function invalidContainers(): array
     {
         $containers = [];
-        $config     = $this->config;
+        $config     = self::$config;
         foreach ($config['session_containers'] as $name) {
             $containers[] = ['SomePrefix\\' . $name];
         }

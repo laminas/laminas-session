@@ -3,6 +3,9 @@
 namespace LaminasTest\Session\Validator;
 
 use Laminas\Session\Validator\Id;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
 use function ini_set;
@@ -12,7 +15,7 @@ use function session_start;
 class IdTest extends TestCase
 {
     /** @psalm-return iterable<string, array{0: int, 1: string, 2: bool}> */
-    public function id(): iterable
+    public static function id(): iterable
     {
         yield '4, valid' => [4, '0123456789abcdef', true];
         yield '4, invalid (out of the range)' => [4, '0123456789abcdefg', false];
@@ -26,14 +29,10 @@ class IdTest extends TestCase
         yield '6, invalid (out of the range)' => [6, '0123456789.abcdefghijklmnopqrstuvwxyz', false];
     }
 
-    /**
-     * @runInSeparateProcess
-     * @dataProvider id
-     * @param int    $bitsPerCharacter
-     * @param string $id
-     * @param bool   $isValid
-     */
-    public function testIsValidPhp71($bitsPerCharacter, $id, $isValid): void
+    #[IgnoreDeprecations]
+    #[DataProvider('id')]
+    #[RunInSeparateProcess]
+    public function testIsValidPhp71(int $bitsPerCharacter, string $id, bool $isValid): void
     {
         ini_set('session.sid_bits_per_character', $bitsPerCharacter);
 

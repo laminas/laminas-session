@@ -68,7 +68,6 @@ interface StorageInterface extends Traversable, ArrayAccess, Serializable, Count
     public function clear($key = null);
 
     /**
-     * @param array $array
      * @return self
      */
     public function fromArray(array $array);
