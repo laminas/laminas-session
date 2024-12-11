@@ -91,12 +91,10 @@ class SessionManager extends AbstractManager
             return true;
         }
 
-        if ($this->getId()) {
-            return true;
-        }
         if (headers_sent()) {
             return true;
         }
+
         return false;
     }
 
