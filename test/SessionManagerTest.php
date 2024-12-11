@@ -160,8 +160,6 @@ class SessionManagerTest extends TestCase
         $this->assertAttributeEquals([], 'validators', $manager);
     }
 
-    // Session-related functionality
-
     #[RunInSeparateProcess]
     public function testSessionExistsReturnsFalseWhenNoSessionStarted(): void
     {
