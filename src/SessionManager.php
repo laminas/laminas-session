@@ -93,6 +93,9 @@ class SessionManager extends AbstractManager
             return true;
         }
 
+        /**
+         * @var string|false $sid
+         */
         $sid = defined('SID') ? constant('SID') : false;
 
         if ($sid !== false && $this->getId()) {
