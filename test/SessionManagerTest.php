@@ -17,6 +17,7 @@ use Laminas\Session\Storage\SessionStorage;
 use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
 use LaminasTest\Session\TestAsset\Php81CompatibleStorageInterface;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 use Traversable;
 
@@ -35,6 +36,7 @@ use function session_start;
 use function session_write_close;
 use function set_error_handler;
 use function stristr;
+use function uniqid;
 use function var_export;
 use function xdebug_get_headers;
 
@@ -900,6 +902,29 @@ class SessionManagerTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Session validation failed');
         $this->manager->start();
+    }
+
+    #[RunInSeparateProcess]
+    public function testSettingTheIdentifierBeforeStartingTheSessionYieldsTheExpectedId(): void
+    {
+        $manager = new SessionManager();
+
+        $id = uniqid();
+
+        $manager->setId($id);
+
+        // setting a session id does not mark a session as started
+        self::assertFalse($manager->sessionExists());
+
+        $manager->start();
+
+        self::assertTrue($manager->sessionExists());
+
+        $manager->writeClose();
+
+        // calling writeClose() does not mark the session as closed
+        self::assertTrue($manager->sessionExists());
+        self::assertSame($id, $manager->getId());
     }
 
     /** @param non-empty-string $property */
