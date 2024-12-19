@@ -9,6 +9,8 @@ use Traversable;
 
 use function array_key_exists;
 use function array_merge;
+use function constant;
+use function defined;
 use function headers_sent;
 use function is_array;
 use function iterator_to_array;
@@ -91,12 +93,19 @@ class SessionManager extends AbstractManager
             return true;
         }
 
-        if ($this->getId()) {
+        /**
+         * @var string|false $sid
+         */
+        $sid = defined('SID') ? constant('SID') : false;
+
+        if ($sid !== false && $this->getId()) {
             return true;
         }
+
         if (headers_sent()) {
             return true;
         }
+
         return false;
     }
 
