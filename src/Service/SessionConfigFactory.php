@@ -11,6 +11,7 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\SameSiteCookieCapableInterface;
 use Laminas\Session\Config\SessionConfig;
+use Laminas\Session\SaveHandler\SaveHandlerInterface;
 
 use function class_exists;
 use function is_array;
@@ -53,6 +54,22 @@ class SessionConfigFactory implements FactoryInterface
             }
             $class = $config['config_class'];
             unset($config['config_class']);
+        }
+
+        if (
+            $container->has(SaveHandlerInterface::class) &&
+            (! isset($config['save_handler']) || $config['save_handler'] === SaveHandlerInterface::class)
+        ) {
+            $saveHandler = $container->get(SaveHandlerInterface::class);
+            if (! $saveHandler instanceof SaveHandlerInterface) {
+                throw new ServiceNotCreatedException(sprintf(
+                    'Class %s set as save_handler must implement %s; received "%s"',
+                    SaveHandlerInterface::class,
+                    get_debug_type($saveHandler)
+                ));
+            }
+
+            $config['save_handler'] = $saveHandler;
         }
 
         $sessionConfig = new $class();

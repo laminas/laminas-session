@@ -9,9 +9,18 @@ use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Config\StandardConfig;
+use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\Service\SessionConfigFactory;
 use LaminasTest\Session\TestAsset\TestConfig;
+use LaminasTest\Session\TestAsset\TestSaveHandler;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
+
+use function ini_get;
+use function ini_set;
+use function session_save_path;
+use function session_status;
+use function session_write_close;
 
 /**
  * @covers \Laminas\Session\Service\SessionConfigFactory
@@ -20,13 +29,29 @@ class SessionConfigFactoryTest extends TestCase
 {
     private ServiceManager $services;
 
+    private string|false $originalSaveHandler;
+
+    private string|false $originalSavePath;
+
     protected function setUp(): void
     {
-        $this->services = new ServiceManager([
+        $this->originalSaveHandler = ini_get('session.save_handler');
+        $this->originalSavePath    = session_save_path();
+        $this->services            = new ServiceManager([
             'factories' => [
                 ConfigInterface::class => SessionConfigFactory::class,
             ],
         ]);
+
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_write_close();
+        }
+    }
+
+    protected function tearDown(): void
+    {
+        ini_set('session.save_handler', $this->originalSaveHandler);
+        session_save_path($this->originalSavePath);
     }
 
     public function testCreatesSessionConfigByDefault(): void
@@ -86,5 +111,74 @@ class SessionConfigFactoryTest extends TestCase
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionMessage('"cookie_samesite"');
         $this->services->get(ConfigInterface::class);
+    }
+
+    public function testCanCreateSaveHandlerServiceAndPathViaConfig(): void
+    {
+        $saveHandler   = new TestSaveHandler();
+        $savePath      = 'not_a_directory';
+        $mockContainer = $this->getMockBuilder(ContainerInterface::class)
+            ->onlyMethods(['get', 'has'])
+            ->getMock();
+
+        $mockContainer->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap([
+                [
+                    'config',
+                    [
+                        'session_config' => [
+                            'save_handler' => SaveHandlerInterface::class,
+                            'save_path'    => $savePath,
+                        ],
+                    ],
+                ],
+                [
+                    SaveHandlerInterface::class,
+                    $saveHandler,
+                ],
+            ]);
+
+        $mockContainer->expects(self::once())
+            ->method('has')
+            ->with(SaveHandlerInterface::class)
+            ->willReturn(true);
+
+        $factory = new SessionConfigFactory();
+        $config  = $factory($mockContainer, ConfigInterface::class);
+
+        self::assertSame($saveHandler::class, $config->getSaveHandler());
+        self::assertSame('user', ini_get('session.save_handler'));
+        self::assertSame($savePath, session_save_path());
+    }
+
+    public function testCanCreateSaveHandlerAndPathViaConfig(): void
+    {
+        $saveHandler   = new TestSaveHandler();
+        $savePath      = 'not_a_directory';
+        $mockContainer = $this->getMockBuilder(ContainerInterface::class)
+                              ->onlyMethods(['get', 'has'])
+                              ->getMock();
+
+        $mockContainer->expects(self::once())
+                      ->method('get')
+                      ->willReturnMap([
+                          [
+                              'config',
+                              [
+                                  'session_config' => [
+                                      'save_handler' => TestSaveHandler::class,
+                                      'save_path'    => $savePath,
+                                  ],
+                              ],
+                          ],
+                      ]);
+
+        $factory = new SessionConfigFactory();
+        $config  = $factory($mockContainer, ConfigInterface::class);
+
+        self::assertSame($saveHandler::class, $config->getSaveHandler());
+        self::assertSame('user', ini_get('session.save_handler'));
+        self::assertSame($savePath, session_save_path());
     }
 }
