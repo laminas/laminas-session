@@ -52,10 +52,11 @@ class SessionConfigFactoryTest extends TestCase
 
     protected function tearDown(): void
     {
-        if ($this->originalSaveHandler) {
+        if ($this->originalSaveHandler !== false) {
             ini_set('session.save_handler', $this->originalSaveHandler);
         }
-        if ($this->originalSavePath) {
+        if ($this->originalSavePath !== false && $this->originalSavePath !== '') {
+            /** @psalm-suppress UnusedFunctionCall */
             session_save_path($this->originalSavePath);
         }
     }
