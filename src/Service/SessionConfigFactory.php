@@ -14,6 +14,7 @@ use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
 
 use function class_exists;
+use function get_debug_type;
 use function is_array;
 use function sprintf;
 
@@ -42,7 +43,14 @@ class SessionConfigFactory implements FactoryInterface
             );
         }
 
-        $class  = SessionConfig::class;
+        $class = SessionConfig::class;
+
+        /** @var array{
+         *     config_class?: string,
+         *     save_handler?:string|SaveHandlerInterface,
+         *     cookie_samesite:string
+         * } $config
+         */
         $config = $config['session_config'];
         if (isset($config['config_class'])) {
             if (! class_exists($config['config_class'])) {
@@ -64,6 +72,7 @@ class SessionConfigFactory implements FactoryInterface
             if (! $saveHandler instanceof SaveHandlerInterface) {
                 throw new ServiceNotCreatedException(sprintf(
                     'Class %s set as save_handler must implement %s; received "%s"',
+                    SaveHandlerInterface::class,
                     SaveHandlerInterface::class,
                     get_debug_type($saveHandler)
                 ));
