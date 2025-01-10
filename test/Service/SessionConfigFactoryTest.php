@@ -22,6 +22,8 @@ use function session_save_path;
 use function session_status;
 use function session_write_close;
 
+use const PHP_SESSION_ACTIVE;
+
 /**
  * @covers \Laminas\Session\Service\SessionConfigFactory
  */
@@ -50,8 +52,12 @@ class SessionConfigFactoryTest extends TestCase
 
     protected function tearDown(): void
     {
-        ini_set('session.save_handler', $this->originalSaveHandler);
-        session_save_path($this->originalSavePath);
+        if ($this->originalSaveHandler) {
+            ini_set('session.save_handler', $this->originalSaveHandler);
+        }
+        if ($this->originalSavePath) {
+            session_save_path($this->originalSavePath);
+        }
     }
 
     public function testCreatesSessionConfigByDefault(): void
@@ -145,8 +151,11 @@ class SessionConfigFactoryTest extends TestCase
             ->willReturn(true);
 
         $factory = new SessionConfigFactory();
-        $config  = $factory($mockContainer, ConfigInterface::class);
+        /** @var SessionConfig $config */
+        $config = $factory($mockContainer, ConfigInterface::class);
 
+        self::assertInstanceOf(SessionConfig::class, $config);
+        /** @noinspection PhpUndefinedMethodInspection This will always exist in SessionConfig */
         self::assertSame($saveHandler::class, $config->getSaveHandler());
         self::assertSame('user', ini_get('session.save_handler'));
         self::assertSame($savePath, session_save_path());
@@ -177,6 +186,8 @@ class SessionConfigFactoryTest extends TestCase
         $factory = new SessionConfigFactory();
         $config  = $factory($mockContainer, ConfigInterface::class);
 
+        self::assertInstanceOf(SessionConfig::class, $config);
+        /** @noinspection PhpUndefinedMethodInspection This will always exist in SessionConfig */
         self::assertSame($saveHandler::class, $config->getSaveHandler());
         self::assertSame('user', ini_get('session.save_handler'));
         self::assertSame($savePath, session_save_path());
