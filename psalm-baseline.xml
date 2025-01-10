@@ -666,14 +666,6 @@
     <DeprecatedInterface>
       <code><![CDATA[SessionConfigFactory]]></code>
     </DeprecatedInterface>
-    <MixedArgument>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$config['config_class']]]></code>
-      <code><![CDATA[$config['config_class']]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$config]]></code>
-    </MixedAssignment>
     <MixedMethodCall>
       <code><![CDATA[new $class()]]></code>
     </MixedMethodCall>
