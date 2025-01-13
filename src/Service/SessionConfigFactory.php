@@ -47,8 +47,8 @@ class SessionConfigFactory implements FactoryInterface
 
         /** @var array{
          *     config_class?: string,
-         *     save_handler?:string|SaveHandlerInterface,
-         *     cookie_samesite:string
+         *     save_handler?: string|SaveHandlerInterface,
+         *     cookie_samesite: string
          * } $config
          */
         $config = $config['session_config'];
@@ -65,8 +65,8 @@ class SessionConfigFactory implements FactoryInterface
         }
 
         if (
-            $container->has(SaveHandlerInterface::class) &&
-            (! isset($config['save_handler']) || $config['save_handler'] === SaveHandlerInterface::class)
+            $container->has(SaveHandlerInterface::class)
+            && (! isset($config['save_handler']) || $config['save_handler'] === SaveHandlerInterface::class)
         ) {
             $saveHandler = $container->get(SaveHandlerInterface::class);
             if (! $saveHandler instanceof SaveHandlerInterface) {
