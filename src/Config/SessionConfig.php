@@ -88,8 +88,10 @@ class SessionConfig extends StandardConfig
      * Name of the save handler currently in use. This will either be a PHP
      * built-in save handler name, or the name of a SessionHandlerInterface
      * class being used as a save handler.
+     *
+     * @var null|string|SaveHandlerInterface
      */
-    protected null|string|SaveHandlerInterface $saveHandler = null;
+    protected $saveHandler;
 
     /** @var string session.serialize_handler */
     protected $serializeHandler;
