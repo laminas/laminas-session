@@ -3,6 +3,7 @@
 namespace Laminas\Session\Config;
 
 use Laminas\Session\Exception;
+use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use SessionHandlerInterface;
 
 use function array_merge;
