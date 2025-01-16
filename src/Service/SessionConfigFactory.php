@@ -64,15 +64,25 @@ class SessionConfigFactory implements FactoryInterface
             unset($config['config_class']);
         }
 
-        if (
-            $container->has(SaveHandlerInterface::class)
-            && (! isset($config['save_handler']) || $config['save_handler'] === SaveHandlerInterface::class)
-        ) {
-            $saveHandler = $container->get(SaveHandlerInterface::class);
+        // We set SaveHandlerInterface as default save_handler if it exists in the container, we do this
+        // because SessionManagerFactory does this, and this keeps the configuration consistent
+        if (! isset($config['save_handler']) && $container->has(SaveHandlerInterface::class)) {
+            $config['save_handler'] = SaveHandlerInterface::class;
+        }
+
+        if (isset($config['save_handler']) && $config['save_handler'] === SaveHandlerInterface::class) {
+            if (! $container->has($config['save_handler'])) {
+                throw new ServiceNotCreatedException(sprintf(
+                    'Class %s set as save_handler must be defined in the service manager',
+                    $config['save_handler']
+                ));
+            }
+
+            $saveHandler = $container->get($config['save_handler']);
             if (! $saveHandler instanceof SaveHandlerInterface) {
                 throw new ServiceNotCreatedException(sprintf(
                     'Class %s set as save_handler must implement %s; received "%s"',
-                    SaveHandlerInterface::class,
+                    $saveHandler::class,
                     SaveHandlerInterface::class,
                     get_debug_type($saveHandler)
                 ));
