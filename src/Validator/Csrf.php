@@ -46,33 +46,38 @@ final class Csrf extends AbstractValidator
     /**
      * Actual hash used.
      */
-    private ?string $hash = null;
+    private ?string $hash;
 
     /**
      * Name of CSRF element (used to create non-colliding hashes)
      *
      * @var non-empty-string
      */
-    private string $name = 'csrf';
+    private string $name;
 
     /**
      * Salt for CSRF token
      *
      * @var non-empty-string
      */
-    private string $salt = 'salt';
+    private string $salt;
 
-    private ?Container $session = null;
+    private ?Container $session;
 
     /**
      * TTL for CSRF token
      */
-    private int|null $timeout = 300;
+    private int|null $timeout;
 
     /** @param OptionsArgument $options */
     public function __construct(array $options = [])
     {
         parent::__construct($options);
+        $this->hash    = $options['hash'] ?? null;
+        $this->name    = $options['name'] ?? 'csrf';
+        $this->salt    = $options['salt'] ?? 'salt';
+        $this->session = $options['session'] ?? null;
+        $this->timeout = $options['timeout'] ?? 300;
     }
 
     /**
@@ -128,7 +133,7 @@ final class Csrf extends AbstractValidator
     public function setSession(Container $session): void
     {
         $this->session = $session;
-        if ($this->hash !== null) {
+        if (isset($this->hash)) {
             $this->initCsrfToken();
         }
     }
