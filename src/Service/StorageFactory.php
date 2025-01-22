@@ -10,8 +10,8 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Session\Exception\ExceptionInterface as SessionException;
 use Laminas\Session\Storage\Factory;
 use Laminas\Session\Storage\StorageInterface;
-
 use Psr\Container\ContainerInterface;
+
 use function is_array;
 use function sprintf;
 
@@ -28,8 +28,11 @@ class StorageFactory implements FactoryInterface
      * @throws ServiceNotCreatedException If session_storage is missing, or the
      *         factory cannot create the storage instance.
      */
-    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): StorageInterface
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        ?array $options = null
+    ): StorageInterface {
         $config = $container->get('config');
         if (! isset($config['session_storage']) || ! is_array($config['session_storage'])) {
             throw new ServiceNotCreatedException(
@@ -63,10 +66,9 @@ class StorageFactory implements FactoryInterface
      */
     public function createService(
         ServiceLocatorInterface $services,
-        ?string                  $canonicalName = null,
-        string                  $requestedName = StorageInterface::class
-    ): StorageInterface
-    {
+        ?string $canonicalName = null,
+        string $requestedName = StorageInterface::class
+    ): StorageInterface {
         return $this($services, $requestedName);
     }
 }
