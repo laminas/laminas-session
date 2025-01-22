@@ -4,11 +4,11 @@ namespace Laminas\Session\Service;
 
 // phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
-use Interop\Container\ContainerInterface;
-use Laminas\ServiceManager\AbstractFactoryInterface;
+use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface;
+use Psr\Container\ContainerInterface;
 
 use function array_change_key_case;
 use function array_flip;
@@ -41,28 +41,20 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 {
     /**
      * Cached container configuration
-     *
-     * @var array
      */
-    protected $config;
+    protected array $config;
 
     /**
      * Configuration key in which session containers live
-     *
-     * @var string
      */
-    protected $configKey = 'session_containers';
+    protected string $configKey = 'session_containers';
 
-    /** @var ManagerInterface */
-    protected $sessionManager;
+    protected ManagerInterface $sessionManager;
 
     /**
      * Can we create an instance of the given service? (v3 usage).
-     *
-     * @param string $requestedName
-     * @return bool
      */
-    public function canCreate(ContainerInterface $container, $requestedName)
+    public function canCreate(ContainerInterface $container, string $requestedName): bool
     {
         $config = $this->getConfig($container);
         if ($config === []) {
@@ -75,23 +67,19 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Can we create an instance of the given service? (v2 usage)
-     *
-     * @param string $name
-     * @param string $requestedName
-     * @return bool
      */
-    public function canCreateServiceWithName(ServiceLocatorInterface $container, $name, $requestedName)
-    {
+    public function canCreateServiceWithName(
+        ServiceLocatorInterface $container,
+        string $name,
+        string $requestedName
+    ): bool {
         return $this->canCreate($container, $requestedName);
     }
 
     /**
      * Create and return a named container (v3 usage).
-     *
-     * @param string $requestedName
-     * @return Container
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): Container
     {
         $manager = $this->getSessionManager($container);
         return new Container($requestedName, $manager);
@@ -99,24 +87,21 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Create and return a named container (v2 usage).
-     *
-     * @param string $name
-     * @param string $requestedName
-     * @return Container
      */
-    public function createServiceWithName(ServiceLocatorInterface $container, $name, $requestedName)
-    {
+    public function createServiceWithName(
+        ServiceLocatorInterface $container,
+        string $name,
+        string $requestedName
+    ): Container {
         return $this($container, $requestedName);
     }
 
     /**
      * Retrieve config from service locator, and cache for later
-     *
-     * @return array
      */
-    protected function getConfig(ContainerInterface $container)
+    protected function getConfig(ContainerInterface $container): array
     {
-        if (null !== $this->config) {
+        if (isset($this->config)) {
             return $this->config;
         }
 
@@ -141,12 +126,10 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Retrieve the session manager instance, if any
-     *
-     * @return null|ManagerInterface
      */
-    protected function getSessionManager(ContainerInterface $container)
+    protected function getSessionManager(ContainerInterface $container): ?ManagerInterface
     {
-        if ($this->sessionManager !== null) {
+        if (isset($this->sessionManager)) {
             return $this->sessionManager;
         }
 
@@ -159,11 +142,8 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Normalize the container name in order to perform a lookup
-     *
-     * @param  string $name
-     * @return string
      */
-    protected function normalizeContainerName($name)
+    protected function normalizeContainerName(string $name): string
     {
         return strtolower($name);
     }

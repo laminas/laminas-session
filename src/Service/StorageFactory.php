@@ -4,14 +4,14 @@ namespace Laminas\Session\Service;
 
 // phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Session\Exception\ExceptionInterface as SessionException;
 use Laminas\Session\Storage\Factory;
 use Laminas\Session\Storage\StorageInterface;
 
+use Psr\Container\ContainerInterface;
 use function is_array;
 use function sprintf;
 
@@ -25,12 +25,10 @@ class StorageFactory implements FactoryInterface
      * type to use, and optionally "options", containing any options to be used in
      * creating the StorageInterface instance.
      *
-     * @param string $requestedName
-     * @return StorageInterface
      * @throws ServiceNotCreatedException If session_storage is missing, or the
      *         factory cannot create the storage instance.
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): StorageInterface
     {
         $config = $container->get('config');
         if (! isset($config['session_storage']) || ! is_array($config['session_storage'])) {
@@ -62,16 +60,13 @@ class StorageFactory implements FactoryInterface
 
     /**
      * Create and return a storage instance (v2 usage).
-     *
-     * @param null|string $canonicalName
-     * @param string $requestedName
-     * @return StorageInterface
      */
     public function createService(
         ServiceLocatorInterface $services,
-        $canonicalName = null,
-        $requestedName = StorageInterface::class
-    ) {
+        ?string                  $canonicalName = null,
+        string                  $requestedName = StorageInterface::class
+    ): StorageInterface
+    {
         return $this($services, $requestedName);
     }
 }
