@@ -20,6 +20,7 @@ use function strtr;
 /**
  * @psalm-type OptionsArgument = array{
  *     name?: non-empty-string,
+ *     hash?: non-empty-string,
  *     salt?: non-empty-string,
  *     session?: Container,
  *     timeout?: ?int,
