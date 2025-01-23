@@ -16,6 +16,7 @@ use function array_flip;
 use function array_key_exists;
 use function get_debug_type;
 use function is_array;
+use function sprintf;
 use function strtolower;
 
 /**

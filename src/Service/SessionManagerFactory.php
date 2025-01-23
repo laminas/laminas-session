@@ -149,6 +149,7 @@ class SessionManagerFactory implements FactoryInterface
 
     /**
      * Create a SessionManager instance (v2 usage)
+     *
      * @psalm-suppress PossiblyUnusedMethod,PossiblyUnusedParam
      */
     public function createService(

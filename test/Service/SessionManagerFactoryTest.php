@@ -114,7 +114,7 @@ class SessionManagerFactoryTest extends TestCase
 
         $manager->start();
 
-        $chain     = $manager->getValidatorChain();
+        $chain = $manager->getValidatorChain();
         /** @psalm-suppress ArgumentTypeCoercion **/
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
         self::assertCount(2, $listeners);
@@ -199,7 +199,7 @@ class SessionManagerFactoryTest extends TestCase
             // Ignore exception, because we are not interested whether session validation passes in this test
         }
 
-        $chain     = $manager->getValidatorChain();
+        $chain = $manager->getValidatorChain();
         /** @psalm-suppress ArgumentTypeCoercion **/
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
         self::assertCount(2, $listeners);
