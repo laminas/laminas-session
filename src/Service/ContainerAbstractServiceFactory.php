@@ -7,12 +7,14 @@ namespace Laminas\Session\Service;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Session\Container;
+use Laminas\Session\Exception\RuntimeException;
 use Laminas\Session\ManagerInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_change_key_case;
 use function array_flip;
 use function array_key_exists;
+use function get_debug_type;
 use function is_array;
 use function strtolower;
 
@@ -42,14 +44,14 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Cached container configuration
      */
-    protected array $config;
+    protected ?array $config = null;
 
     /**
      * Configuration key in which session containers live
      */
     protected string $configKey = 'session_containers';
 
-    protected ManagerInterface $sessionManager;
+    protected ?ManagerInterface $sessionManager = null;
 
     /**
      * Can we create an instance of the given service? (v3 usage).
@@ -67,6 +69,8 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Can we create an instance of the given service? (v2 usage)
+     *
+     * @psalm-suppress PossiblyUnusedMethod,PossiblyUnusedParam
      */
     public function canCreateServiceWithName(
         ServiceLocatorInterface $container,
@@ -87,6 +91,8 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Create and return a named container (v2 usage).
+     *
+     * @psalm-suppress PossiblyUnusedMethod,PossiblyUnusedParam
      */
     public function createServiceWithName(
         ServiceLocatorInterface $container,
@@ -101,7 +107,7 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
      */
     protected function getConfig(ContainerInterface $container): array
     {
-        if (isset($this->config)) {
+        if (is_array($this->config)) {
             return $this->config;
         }
 
@@ -129,12 +135,23 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
      */
     protected function getSessionManager(ContainerInterface $container): ?ManagerInterface
     {
-        if (isset($this->sessionManager)) {
+        if ($this->sessionManager instanceof ManagerInterface) {
             return $this->sessionManager;
         }
 
         if ($container->has(ManagerInterface::class)) {
-            $this->sessionManager = $container->get(ManagerInterface::class);
+            $sessionManager = $container->get(ManagerInterface::class);
+
+            if (! $sessionManager instanceof ManagerInterface) {
+                throw new RuntimeException(sprintf(
+                    '%s service did not map to a %s implementation; received %s',
+                    ManagerInterface::class,
+                    ManagerInterface::class,
+                    get_debug_type($sessionManager)
+                ));
+            }
+
+            $this->sessionManager = $sessionManager;
         }
 
         return $this->sessionManager;
