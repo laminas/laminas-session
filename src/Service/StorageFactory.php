@@ -63,6 +63,7 @@ class StorageFactory implements FactoryInterface
 
     /**
      * Create and return a storage instance (v2 usage).
+     * @psalm-suppress PossiblyUnusedMethod,PossiblyUnusedParam
      */
     public function createService(
         ServiceLocatorInterface $services,
