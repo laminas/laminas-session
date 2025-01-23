@@ -75,6 +75,7 @@ class Cache implements SaveHandlerInterface
      *
      * @param string $id
      * @return string
+     * @psalm-param non-empty-string $id
      */
     #[ReturnTypeWillChange]
     public function read($id)
@@ -88,6 +89,7 @@ class Cache implements SaveHandlerInterface
      * @param string $id
      * @param string $data
      * @return bool
+     * @psalm-param non-empty-string $id
      */
     #[ReturnTypeWillChange]
     public function write($id, $data)
@@ -100,15 +102,18 @@ class Cache implements SaveHandlerInterface
      *
      * @param string $id
      * @return bool
+     * @psalm-param non-empty-string $id
      */
     #[ReturnTypeWillChange]
     public function destroy($id)
     {
         $this->getCacheStorage()->getItem($id, $exists);
+        /** @psalm-suppress RedundantCast */
         if (! (bool) $exists) {
             return true;
         }
 
+        /** @psalm-suppress RedundantCast */
         return (bool) $this->getCacheStorage()->removeItem($id);
     }
 
