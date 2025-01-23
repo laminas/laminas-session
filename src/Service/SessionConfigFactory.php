@@ -118,6 +118,7 @@ class SessionConfigFactory implements FactoryInterface
 
     /**
      * Create and return a config instance (v2 usage).
+     * @psalm-suppress PossiblyUnusedMethod,PossiblyUnusedParam
      */
     public function createService(
         ServiceLocatorInterface $services,
