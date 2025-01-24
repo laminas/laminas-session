@@ -463,14 +463,6 @@
     </MixedAssignment>
   </file>
   <file src="src/Service/SessionConfigFactory.php">
-    <MixedArgument>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$config['config_class']]]></code>
-      <code><![CDATA[$config['config_class']]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$config]]></code>
-    </MixedAssignment>
     <MixedMethodCall>
       <code><![CDATA[new $class()]]></code>
     </MixedMethodCall>
