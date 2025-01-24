@@ -9,6 +9,7 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\SameSiteCookieCapableInterface;
 use Laminas\Session\Config\SessionConfig;
+use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
