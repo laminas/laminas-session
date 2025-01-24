@@ -1056,16 +1056,16 @@
         },
         {
             "name": "laminas/laminas-cache",
-            "version": "3.12.2",
+            "version": "3.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cache.git",
-                "reference": "f99d10dd1f13d5163a924f8561e9dca3d27d8ad2"
+                "reference": "8225b16d03bbff2ecf2bd5a4f38c39ca47389e50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cache/zipball/f99d10dd1f13d5163a924f8561e9dca3d27d8ad2",
-                "reference": "f99d10dd1f13d5163a924f8561e9dca3d27d8ad2",
+                "url": "https://api.github.com/repos/laminas/laminas-cache/zipball/8225b16d03bbff2ecf2bd5a4f38c39ca47389e50",
+                "reference": "8225b16d03bbff2ecf2bd5a4f38c39ca47389e50",
                 "shasum": ""
             },
             "require": {
@@ -1073,7 +1073,7 @@
                 "laminas/laminas-eventmanager": "^3.4",
                 "laminas/laminas-servicemanager": "^3.21",
                 "laminas/laminas-stdlib": "^3.6",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
                 "psr/cache": "^1.0",
                 "psr/clock": "^1.0",
                 "psr/simple-cache": "^1.0",
@@ -1153,25 +1153,25 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2024-06-14T13:39:14+00:00"
+            "time": "2025-01-21T12:32:41+00:00"
         },
         {
             "name": "laminas/laminas-cache-storage-adapter-memory",
-            "version": "2.3.0",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cache-storage-adapter-memory.git",
-                "reference": "d2c357a8b839ceb0e0781d5e9aebe46642dbf0b2"
+                "reference": "12d2b191fee7ed0c08fd5db4441282705184f1bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-memory/zipball/d2c357a8b839ceb0e0781d5e9aebe46642dbf0b2",
-                "reference": "d2c357a8b839ceb0e0781d5e9aebe46642dbf0b2",
+                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-memory/zipball/12d2b191fee7ed0c08fd5db4441282705184f1bf",
+                "reference": "12d2b191fee7ed0c08fd5db4441282705184f1bf",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-cache": "^3.0",
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0"
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
             },
             "conflict": {
                 "laminas/laminas-servicemanager": "<3.11"
@@ -1220,7 +1220,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-10-18T09:43:33+00:00"
+            "time": "2025-01-23T15:41:59+00:00"
         },
         {
             "name": "laminas/laminas-coding-standard",
@@ -4040,16 +4040,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.11.2",
+            "version": "3.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "1368f4a58c3c52114b86b1abe8f4098869cb0079"
+                "reference": "ba05f990e79cbe69b9f35c8c1ac8dca7eecc3a10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/1368f4a58c3c52114b86b1abe8f4098869cb0079",
-                "reference": "1368f4a58c3c52114b86b1abe8f4098869cb0079",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/ba05f990e79cbe69b9f35c8c1ac8dca7eecc3a10",
+                "reference": "ba05f990e79cbe69b9f35c8c1ac8dca7eecc3a10",
                 "shasum": ""
             },
             "require": {
@@ -4114,9 +4114,13 @@
                 {
                     "url": "https://opencollective.com/php_codesniffer",
                     "type": "open_collective"
+                },
+                {
+                    "url": "https://thanks.dev/phpcsstandards",
+                    "type": "thanks_dev"
                 }
             ],
-            "time": "2024-12-11T16:04:26+00:00"
+            "time": "2025-01-23T17:04:15+00:00"
         },
         {
             "name": "symfony/console",

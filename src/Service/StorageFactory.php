@@ -61,6 +61,7 @@ class StorageFactory implements FactoryInterface
     }
 
     /**
+     * @deprecated This method will be removed in version 3.0
      * Create and return a storage instance (v2 usage).
      *
      * @param null|string $canonicalName
