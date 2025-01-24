@@ -450,13 +450,6 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/Service/ContainerAbstractServiceFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[ContainerAbstractServiceFactory]]></code>
-    </DeprecatedInterface>
-    <MissingConstructor>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$sessionManager]]></code>
-    </MissingConstructor>
     <MixedArgument>
       <code><![CDATA[$config]]></code>
     </MixedArgument>
@@ -466,42 +459,23 @@
     <MixedAssignment>
       <code><![CDATA[$config]]></code>
       <code><![CDATA[$config]]></code>
-      <code><![CDATA[$this->sessionManager]]></code>
+      <code><![CDATA[$sessionManager]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[null|ManagerInterface]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->sessionManager]]></code>
-      <code><![CDATA[$this->sessionManager]]></code>
-    </MixedReturnStatement>
-    <ParamNameMismatch>
-      <code><![CDATA[$container]]></code>
-      <code><![CDATA[$container]]></code>
-    </ParamNameMismatch>
-    <RedundantConditionGivenDocblockType>
-      <code><![CDATA[$this->sessionManager !== null]]></code>
-      <code><![CDATA[null !== $this->config]]></code>
-    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Service/SessionConfigFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[SessionConfigFactory]]></code>
-    </DeprecatedInterface>
+    <MixedArgument>
+      <code><![CDATA[$config]]></code>
+      <code><![CDATA[$config['config_class']]]></code>
+      <code><![CDATA[$config['config_class']]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$config]]></code>
+    </MixedAssignment>
     <MixedMethodCall>
       <code><![CDATA[new $class()]]></code>
     </MixedMethodCall>
-    <ParamNameMismatch>
-      <code><![CDATA[$services]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="src/Service/SessionManagerFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[SessionManagerFactory]]></code>
-    </DeprecatedInterface>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$manager]]></code>
-    </LessSpecificReturnStatement>
     <MixedAssignment>
       <code><![CDATA[$config]]></code>
       <code><![CDATA[$configService]]></code>
@@ -510,17 +484,8 @@
       <code><![CDATA[$storage]]></code>
       <code><![CDATA[$validators]]></code>
     </MixedAssignment>
-    <MoreSpecificReturnType>
-      <code><![CDATA[SessionManager]]></code>
-    </MoreSpecificReturnType>
-    <ParamNameMismatch>
-      <code><![CDATA[$services]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="src/Service/StorageFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[StorageFactory]]></code>
-    </DeprecatedInterface>
     <MixedArgument>
       <code><![CDATA[$options]]></code>
       <code><![CDATA[$type]]></code>
@@ -530,9 +495,6 @@
       <code><![CDATA[$options]]></code>
       <code><![CDATA[$type]]></code>
     </MixedAssignment>
-    <ParamNameMismatch>
-      <code><![CDATA[$services]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="src/SessionManager.php">
     <DocblockTypeContradiction>
@@ -843,6 +805,11 @@
     <UndefinedDocblockClass>
       <code><![CDATA[CallbackHandler]]></code>
     </UndefinedDocblockClass>
+  </file>
+  <file src="src/Validator/Csrf.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$options]]></code>
+    </MixedArgumentTypeCoercion>
   </file>
   <file src="src/Validator/HttpUserAgent.php">
     <PossiblyNullPropertyAssignmentValue>
@@ -1213,52 +1180,17 @@
     <MissingReturnType>
       <code><![CDATA[testServiceNotCreatedWhenInvalidSamesiteConfig]]></code>
     </MissingReturnType>
-    <MixedAssignment>
-      <code><![CDATA[$config]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getName]]></code>
-    </MixedMethodCall>
   </file>
   <file src="test/Service/SessionManagerFactoryTest.php">
-    <MixedArgument>
-      <code><![CDATA[$chain]]></code>
-      <code><![CDATA[$chain]]></code>
-      <code><![CDATA[$manager]]></code>
-    </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$listener[0]]]></code>
       <code><![CDATA[$validatorData[Validator\HttpUserAgent::class]]]></code>
       <code><![CDATA[$validatorData[Validator\RemoteAddr::class]]]></code>
     </MixedArrayAccess>
     <MixedAssignment>
-      <code><![CDATA[$chain]]></code>
-      <code><![CDATA[$chain]]></code>
       <code><![CDATA[$listener]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
       <code><![CDATA[$validatorData]]></code>
     </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getConfig]]></code>
-      <code><![CDATA[getSaveHandler]]></code>
-      <code><![CDATA[getStorage]]></code>
-      <code><![CDATA[getStorage]]></code>
-      <code><![CDATA[getValidatorChain]]></code>
-      <code><![CDATA[getValidatorChain]]></code>
-      <code><![CDATA[start]]></code>
-      <code><![CDATA[start]]></code>
-      <code><![CDATA[start]]></code>
-    </MixedMethodCall>
     <UnusedVariable>
       <code><![CDATA[$manager]]></code>
       <code><![CDATA[$manager]]></code>
@@ -1269,14 +1201,6 @@
       <code><![CDATA[$config['session_storage']['options']]]></code>
       <code><![CDATA[$config['session_storage']['options']['input']]]></code>
     </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$storage]]></code>
-      <code><![CDATA[$storage]]></code>
-      <code><![CDATA[$test]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[toArray]]></code>
-    </MixedMethodCall>
     <UnusedVariable>
       <code><![CDATA[$storage]]></code>
     </UnusedVariable>
@@ -1428,9 +1352,6 @@
       <code><![CDATA[void]]></code>
       <code><![CDATA[void]]></code>
     </ImplementedReturnTypeMismatch>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[ArrayStorage::class]]></code>
-    </InvalidPropertyAssignmentValue>
     <InvalidReturnType>
       <code><![CDATA[forgetMe]]></code>
       <code><![CDATA[getId]]></code>
@@ -1452,10 +1373,6 @@
     <PropertyNotSetInConstructor>
       <code><![CDATA[TestManager]]></code>
     </PropertyNotSetInConstructor>
-    <UndefinedDocblockClass>
-      <code><![CDATA[class-string<StorageInterface>]]></code>
-      <code><![CDATA[protected $storageDefaultClass = ArrayStorage::class;]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="test/TestAsset/TestSaveHandler.php">
     <ImplementedParamTypeMismatch>

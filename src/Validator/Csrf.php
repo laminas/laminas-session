@@ -10,6 +10,7 @@ use Laminas\Validator\AbstractValidator;
 use function assert;
 use function explode;
 use function is_array;
+use function is_int;
 use function is_string;
 use function md5;
 use function random_bytes;
@@ -17,20 +18,12 @@ use function sprintf;
 use function str_replace;
 use function strtr;
 
-/**
- * @psalm-type OptionsArgument = array{
- *     name?: non-empty-string,
- *     salt?: non-empty-string,
- *     session?: Container,
- *     timeout?: ?int,
- * }
- */
 final class Csrf extends AbstractValidator
 {
     /**
      * Error codes
      *
-     * @const string
+     * @var string
      */
     public const NOT_SAME = 'notSame';
 
@@ -46,33 +39,50 @@ final class Csrf extends AbstractValidator
     /**
      * Actual hash used.
      */
-    private ?string $hash = null;
+    private ?string $hash;
 
     /**
      * Name of CSRF element (used to create non-colliding hashes)
      *
      * @var non-empty-string
      */
-    private string $name = 'csrf';
+    private string $name;
 
     /**
      * Salt for CSRF token
      *
      * @var non-empty-string
      */
-    private string $salt = 'salt';
+    private string $salt;
 
-    private ?Container $session = null;
+    private ?Container $session;
 
     /**
      * TTL for CSRF token
      */
-    private int|null $timeout = 300;
+    private ?int $timeout;
 
-    /** @param OptionsArgument $options */
     public function __construct(array $options = [])
     {
         parent::__construct($options);
+
+        $hash    = $options['hash'] ?? null;
+        $name    = $options['name'] ?? 'csrf';
+        $salt    = $options['salt'] ?? 'salt';
+        $session = $options['session'] ?? null;
+        $timeout = $options['timeout'] ?? 300;
+
+        assert(is_string($hash) || $hash === null);
+        assert(is_string($name) && $name !== '');
+        assert(is_string($salt) && $salt !== '');
+        assert($session instanceof Container || $session === null);
+        assert(is_int($timeout) || $timeout === null);
+
+        $this->hash    = $hash;
+        $this->name    = $name;
+        $this->salt    = $salt;
+        $this->session = $session;
+        $this->timeout = $timeout;
     }
 
     /**

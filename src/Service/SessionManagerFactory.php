@@ -4,16 +4,15 @@ namespace Laminas\Session\Service;
 
 // phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\FactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\StorageInterface;
+use Psr\Container\ContainerInterface;
 
 use function array_merge;
 use function class_exists;
@@ -34,7 +33,7 @@ class SessionManagerFactory implements FactoryInterface
     ];
 
     /**
-     * Create session manager object (v3 usage).
+     * Create session manager object.
      *
      * Will consume any combination (or zero) of the following services, when
      * present, to construct the SessionManager instance:
@@ -58,12 +57,12 @@ class SessionManagerFactory implements FactoryInterface
      *   as the default manager for Container instances. The default value for
      *   this is true; set it to false to disable.
      * - validators: ...
-     *
-     * @param string $requestedName
-     * @return SessionManager
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        ?array $options = null
+    ): ManagerInterface {
         $config        = null;
         $storage       = null;
         $saveHandler   = null;
@@ -125,7 +124,6 @@ class SessionManagerFactory implements FactoryInterface
                 $options = $managerConfig['options'];
             }
         }
-
         $managerClass = class_exists($requestedName) ? $requestedName : SessionManager::class;
         if (! is_subclass_of($managerClass, ManagerInterface::class)) {
             throw new ServiceNotCreatedException(sprintf(
@@ -147,21 +145,5 @@ class SessionManagerFactory implements FactoryInterface
         }
 
         return $manager;
-    }
-
-    /**
-     * @deprecated This method will be removed in version 3.0
-     * Create a SessionManager instance (v2 usage)
-     *
-     * @param null|string $canonicalName
-     * @param string $requestedName
-     * @return SessionManager
-     */
-    public function createService(
-        ServiceLocatorInterface $services,
-        $canonicalName = null,
-        $requestedName = SessionManager::class
-    ) {
-        return $this($services, $requestedName);
     }
 }
