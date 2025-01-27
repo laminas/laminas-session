@@ -150,7 +150,7 @@ class Cache implements SaveHandlerInterface
     }
 
     /**
-     * @deprecated Misspelled method - use getCacheStorage() instead
+     * @deprecated Misspelled method - use getCacheStorage() instead. Will be removed in version 3.0
      *
      * @return CacheStorage
      */
