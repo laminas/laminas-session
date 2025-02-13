@@ -798,11 +798,6 @@
       <code><![CDATA[CallbackHandler]]></code>
     </UndefinedDocblockClass>
   </file>
-  <file src="src/Validator/Csrf.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$options]]></code>
-    </MixedArgumentTypeCoercion>
-  </file>
   <file src="src/Validator/HttpUserAgent.php">
     <PossiblyNullPropertyAssignmentValue>
       <code><![CDATA[$data]]></code>

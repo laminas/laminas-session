@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Laminas\Session\Validator;
 
 use Laminas\Session\Container;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\Validator\AbstractValidator;
 
 use function assert;
@@ -18,12 +19,25 @@ use function sprintf;
 use function str_replace;
 use function strtr;
 
+/**
+ * @psalm-type OptionsArgument = array{
+ * hash?: non-empty-string,
+ * name?: non-empty-string,
+ * salt?: non-empty-string,
+ * session?: Container,
+ * timeout?: int,
+ * messages?: array<string, string>,
+ * translator?: TranslatorInterface|null,
+ * translatorTextDomain?: string|null,
+ * translatorEnabled?: bool,
+ * valueObscured?: bool,
+ * ...<string, mixed>
+ * }
+ */
 final class Csrf extends AbstractValidator
 {
     /**
      * Error codes
-     *
-     * @var string
      */
     public const NOT_SAME = 'notSame';
 
@@ -62,6 +76,7 @@ final class Csrf extends AbstractValidator
      */
     private ?int $timeout;
 
+    /** @param OptionsArgument $options  */
     public function __construct(array $options = [])
     {
         parent::__construct($options);

@@ -36,19 +36,19 @@ use function strtolower;
  * $container = $services->get('MySessionContainer');
  * </code>
  */
-class ContainerAbstractServiceFactory implements AbstractFactoryInterface
+final class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 {
     /**
      * Cached container configuration
      */
-    protected array $config = [];
+    private ?array $config = null;
 
     /**
      * Configuration key in which session containers live
      */
-    protected string $configKey = 'session_containers';
+    private string $configKey = 'session_containers';
 
-    protected ?ManagerInterface $sessionManager = null;
+    private ?ManagerInterface $sessionManager = null;
 
     /**
      * Can we create an instance of the given service?
@@ -78,16 +78,18 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
      */
     protected function getConfig(ContainerInterface $container): array
     {
-        if (! empty($this->config)) {
+        if ($this->config !== null) {
             return $this->config;
         }
 
         if (! $container->has('config')) {
+            $this->config = [];
             return $this->config;
         }
 
         $config = $container->get('config');
         if (! isset($config[$this->configKey]) || ! is_array($config[$this->configKey])) {
+            $this->config = [];
             return $this->config;
         }
 
