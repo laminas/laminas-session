@@ -16,7 +16,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use function is_array;
 use function sprintf;
 
-class StorageFactory implements FactoryInterface
+final class StorageFactory implements FactoryInterface
 {
     /**
      * Uses "session_storage" section of configuration to seed a StorageInterface

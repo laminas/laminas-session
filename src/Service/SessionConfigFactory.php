@@ -13,14 +13,13 @@ use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Laminas\Session\SaveHandler\SaveHandlerInterface;
 
 use function class_exists;
 use function get_debug_type;
 use function is_array;
 use function sprintf;
 
-class SessionConfigFactory implements FactoryInterface
+final class SessionConfigFactory implements FactoryInterface
 {
     /**
      * Create session configuration object.

@@ -21,14 +21,12 @@ use function is_array;
 use function is_subclass_of;
 use function sprintf;
 
-class SessionManagerFactory implements FactoryInterface
+final class SessionManagerFactory implements FactoryInterface
 {
     /**
      * Default configuration for manager behavior
-     *
-     * @var array
      */
-    protected $defaultManagerConfig = [
+    private array $defaultManagerConfig = [
         'enable_default_container_manager' => true,
     ];
 

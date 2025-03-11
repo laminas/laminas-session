@@ -60,8 +60,7 @@ final class ContainerAbstractServiceFactory implements AbstractFactoryInterface
             return false;
         }
 
-        $containerName = $this->normalizeContainerName($requestedName);
-        return array_key_exists($containerName, $config);
+        return array_key_exists(strtolower($requestedName), $config);
     }
 
     /**
@@ -76,7 +75,7 @@ final class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Retrieve config from service locator, and cache for later
      */
-    protected function getConfig(ContainerInterface $container): array
+    private function getConfig(ContainerInterface $container): array
     {
         if ($this->config !== null) {
             return $this->config;
@@ -104,7 +103,7 @@ final class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Retrieve the session manager instance, if any
      */
-    protected function getSessionManager(ContainerInterface $container): ?ManagerInterface
+    private function getSessionManager(ContainerInterface $container): ?ManagerInterface
     {
         if ($this->sessionManager !== null) {
             return $this->sessionManager;
@@ -119,13 +118,5 @@ final class ContainerAbstractServiceFactory implements AbstractFactoryInterface
         }
 
         return $this->sessionManager;
-    }
-
-    /**
-     * Normalize the container name in order to perform a lookup
-     */
-    protected function normalizeContainerName(string $name): string
-    {
-        return strtolower($name);
     }
 }

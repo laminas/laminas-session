@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\Service;
 
-use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\EventManager;
 use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\ServiceManager;
@@ -119,8 +119,8 @@ class SessionManagerFactoryTest extends TestCase
 
         $chain = $manager->getValidatorChain();
 
-        self::assertInstanceOf(EventManagerInterface::class, $chain);
-        /** @psalm-suppress ArgumentTypeCoercion **/
+        self::assertInstanceOf(EventManager::class, $chain);
+
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
         self::assertCount(2, $listeners);
     }
@@ -209,8 +209,8 @@ class SessionManagerFactoryTest extends TestCase
 
         $chain = $manager->getValidatorChain();
 
-        self::assertInstanceOf(EventManagerInterface::class, $chain);
-        /** @psalm-suppress ArgumentTypeCoercion **/
+        self::assertInstanceOf(EventManager::class, $chain);
+
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
         self::assertCount(2, $listeners);
 
