@@ -42,7 +42,6 @@
         "laminas/laminas-cache": "^3.12.2",
         "laminas/laminas-cache-storage-adapter-memory": "^2.3",
         "laminas/laminas-coding-standard": "~3.0.1",
-        "laminas/laminas-db": "^2.20.0",
         "laminas/laminas-http": "^2.20",
         "laminas/laminas-validator": "^2.64.1",
         "phpunit/phpunit": "^10.5.38",
@@ -51,7 +50,6 @@
     },
     "suggest": {
         "laminas/laminas-cache": "Laminas\\Cache component",
-        "laminas/laminas-db": "Laminas\\Db component",
         "laminas/laminas-http": "Laminas\\Http component",
         "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
         "laminas/laminas-validator": "Laminas\\Validator component"
