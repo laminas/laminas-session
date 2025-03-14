@@ -13,6 +13,8 @@ use function version_compare;
 
 /**
  * MongoDB session save handler Options
+ *
+ * @deprecated This class will be removed in version 3.0
  */
 class MongoDBOptions extends AbstractOptions
 {
