@@ -72,32 +72,6 @@ $manager      = new SessionManager();
 $manager->setSaveHandler($saveHandler);
 ```
 
-## MongoDB
-
-`Laminas\Session\SaveHandler\MongoDB` allows you to provide a MongoDB collection to
-be utilized as a session save handler. You provide the options in the
-`Laminas\Session\SaveHandler\MongoDBOptions` class. You must install the
-[mongodb PHP extensions](http://php.net/mongodb) and the
-[MongoDB PHP library](https://github.com/mongodb/mongo-php-library).
-
-### Basic Usage
-
-```php
-use MongoDB\Client;
-use Laminas\Session\SaveHandler\MongoDB;
-use Laminas\Session\SaveHandler\MongoDBOptions;
-use Laminas\Session\SessionManager;
-
-$mongoClient = new Client();
-$options = new MongoDBOptions([
-    'database'   => 'myapp',
-    'collection' => 'sessions',
-]);
-$saveHandler = new MongoDB($mongoClient, $options);
-$manager     = new SessionManager();
-$manager->setSaveHandler($saveHandler);
-```
-
 ## Custom Save Handlers
 
 There may be cases where you want to create a save handler.  Creating a custom

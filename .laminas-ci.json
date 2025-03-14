@@ -1,6 +1,5 @@
 {
     "extensions": [
-        "mongodb",
         "mysql",
         "pgsql",
         "xdebug"
