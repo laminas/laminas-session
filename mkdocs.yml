@@ -2,19 +2,23 @@ docs_dir: docs/book
 site_dir: docs/html
 nav:
     - Home: index.md
-    - "Session Config": config.md
-    - "Session Container": container.md
-    - "Session Manager": manager.md
-    - "Session Save Handlers": save-handler.md
-    - "Session Storage": storage.md
-    - Validators:
-        - Introduction: validators/introduction.md
-        - "Http User Agent": validators/httpuseragent.md
-        - "Remote Address": validators/remoteaddr.md
-        - "CSRF Validator": validators/csrf.md
-        - "Writing Custom Validators": validators/writing-custom-validators.md
-    - "Application Integration":
-        - "Usage in a laminas-mvc application": application-integration/usage-in-a-laminas-mvc-application.md
+    - v2:
+        - Installation: v2/installation.md
+        - "Session Config": v2/config.md
+        - "Session Container": v2/container.md
+        - "Session Manager": v2/manager.md
+        - "Session Save Handlers": v2/save-handler.md
+        - "Session Storage": v2/storage.md
+        - Validators:
+            - Introduction: v2/validators/introduction.md
+            - "Http User Agent": v2/validators/httpuseragent.md
+            - "Remote Address": v2/validators/remoteaddr.md
+            - "CSRF Validator": v2/validators/csrf.md
+            - "Writing Custom Validators": v2/validators/writing-custom-validators.md
+        - Migration:
+            - "Preparing for v3": v2/migration/preparing-for-v3.md
+        - "Application Integration":
+            - "Usage in a laminas-mvc application": v2/application-integration/usage-in-a-laminas-mvc-application.md
 site_name: laminas-session
 site_description: 'Object-oriented interface to PHP sessions and storage.'
 repo_url: 'https://github.com/laminas/laminas-session'
@@ -23,7 +27,10 @@ extra:
     installation:
       config_provider_class: 'Laminas\Session\ConfigProvider'
       module_class: 'Laminas\Session\Module'
+    current_version: v2
+    versions:
+        - v2
 plugins:
     - redirects:
           redirect_maps:
-              validator.md: validators/introduction.md
+              validator.md: v2/validators/introduction.md
