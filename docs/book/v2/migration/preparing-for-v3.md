@@ -5,7 +5,7 @@ This document is intended to help you prepare for these changes.
 
 ## Removed Features
 
-### `MongoDB` removal
+### `MongoDB` Removal
 
 `Laminas\Session\SaveHandler\MongoDB` and its options class `Laminas\Session\SaveHandler\MongoDBOptions`
 are now deprecated and will be removed without replacement in version 3.0.

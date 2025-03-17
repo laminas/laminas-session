@@ -19,7 +19,7 @@ use function time;
 /**
  * MongoDB session save handler
  *
- * @deprecated This class will be removed in version 3.0
+ * @deprecated This class will be removed without replacement in version 3.0.
  *
  * @see ReturnTypeWillChange
  */

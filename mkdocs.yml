@@ -33,4 +33,16 @@ extra:
 plugins:
     - redirects:
           redirect_maps:
+              installation.md: v2/installation.md
+              config.md: v2/config.md
+              container.md: v2/container.md
+              manager.md: v2/manager.md
+              save-handler.md: v2/save-handler.md
+              storage.md: v2/storage.md
+              validators/introduction.md: v2/validators/introduction.md
+              validators/httpuseragent.md: v2/validators/httpuseragent.md
+              validators/remoteaddr.md: v2/validators/remoteaddr.md
+              validators/csrf.md: v2/validators/csrf.md
+              validators/writing-custom-validators.md: v2/validators/writing-custom-validators.md
+              application-integration/usage-in-a-laminas-mvc-application.md: v2/application-integration/usage-in-a-laminas-mvc-application.md
               validator.md: v2/validators/introduction.md
