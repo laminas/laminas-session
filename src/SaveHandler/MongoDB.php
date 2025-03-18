@@ -4,6 +4,7 @@ namespace Laminas\Session\SaveHandler;
 
 use Laminas\Session\Exception\InvalidArgumentException;
 use MongoDB\BSON\Binary;
+use MongoDB\BSON\Int64;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Client as MongoClient;
 use MongoDB\Collection as MongoCollection;
@@ -17,6 +18,8 @@ use function time;
 
 /**
  * MongoDB session save handler
+ *
+ * @deprecated This class will be removed without replacement in version 3.0.
  *
  * @see ReturnTypeWillChange
  */
@@ -162,7 +165,9 @@ class MongoDB implements SaveHandlerInterface
             '$set' => [
                 $this->options->getDataField()     => new Binary((string) $data, Binary::TYPE_GENERIC),
                 $this->options->getLifetimeField() => $this->lifetime,
-                $this->options->getModifiedField() => new UTCDateTime(floor(microtime(true) * 1000)),
+                $this->options->getModifiedField() => new UTCDateTime(
+                    new Int64((string) floor(microtime(true) * 1000))
+                ),
             ],
         ];
 
@@ -222,7 +227,7 @@ class MongoDB implements SaveHandlerInterface
 
         $result = $this->mongoCollection->deleteMany(
             [
-                $this->options->getModifiedField() => ['$lt' => new UTCDateTime($microseconds)],
+                $this->options->getModifiedField() => ['$lt' => new UTCDateTime(new Int64((string) $microseconds))],
             ],
             $this->options->getSaveOptions()
         );
