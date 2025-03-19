@@ -7,7 +7,10 @@ This document details those changes, and provides suggestions on how to update y
 
 ### `MongoDB` Removal
 
-`Laminas\Session\SaveHandler\MongoDB` and its options class `Laminas\Session\SaveHandler\MongoDBOptions`
-are removed without replacement in version 3.0.
-As such, these classes are to be removed from your inheritance tree.
-With this step, the `mongodb/mongodb` dependency is also removed starting from this version.
+MongoDB support has been completely removed in version 3.0, notably the following classes no longer exist:
+
+- `Laminas\Session\SaveHandler\MongoDB`
+- `Laminas\Session\SaveHandler\MongoDBOptions`
+
+If you require MongoDB support in your application, you will need to implement that support yourself
+by creating a class that implements `Laminas\Session\SaveHandler\SaveHandlerInterface` as per [the custom save handler documentation](../save-handler.md).
