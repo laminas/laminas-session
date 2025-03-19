@@ -9,6 +9,8 @@ use function strlen;
 
 /**
  * DbTableGateway Save Handler Options
+ *
+ * @deprecated This class will be removed without replacement in version 3.0.
  */
 class DbTableGatewayOptions extends AbstractOptions
 {

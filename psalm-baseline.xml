@@ -465,6 +465,9 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/SaveHandler/DbTableGateway.php">
+    <DeprecatedClass>
+      <code><![CDATA[protected]]></code>
+    </DeprecatedClass>
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[true]]></code>
     </ImplementedReturnTypeMismatch>
@@ -1371,6 +1374,26 @@
     </UnusedVariable>
   </file>
   <file src="test/SaveHandler/AbstractDbTableGatewayTestCase.php">
+    <DeprecatedClass>
+      <code><![CDATA[DbTableGatewayOptions]]></code>
+      <code><![CDATA[DbTableGatewayOptions]]></code>
+      <code><![CDATA[new DbTableGateway($this->tableGateway, $this->options)]]></code>
+      <code><![CDATA[new DbTableGateway($this->tableGateway, $this->options)]]></code>
+      <code><![CDATA[new DbTableGateway($this->tableGateway, $this->options)]]></code>
+      <code><![CDATA[new DbTableGateway($this->tableGateway, $this->options)]]></code>
+      <code><![CDATA[new DbTableGateway($this->tableGateway, $this->options)]]></code>
+      <code><![CDATA[new DbTableGateway($this->tableGateway, $this->options)]]></code>
+      <code><![CDATA[new DbTableGateway($this->tableGateway, $this->options)]]></code>
+      <code><![CDATA[new DbTableGatewayOptions(
+            [
+                'nameColumn'     => 'name',
+                'idColumn'       => 'id',
+                'dataColumn'     => 'data',
+                'modifiedColumn' => 'modified',
+                'lifetimeColumn' => 'lifetime',
+            ]
+        )]]></code>
+    </DeprecatedClass>
     <DocblockTypeContradiction>
       <code><![CDATA[! $this->adapter]]></code>
       <code><![CDATA[$this->adapter]]></code>
@@ -1402,7 +1425,68 @@
       <code><![CDATA[CacheAdapter]]></code>
     </UndefinedDocblockClass>
   </file>
+  <file src="test/SaveHandler/DbTableGateway/MysqliAdapterTest.php">
+    <DeprecatedClass>
+      <code><![CDATA[DbTableGateway::class]]></code>
+      <code><![CDATA[DbTableGateway::class]]></code>
+    </DeprecatedClass>
+  </file>
+  <file src="test/SaveHandler/DbTableGateway/PdoMysqlAdapterTest.php">
+    <DeprecatedClass>
+      <code><![CDATA[DbTableGateway::class]]></code>
+      <code><![CDATA[DbTableGateway::class]]></code>
+    </DeprecatedClass>
+  </file>
+  <file src="test/SaveHandler/DbTableGateway/PdoSqliteAdapterTest.php">
+    <DeprecatedClass>
+      <code><![CDATA[DbTableGateway::class]]></code>
+    </DeprecatedClass>
+  </file>
+  <file src="test/SaveHandler/DbTableGateway/PgsqlAdapterTest.php">
+    <DeprecatedClass>
+      <code><![CDATA[DbTableGateway::class]]></code>
+      <code><![CDATA[DbTableGateway::class]]></code>
+    </DeprecatedClass>
+  </file>
   <file src="test/SaveHandler/DbTableGatewayOptionsTest.php">
+    <DeprecatedClass>
+      <code><![CDATA[new DbTableGatewayOptions(
+            [
+                'dataColumn' => null,
+            ]
+        )]]></code>
+      <code><![CDATA[new DbTableGatewayOptions(
+            [
+                'idColumn'       => 'testId',
+                'nameColumn'     => 'testName',
+                'modifiedColumn' => 'testModified',
+                'lifetimeColumn' => 'testLifetime',
+                'dataColumn'     => 'testData',
+            ]
+        )]]></code>
+      <code><![CDATA[new DbTableGatewayOptions(
+            [
+                'idColumn' => null,
+            ]
+        )]]></code>
+      <code><![CDATA[new DbTableGatewayOptions(
+            [
+                'lifetimeColumn' => null,
+            ]
+        )]]></code>
+      <code><![CDATA[new DbTableGatewayOptions(
+            [
+                'modifiedColumn' => null,
+            ]
+        )]]></code>
+      <code><![CDATA[new DbTableGatewayOptions(
+            [
+                'nameColumn' => null,
+            ]
+        )]]></code>
+      <code><![CDATA[new DbTableGatewayOptions()]]></code>
+      <code><![CDATA[new DbTableGatewayOptions()]]></code>
+    </DeprecatedClass>
     <UnusedVariable>
       <code><![CDATA[$options]]></code>
       <code><![CDATA[$options]]></code>
@@ -1719,6 +1803,11 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/TestAsset/TestDbTableGatewaySaveHandler.php">
+    <DeprecatedClass>
+      <code><![CDATA[DbTableGateway]]></code>
+      <code><![CDATA[parent::destroy($id)]]></code>
+      <code><![CDATA[parent::read($id, $destroyExpired)]]></code>
+    </DeprecatedClass>
     <MethodSignatureMustProvideReturnType>
       <code><![CDATA[destroy]]></code>
       <code><![CDATA[read]]></code>

@@ -12,6 +12,8 @@ use function time;
 /**
  * DB Table Gateway session save handler
  *
+ * @deprecated This class will be removed without replacement in version 3.0.
+ *
  * @see ReturnTypeWillChange
  */
 class DbTableGateway implements SaveHandlerInterface
