@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\SaveHandler;
 
-use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Session\SaveHandler\Cache;
 use PHPUnit\Framework\TestCase;
+use Psr\SimpleCache\CacheInterface;
 
-use function is_string;
 use function serialize;
 use function unserialize;
 use function var_export;
@@ -21,9 +20,6 @@ use function var_export;
  */
 class CacheTest extends TestCase
 {
-    /** @var CacheAdapter */
-    protected $cache;
-
     /** @var array */
     protected $testArray;
 
@@ -42,13 +38,13 @@ class CacheTest extends TestCase
 
     public function testReadWrite(): void
     {
-        $cacheStorage = $this->createMock(StorageInterface::class);
+        $cacheStorage = $this->createMock(CacheInterface::class);
         $cacheStorage->expects(self::any())
-            ->method('setItem')
+            ->method('set')
             ->with('242', self::anything())
             ->willReturnCallback(static function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
                 $cacheStorage->expects(self::any())
-                ->method('getItem')
+                ->method('get')
                 ->with('242')
                 ->willReturn($secondArgs);
                 return true;
@@ -70,13 +66,13 @@ class CacheTest extends TestCase
 
     public function testReadWriteComplex(): void
     {
-        $cacheStorage = $this->createMock(StorageInterface::class);
+        $cacheStorage = $this->createMock(CacheInterface::class);
         $cacheStorage->expects(self::any())
-            ->method('setItem')
+            ->method('set')
             ->with('242', self::anything())
             ->willReturnCallback(static function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
                 $cacheStorage->expects(self::any())
-                ->method('getItem')
+                ->method('get')
                 ->with('242')
                 ->willReturn($secondArgs);
                 return true;
@@ -93,13 +89,13 @@ class CacheTest extends TestCase
 
     public function testReadWriteTwice(): void
     {
-        $cacheStorage = $this->createMock(StorageInterface::class);
+        $cacheStorage = $this->createMock(CacheInterface::class);
         $cacheStorage->expects(self::exactly(2))
-            ->method('setItem')
+            ->method('set')
             ->with('242', self::anything())
             ->willReturnCallback(static function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
                 $cacheStorage->expects(self::any())
-                ->method('getItem')
+                ->method('get')
                 ->with('242')
                 ->willReturn($secondArgs);
                 return true;
@@ -120,20 +116,20 @@ class CacheTest extends TestCase
 
     public function testReadShouldAlwaysReturnString(): void
     {
-        $cacheStorage = $this->createMock(StorageInterface::class);
-        $cacheStorage->expects(self::any())->method('getItem')->willReturn(null);
+        $cacheStorage = $this->createMock(CacheInterface::class);
+        $cacheStorage->expects(self::any())->method('get')->willReturn(null);
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
 
         $data = $saveHandler->read($id);
 
-        self::assertTrue(is_string($data));
+        self::assertIsString($data);
     }
 
     public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist(): void
     {
-        $cacheStorage             = $this->createMock(StorageInterface::class);
+        $cacheStorage             = $this->createMock(CacheInterface::class);
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
@@ -145,13 +141,13 @@ class CacheTest extends TestCase
 
     public function testDestroyReturnsTrueWhenSessionIsDeleted(): void
     {
-        $cacheStorage = $this->createMock(StorageInterface::class);
+        $cacheStorage = $this->createMock(CacheInterface::class);
         $cacheStorage->expects(self::any())
-            ->method('setItem')
+            ->method('set')
             ->with('242', self::anything())
             ->willReturnCallback(static function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
                 $cacheStorage->expects(self::any())
-                ->method('getItem')
+                ->method('get')
                 ->with('242')
                 ->willReturn($secondArgs);
                 return true;

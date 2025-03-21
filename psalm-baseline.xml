@@ -447,8 +447,6 @@
     </ParamNameMismatch>
     <PossiblyUnusedMethod>
       <code><![CDATA[close]]></code>
-      <code><![CDATA[gc]]></code>
-      <code><![CDATA[getCacheStorge]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedProperty>
       <code><![CDATA[$sessionName]]></code>
@@ -1207,16 +1205,9 @@
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
     </MixedAssignment>
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$cache]]></code>
-    </PossiblyUnusedProperty>
-    <RedundantConditionGivenDocblockType>
-      <code><![CDATA[assertTrue]]></code>
-      <code><![CDATA[is_string($data)]]></code>
-    </RedundantConditionGivenDocblockType>
-    <UndefinedDocblockClass>
-      <code><![CDATA[CacheAdapter]]></code>
-    </UndefinedDocblockClass>
+    <RedundantCondition>
+      <code><![CDATA[assertIsString]]></code>
+    </RedundantCondition>
   </file>
   <file src="test/Service/ContainerAbstractServiceFactoryTest.php">
     <MixedAssignment>

@@ -5,36 +5,6 @@ are decoupled from PHP's save handler functions and are only implemented as a
 PHP save handler when utilized in conjunction with
 `Laminas\Session\SessionManager`.
 
-## Cache
-
-`Laminas\Session\SaveHandler\Cache` allows you to provide an instance of
-`Laminas\Cache\Storage\Adapter\AdapterInterface` to be utilized as a session save
-handler. Generally if you are utilizing the `Cache` save handler; you are likely
-using products such as memcached.
-
-### Basic usage
-
-A basic example is one like the following:
-
-```php
-use Laminas\Cache\StorageFactory;
-use Laminas\Session\SaveHandler\Cache;
-use Laminas\Session\SessionManager;
-
-$cache = StorageFactory::factory([
-    'adapter' => [
-       'name' => 'memcached',
-       'options' => [
-           'server' => '127.0.0.1',
-       ],
-    ],
-]);
-
-$saveHandler = new Cache($cache);
-$manager = new SessionManager();
-$manager->setSaveHandler($saveHandler);
-```
-
 ## DbTableGateway
 
 `Laminas\Session\SaveHandler\DbTableGateway` allows you to utilize

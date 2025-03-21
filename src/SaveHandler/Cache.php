@@ -2,8 +2,7 @@
 
 namespace Laminas\Session\SaveHandler;
 
-use Laminas\Cache\Storage\ClearExpiredInterface as ClearExpiredCacheStorage;
-use Laminas\Cache\Storage\StorageInterface as CacheStorage;
+use Psr\SimpleCache\CacheInterface;
 use ReturnTypeWillChange;
 
 /**
@@ -15,42 +14,26 @@ class Cache implements SaveHandlerInterface
 {
     /**
      * Session Save Path
-     *
-     * @var string
      */
-    protected $sessionSavePath;
+    protected string $sessionSavePath;
 
     /**
      * Session Name
-     *
-     * @var string
      */
-    protected $sessionName;
-
-    /**
-     * The cache storage
-     *
-     * @var CacheStorage
-     */
-    protected $cacheStorage;
+    protected string $sessionName;
 
     /**
      * Constructor
      */
-    public function __construct(CacheStorage $cacheStorage)
+    public function __construct(protected CacheInterface $cacheStorage)
     {
         $this->setCacheStorage($cacheStorage);
     }
 
     /**
      * Open Session
-     *
-     * @param string $path
-     * @param string $name
-     * @return bool
      */
-    #[ReturnTypeWillChange]
-    public function open($path, $name)
+    public function open(string $path, string $name): bool
     {
         // @todo figure out if we want to use these
         $this->sessionSavePath = $path;
@@ -61,79 +44,52 @@ class Cache implements SaveHandlerInterface
 
     /**
      * Close session
-     *
-     * @return bool
      */
-    #[ReturnTypeWillChange]
-    public function close()
+    public function close(): bool
     {
         return true;
     }
 
     /**
      * Read session data
-     *
-     * @param string $id
-     * @return string
      */
-    #[ReturnTypeWillChange]
-    public function read($id)
+    public function read(string $id): string
     {
-        return (string) $this->getCacheStorage()->getItem($id);
+        return (string) $this->getCacheStorage()->get($id);
     }
 
     /**
      * Write session data
-     *
-     * @param string $id
-     * @param string $data
-     * @return bool
      */
-    #[ReturnTypeWillChange]
-    public function write($id, $data)
+    public function write(string $id, string $data): bool
     {
-        return $this->getCacheStorage()->setItem($id, $data);
+        return $this->getCacheStorage()->set($id, $data);
     }
 
     /**
      * Destroy session
-     *
-     * @param string $id
-     * @return bool
      */
-    #[ReturnTypeWillChange]
-    public function destroy($id)
+    public function destroy(string $id): bool
     {
-        $this->getCacheStorage()->getItem($id, $exists);
-        if (! (bool) $exists) {
+        if (! $this->getCacheStorage()->has($id)) {
             return true;
         }
 
-        return (bool) $this->getCacheStorage()->removeItem($id);
+        return $this->getCacheStorage()->delete($id);
     }
 
     /**
      * Garbage Collection
-     *
-     * @param int $maxlifetime
-     * @return bool
      */
-    #[ReturnTypeWillChange]
-    public function gc($maxlifetime)
+    public function gc(int $maxlifetime): bool
     {
-        $cache = $this->getCacheStorage();
-        if ($cache instanceof ClearExpiredCacheStorage) {
-            return $cache->clearExpired();
-        }
         return true;
     }
 
     /**
      * Set cache storage
-     *
-     * @return Cache
      */
-    public function setCacheStorage(CacheStorage $cacheStorage)
+    public function setCacheStorage(CacheInterface $cacheStorage): Cache
     {
         $this->cacheStorage = $cacheStorage;
         return $this;
@@ -141,21 +97,9 @@ class Cache implements SaveHandlerInterface
 
     /**
      * Get cache storage
-     *
-     * @return CacheStorage
      */
-    public function getCacheStorage()
+    public function getCacheStorage(): CacheInterface
     {
         return $this->cacheStorage;
-    }
-
-    /**
-     * @deprecated Misspelled method - use getCacheStorage() instead. Will be removed in version 3.0
-     *
-     * @return CacheStorage
-     */
-    public function getCacheStorge()
-    {
-        return $this->getCacheStorage();
     }
 }
