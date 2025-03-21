@@ -81,9 +81,9 @@ class Cache implements SaveHandlerInterface
     /**
      * Garbage Collection
      */
-    public function gc(int $maxlifetime): bool
+    public function gc(int $maxlifetime): int|false
     {
-        return true;
+        return 0;
     }
 
     /**
