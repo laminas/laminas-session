@@ -439,26 +439,25 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/SaveHandler/Cache.php">
+    <MixedInferredReturnType>
+      <code><![CDATA[string|false]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->cacheStorage->get($id, false)]]></code>
+    </MixedReturnStatement>
     <ParamNameMismatch>
       <code><![CDATA[$maxlifetime]]></code>
     </ParamNameMismatch>
     <PossiblyUnusedMethod>
       <code><![CDATA[close]]></code>
     </PossiblyUnusedMethod>
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$sessionName]]></code>
-      <code><![CDATA[$sessionSavePath]]></code>
-    </PossiblyUnusedProperty>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[bool]]></code>
     </PossiblyUnusedReturnValue>
-    <PropertyNotSetInConstructor>
+    <UnusedProperty>
       <code><![CDATA[$sessionName]]></code>
       <code><![CDATA[$sessionSavePath]]></code>
-    </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType>
-      <code><![CDATA[(bool) $this->getCacheStorage()->removeItem($id)]]></code>
-    </RedundantCastGivenDocblockType>
+    </UnusedProperty>
   </file>
   <file src="src/Service/ContainerAbstractServiceFactory.php">
     <DeprecatedInterface>
@@ -1202,9 +1201,6 @@
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
     </MixedAssignment>
-    <RedundantCondition>
-      <code><![CDATA[assertIsString]]></code>
-    </RedundantCondition>
   </file>
   <file src="test/Service/ContainerAbstractServiceFactoryTest.php">
     <MixedAssignment>

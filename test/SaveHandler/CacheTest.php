@@ -20,16 +20,13 @@ use function var_export;
  */
 class CacheTest extends TestCase
 {
-    /** @var array */
-    protected $testArray;
+    protected array $testArray;
 
     /**
      * Array to collect used Cache objects, so they are not
      * destroyed before all tests are done and session is not closed
-     *
-     * @var array
      */
-    protected $usedSaveHandlers = [];
+    protected array $usedSaveHandlers = [];
 
     protected function setUp(): void
     {
@@ -50,13 +47,17 @@ class CacheTest extends TestCase
                 return true;
             });
 
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage, '', '');
 
         $id = '242';
 
         self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
-        $data = unserialize($saveHandler->read($id));
+        $data = $saveHandler->read($id);
+
+        self::assertIsString($data);
+
+        $data = unserialize($data);
         self::assertEquals(
             $this->testArray,
             $data,
@@ -77,14 +78,16 @@ class CacheTest extends TestCase
                 ->willReturn($secondArgs);
                 return true;
             });
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage, '', '');
         $saveHandler->open('savepath', 'sessionname');
 
         $id = '242';
 
         self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
-        self::assertEquals($this->testArray, unserialize($saveHandler->read($id)));
+        $result = $saveHandler->read($id);
+        self::assertIsString($result);
+        self::assertEquals($this->testArray, unserialize($result));
     }
 
     public function testReadWriteTwice(): void
@@ -101,36 +104,40 @@ class CacheTest extends TestCase
                 return true;
             });
 
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage, '', '');
 
         $id = '242';
 
         self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
-        self::assertEquals($this->testArray, unserialize($saveHandler->read($id)));
+        $first = $saveHandler->read($id);
+        self::assertIsString($first);
+        self::assertEquals($this->testArray, unserialize($first));
 
         self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
 
-        self::assertEquals($this->testArray, unserialize($saveHandler->read($id)));
+        $second = $saveHandler->read($id);
+        self::assertIsString($second);
+        self::assertEquals($this->testArray, unserialize($second));
     }
 
-    public function testReadShouldAlwaysReturnString(): void
+    public function testReadWillReturnFalseOnCacheMiss(): void
     {
         $cacheStorage = $this->createMock(CacheInterface::class);
-        $cacheStorage->expects(self::any())->method('get')->willReturn(null);
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
+        $cacheStorage->expects(self::any())->method('get')->willReturn(false);
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage, '', '');
 
         $id = '242';
 
         $data = $saveHandler->read($id);
 
-        self::assertIsString($data);
+        self::assertFalse($data);
     }
 
     public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist(): void
     {
         $cacheStorage             = $this->createMock(CacheInterface::class);
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage, '', '');
 
         $id = '242';
 
@@ -153,7 +160,7 @@ class CacheTest extends TestCase
                 return true;
             });
 
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage, '', '');
 
         $id = '242';
 

@@ -3,31 +3,17 @@
 namespace Laminas\Session\SaveHandler;
 
 use Psr\SimpleCache\CacheInterface;
-use ReturnTypeWillChange;
 
 /**
  * Cache session save handler
- *
- * @see ReturnTypeWillChange
  */
-class Cache implements SaveHandlerInterface
+final class Cache implements SaveHandlerInterface
 {
-    /**
-     * Session Save Path
-     */
-    protected string $sessionSavePath;
-
-    /**
-     * Session Name
-     */
-    protected string $sessionName;
-
-    /**
-     * Constructor
-     */
-    public function __construct(protected CacheInterface $cacheStorage)
-    {
-        $this->setCacheStorage($cacheStorage);
+    public function __construct(
+        private CacheInterface $cacheStorage,
+        private string $sessionSavePath,
+        private string $sessionName
+    ) {
     }
 
     /**
@@ -35,7 +21,6 @@ class Cache implements SaveHandlerInterface
      */
     public function open(string $path, string $name): bool
     {
-        // @todo figure out if we want to use these
         $this->sessionSavePath = $path;
         $this->sessionName     = $name;
 
@@ -53,9 +38,9 @@ class Cache implements SaveHandlerInterface
     /**
      * Read session data
      */
-    public function read(string $id): string
+    public function read(string $id): string|false
     {
-        return (string) $this->getCacheStorage()->get($id);
+        return $this->cacheStorage->get($id, false);
     }
 
     /**
@@ -63,7 +48,7 @@ class Cache implements SaveHandlerInterface
      */
     public function write(string $id, string $data): bool
     {
-        return $this->getCacheStorage()->set($id, $data);
+        return $this->cacheStorage->set($id, $data);
     }
 
     /**
@@ -71,11 +56,11 @@ class Cache implements SaveHandlerInterface
      */
     public function destroy(string $id): bool
     {
-        if (! $this->getCacheStorage()->has($id)) {
+        if (! $this->cacheStorage->has($id)) {
             return true;
         }
 
-        return $this->getCacheStorage()->delete($id);
+        return $this->cacheStorage->delete($id);
     }
 
     /**
@@ -84,22 +69,5 @@ class Cache implements SaveHandlerInterface
     public function gc(int $maxlifetime): int|false
     {
         return 0;
-    }
-
-    /**
-     * Set cache storage
-     */
-    public function setCacheStorage(CacheInterface $cacheStorage): Cache
-    {
-        $this->cacheStorage = $cacheStorage;
-        return $this;
-    }
-
-    /**
-     * Get cache storage
-     */
-    public function getCacheStorage(): CacheInterface
-    {
-        return $this->cacheStorage;
     }
 }
