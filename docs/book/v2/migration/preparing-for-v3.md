@@ -5,6 +5,27 @@ This document is intended to help you prepare for these changes.
 
 ## Removed Features
 
+### `laminas/laminas-cache` Removal
+
+From version 3.0 onwards, `laminas-session` will remove the `laminas/laminas-cache`
+dependency and replace it with `psr/simple-cache` to adhere to PSR-16.
+
+The `Laminas\Session\SaveHandler\Cache.php` class will be updated to reflect this change.
+Starting from version 3.0 the class will be made `final` and has been marked as such in the current version.
+The following properties have been marked as deprecated and will be removed in version 3.0:
+
+- `sessionSavePath`
+- `sessionName`
+
+The following methods will also be removed and have been marked as deprecated in the current version:
+
+- `setCacheStorage`
+- `getCacheStorage`
+- `getCacheStorge`
+
+Going forward, you may move `laminas/laminas-cache` to your application's direct requirements to keep using it,
+or find a PSR-16 implementation in the `psr/simple-cache-implementation` virtual repository.
+
 ### `laminas/laminas-db` Removal
 
 Starting from version 3.0 the `laminas/laminas-db` dependency will be removed.

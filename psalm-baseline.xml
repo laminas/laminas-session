@@ -439,6 +439,19 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/SaveHandler/Cache.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getCacheStorage]]></code>
+      <code><![CDATA[getCacheStorage]]></code>
+      <code><![CDATA[getCacheStorage]]></code>
+      <code><![CDATA[getCacheStorage]]></code>
+      <code><![CDATA[getCacheStorage]]></code>
+      <code><![CDATA[getCacheStorage]]></code>
+      <code><![CDATA[setCacheStorage]]></code>
+    </DeprecatedMethod>
+    <DeprecatedProperty>
+      <code><![CDATA[$this->sessionName]]></code>
+      <code><![CDATA[$this->sessionSavePath]]></code>
+    </DeprecatedProperty>
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[bool]]></code>
     </ImplementedReturnTypeMismatch>
