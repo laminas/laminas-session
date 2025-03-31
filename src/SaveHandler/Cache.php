@@ -9,11 +9,8 @@ use Psr\SimpleCache\CacheInterface;
  */
 final class Cache implements SaveHandlerInterface
 {
-    public function __construct(
-        private CacheInterface $cacheStorage,
-        private string $sessionSavePath,
-        private string $sessionName
-    ) {
+    public function __construct(private CacheInterface $cacheStorage)
+    {
     }
 
     /**
@@ -21,9 +18,6 @@ final class Cache implements SaveHandlerInterface
      */
     public function open(string $path, string $name): bool
     {
-        $this->sessionSavePath = $path;
-        $this->sessionName     = $name;
-
         return true;
     }
 
@@ -40,7 +34,10 @@ final class Cache implements SaveHandlerInterface
      */
     public function read(string $id): string|false
     {
-        return $this->cacheStorage->get($id, false);
+        if (! $this->cacheStorage->has($id)) {
+            return false;
+        }
+        return (string) $this->cacheStorage->get($id, '');
     }
 
     /**

@@ -439,12 +439,6 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/SaveHandler/Cache.php">
-    <MixedInferredReturnType>
-      <code><![CDATA[string|false]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->cacheStorage->get($id, false)]]></code>
-    </MixedReturnStatement>
     <ParamNameMismatch>
       <code><![CDATA[$maxlifetime]]></code>
     </ParamNameMismatch>
@@ -454,10 +448,6 @@
     <PossiblyUnusedReturnValue>
       <code><![CDATA[bool]]></code>
     </PossiblyUnusedReturnValue>
-    <UnusedProperty>
-      <code><![CDATA[$sessionName]]></code>
-      <code><![CDATA[$sessionSavePath]]></code>
-    </UnusedProperty>
   </file>
   <file src="src/Service/ContainerAbstractServiceFactory.php">
     <DeprecatedInterface>

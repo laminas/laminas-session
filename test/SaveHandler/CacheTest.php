@@ -41,13 +41,17 @@ class CacheTest extends TestCase
             ->with('242', self::anything())
             ->willReturnCallback(static function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
                 $cacheStorage->expects(self::any())
+                ->method('has')
+                ->willReturn(true);
+
+                $cacheStorage->expects(self::any())
                 ->method('get')
                 ->with('242')
                 ->willReturn($secondArgs);
                 return true;
             });
 
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage, '', '');
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
 
@@ -73,12 +77,16 @@ class CacheTest extends TestCase
             ->with('242', self::anything())
             ->willReturnCallback(static function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
                 $cacheStorage->expects(self::any())
+                    ->method('has')
+                    ->willReturn(true);
+
+                $cacheStorage->expects(self::any())
                 ->method('get')
                 ->with('242')
                 ->willReturn($secondArgs);
                 return true;
             });
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage, '', '');
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
         $saveHandler->open('savepath', 'sessionname');
 
         $id = '242';
@@ -98,13 +106,17 @@ class CacheTest extends TestCase
             ->with('242', self::anything())
             ->willReturnCallback(static function (string $firstArgs, string $secondArgs) use ($cacheStorage): bool {
                 $cacheStorage->expects(self::any())
+                    ->method('has')
+                    ->willReturn(true);
+
+                $cacheStorage->expects(self::any())
                 ->method('get')
                 ->with('242')
                 ->willReturn($secondArgs);
                 return true;
             });
 
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage, '', '');
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
 
@@ -125,7 +137,7 @@ class CacheTest extends TestCase
     {
         $cacheStorage = $this->createMock(CacheInterface::class);
         $cacheStorage->expects(self::any())->method('get')->willReturn(false);
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage, '', '');
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
 
@@ -137,7 +149,7 @@ class CacheTest extends TestCase
     public function testDestroyReturnsTrueEvenWhenSessionDoesNotExist(): void
     {
         $cacheStorage             = $this->createMock(CacheInterface::class);
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage, '', '');
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
 
@@ -160,7 +172,7 @@ class CacheTest extends TestCase
                 return true;
             });
 
-        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage, '', '');
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
 
