@@ -447,6 +447,7 @@
     </ParamNameMismatch>
     <PossiblyUnusedMethod>
       <code><![CDATA[close]]></code>
+      <code><![CDATA[gc]]></code>
       <code><![CDATA[getCacheStorge]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedProperty>
@@ -500,6 +501,7 @@
     </ParamNameMismatch>
     <PossiblyUnusedMethod>
       <code><![CDATA[close]]></code>
+      <code><![CDATA[gc]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedProperty>
       <code><![CDATA[$sessionSavePath]]></code>
@@ -530,101 +532,6 @@
       <code><![CDATA[(string) $lifetimeColumn]]></code>
       <code><![CDATA[(string) $modifiedColumn]]></code>
       <code><![CDATA[(string) $nameColumn]]></code>
-    </RedundantCastGivenDocblockType>
-  </file>
-  <file src="src/SaveHandler/MongoDB.php">
-    <DocblockTypeContradiction>
-      <code><![CDATA[null === ($collection = $options->getCollection())]]></code>
-      <code><![CDATA[null === ($database = $options->getDatabase())]]></code>
-    </DocblockTypeContradiction>
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[bool]]></code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidArgument>
-      <code><![CDATA[$this->options->getSaveOptions()]]></code>
-      <code><![CDATA[$this->options->getSaveOptions()]]></code>
-      <code><![CDATA[$this->options->getSaveOptions()]]></code>
-    </InvalidArgument>
-    <InvalidOperand>
-      <code><![CDATA[(string) $session[$this->options->getModifiedField()]]]></code>
-    </InvalidOperand>
-    <MixedAssignment>
-      <code><![CDATA[$timestamp]]></code>
-      <code><![CDATA[$timestamp]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string]]></code>
-    </MixedInferredReturnType>
-    <MixedMethodCall>
-      <code><![CDATA[getData]]></code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$timestamp]]></code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$session[$this->options->getDataField()]->getData()]]></code>
-    </MixedReturnStatement>
-    <ParamNameMismatch>
-      <code><![CDATA[$maxlifetime]]></code>
-    </ParamNameMismatch>
-    <PossiblyInvalidArrayAccess>
-      <code><![CDATA[$session[$this->options->getDataField()]]]></code>
-      <code><![CDATA[$session[$this->options->getLifetimeField()]]]></code>
-      <code><![CDATA[$session[$this->options->getModifiedField()]]]></code>
-    </PossiblyInvalidArrayAccess>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[close]]></code>
-    </PossiblyUnusedMethod>
-    <PossiblyUnusedReturnValue>
-      <code><![CDATA[bool]]></code>
-      <code><![CDATA[bool]]></code>
-    </PossiblyUnusedReturnValue>
-    <PropertyNotSetInConstructor>
-      <code><![CDATA[$lifetime]]></code>
-      <code><![CDATA[$mongoCollection]]></code>
-      <code><![CDATA[$sessionName]]></code>
-    </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType>
-      <code><![CDATA[(string) $data]]></code>
-    </RedundantCastGivenDocblockType>
-  </file>
-  <file src="src/SaveHandler/MongoDBOptions.php">
-    <DocblockTypeContradiction>
-      <code><![CDATA[$this->saveOptions === ['w' => 1]]]></code>
-      <code><![CDATA[$this->saveOptions === ['w' => 1]]]></code>
-    </DocblockTypeContradiction>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$saveOptions]]></code>
-      <code><![CDATA[['safe' => true]]]></code>
-      <code><![CDATA[['w' => 1]]]></code>
-    </InvalidPropertyAssignmentValue>
-    <MissingParamType>
-      <code><![CDATA[$options]]></code>
-    </MissingParamType>
-    <MissingReturnType>
-      <code><![CDATA[setUseExpireAfterSecondsIndex]]></code>
-    </MissingReturnType>
-    <MissingTemplateParam>
-      <code><![CDATA[MongoDBOptions]]></code>
-    </MissingTemplateParam>
-    <MixedArgument>
-      <code><![CDATA[$options]]></code>
-    </MixedArgument>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[setUseExpireAfterSecondsIndex]]></code>
-    </PossiblyUnusedMethod>
-    <PropertyNotSetInConstructor>
-      <code><![CDATA[$collection]]></code>
-      <code><![CDATA[$database]]></code>
-    </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType>
-      <code><![CDATA[(bool) $useExpireAfterSecondsIndex]]></code>
-      <code><![CDATA[(string) $collection]]></code>
-      <code><![CDATA[(string) $dataField]]></code>
-      <code><![CDATA[(string) $database]]></code>
-      <code><![CDATA[(string) $lifetimeField]]></code>
-      <code><![CDATA[(string) $modifiedField]]></code>
-      <code><![CDATA[(string) $nameField]]></code>
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Service/ContainerAbstractServiceFactory.php">
@@ -1403,27 +1310,6 @@
       <code><![CDATA[$options]]></code>
     </UnusedVariable>
   </file>
-  <file src="test/SaveHandler/MongoDBTest.php">
-    <DeprecatedMethod>
-      <code><![CDATA[count]]></code>
-      <code><![CDATA[count]]></code>
-      <code><![CDATA[count]]></code>
-      <code><![CDATA[count]]></code>
-      <code><![CDATA[count]]></code>
-    </DeprecatedMethod>
-    <InvalidArgument>
-      <code><![CDATA[123]]></code>
-      <code><![CDATA[123]]></code>
-      <code><![CDATA[123]]></code>
-      <code><![CDATA[456]]></code>
-      <code><![CDATA[456]]></code>
-      <code><![CDATA[456]]></code>
-    </InvalidArgument>
-    <RedundantConditionGivenDocblockType>
-      <code><![CDATA[assertTrue]]></code>
-      <code><![CDATA[is_string($data)]]></code>
-    </RedundantConditionGivenDocblockType>
-  </file>
   <file src="test/Service/ContainerAbstractServiceFactoryTest.php">
     <MixedAssignment>
       <code><![CDATA[$container]]></code>
@@ -1714,6 +1600,7 @@
     </ParamNameMismatch>
     <PossiblyUnusedMethod>
       <code><![CDATA[close]]></code>
+      <code><![CDATA[gc]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="test/TestAsset/TestSaveHandlerWithValidator.php">
@@ -1728,6 +1615,7 @@
     </ParamNameMismatch>
     <PossiblyUnusedMethod>
       <code><![CDATA[close]]></code>
+      <code><![CDATA[gc]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="test/Validator/CsrfTest.php">

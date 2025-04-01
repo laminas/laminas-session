@@ -45,7 +45,6 @@
         "laminas/laminas-db": "^2.20.0",
         "laminas/laminas-http": "^2.20",
         "laminas/laminas-validator": "^2.64.1",
-        "mongodb/mongodb": "~1.20.0",
         "phpunit/phpunit": "^10.5.38",
         "psalm/plugin-phpunit": "^0.19.0",
         "vimeo/psalm": "^5.26.1"
@@ -55,8 +54,7 @@
         "laminas/laminas-db": "Laminas\\Db component",
         "laminas/laminas-http": "Laminas\\Http component",
         "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
-        "laminas/laminas-validator": "Laminas\\Validator component",
-        "mongodb/mongodb": "If you want to use the MongoDB session save handler"
+        "laminas/laminas-validator": "Laminas\\Validator component"
     },
     "autoload": {
         "psr-4": {

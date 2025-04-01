@@ -22,8 +22,6 @@ jobs:
     needs: [matrix]
     runs-on: ${{ matrix.operatingSystem }}
     services:
-      mongo:
-        image: mongo
       mysql:
         image: mysql:8
         env:
@@ -61,8 +59,6 @@ jobs:
         with:
           job: ${{ matrix.job }}
         env:
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB: true
-          TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB_CONNECTION_STRING: mongodb://mongo/
           TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL: true
           TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_HOSTNAME: mysql
           TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MYSQL_USERNAME: gha
