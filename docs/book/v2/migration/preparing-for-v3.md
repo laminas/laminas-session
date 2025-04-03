@@ -3,9 +3,9 @@
 Version 3 will introduce a number of backwards incompatible changes.
 This document is intended to help you prepare for these changes.
 
-## Removed Features
+## Upcoming Behaviour and Signature Changes
 
-### `laminas/laminas-cache` Removal
+### `laminas/laminas-cache` Replacement
 
 From version 3.0 onwards, `laminas-session` will remove the `laminas/laminas-cache`
 dependency and replace it with `psr/simple-cache` to adhere to PSR-16.
@@ -25,6 +25,8 @@ The following methods will also be removed and have been marked as deprecated in
 
 Going forward, you may move `laminas/laminas-cache` to your application's direct requirements to keep using it,
 or find a PSR-16 implementation in the `psr/simple-cache-implementation` virtual repository.
+
+## Removed Features
 
 ### `laminas/laminas-db` Removal
 
