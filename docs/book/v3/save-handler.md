@@ -35,43 +35,6 @@ $manager = new SessionManager();
 $manager->setSaveHandler($saveHandler);
 ```
 
-## DbTableGateway
-
-`Laminas\Session\SaveHandler\DbTableGateway` allows you to utilize
-`Laminas\Db\TableGateway\TableGatewayInterface` implementations as a session save
-handler. Setup of a `DbTableGateway` save handler requires an instance of
-`Laminas\Db\TableGateway\TableGatewayInterface` and an instance of
-`Laminas\Session\SaveHandler\DbTableGatewayOptions`. In the most basic setup, a
-`TableGateway` object and using the defaults of the `DbTableGatewayOptions` will
-provide you with what you need.
-
-### Creating the database table
-
-```sql
-CREATE TABLE `session` (
-    `id` char(32),
-    `name` char(32),
-    `modified` int,
-    `lifetime` int,
-    `data` text,
-     PRIMARY KEY (`id`, `name`)
-);
-```
-
-### Basic usage
-
-```php
-use Laminas\Db\TableGateway\TableGateway;
-use Laminas\Session\SaveHandler\DbTableGateway;
-use Laminas\Session\SaveHandler\DbTableGatewayOptions;
-use Laminas\Session\SessionManager;
-
-$tableGateway = new TableGateway('session', $adapter);
-$saveHandler  = new DbTableGateway($tableGateway, new DbTableGatewayOptions());
-$manager      = new SessionManager();
-$manager->setSaveHandler($saveHandler);
-```
-
 ## Custom Save Handlers
 
 There may be cases where you want to create a save handler.  Creating a custom

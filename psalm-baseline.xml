@@ -465,75 +465,6 @@
       <code><![CDATA[(bool) $this->getCacheStorage()->removeItem($id)]]></code>
     </RedundantCastGivenDocblockType>
   </file>
-  <file src="src/SaveHandler/DbTableGateway.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[true]]></code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[ini_get('session.gc_maxlifetime')]]></code>
-    </InvalidPropertyAssignmentValue>
-    <InvalidReturnStatement>
-      <code><![CDATA[(bool) $this->tableGateway->delete(
-            sprintf(
-                '%s < %d',
-                $platform->quoteIdentifier($this->options->getModifiedColumn()),
-                time() - $this->lifetime
-            )
-        )]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[true]]></code>
-    </InvalidReturnType>
-    <MixedAssignment>
-      <code><![CDATA[$row]]></code>
-      <code><![CDATA[$rows]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$row->{$this->options->getModifiedColumn()}]]></code>
-    </MixedOperand>
-    <MixedPropertyFetch>
-      <code><![CDATA[$row->{$this->options->getDataColumn()}]]></code>
-      <code><![CDATA[$row->{$this->options->getLifetimeColumn()}]]></code>
-      <code><![CDATA[$row->{$this->options->getModifiedColumn()}]]></code>
-    </MixedPropertyFetch>
-    <ParamNameMismatch>
-      <code><![CDATA[$maxlifetime]]></code>
-    </ParamNameMismatch>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[close]]></code>
-      <code><![CDATA[gc]]></code>
-    </PossiblyUnusedMethod>
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$sessionSavePath]]></code>
-    </PossiblyUnusedProperty>
-    <PossiblyUnusedReturnValue>
-      <code><![CDATA[bool]]></code>
-    </PossiblyUnusedReturnValue>
-    <PropertyNotSetInConstructor>
-      <code><![CDATA[$lifetime]]></code>
-      <code><![CDATA[$sessionName]]></code>
-      <code><![CDATA[$sessionSavePath]]></code>
-    </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType>
-      <code><![CDATA[(string) $data]]></code>
-    </RedundantCastGivenDocblockType>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[current]]></code>
-      <code><![CDATA[current]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
-  <file src="src/SaveHandler/DbTableGatewayOptions.php">
-    <MissingTemplateParam>
-      <code><![CDATA[DbTableGatewayOptions]]></code>
-    </MissingTemplateParam>
-    <RedundantCastGivenDocblockType>
-      <code><![CDATA[(string) $dataColumn]]></code>
-      <code><![CDATA[(string) $idColumn]]></code>
-      <code><![CDATA[(string) $lifetimeColumn]]></code>
-      <code><![CDATA[(string) $modifiedColumn]]></code>
-      <code><![CDATA[(string) $nameColumn]]></code>
-    </RedundantCastGivenDocblockType>
-  </file>
   <file src="src/Service/ContainerAbstractServiceFactory.php">
     <DeprecatedInterface>
       <code><![CDATA[ContainerAbstractServiceFactory]]></code>
@@ -735,6 +666,9 @@
     <PossiblyInvalidArgument>
       <code><![CDATA[$key]]></code>
     </PossiblyInvalidArgument>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[count]]></code>
+    </PossiblyUnusedMethod>
     <PossiblyUnusedParam>
       <code><![CDATA[$session]]></code>
     </PossiblyUnusedParam>
@@ -1269,23 +1203,6 @@
       <code><![CDATA[$container]]></code>
     </UnusedVariable>
   </file>
-  <file src="test/SaveHandler/AbstractDbTableGatewayTestCase.php">
-    <DocblockTypeContradiction>
-      <code><![CDATA[! $this->adapter]]></code>
-      <code><![CDATA[$this->adapter]]></code>
-    </DocblockTypeContradiction>
-    <MixedAssignment>
-      <code><![CDATA[$data]]></code>
-    </MixedAssignment>
-    <PossiblyUndefinedMethod>
-      <code><![CDATA[count]]></code>
-    </PossiblyUndefinedMethod>
-    <RedundantConditionGivenDocblockType>
-      <code><![CDATA[$this->adapter]]></code>
-      <code><![CDATA[assertTrue]]></code>
-      <code><![CDATA[is_string($data)]]></code>
-    </RedundantConditionGivenDocblockType>
-  </file>
   <file src="test/SaveHandler/CacheTest.php">
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
@@ -1300,15 +1217,6 @@
     <UndefinedDocblockClass>
       <code><![CDATA[CacheAdapter]]></code>
     </UndefinedDocblockClass>
-  </file>
-  <file src="test/SaveHandler/DbTableGatewayOptionsTest.php">
-    <UnusedVariable>
-      <code><![CDATA[$options]]></code>
-      <code><![CDATA[$options]]></code>
-      <code><![CDATA[$options]]></code>
-      <code><![CDATA[$options]]></code>
-      <code><![CDATA[$options]]></code>
-    </UnusedVariable>
   </file>
   <file src="test/Service/ContainerAbstractServiceFactoryTest.php">
     <MixedAssignment>
@@ -1528,24 +1436,6 @@
     <PropertyNotSetInConstructor>
       <code><![CDATA[TestContainer]]></code>
     </PropertyNotSetInConstructor>
-  </file>
-  <file src="test/TestAsset/TestDbTableGatewaySaveHandler.php">
-    <MethodSignatureMustProvideReturnType>
-      <code><![CDATA[destroy]]></code>
-      <code><![CDATA[read]]></code>
-    </MethodSignatureMustProvideReturnType>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-    </PossiblyInvalidArgument>
-    <PropertyNotSetInConstructor>
-      <code><![CDATA[TestDbTableGatewaySaveHandler]]></code>
-      <code><![CDATA[TestDbTableGatewaySaveHandler]]></code>
-      <code><![CDATA[TestDbTableGatewaySaveHandler]]></code>
-    </PropertyNotSetInConstructor>
-    <UnusedClass>
-      <code><![CDATA[TestDbTableGatewaySaveHandler]]></code>
-    </UnusedClass>
   </file>
   <file src="test/TestAsset/TestFailingValidator.php">
     <PossiblyUnusedReturnValue>

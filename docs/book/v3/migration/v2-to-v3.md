@@ -5,6 +5,22 @@ This document details those changes, and provides suggestions on how to update y
 
 ## Removed Features
 
+### `laminas/laminas-db` Removal
+
+Starting from version 3.0 the `laminas/laminas-db` dependency has been removed.
+In consequence the following classes, based on this package, have also been removed:
+
+- `Laminas\Session\SaveHandler\DbTableGateway`
+- `Laminas\Session\SaveHandler\DbTableGatewayOptions`
+
+Any custom code based on them will require you to implement
+replacements yourself by creating classes that implement `Laminas\Session\SaveHandler\SaveHandlerInterface`
+as per [the custom save handler documentation](../save-handler.md),
+with `options` classes for them if the save handlers are configurable.
+
+Alternatively, [axleus/laminas-db](https://github.com/axleus/laminas-db) is an up to date,
+actively maintained fork of `laminas/laminas-db` which plans to adopt the save handler.
+
 ### `MongoDB` Removal
 
 MongoDB support has been completely removed in version 3.0, notably the following classes no longer exist:
