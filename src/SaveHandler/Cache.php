@@ -18,7 +18,7 @@ class Cache implements SaveHandlerInterface
     /**
      * Session Save Path
      *
-     * @deprecated This property will be removed in version 3.0.
+     * @deprecated This property will no longer be needed in the future and will therefore be removed in version 3.0.
      *
      * @var string
      */
@@ -27,7 +27,7 @@ class Cache implements SaveHandlerInterface
     /**
      * Session Name
      *
-     * @deprecated This property will be removed in version 3.0.
+     * @deprecated This property will no longer be needed in the future and will therefore be removed in version 3.0.
      *
      * @var string
      */
@@ -136,7 +136,7 @@ class Cache implements SaveHandlerInterface
     /**
      * Set cache storage
      *
-     * @deprecated This method will be removed in version 3.0.
+     * @deprecated This method will no longer be needed in the future and will therefore be removed in version 3.0.
      *
      * @return Cache
      */
@@ -149,7 +149,7 @@ class Cache implements SaveHandlerInterface
     /**
      * Get cache storage
      *
-     * @deprecated This method will be removed in version 3.0.
+     * @deprecated This method will no longer be needed in the future and will therefore be removed in version 3.0.
      *
      * @return CacheStorage
      */
