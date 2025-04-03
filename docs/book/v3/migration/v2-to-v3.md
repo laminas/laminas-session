@@ -19,7 +19,7 @@ as per [the custom save handler documentation](../save-handler.md),
 with `options` classes for them if the save handlers are configurable.
 
 Alternatively, [axleus/laminas-db](https://github.com/axleus/laminas-db) is an up to date,
-actively maintained fork of `laminas/laminas-db` that can be used as a replacement.
+actively maintained fork of `laminas/laminas-db` which plans to adopt the save handler.
 
 ### `MongoDB` Removal
 
