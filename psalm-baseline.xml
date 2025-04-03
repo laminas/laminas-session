@@ -444,6 +444,7 @@
     </ParamNameMismatch>
     <PossiblyUnusedMethod>
       <code><![CDATA[close]]></code>
+      <code><![CDATA[gc]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[bool]]></code>
