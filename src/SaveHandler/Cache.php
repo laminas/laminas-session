@@ -10,11 +10,15 @@ use ReturnTypeWillChange;
  * Cache session save handler
  *
  * @see ReturnTypeWillChange
+ *
+ * @final
  */
 class Cache implements SaveHandlerInterface
 {
     /**
      * Session Save Path
+     *
+     * @deprecated This property will no longer be needed in the future and will therefore be removed in version 3.0.
      *
      * @var string
      */
@@ -22,6 +26,8 @@ class Cache implements SaveHandlerInterface
 
     /**
      * Session Name
+     *
+     * @deprecated This property will no longer be needed in the future and will therefore be removed in version 3.0.
      *
      * @var string
      */
@@ -52,7 +58,6 @@ class Cache implements SaveHandlerInterface
     #[ReturnTypeWillChange]
     public function open($path, $name)
     {
-        // @todo figure out if we want to use these
         $this->sessionSavePath = $path;
         $this->sessionName     = $name;
 
@@ -131,6 +136,8 @@ class Cache implements SaveHandlerInterface
     /**
      * Set cache storage
      *
+     * @deprecated This method will no longer be needed in the future and will therefore be removed in version 3.0.
+     *
      * @return Cache
      */
     public function setCacheStorage(CacheStorage $cacheStorage)
@@ -141,6 +148,8 @@ class Cache implements SaveHandlerInterface
 
     /**
      * Get cache storage
+     *
+     * @deprecated This method will no longer be needed in the future and will therefore be removed in version 3.0.
      *
      * @return CacheStorage
      */
