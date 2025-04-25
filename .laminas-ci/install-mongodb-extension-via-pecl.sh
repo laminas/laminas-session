@@ -10,6 +10,6 @@ fi
 set +e
 apt install make
 
-pecl install mongodb
+pecl install mongodb-1.21.0
 echo "extension=mongodb.so" > /etc/php/${PHP_VERSION}/mods-available/mongodb.ini
 phpenmod -v ${PHP} -s cli mongodb
