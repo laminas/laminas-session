@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\Service;
 
+use Laminas\EventManager\EventManager;
 use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Container;
@@ -17,11 +17,10 @@ use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\StorageInterface;
 use Laminas\Session\Validator;
 use LaminasTest\Session\ReflectionPropertyTrait;
-use LaminasTest\Session\TestAsset\TestManager;
-use LaminasTest\Session\TestAsset\TestSaveHandler;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
+use function assert;
 use function iterator_to_array;
 
 /**
@@ -39,8 +38,6 @@ class SessionManagerFactoryTest extends TestCase
         $this->services = new ServiceManager([
             'factories' => [
                 ManagerInterface::class => SessionManagerFactory::class,
-                TestManager::class      => SessionManagerFactory::class,
-                TestSaveHandler::class  => SessionManagerFactory::class,
             ],
         ]);
     }
@@ -114,7 +111,8 @@ class SessionManagerFactoryTest extends TestCase
 
         $manager->start();
 
-        $chain     = $manager->getValidatorChain();
+        $chain = $manager->getValidatorChain();
+        assert($chain instanceof EventManager);
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
         self::assertCount(2, $listeners);
     }
@@ -198,7 +196,8 @@ class SessionManagerFactoryTest extends TestCase
             // Ignore exception, because we are not interested whether session validation passes in this test
         }
 
-        $chain     = $manager->getValidatorChain();
+        $chain = $manager->getValidatorChain();
+        assert($chain instanceof EventManager);
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
         self::assertCount(2, $listeners);
 
@@ -232,17 +231,5 @@ class SessionManagerFactoryTest extends TestCase
 
         $containedValidators = $this->getReflectionProperty($manager, 'validators');
         self::assertSame([], $containedValidators);
-    }
-
-    public function testFactoryWillUseRequestedNameAsSessionManagerIfItImplementsManagerInterface(): void
-    {
-        $manager = $this->services->get(TestManager::class);
-        self::assertInstanceOf(TestManager::class, $manager);
-    }
-
-    public function testFactoryWillRaiseServiceNotCreatedExceptionIfRequestedNameIsNotAManagerInterfaceSubclass(): void
-    {
-        $this->expectException(ServiceNotCreatedException::class);
-        $manager = $this->services->get(TestSaveHandler::class);
     }
 }

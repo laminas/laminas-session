@@ -4,25 +4,20 @@ namespace Laminas\Session\Service;
 
 // phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\FactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Container;
-use Laminas\Session\ManagerInterface;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\StorageInterface;
+use Psr\Container\ContainerInterface;
 
 use function array_merge;
-use function class_exists;
 use function get_debug_type;
 use function is_array;
-use function is_subclass_of;
 use function sprintf;
 
-class SessionManagerFactory implements FactoryInterface
+class SessionManagerFactory
 {
     /**
      * Default configuration for manager behavior
@@ -58,11 +53,8 @@ class SessionManagerFactory implements FactoryInterface
      *   as the default manager for Container instances. The default value for
      *   this is true; set it to false to disable.
      * - validators: ...
-     *
-     * @param string $requestedName
-     * @return SessionManager
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container): SessionManager
     {
         $config        = null;
         $storage       = null;
@@ -117,25 +109,16 @@ class SessionManagerFactory implements FactoryInterface
                 $managerConfig = array_merge($managerConfig, $configService['session_manager']);
             }
 
-            if (isset($managerConfig['validators'])) {
+            if (isset($managerConfig['validators']) && is_array($managerConfig['validators'])) {
                 $validators = $managerConfig['validators'];
             }
 
-            if (isset($managerConfig['options'])) {
+            if (isset($managerConfig['options']) && is_array($managerConfig['options'])) {
                 $options = $managerConfig['options'];
             }
         }
 
-        $managerClass = class_exists($requestedName) ? $requestedName : SessionManager::class;
-        if (! is_subclass_of($managerClass, ManagerInterface::class)) {
-            throw new ServiceNotCreatedException(sprintf(
-                'SessionManager requires that the %s service implement %s',
-                $managerClass,
-                ManagerInterface::class
-            ));
-        }
-
-        $manager = new $managerClass($config, $storage, $saveHandler, $validators, $options);
+        $manager = new SessionManager($config, $storage, $saveHandler, $validators, $options);
 
         // If configuration enables the session manager as the default manager for container
         // instances, do so.
@@ -147,21 +130,5 @@ class SessionManagerFactory implements FactoryInterface
         }
 
         return $manager;
-    }
-
-    /**
-     * @deprecated This method will be removed in version 3.0
-     * Create a SessionManager instance (v2 usage)
-     *
-     * @param null|string $canonicalName
-     * @param string $requestedName
-     * @return SessionManager
-     */
-    public function createService(
-        ServiceLocatorInterface $services,
-        $canonicalName = null,
-        $requestedName = SessionManager::class
-    ) {
-        return $this($services, $requestedName);
     }
 }

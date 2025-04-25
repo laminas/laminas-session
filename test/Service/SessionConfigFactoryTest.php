@@ -153,7 +153,7 @@ class SessionConfigFactoryTest extends TestCase
 
         $factory = new SessionConfigFactory();
         /** @var SessionConfig $config */
-        $config = $factory($mockContainer, ConfigInterface::class);
+        $config = $factory($mockContainer);
 
         self::assertInstanceOf(SessionConfig::class, $config);
         /** @noinspection PhpUndefinedMethodInspection This will always exist in SessionConfig */
@@ -185,7 +185,7 @@ class SessionConfigFactoryTest extends TestCase
                       ]);
 
         $factory = new SessionConfigFactory();
-        $config  = $factory($mockContainer, ConfigInterface::class);
+        $config  = $factory($mockContainer);
 
         self::assertInstanceOf(SessionConfig::class, $config);
         /** @noinspection PhpUndefinedMethodInspection This will always exist in SessionConfig */

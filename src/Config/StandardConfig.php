@@ -492,7 +492,9 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
             throw new Exception\InvalidArgumentException('Invalid cookie domain: must be a string');
         }
 
-        $validator = new HostnameValidator(HostnameValidator::ALLOW_ALL);
+        $validator = new HostnameValidator([
+            'allow' => HostnameValidator::ALLOW_ALL,
+        ]);
 
         if (! empty($cookieDomain) && ! $validator->isValid($cookieDomain)) {
             throw new Exception\InvalidArgumentException(

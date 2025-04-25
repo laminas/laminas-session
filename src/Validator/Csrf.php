@@ -7,6 +7,7 @@ namespace Laminas\Session\Validator;
 use Laminas\Session\Container;
 use Laminas\Validator\AbstractValidator;
 
+use function array_key_exists;
 use function assert;
 use function explode;
 use function is_array;
@@ -53,26 +54,30 @@ final class Csrf extends AbstractValidator
      *
      * @var non-empty-string
      */
-    private string $name = 'csrf';
+    private string $name;
 
     /**
      * Salt for CSRF token
      *
      * @var non-empty-string
      */
-    private string $salt = 'salt';
+    private string $salt;
 
-    private ?Container $session = null;
+    private ?Container $session;
 
     /**
      * TTL for CSRF token
      */
-    private int|null $timeout = 300;
+    private int|null $timeout;
 
     /** @param OptionsArgument $options */
     public function __construct(array $options = [])
     {
         parent::__construct($options);
+        $this->name    = $options['name'] ?? 'csrf';
+        $this->salt    = $options['salt'] ?? 'salt';
+        $this->session = $options['session'] ?? null;
+        $this->timeout = array_key_exists('timeout', $options) ? $options['timeout'] : 300;
     }
 
     /**

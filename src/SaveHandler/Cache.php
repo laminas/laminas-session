@@ -73,11 +73,11 @@ class Cache implements SaveHandlerInterface
     /**
      * Read session data
      *
-     * @param string $id
+     * @param non-empty-string $id
      * @return string
      */
     #[ReturnTypeWillChange]
-    public function read($id)
+    public function read(string $id)
     {
         return (string) $this->getCacheStorage()->getItem($id);
     }
@@ -85,12 +85,12 @@ class Cache implements SaveHandlerInterface
     /**
      * Write session data
      *
-     * @param string $id
+     * @param non-empty-string $id
      * @param string $data
      * @return bool
      */
     #[ReturnTypeWillChange]
-    public function write($id, $data)
+    public function write(string $id, $data)
     {
         return $this->getCacheStorage()->setItem($id, $data);
     }
@@ -98,18 +98,18 @@ class Cache implements SaveHandlerInterface
     /**
      * Destroy session
      *
-     * @param string $id
+     * @param non-empty-string $id
      * @return bool
      */
     #[ReturnTypeWillChange]
-    public function destroy($id)
+    public function destroy(string $id)
     {
         $this->getCacheStorage()->getItem($id, $exists);
-        if (! (bool) $exists) {
+        if (! $exists) {
             return true;
         }
 
-        return (bool) $this->getCacheStorage()->removeItem($id);
+        return $this->getCacheStorage()->removeItem($id);
     }
 
     /**
