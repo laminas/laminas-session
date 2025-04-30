@@ -35,12 +35,11 @@
         "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
         "laminas/laminas-eventmanager": "^3.12",
         "laminas/laminas-servicemanager": "^3.22",
-        "laminas/laminas-stdlib": "^3.18"
+        "laminas/laminas-stdlib": "^3.18",
+        "psr/simple-cache": "^3.0"
     },
     "require-dev": {
         "ext-xdebug": "*",
-        "laminas/laminas-cache": "^3.12.2",
-        "laminas/laminas-cache-storage-adapter-memory": "^2.3",
         "laminas/laminas-coding-standard": "~3.0.1",
         "laminas/laminas-http": "^2.20",
         "laminas/laminas-validator": "^2.64.1",
@@ -49,7 +48,7 @@
         "vimeo/psalm": "^5.26.1"
     },
     "suggest": {
-        "laminas/laminas-cache": "Laminas\\Cache component",
+        "psr/simple-cache-implementation": "Find implementations of PSR-16 in this virtual package",
         "laminas/laminas-http": "Laminas\\Http component",
         "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
         "laminas/laminas-validator": "Laminas\\Validator component"

@@ -2,160 +2,89 @@
 
 namespace Laminas\Session\SaveHandler;
 
-use Laminas\Cache\Storage\ClearExpiredInterface as ClearExpiredCacheStorage;
-use Laminas\Cache\Storage\StorageInterface as CacheStorage;
-use ReturnTypeWillChange;
+use Laminas\Session\Exception\SimpleCacheInvalidArgumentException;
+use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\InvalidArgumentException;
+
+use function hash;
 
 /**
  * Cache session save handler
- *
- * @see ReturnTypeWillChange
  */
-class Cache implements SaveHandlerInterface
+final class Cache implements SaveHandlerInterface
 {
-    /**
-     * Session Save Path
-     *
-     * @var string
-     */
-    protected $sessionSavePath;
-
-    /**
-     * Session Name
-     *
-     * @var string
-     */
-    protected $sessionName;
-
-    /**
-     * The cache storage
-     *
-     * @var CacheStorage
-     */
-    protected $cacheStorage;
-
-    /**
-     * Constructor
-     */
-    public function __construct(CacheStorage $cacheStorage)
+    public function __construct(private readonly CacheInterface $cacheStorage)
     {
-        $this->setCacheStorage($cacheStorage);
     }
 
     /**
      * Open Session
-     *
-     * @param string $path
-     * @param string $name
-     * @return bool
      */
-    #[ReturnTypeWillChange]
-    public function open($path, $name)
+    public function open(string $path, string $name): bool
     {
-        // @todo figure out if we want to use these
-        $this->sessionSavePath = $path;
-        $this->sessionName     = $name;
-
         return true;
     }
 
     /**
      * Close session
-     *
-     * @return bool
      */
-    #[ReturnTypeWillChange]
-    public function close()
+    public function close(): bool
     {
         return true;
     }
 
     /**
      * Read session data
-     *
-     * @param string $id
-     * @return string
      */
-    #[ReturnTypeWillChange]
-    public function read($id)
+    public function read(string $id): string|false
     {
-        return (string) $this->getCacheStorage()->getItem($id);
+        try {
+            if (! $this->cacheStorage->has($this->getCacheKey($id))) {
+                return false;
+            }
+            return (string) $this->cacheStorage->get($this->getCacheKey($id), '');
+        } catch (InvalidArgumentException $exception) {
+            throw new SimpleCacheInvalidArgumentException($exception->getMessage(), $exception->getCode(), $exception);
+        }
     }
 
     /**
      * Write session data
-     *
-     * @param string $id
-     * @param string $data
-     * @return bool
      */
-    #[ReturnTypeWillChange]
-    public function write($id, $data)
+    public function write(string $id, string $data): bool
     {
-        return $this->getCacheStorage()->setItem($id, $data);
+        try {
+            return $this->cacheStorage->set($this->getCacheKey($id), $data);
+        } catch (InvalidArgumentException $exception) {
+            throw new SimpleCacheInvalidArgumentException($exception->getMessage(), $exception->getCode(), $exception);
+        }
     }
 
     /**
      * Destroy session
-     *
-     * @param string $id
-     * @return bool
      */
-    #[ReturnTypeWillChange]
-    public function destroy($id)
+    public function destroy(string $id): bool
     {
-        $this->getCacheStorage()->getItem($id, $exists);
-        if (! (bool) $exists) {
-            return true;
+        try {
+            if (! $this->cacheStorage->has($this->getCacheKey($id))) {
+                return true;
+            }
+            return $this->cacheStorage->delete($this->getCacheKey($id));
+        } catch (InvalidArgumentException $exception) {
+            throw new SimpleCacheInvalidArgumentException($exception->getMessage(), $exception->getCode(), $exception);
         }
-
-        return (bool) $this->getCacheStorage()->removeItem($id);
     }
 
     /**
      * Garbage Collection
-     *
-     * @param int $maxlifetime
-     * @return bool
      */
-    #[ReturnTypeWillChange]
-    public function gc($maxlifetime)
+    public function gc(int $maxlifetime): int|false
     {
-        $cache = $this->getCacheStorage();
-        if ($cache instanceof ClearExpiredCacheStorage) {
-            return $cache->clearExpired();
-        }
-        return true;
+        return 0;
     }
 
-    /**
-     * Set cache storage
-     *
-     * @return Cache
-     */
-    public function setCacheStorage(CacheStorage $cacheStorage)
+    private function getCacheKey(string $id): string
     {
-        $this->cacheStorage = $cacheStorage;
-        return $this;
-    }
-
-    /**
-     * Get cache storage
-     *
-     * @return CacheStorage
-     */
-    public function getCacheStorage()
-    {
-        return $this->cacheStorage;
-    }
-
-    /**
-     * @deprecated Misspelled method - use getCacheStorage() instead. Will be removed in version 3.0
-     *
-     * @return CacheStorage
-     */
-    public function getCacheStorge()
-    {
-        return $this->getCacheStorage();
+        return hash('xxh32', $id);
     }
 }

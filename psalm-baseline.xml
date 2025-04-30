@@ -435,35 +435,19 @@
       <code><![CDATA[self]]></code>
       <code><![CDATA[self]]></code>
       <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/SaveHandler/Cache.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[bool]]></code>
-    </ImplementedReturnTypeMismatch>
     <ParamNameMismatch>
       <code><![CDATA[$maxlifetime]]></code>
     </ParamNameMismatch>
     <PossiblyUnusedMethod>
       <code><![CDATA[close]]></code>
       <code><![CDATA[gc]]></code>
-      <code><![CDATA[getCacheStorge]]></code>
     </PossiblyUnusedMethod>
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$sessionName]]></code>
-      <code><![CDATA[$sessionSavePath]]></code>
-    </PossiblyUnusedProperty>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[bool]]></code>
     </PossiblyUnusedReturnValue>
-    <PropertyNotSetInConstructor>
-      <code><![CDATA[$sessionName]]></code>
-      <code><![CDATA[$sessionSavePath]]></code>
-    </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType>
-      <code><![CDATA[(bool) $this->getCacheStorage()->removeItem($id)]]></code>
-    </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Service/ContainerAbstractServiceFactory.php">
     <DeprecatedInterface>
@@ -1207,16 +1191,12 @@
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
     </MixedAssignment>
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$cache]]></code>
-    </PossiblyUnusedProperty>
-    <RedundantConditionGivenDocblockType>
-      <code><![CDATA[assertTrue]]></code>
-      <code><![CDATA[is_string($data)]]></code>
-    </RedundantConditionGivenDocblockType>
-    <UndefinedDocblockClass>
-      <code><![CDATA[CacheAdapter]]></code>
-    </UndefinedDocblockClass>
+  </file>
+  <file src="test/SaveHandler/SimpleCacheTest.php">
+    <MixedAssignment>
+      <code><![CDATA[$cacheStorage]]></code>
+      <code><![CDATA[$storageReflection]]></code>
+    </MixedAssignment>
   </file>
   <file src="test/Service/ContainerAbstractServiceFactoryTest.php">
     <MixedAssignment>
@@ -1507,6 +1487,11 @@
       <code><![CDATA[close]]></code>
       <code><![CDATA[gc]]></code>
     </PossiblyUnusedMethod>
+  </file>
+  <file src="test/TestAsset/TestSimpleCacheAdapter.php">
+    <MixedAssignment>
+      <code><![CDATA[$result]]></code>
+    </MixedAssignment>
   </file>
   <file src="test/Validator/CsrfTest.php">
     <DocblockTypeContradiction>
