@@ -36,7 +36,8 @@ class CacheTest extends TestCase
 
     public function testReadWrite(): void
     {
-        $id       = '242';
+        // Because keys are hashed, characters invalid for Psr\SimpleCache\CacheInterface keys are allowed here
+        $id       = '\invalid@test{key}';
         $cacheKey = hash('xxh32', $id);
 
         $cacheStorage = $this->createMock(CacheInterface::class);
@@ -170,7 +171,8 @@ class CacheTest extends TestCase
 
     public function testDestroyReturnsTrueWhenSessionIsDeleted(): void
     {
-        $id       = '242';
+        // Because keys are hashed, characters invalid for Psr\SimpleCache\CacheInterface keys are allowed here
+        $id       = '\invalid@test{key}';
         $cacheKey = hash('xxh32', $id);
 
         $cacheStorage = $this->createMock(CacheInterface::class);

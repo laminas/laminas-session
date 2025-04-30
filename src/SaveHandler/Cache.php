@@ -13,7 +13,7 @@ use function hash;
  */
 final class Cache implements SaveHandlerInterface
 {
-    public function __construct(private CacheInterface $cacheStorage)
+    public function __construct(private readonly CacheInterface $cacheStorage)
     {
     }
 
