@@ -278,9 +278,6 @@
       <code><![CDATA[null|string]]></code>
       <code><![CDATA[string|null]]></code>
     </ImplementedReturnTypeMismatch>
-    <InvalidArgument>
-      <code><![CDATA[HostnameValidator::ALLOW_ALL]]></code>
-    </InvalidArgument>
     <InvalidReturnType>
       <code><![CDATA[mixed]]></code>
     </InvalidReturnType>
@@ -1396,14 +1393,6 @@
     <MixedAssignment>
       <code><![CDATA[$result]]></code>
     </MixedAssignment>
-  </file>
-  <file src="test/Validator/CsrfTest.php">
-    <DocblockTypeContradiction>
-      <code><![CDATA[$container->hash]]></code>
-    </DocblockTypeContradiction>
-    <TypeDoesNotContainType>
-      <code><![CDATA[assertIsString]]></code>
-    </TypeDoesNotContainType>
   </file>
   <file src="test/Validator/IdTest.php">
     <PossiblyUnusedMethod>
