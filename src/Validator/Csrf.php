@@ -25,7 +25,7 @@ use function strtr;
  * name?: non-empty-string,
  * salt?: non-empty-string,
  * session?: Container,
- * timeout?: int,
+ * timeout?: positive-int,
  * messages?: array<string, string>,
  * translator?: TranslatorInterface|null,
  * translatorTextDomain?: string|null,
@@ -73,8 +73,10 @@ final class Csrf extends AbstractValidator
 
     /**
      * TTL for CSRF token
+     *
+     * @var positive-int
      */
-    private ?int $timeout;
+    private int $timeout;
 
     /** @param OptionsArgument $options  */
     public function __construct(array $options = [])
@@ -91,7 +93,7 @@ final class Csrf extends AbstractValidator
         assert(is_string($name) && $name !== '');
         assert(is_string($salt) && $salt !== '');
         assert($session instanceof Container || $session === null);
-        assert(is_int($timeout) || $timeout === null);
+        assert(is_int($timeout) && $timeout > 0);
 
         $this->name    = $name;
         $this->salt    = $salt;
@@ -158,10 +160,7 @@ final class Csrf extends AbstractValidator
     private function initCsrfToken(): void
     {
         $session = $this->session;
-        $timeout = $this->timeout;
-        if (null !== $timeout) {
-            $session->setExpirationSeconds($timeout);
-        }
+        $session->setExpirationSeconds($this->timeout);
 
         $hash    = $this->hash;
         $token   = $this->getTokenFromHash($hash);
