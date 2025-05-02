@@ -9,8 +9,10 @@ use Laminas\Session\Container;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Validator\Csrf;
+use LaminasTest\Session\ReflectionPropertyTrait;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
+use ReflectionObject;
 
 use function class_exists;
 use function md5;
@@ -21,7 +23,10 @@ use function uniqid;
 
 class CsrfTest extends TestCase
 {
+    use ReflectionPropertyTrait;
+
     private Csrf $validator;
+    private ReflectionObject $validatorReflection;
     private SessionManager $sessionManager;
 
     protected function setUp(): void
@@ -37,7 +42,14 @@ class CsrfTest extends TestCase
         $this->sessionManager = $sessionManager;
         Container::setDefaultManager($sessionManager);
 
-        $this->validator = new Csrf();
+        $this->validator           = new Csrf();
+        $this->validatorReflection = new ReflectionObject($this->validator);
+    }
+
+    private function getValidatorPropertyValue(string $property): mixed
+    {
+        $reflectionProperty = $this->validatorReflection->getProperty($property);
+        return $reflectionProperty->getValue($this->validator);
     }
 
     protected function tearDown(): void
@@ -54,118 +66,94 @@ class CsrfTest extends TestCase
 
     public function testSaltHasDefaultValueIfNotSet(): void
     {
-        self::assertSame('salt', $this->validator->getSalt());
-    }
+        $salt = $this->getValidatorPropertyValue('salt');
 
-    public function testSaltIsMutable(): void
-    {
-        $this->validator->setSalt('pepper');
-
-        self::assertSame('pepper', $this->validator->getSalt());
+        self::assertIsString($salt);
+        self::assertSame('salt', $salt);
     }
 
     public function testSessionContainerIsLazyLoadedIfNotSet(): void
     {
-        $container = $this->validator->getSession();
+        $container = $this->getValidatorPropertyValue('session');
 
         self::assertInstanceOf(Container::class, $container);
     }
 
-    public function testSessionContainerIsMutable(): void
-    {
-        $container = new Container('foo', $this->sessionManager);
-        $this->validator->setSession($container);
-
-        self::assertSame($container, $this->validator->getSession());
-    }
-
     public function testNameHasDefaultValue(): void
     {
-        self::assertSame('csrf', $this->validator->getName());
-    }
-
-    public function testNameIsMutable(): void
-    {
-        $this->validator->setName('foo');
-
-        self::assertSame('foo', $this->validator->getName());
+        self::assertSame('csrf', $this->getValidatorPropertyValue('name'));
     }
 
     public function testTimeoutHasDefaultValue(): void
     {
-        self::assertSame(300, $this->validator->getTimeout());
-    }
-
-    /**
-     * @return list<array{0: null|int, 1: null|int}>
-     */
-    public static function timeoutValuesDataProvider(): array
-    {
-        return [
-            //    timeout  expected
-            [600,     600],
-            [null,    null],
-            [0,     0],
-            [100,   100],
-        ];
-    }
-
-    /**
-     * @dataProvider timeoutValuesDataProvider
-     */
-    public function testTimeoutIsMutable(int|null $timeout, ?int $expected): void
-    {
-        $this->validator->setTimeout($timeout);
-
-        self::assertSame($expected, $this->validator->getTimeout());
+        self::assertSame(300, $this->getValidatorPropertyValue('timeout'));
     }
 
     public function testAllOptionsMayBeSetViaConstructor(): void
     {
         $container = new Container('foo', $this->sessionManager);
         $options   = [
-            'name'    => 'hash',
+            'hash'    => 'bar',
+            'name'    => 'baz',
             'salt'    => 'salty',
             'session' => $container,
             'timeout' => 600,
         ];
         $validator = new Csrf($options);
 
-        self::assertSame('hash', $validator->getName());
-        self::assertSame('salty', $validator->getSalt());
-        self::assertSame($container, $validator->getSession());
-        self::assertSame(600, $validator->getTimeout());
+        self::assertSame('bar', $this->getReflectionProperty($validator, 'hash'));
+        self::assertSame('baz', $this->getReflectionProperty($validator, 'name'));
+        self::assertSame('salty', $this->getReflectionProperty($validator, 'salt'));
+        self::assertSame($container, $this->getReflectionProperty($validator, 'session'));
+        self::assertSame(600, $this->getReflectionProperty($validator, 'timeout'));
     }
 
     public function testHashIsGeneratedOnFirstRetrieval(): void
     {
-        $hash = $this->validator->getHash();
+        $hash = $this->getValidatorPropertyValue('hash');
 
         self::assertNotEmpty($hash);
 
-        $test = $this->validator->getHash();
+        $test = $this->getValidatorPropertyValue('hash');
 
         self::assertSame($hash, $test);
     }
 
     public function testSessionNameIsDerivedFromClassSaltAndName(): void
     {
-        $class    = $this->validator::class;
-        $class    = str_replace('\\', '_', $class);
-        $expected = sprintf('%s_%s_%s', $class, $this->validator->getSalt(), $this->validator->getName());
+        $class = $this->validator::class;
+        $class = str_replace('\\', '_', $class);
+        $salt  = $this->getValidatorPropertyValue('salt');
+        $name  = $this->getValidatorPropertyValue('name');
+
+        self::assertIsString($salt);
+        self::assertIsString($name);
+
+        $expected = sprintf('%s_%s_%s', $class, $salt, $name);
 
         self::assertSame($expected, $this->validator->getSessionName());
     }
 
     public function testSessionNameRemainsValidForElementBelongingToFieldset(): void
     {
-        $this->validator->setName('fieldset[csrf]');
-        $class    = $this->validator::class;
-        $class    = str_replace('\\', '_', $class);
-        $name     = strtr($this->validator->getName(), ['[' => '_', ']' => '']);
-        $expected = sprintf('%s_%s_%s', $class, $this->validator->getSalt(), $name);
+        $container = new Container('foo', $this->sessionManager);
+        $options   = [
+            'name'    => 'fieldset[csrf]',
+            'session' => $container,
+        ];
+        $validator = new Csrf($options);
+        $salt      = $this->getReflectionProperty($validator, 'salt');
+        $name      = $this->getReflectionProperty($validator, 'name');
 
-        self::assertSame($expected, $this->validator->getSessionName());
+        self::assertIsString($salt);
+        self::assertIsString($name);
+
+        $class    = $validator::class;
+        $class    = str_replace('\\', '_', $class);
+        $name     = strtr($name, ['[' => '_', ']' => '']);
+        $expected = sprintf('%s_%s_%s', $class, $salt, $name);
+
+        self::assertSame($expected, $validator->getSessionName());
     }
 
     public function testIsValidReturnsFalseWhenValueDoesNotMatchHash(): void
@@ -184,31 +172,31 @@ class CsrfTest extends TestCase
 
     public function testIsValidReturnsTrueWhenValueMatchesHash(): void
     {
-        $hash = $this->validator->getHash();
-
+        $hash = $this->getValidatorPropertyValue('hash');
+        self::assertIsString($hash);
         self::assertTrue($this->validator->isValid($hash));
     }
 
     public function testSessionContainerContainsHashAfterHashHasBeenGenerated(): void
     {
-        $container = $this->validator->getSession();
+        $container = $this->getValidatorPropertyValue('session');
+        self::assertInstanceOf(Container::class, $container);
         self::assertNull($container->hash);
 
-        $hash = $this->validator->getHash();
-        $test = $container->hash ?? null; // Doing this, as expiration hops are 1; have to grab on first access
+        $method       = new ReflectionMethod($this->validator::class, 'getTokenIdFromHash');
+        $formatMethod = new ReflectionMethod($this->validator::class, 'formatHash');
 
-        self::assertIsString($test);
-        self::assertSame($hash, $test);
-    }
+        $hash = $this->getValidatorPropertyValue('hash');
+        self::assertIsString($hash);
+        $tokenId = $method->invoke($this->validator, $hash);
+        self::assertIsString($tokenId);
+        $token = $container->tokenList[$tokenId] ?? '';
+        self::assertIsString($token);
 
-    public function testSettingNewSessionContainerSetsHashInNewContainer(): void
-    {
-        $hash      = $this->validator->getHash();
-        $container = new Container('foo', $this->sessionManager);
-        $this->validator->setSession($container);
-        $test = $container->hash; // Doing this, as expiration hops are 1; have to grab on first access
+        $testHash = $formatMethod->invoke($this->validator, $token, $tokenId);
 
-        self::assertSame($hash, $test);
+        self::assertIsString($testHash);
+        self::assertSame($hash, $testHash);
     }
 
     public function testMultipleValidatorsSharingContainerGenerateDifferentHashes(): void
@@ -216,13 +204,17 @@ class CsrfTest extends TestCase
         $validatorOne = new Csrf();
         $validatorTwo = new Csrf();
 
-        $containerOne = $validatorOne->getSession();
-        $containerTwo = $validatorOne->getSession();
+        $containerOne = $this->getReflectionProperty($validatorOne, 'session');
+        self::assertInstanceOf(Container::class, $containerOne);
+        $containerTwo = $this->getReflectionProperty($validatorOne, 'session');
+        self::assertInstanceOf(Container::class, $containerTwo);
 
         self::assertSame($containerOne, $containerTwo);
 
-        $hashOne = $validatorOne->getHash();
-        $hashTwo = $validatorTwo->getHash();
+        $hashOne = $this->getReflectionProperty($validatorOne, 'hash');
+        self::assertIsString($hashOne);
+        $hashTwo = $this->getReflectionProperty($validatorTwo, 'hash');
+        self::assertIsString($hashTwo);
 
         self::assertNotSame($hashOne, $hashTwo);
     }
@@ -232,8 +224,10 @@ class CsrfTest extends TestCase
         $validatorOne = new Csrf();
         $validatorTwo = new Csrf();
 
-        $hashOne = $validatorOne->getHash();
-        $hashTwo = $validatorTwo->getHash();
+        $hashOne = $this->getReflectionProperty($validatorOne, 'hash');
+        self::assertIsString($hashOne);
+        $hashTwo = $this->getReflectionProperty($validatorTwo, 'hash');
+        self::assertIsString($hashTwo);
 
         self::assertTrue($validatorOne->isValid($hashOne));
         self::assertTrue($validatorOne->isValid($hashTwo));
@@ -246,13 +240,17 @@ class CsrfTest extends TestCase
         $validatorOne = new Csrf();
         $validatorTwo = new Csrf(['name' => 'foo']);
 
-        $containerOne = $validatorOne->getSession();
-        $containerTwo = $validatorTwo->getSession();
+        $containerOne = $this->getReflectionProperty($validatorOne, 'session');
+        self::assertInstanceOf(Container::class, $containerOne);
+        $containerTwo = $this->getReflectionProperty($validatorTwo, 'session');
+        self::assertInstanceOf(Container::class, $containerTwo);
 
         self::assertNotSame($containerOne, $containerTwo);
 
-        $hashOne = $validatorOne->getHash();
-        $hashTwo = $validatorTwo->getHash();
+        $hashOne = $this->getReflectionProperty($validatorOne, 'hash');
+        self::assertIsString($hashOne);
+        $hashTwo = $this->getReflectionProperty($validatorTwo, 'hash');
+        self::assertIsString($hashTwo);
 
         self::assertTrue($validatorOne->isValid($hashOne));
         self::assertFalse($validatorOne->isValid($hashTwo));
@@ -262,29 +260,22 @@ class CsrfTest extends TestCase
 
     public function testCannotReValidateAnExpiredHash(): void
     {
-        $hash = $this->validator->getHash();
+        $hash = $this->getValidatorPropertyValue('hash');
+        self::assertIsString($hash);
 
         self::assertTrue($this->validator->isValid($hash));
         $requestTime = $_SERVER['REQUEST_TIME'] ?? null;
         self::assertIsNumeric($requestTime);
 
+        $container = $this->getValidatorPropertyValue('session');
+        self::assertInstanceOf(Container::class, $container);
+
         $this->sessionManager->getStorage()->setMetadata(
-            $this->validator->getSession()->getName(),
+            $container->getName(),
             ['EXPIRE' => $requestTime - 18600]
         );
 
         self::assertFalse($this->validator->isValid($hash));
-    }
-
-    public function testCanValidateHashWithoutId(): void
-    {
-        $method = new ReflectionMethod($this->validator::class, 'getTokenFromHash');
-
-        $hash      = $this->validator->getHash();
-        $bareToken = $method->invoke($this->validator, $hash);
-        self::assertIsString($bareToken);
-
-        self::assertTrue($this->validator->isValid($bareToken));
     }
 
     public function testCanRejectArrayValues(): void

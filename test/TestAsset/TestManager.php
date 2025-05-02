@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace LaminasTest\Session\TestAsset;
 
 use Laminas\EventManager\EventManagerInterface;
-use Laminas\Sessin\Storage\StorageInterface;
 use Laminas\Session\AbstractManager;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Storage\ArrayStorage;
+use Laminas\Session\Storage\StorageInterface;
 
 class TestManager extends AbstractManager
 {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\Service;
 
+use Laminas\EventManager\EventManager;
 use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\ServiceManager;
@@ -114,7 +115,12 @@ class SessionManagerFactoryTest extends TestCase
 
         $manager->start();
 
-        $chain     = $manager->getValidatorChain();
+        self::assertInstanceOf(ManagerInterface::class, $manager);
+
+        $chain = $manager->getValidatorChain();
+
+        self::assertInstanceOf(EventManager::class, $chain);
+
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
         self::assertCount(2, $listeners);
     }
@@ -192,13 +198,19 @@ class SessionManagerFactoryTest extends TestCase
         );
 
         $manager = $this->services->get(ManagerInterface::class);
+
+        self::assertInstanceOf(ManagerInterface::class, $manager);
+
         try {
             $manager->start();
         } catch (RuntimeException) {
             // Ignore exception, because we are not interested whether session validation passes in this test
         }
 
-        $chain     = $manager->getValidatorChain();
+        $chain = $manager->getValidatorChain();
+
+        self::assertInstanceOf(EventManager::class, $chain);
+
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
         self::assertCount(2, $listeners);
 

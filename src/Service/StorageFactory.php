@@ -4,34 +4,35 @@ namespace Laminas\Session\Service;
 
 // phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\FactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\Session\Exception\ExceptionInterface as SessionException;
 use Laminas\Session\Storage\Factory;
 use Laminas\Session\Storage\StorageInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 use function is_array;
 use function sprintf;
 
-class StorageFactory implements FactoryInterface
+final class StorageFactory implements FactoryInterface
 {
     /**
-     * Create session storage object (v3 usage).
-     *
      * Uses "session_storage" section of configuration to seed a StorageInterface
      * instance. That array should contain the key "type", specifying the storage
      * type to use, and optionally "options", containing any options to be used in
      * creating the StorageInterface instance.
      *
-     * @param string $requestedName
-     * @return StorageInterface
      * @throws ServiceNotCreatedException If session_storage is missing, or the
      *         factory cannot create the storage instance.
+     * @throws NotFoundExceptionInterface|ContainerExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        ?array $options = null
+    ): StorageInterface {
         $config = $container->get('config');
         if (! isset($config['session_storage']) || ! is_array($config['session_storage'])) {
             throw new ServiceNotCreatedException(
@@ -58,21 +59,5 @@ class StorageFactory implements FactoryInterface
         }
 
         return $storage;
-    }
-
-    /**
-     * @deprecated This method will be removed in version 3.0
-     * Create and return a storage instance (v2 usage).
-     *
-     * @param null|string $canonicalName
-     * @param string $requestedName
-     * @return StorageInterface
-     */
-    public function createService(
-        ServiceLocatorInterface $services,
-        $canonicalName = null,
-        $requestedName = StorageInterface::class
-    ) {
-        return $this($services, $requestedName);
     }
 }
