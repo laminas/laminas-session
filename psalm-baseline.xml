@@ -446,19 +446,6 @@
       <code><![CDATA[bool]]></code>
     </PossiblyUnusedReturnValue>
   </file>
-  <file src="src/Service/ContainerAbstractServiceFactory.php">
-    <MixedArgument>
-      <code><![CDATA[$config]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$config[$this->configKey]]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$sessionManager]]></code>
-    </MixedAssignment>
-  </file>
   <file src="src/Service/SessionConfigFactory.php">
     <MixedMethodCall>
       <code><![CDATA[new $class()]]></code>
@@ -1039,45 +1026,19 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="test/ConfigProviderTest.php">
-    <MixedArgument>
-      <code><![CDATA[$abstractFactories]]></code>
-    </MixedArgument>
     <MixedArrayAccess>
-      <code><![CDATA[$aliases[SessionManager::class]]]></code>
-      <code><![CDATA[$config['abstract_factories']]]></code>
-      <code><![CDATA[$config['aliases']]]></code>
       <code><![CDATA[$config['factories']]]></code>
-      <code><![CDATA[$config[LegacyConfigInterface::class]]]></code>
-      <code><![CDATA[$config[LegacyManagerInterface::class]]]></code>
-      <code><![CDATA[$config[LegacySessionManager::class]]]></code>
-      <code><![CDATA[$config[LegacyStorageInterface::class]]]></code>
       <code><![CDATA[$factories[ConfigInterface::class]]]></code>
       <code><![CDATA[$factories[ManagerInterface::class]]]></code>
       <code><![CDATA[$factories[StorageInterface::class]]]></code>
-      <code><![CDATA[$this->config['dependencies']['aliases']]]></code>
     </MixedArrayAccess>
-    <MixedArrayOffset>
-      <code><![CDATA[$config[LegacyConfigInterface::class]]]></code>
-      <code><![CDATA[$config[LegacyManagerInterface::class]]]></code>
-      <code><![CDATA[$config[LegacySessionManager::class]]]></code>
-      <code><![CDATA[$config[LegacyStorageInterface::class]]]></code>
-    </MixedArrayOffset>
     <MixedAssignment>
-      <code><![CDATA[$abstractFactories]]></code>
-      <code><![CDATA[$aliases]]></code>
-      <code><![CDATA[$config]]></code>
       <code><![CDATA[$config]]></code>
       <code><![CDATA[$factories]]></code>
     </MixedAssignment>
     <MixedPropertyTypeCoercion>
       <code><![CDATA[(new ConfigProvider())()]]></code>
     </MixedPropertyTypeCoercion>
-    <UndefinedClass>
-      <code><![CDATA[LegacyConfigInterface]]></code>
-      <code><![CDATA[LegacyManagerInterface]]></code>
-      <code><![CDATA[LegacySessionManager]]></code>
-      <code><![CDATA[LegacyStorageInterface]]></code>
-    </UndefinedClass>
   </file>
   <file src="test/ContainerTest.php">
     <MixedArgument>
@@ -1149,17 +1110,6 @@
       <code><![CDATA[$storageReflection]]></code>
     </MixedAssignment>
   </file>
-  <file src="test/Service/ContainerAbstractServiceFactoryTest.php">
-    <MixedAssignment>
-      <code><![CDATA[$container]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getManager]]></code>
-    </MixedMethodCall>
-    <PossiblyUnusedParam>
-      <code><![CDATA[$containerName]]></code>
-    </PossiblyUnusedParam>
-  </file>
   <file src="test/Service/SessionConfigFactoryTest.php">
     <MissingReturnType>
       <code><![CDATA[testServiceNotCreatedWhenInvalidSamesiteConfig]]></code>
@@ -1176,7 +1126,6 @@
       <code><![CDATA[$validatorData]]></code>
     </MixedAssignment>
     <UnusedVariable>
-      <code><![CDATA[$manager]]></code>
       <code><![CDATA[$manager]]></code>
     </UnusedVariable>
   </file>

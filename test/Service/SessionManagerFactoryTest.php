@@ -6,7 +6,6 @@ namespace LaminasTest\Session\Service;
 
 use Laminas\EventManager\EventManager;
 use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Container;
@@ -244,17 +243,5 @@ class SessionManagerFactoryTest extends TestCase
 
         $containedValidators = $this->getReflectionProperty($manager, 'validators');
         self::assertSame([], $containedValidators);
-    }
-
-    public function testFactoryWillUseRequestedNameAsSessionManagerIfItImplementsManagerInterface(): void
-    {
-        $manager = $this->services->get(TestManager::class);
-        self::assertInstanceOf(TestManager::class, $manager);
-    }
-
-    public function testFactoryWillRaiseServiceNotCreatedExceptionIfRequestedNameIsNotAManagerInterfaceSubclass(): void
-    {
-        $this->expectException(ServiceNotCreatedException::class);
-        $manager = $this->services->get(TestSaveHandler::class);
     }
 }

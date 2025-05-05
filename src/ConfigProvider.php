@@ -2,10 +2,6 @@
 
 namespace Laminas\Session;
 
-use Laminas\ServiceManager\Factory\InvokableFactory;
-use Laminas\ServiceManager\ServiceManager;
-
-/** @psalm-import-type ServiceManagerConfiguration from ServiceManager */
 class ConfigProvider
 {
     /**
@@ -24,37 +20,25 @@ class ConfigProvider
     /**
      * Retrieve dependency config for laminas-session.
      *
-     * @return ServiceManagerConfiguration
+     * @return array
      */
     public function getDependencyConfig()
     {
         return [
-            'abstract_factories' => [
-                Service\ContainerAbstractServiceFactory::class,
-            ],
-            'aliases'            => [
-                SessionManager::class => ManagerInterface::class,
-
-                // Legacy Zend Framework aliases
-                'Zend\Session\SessionManager'           => SessionManager::class,
-                'Zend\Session\Config\ConfigInterface'   => Config\ConfigInterface::class,
-                'Zend\Session\ManagerInterface'         => ManagerInterface::class,
-                'Zend\Session\Storage\StorageInterface' => Storage\StorageInterface::class,
-            ],
-            'factories'          => [
+            'factories' => [
                 Config\ConfigInterface::class   => Service\SessionConfigFactory::class,
                 ManagerInterface::class         => Service\SessionManagerFactory::class,
                 Storage\StorageInterface::class => Service\StorageFactory::class,
+                Container::class                => Service\ContainerFactory::class,
             ],
         ];
     }
 
-    /** @return ServiceManagerConfiguration */
     public function getValidatorConfig(): array
     {
         return [
             'factories' => [
-                Validator\Csrf::class => InvokableFactory::class,
+                Validator\Csrf::class => Service\CsrfValidatorFactory::class,
             ],
             'aliases'   => [
                 'csrf' => Validator\Csrf::class,
