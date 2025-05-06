@@ -4,12 +4,22 @@ declare(strict_types=1);
 
 namespace Laminas\Session\Validator;
 
-use Laminas\Http\PhpEnvironment\RemoteAddress;
 use Laminas\Session\Validator\ValidatorInterface as SessionValidator;
 
 /**
  * @implements SessionValidator<string>
  */
+use function array_diff;
+use function array_map;
+use function array_pop;
+use function assert;
+use function explode;
+use function in_array;
+use function is_string;
+use function str_replace;
+use function strpos;
+use function strtoupper;
+
 class RemoteAddr implements SessionValidator
 {
     /**
@@ -56,6 +66,7 @@ class RemoteAddr implements SessionValidator
         if ($data === null || $data === '') {
             $data = $this->getIpAddress();
         }
+
         $this->data = $data;
     }
 
@@ -104,27 +115,100 @@ class RemoteAddr implements SessionValidator
 
     /**
      * Set the header to introspect for proxy IPs
-     *
-     * @param  string $header
-     * @return void
      */
-    public static function setProxyHeader($header = 'X-Forwarded-For')
+    public static function setProxyHeader(string $header = 'X-Forwarded-For'): void
     {
-        static::$proxyHeader = $header;
+        static::$proxyHeader = self::normalizeProxyHeader($header);
     }
 
     /**
      * Returns client IP address.
-     *
-     * @return string IP address.
      */
-    protected function getIpAddress()
+    protected function getIpAddress(): string
     {
-        $remoteAddress = new RemoteAddress();
-        $remoteAddress->setUseProxy(static::$useProxy);
-        $remoteAddress->setTrustedProxies(static::$trustedProxies);
-        $remoteAddress->setProxyHeader(static::$proxyHeader);
-        return $remoteAddress->getIpAddress();
+        $this->setUseProxy(static::$useProxy);
+        $this->setTrustedProxies(static::$trustedProxies);
+        $this->setProxyHeader(static::$proxyHeader);
+
+        return $this->getClientIpAddress();
+    }
+
+    /**
+     * Returns client IP address.
+     */
+    private function getClientIpAddress(): string
+    {
+        $ip = $this->getIpAddressFromProxy();
+
+        if (false !== $ip) {
+            return $ip;
+        }
+
+        // direct IP address
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            return $_SERVER['REMOTE_ADDR'];
+        }
+
+        return '';
+    }
+
+    /**
+     * Attempt to get the IP address for a proxied client
+     *
+     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.2
+     */
+    private function getIpAddressFromProxy(): string|false
+    {
+        if (
+            ! static::$useProxy
+            || (isset($_SERVER['REMOTE_ADDR']) && ! in_array($_SERVER['REMOTE_ADDR'], static::$trustedProxies))
+        ) {
+            return false;
+        }
+
+        $header = static::$proxyHeader;
+        if (! isset($_SERVER[$header]) || '' === $_SERVER[$header]) {
+            return false;
+        }
+
+        // Extract IPs
+        assert(is_string($_SERVER[$header]));
+        $ips = explode(',', $_SERVER[$header]);
+        // trim, so we can compare against trusted proxies properly
+        $ips = array_map('trim', $ips);
+        // remove trusted proxy IPs
+        $ips = array_diff($ips, static::$trustedProxies);
+
+        // Any left?
+        if (empty($ips)) {
+            return false;
+        }
+
+        // Since we've removed any known, trusted proxy servers, the right-most
+        // address represents the first IP we do not know about -- i.e., we do
+        // not know if it is a proxy server, or a client. As such, we treat it
+        // as the originating IP.
+        // @see http://en.wikipedia.org/wiki/X-Forwarded-For
+        return array_pop($ips);
+    }
+
+    /**
+     * Normalize a header string
+     *
+     * Normalizes a header string to a format that is compatible with
+     * $_SERVER
+     *
+     * @param  string $header
+     * @return string
+     */
+    protected static function normalizeProxyHeader($header)
+    {
+        $header = strtoupper($header);
+        $header = str_replace('-', '_', $header);
+        if (0 !== strpos($header, 'HTTP_')) {
+            $header = 'HTTP_' . $header;
+        }
+        return $header;
     }
 
     /**
