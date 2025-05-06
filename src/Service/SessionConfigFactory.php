@@ -4,22 +4,19 @@ namespace Laminas\Session\Service;
 
 // phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\SameSiteCookieCapableInterface;
 use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use RuntimeException;
 
 use function class_exists;
 use function get_debug_type;
 use function is_array;
 use function sprintf;
 
-final class SessionConfigFactory implements FactoryInterface
+final class SessionConfigFactory
 {
     /**
      * Create session configuration object.
@@ -28,19 +25,12 @@ final class SessionConfigFactory implements FactoryInterface
      * instance. By default, Laminas\Session\Config\SessionConfig will be used, but
      * you may also specify a specific implementation variant using the
      * "config_class" subkey.
-     *
-     * @throws ServiceNotCreatedException If session_config is missing, or an
-     *     invalid config_class is used.
-     * @throws NotFoundExceptionInterface|ContainerExceptionInterface
      */
-    public function __invoke(
-        ContainerInterface $container,
-        string $requestedName,
-        ?array $options = null
-    ): ConfigInterface {
+    public function __invoke(ContainerInterface $container): ConfigInterface
+    {
         $config = $container->get('config');
         if (! isset($config['session_config']) || ! is_array($config['session_config'])) {
-            throw new ServiceNotCreatedException(
+            throw new RuntimeException(
                 'Configuration is missing a "session_config" key, or the value of that key is not an array'
             );
         }
@@ -56,7 +46,7 @@ final class SessionConfigFactory implements FactoryInterface
         $config = $config['session_config'];
         if (isset($config['config_class'])) {
             if (! class_exists($config['config_class'])) {
-                throw new ServiceNotCreatedException(sprintf(
+                throw new RuntimeException(sprintf(
                     'Invalid configuration class "%s" specified in "config_class" session configuration; '
                     . 'must be a valid class',
                     $config['config_class']
@@ -74,7 +64,7 @@ final class SessionConfigFactory implements FactoryInterface
 
         if (isset($config['save_handler']) && $config['save_handler'] === SaveHandlerInterface::class) {
             if (! $container->has($config['save_handler'])) {
-                throw new ServiceNotCreatedException(sprintf(
+                throw new RuntimeException(sprintf(
                     'Class %s set as save_handler must be defined in the service manager',
                     $config['save_handler']
                 ));
@@ -82,7 +72,7 @@ final class SessionConfigFactory implements FactoryInterface
 
             $saveHandler = $container->get($config['save_handler']);
             if (! $saveHandler instanceof SaveHandlerInterface) {
-                throw new ServiceNotCreatedException(sprintf(
+                throw new RuntimeException(sprintf(
                     'Class %s set as save_handler must implement %s; received "%s"',
                     $saveHandler::class,
                     SaveHandlerInterface::class,
@@ -95,7 +85,7 @@ final class SessionConfigFactory implements FactoryInterface
 
         $sessionConfig = new $class();
         if (! $sessionConfig instanceof ConfigInterface) {
-            throw new ServiceNotCreatedException(sprintf(
+            throw new RuntimeException(sprintf(
                 'Invalid configuration class "%s" specified in "config_class" session configuration; must implement %s',
                 $class,
                 ConfigInterface::class
@@ -106,7 +96,7 @@ final class SessionConfigFactory implements FactoryInterface
             isset($config['cookie_samesite'])
             && ! $sessionConfig instanceof SameSiteCookieCapableInterface
         ) {
-            throw new ServiceNotCreatedException(sprintf(
+            throw new RuntimeException(sprintf(
                 'Invalid configuration class "%s". When configuration option "cookie_samesite" is used,'
                 . ' the configuration class must implement %s',
                 $class,

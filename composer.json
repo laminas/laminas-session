@@ -34,7 +34,6 @@
     "require": {
         "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
         "laminas/laminas-eventmanager": "^3.12",
-        "laminas/laminas-servicemanager": "^4.0",
         "laminas/laminas-stdlib": "^3.18",
         "laminas/laminas-validator": "^3.0",
         "psr/simple-cache": "^3.0"
@@ -49,9 +48,7 @@
     },
     "suggest": {
         "psr/simple-cache-implementation": "Find implementations of PSR-16 in this virtual package",
-        "laminas/laminas-http": "Laminas\\Http component",
-        "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
-        "laminas/laminas-validator": "Laminas\\Validator component"
+        "laminas/laminas-http": "Laminas\\Http component"
     },
     "autoload": {
         "psr-4": {

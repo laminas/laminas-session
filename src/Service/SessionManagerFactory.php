@@ -4,8 +4,6 @@ namespace Laminas\Session\Service;
 
 // phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface;
@@ -13,15 +11,14 @@ use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\StorageInterface;
 use Psr\Container\ContainerInterface;
+use RuntimeException;
 
 use function array_merge;
-use function class_exists;
 use function get_debug_type;
 use function is_array;
-use function is_subclass_of;
 use function sprintf;
 
-final class SessionManagerFactory implements FactoryInterface
+final class SessionManagerFactory
 {
     /**
      * Default configuration for manager behavior
@@ -56,11 +53,8 @@ final class SessionManagerFactory implements FactoryInterface
      *   this is true; set it to false to disable.
      * - validators: ...
      */
-    public function __invoke(
-        ContainerInterface $container,
-        string $requestedName,
-        ?array $options = null
-    ): ManagerInterface {
+    public function __invoke(ContainerInterface $container): ManagerInterface
+    {
         $config        = null;
         $storage       = null;
         $saveHandler   = null;
@@ -71,7 +65,7 @@ final class SessionManagerFactory implements FactoryInterface
         if ($container->has(ConfigInterface::class)) {
             $config = $container->get(ConfigInterface::class);
             if (! $config instanceof ConfigInterface) {
-                throw new ServiceNotCreatedException(sprintf(
+                throw new RuntimeException(sprintf(
                     'SessionManager requires that the %s service implement %s; received "%s"',
                     ConfigInterface::class,
                     ConfigInterface::class,
@@ -83,7 +77,7 @@ final class SessionManagerFactory implements FactoryInterface
         if ($container->has(StorageInterface::class)) {
             $storage = $container->get(StorageInterface::class);
             if (! $storage instanceof StorageInterface) {
-                throw new ServiceNotCreatedException(sprintf(
+                throw new RuntimeException(sprintf(
                     'SessionManager requires that the %s service implement %s; received "%s"',
                     StorageInterface::class,
                     StorageInterface::class,
@@ -95,7 +89,7 @@ final class SessionManagerFactory implements FactoryInterface
         if ($container->has(SaveHandlerInterface::class)) {
             $saveHandler = $container->get(SaveHandlerInterface::class);
             if (! $saveHandler instanceof SaveHandlerInterface) {
-                throw new ServiceNotCreatedException(sprintf(
+                throw new RuntimeException(sprintf(
                     'SessionManager requires that the %s service implement %s; received "%s"',
                     SaveHandlerInterface::class,
                     SaveHandlerInterface::class,
@@ -122,16 +116,12 @@ final class SessionManagerFactory implements FactoryInterface
                 $options = $managerConfig['options'];
             }
         }
-        $managerClass = class_exists($requestedName) ? $requestedName : SessionManager::class;
-        if (! is_subclass_of($managerClass, ManagerInterface::class)) {
-            throw new ServiceNotCreatedException(sprintf(
-                'SessionManager requires that the %s service implement %s',
-                $managerClass,
-                ManagerInterface::class
-            ));
-        }
 
-        $manager = new $managerClass($config, $storage, $saveHandler, $validators, $options);
+        // Ensure validators and options is always an array
+        $validators = is_array($validators) ? $validators : [];
+        $options    = is_array($options) ? $options : [];
+
+        $manager = new SessionManager($config, $storage, $saveHandler, $validators, $options);
 
         // If configuration enables the session manager as the default manager for container
         // instances, do so.

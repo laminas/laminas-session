@@ -17,19 +17,11 @@ To use a session container some configuration for the component is needed:
 - a [storage handler](../storage.md)
 - some [configuration for the session](../config.md) itself
 
-To allow a [reflection-based approach](https://docs.laminas.dev/laminas-servicemanager/reflection-abstract-factory/)
-to retrieve the session container from the service manager, a class name is
-needed as the name for the container. The example uses the name
-`Laminas\Session\Container::class`.
-
 Add the following lines to the local or global configuration file, e.g.
 `config/autoload/global.config.php`:
 
 ```php
 return [
-    'session_containers' => [
-        Laminas\Session\Container::class,
-    ],
     'session_storage' => [
         'type' => Laminas\Session\Storage\SessionArrayStorage::class,
     ],
