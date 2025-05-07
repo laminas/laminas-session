@@ -24,13 +24,9 @@ Option                    | Data Type | Description
 `cookie_path`             | `string`  | Specifies path to set in the session cookie.
 `cookie_samesite`         | `string`  | Specifies whether cookies should be sent along with cross-site requests. (Since 2.11.0)
 `cookie_secure`           | `boolean` | Specifies whether cookies should only be sent over secure connections.
-`entropy_length`          | `integer` | Specifies the number of bytes which will be read from the file specified in entropy_file. Removed in PHP 7.1.0.
-`entropy_file`            | `string`  | Defines a path to an external resource (file) which will be used as an additional entropy. Removed in PHP 7.1.0.
 `gc_maxlifetime`          | `integer` | Specifies the number of seconds after which data will be seen as ‘garbage’.
 `gc_divisor`              | `integer` | Defines the probability that the gc process is started on every session initialization.
 `gc_probability`          | `integer` | Defines the probability that the gc process is started on every session initialization.
-`hash_function`           | `integer` | Defines which built-in hash algorithm is used. Removed in PHP 7.1.0.
-`hash_bits_per_character` | `integer` | Defines how many bits are stored in each character when converting the binary hash data. Removed in PHP 7.1.0.
 `name`                    | `string`  | Specifies the name of the session which is used as cookie name.
 `remember_me_seconds`     | `integer` | Specifies how long to remember the session before clearing data.
 `save_path`               | `string`  | Defines the argument which is passed to the save handler.

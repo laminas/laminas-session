@@ -8,6 +8,9 @@ namespace LaminasTest\Session\Config;
 use Exception;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Exception\InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use PHPUnit\Framework\TestCase;
 
 use function extension_loaded;
@@ -287,46 +290,6 @@ class StandardConfigTest extends TestCase
         self::assertEquals('', $this->config->getRefererCheck());
     }
 
-    public function testSetEntropyFileError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-        $this->expectExceptionMessage('session.entropy_file is removed starting with PHP 7.1');
-        $this->config->getEntropyFile();
-        restore_error_handler();
-    }
-
-    public function testGetEntropyFileError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-        $this->expectExceptionMessage('session.entropy_file is removed starting with PHP 7.1');
-        $this->config->setEntropyFile(__FILE__);
-        restore_error_handler();
-    }
-
-    public function testGetEntropyLengthError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-        $this->expectExceptionMessage('session.entropy_length is removed starting with PHP 7.1');
-        $this->config->getEntropyLength();
-        restore_error_handler();
-    }
-
-    public function testSetEntropyLengthError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-        $this->expectExceptionMessage('session.entropy_length is removed starting with PHP 7.1');
-        $this->config->setEntropyLength(0);
-        restore_error_handler();
-    }
-
     // session.cache_limiter
 
     /** @psalm-return array<array-key, array{0: string}> */
@@ -379,54 +342,30 @@ class StandardConfigTest extends TestCase
         self::assertEquals(true, (bool) $this->config->getUseTransSid());
     }
 
-    public function testGetHashFunctionError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-        $this->expectExceptionMessage('session.hash_function is removed starting with PHP 7.1');
-        $this->config->getHashFunction();
-        restore_error_handler();
-    }
-
-    public function testSetHashFunctionError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-        $this->expectExceptionMessage('session.hash_function is removed starting with PHP 7.1');
-        $this->config->setHashFunction('foobar_bogus');
-        restore_error_handler();
-    }
-
-    public function testGetHashBitsPerCharacterError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-        $this->expectExceptionMessage('session.hash_bits_per_character is removed starting with PHP 7.1');
-        $this->config->getHashBitsPerCharacter();
-        restore_error_handler();
-    }
-
-    public function testSetHashBitsPerCharacterError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-        $this->expectExceptionMessage('session.hash_bits_per_character is removed starting with PHP 7.1');
-        $this->config->setHashBitsPerCharacter(5);
-        restore_error_handler();
-    }
-
     // session.sid_length
+    #[RequiresPhp('^8.4')]
+    #[IgnoreDeprecations]
+    public function testSidLengthError(): void
+    {
+        try {
+            set_error_handler(static function (int $errno, string $errstr): never {
+                throw new Exception($errstr, $errno);
+            }, E_USER_DEPRECATED);
+            $this->expectExceptionMessage('session.sid_length is removed starting with PHP 8.4');
+            $this->config->setSidLength(40);
+        } finally {
+            restore_error_handler();
+        }
+    }
 
+    #[IgnoreDeprecations]
     public function testSidLengthIsMutable(): void
     {
         $this->config->setSidLength(40);
         self::assertEquals(40, $this->config->getSidLength());
     }
 
+    #[IgnoreDeprecations]
     public function testSettingInvalidSidLengthRaisesException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -434,6 +373,7 @@ class StandardConfigTest extends TestCase
         $this->config->setSidLength('foobar_bogus');
     }
 
+    #[IgnoreDeprecations]
     public function testSettingOutOfRangeSidLengthRaisesException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -460,13 +400,6 @@ class StandardConfigTest extends TestCase
     {
         $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
         self::assertEquals($sidBitsPerCharacter, $this->config->getSidBitsPerCharacter());
-    }
-
-    public function testSettingInvalidSidBitsPerCharacterRaisesException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid sid bits per character provided');
-        $this->config->setSidBitsPerCharacter('foobar_bogus');
     }
 
     // url_rewriter.tags
@@ -500,9 +433,8 @@ class StandardConfigTest extends TestCase
     }
 
     // setOptions
-    /**
-     * @dataProvider optionsProvider
-     */
+    #[IgnoreDeprecations]
+    #[DataProvider('optionsProvider')]
     public function testSetOptionsTranslatesUnderscoreSeparatedKeys(string $option, string $getter, mixed $value): void
     {
         $options = [$option => $value];
