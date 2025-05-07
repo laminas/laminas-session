@@ -1,5 +1,8 @@
 <?php // phpcs:disable WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix,Generic.NamingConventions.ConstructorName.OldStyle
 
+
+declare(strict_types=1);
+
 namespace Laminas\Session\Storage;
 
 use ArrayAccess;

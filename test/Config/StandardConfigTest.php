@@ -1,5 +1,8 @@
 <?php // phpcs:disable Squiz.Commenting.FunctionComment.WrongStyle
 
+
+declare(strict_types=1);
+
 namespace LaminasTest\Session\Config;
 
 use Exception;
