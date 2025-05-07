@@ -868,9 +868,6 @@
       <code><![CDATA[$handler]]></code>
       <code><![CDATA[$saveHandler]]></code>
     </InvalidCast>
-    <InvalidScalarArgument>
-      <code><![CDATA[1]]></code>
-    </InvalidScalarArgument>
     <MissingClosureReturnType>
       <code><![CDATA[static function (?string $module = null) {]]></code>
       <code><![CDATA[static function (?string $module = null) {]]></code>
@@ -882,7 +879,6 @@
     </MissingReturnType>
     <PossiblyNullArgument>
       <code><![CDATA[$this->config]]></code>
-      <code><![CDATA[var_export($this->config->toArray(), 1)]]></code>
     </PossiblyNullArgument>
     <PossiblyNullReference>
       <code><![CDATA[getCacheExpire]]></code>
@@ -962,7 +958,6 @@
       <code><![CDATA[setOption]]></code>
       <code><![CDATA[setOption]]></code>
       <code><![CDATA[setOptions]]></code>
-      <code><![CDATA[setPhpSaveHandler]]></code>
       <code><![CDATA[setPhpSaveHandler]]></code>
       <code><![CDATA[setPhpSaveHandler]]></code>
       <code><![CDATA[setPhpSaveHandler]]></code>

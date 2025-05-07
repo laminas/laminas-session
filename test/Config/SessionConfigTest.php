@@ -1,5 +1,8 @@
 <?php // phpcs:disable Squiz.Commenting.FunctionComment.WrongStyle
 
+
+declare(strict_types=1);
+
 namespace LaminasTest\Session\Config;
 
 use Laminas\Session\Config\SessionConfig;
@@ -116,7 +119,7 @@ class SessionConfigTest extends TestCase
         self::assertSame(
             ini_get('session.save_handler'),
             $this->config->getSaveHandler(),
-            var_export($this->config->toArray(), 1)
+            var_export($this->config->toArray(), true)
         );
     }
 

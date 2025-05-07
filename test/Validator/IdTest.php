@@ -1,5 +1,8 @@
 <?php // phpcs:disable SlevomatCodingStandard.Namespaces.UnusedUses.MismatchingCaseSensitivity
 
+
+declare(strict_types=1);
+
 namespace LaminasTest\Session\Validator;
 
 use Laminas\Session\Validator\Id;
