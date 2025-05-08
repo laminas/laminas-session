@@ -20,14 +20,19 @@ use function str_replace;
 use function strpos;
 use function strtoupper;
 
-class RemoteAddr implements SessionValidator
+/**
+ * @psalm-type OptionsArgument = array{
+ * use_proxy?: bool,
+ * trusted_proxies?: array<string>,
+ * proxy_header?: non-empty-string,
+ * }
+ */
+final class RemoteAddr implements ValidatorInterface
 {
     /**
      * Internal data.
-     *
-     * @var string
      */
-    protected $data;
+    private ?string $data;
 
     /**
      * Whether to use proxy addresses or not.
@@ -36,33 +41,33 @@ class RemoteAddr implements SessionValidator
      * security. HTTP_* are not reliable since can easily be spoofed. It can be enabled
      * just for more flexibility, but if user uses proxy to connect to trusted services
      * it's his/her own risk, only reliable field for IP address is $_SERVER['REMOTE_ADDR'].
-     *
-     * @var bool
      */
-    protected static $useProxy = false;
+    private bool $useProxy;
 
     /**
      * List of trusted proxy IP addresses
-     *
-     * @var array
      */
-    protected static $trustedProxies = [];
+    private array $trustedProxies;
 
     /**
      * HTTP header to introspect for proxies
-     *
-     * @var string
      */
-    protected static $proxyHeader = 'HTTP_X_FORWARDED_FOR';
+    private string $proxyHeader;
 
     /**
      * Constructor
      * get the current user IP and store it in the session as 'valid data'
      *
-     * @param null|string $data
+     * @param OptionsArgument $options
      */
-    public function __construct($data = null)
+    public function __construct(?string $data = null, array $options = [])
     {
+        $proxyHeader = $options['proxy_header'] ?? 'X_FORWARDED_FOR';
+
+        $this->useProxy       = isset($options['use_proxy']) && (bool) $options['use_proxy'];
+        $this->trustedProxies = isset($options['trusted_proxies']) ? (array) $options['trusted_proxies'] : [];
+        $this->proxyHeader    = self::normalizeProxyHeader($proxyHeader);
+
         if ($data === null || $data === '') {
             $data = $this->getIpAddress();
         }
@@ -80,63 +85,17 @@ class RemoteAddr implements SessionValidator
     }
 
     /**
-     * Changes proxy handling setting.
-     *
-     * This must be static method, since validators are recovered automatically
-     * at session read, so this is the only way to switch setting.
-     *
-     * @param bool  $useProxy Whether to check also proxied IP addresses.
-     * @return void
-     */
-    public static function setUseProxy($useProxy = true)
-    {
-        static::$useProxy = $useProxy;
-    }
-
-    /**
      * Checks proxy handling setting.
-     *
-     * @return bool Current setting value.
      */
-    public static function getUseProxy()
+    public function getUseProxy(): bool
     {
-        return static::$useProxy;
-    }
-
-    /**
-     * Set list of trusted proxy addresses
-     *
-     * @return void
-     */
-    public static function setTrustedProxies(array $trustedProxies)
-    {
-        static::$trustedProxies = $trustedProxies;
-    }
-
-    /**
-     * Set the header to introspect for proxy IPs
-     */
-    public static function setProxyHeader(string $header = 'X-Forwarded-For'): void
-    {
-        static::$proxyHeader = self::normalizeProxyHeader($header);
+        return $this->useProxy;
     }
 
     /**
      * Returns client IP address.
      */
-    protected function getIpAddress(): string
-    {
-        $this->setUseProxy(static::$useProxy);
-        $this->setTrustedProxies(static::$trustedProxies);
-        $this->setProxyHeader(static::$proxyHeader);
-
-        return $this->getClientIpAddress();
-    }
-
-    /**
-     * Returns client IP address.
-     */
-    private function getClientIpAddress(): string
+    private function getIpAddress(): string
     {
         $ip = $this->getIpAddressFromProxy();
 
@@ -160,13 +119,14 @@ class RemoteAddr implements SessionValidator
     private function getIpAddressFromProxy(): string|false
     {
         if (
-            ! static::$useProxy
-            || (isset($_SERVER['REMOTE_ADDR']) && ! in_array($_SERVER['REMOTE_ADDR'], static::$trustedProxies))
+            ! $this->useProxy
+            || (isset($_SERVER['REMOTE_ADDR']) && ! in_array($_SERVER['REMOTE_ADDR'], $this->trustedProxies))
         ) {
             return false;
         }
 
-        $header = static::$proxyHeader;
+        $header = $this->proxyHeader;
+
         if (! isset($_SERVER[$header]) || '' === $_SERVER[$header]) {
             return false;
         }
@@ -177,8 +137,7 @@ class RemoteAddr implements SessionValidator
         // trim, so we can compare against trusted proxies properly
         $ips = array_map('trim', $ips);
         // remove trusted proxy IPs
-        $ips = array_diff($ips, static::$trustedProxies);
-
+        $ips = array_diff($ips, $this->trustedProxies);
         // Any left?
         if (empty($ips)) {
             return false;
@@ -197,11 +156,8 @@ class RemoteAddr implements SessionValidator
      *
      * Normalizes a header string to a format that is compatible with
      * $_SERVER
-     *
-     * @param  string $header
-     * @return string
      */
-    protected static function normalizeProxyHeader($header)
+    protected static function normalizeProxyHeader(string $header): string
     {
         $header = strtoupper($header);
         $header = str_replace('-', '_', $header);
@@ -214,7 +170,7 @@ class RemoteAddr implements SessionValidator
     /**
      * Retrieve token for validating call
      */
-    public function getData(): mixed
+    public function getData(): ?string
     {
         return $this->data;
     }
