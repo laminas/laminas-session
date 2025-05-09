@@ -6,6 +6,7 @@ namespace LaminasTest\Session\Validator;
 
 use Laminas\Session\Validator\RemoteAddr;
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
 use ReflectionObject;
 
 /**
@@ -16,12 +17,14 @@ class RemoteAddrTest extends TestCase
     protected array $backup;
 
     protected RemoteAddr $defaultRemoteAddr;
-    private ReflectionObject $remoteAddrReflection;
+
+    private ReflectionMethod $getIpAddress;
 
     protected function setUp(): void
     {
-        $this->defaultRemoteAddr    = new RemoteAddr();
-        $this->remoteAddrReflection = new ReflectionObject($this->defaultRemoteAddr);
+        $this->defaultRemoteAddr = new RemoteAddr();
+        $reflexionObject         = new ReflectionObject($this->defaultRemoteAddr);
+        $this->getIpAddress      = $reflexionObject->getMethod('getIpAddress');
     }
 
     protected function backup(): void
@@ -208,9 +211,8 @@ class RemoteAddrTest extends TestCase
             ],
         ];
 
-        $reflectionMethod   = $this->remoteAddrReflection->getMethod('getIpAddress');
         $remoteAddr         = new RemoteAddr(null, $options);
-        $getClientIpAddress = (string) $reflectionMethod->invoke($remoteAddr);
+        $getClientIpAddress = (string) $this->getIpAddress->invoke($remoteAddr);
 
         $this->assertEquals('8.8.8.8', $getClientIpAddress);
     }
@@ -227,9 +229,8 @@ class RemoteAddrTest extends TestCase
             ],
         ];
 
-        $reflectionMethod   = $this->remoteAddrReflection->getMethod('getIpAddress');
         $remoteAddr         = new RemoteAddr(null, $options);
-        $getClientIpAddress = (string) $reflectionMethod->invoke($remoteAddr);
+        $getClientIpAddress = (string) $this->getIpAddress->invoke($remoteAddr);
 
         $this->assertEquals('1.1.1.1', $getClientIpAddress);
     }
@@ -256,9 +257,8 @@ class RemoteAddrTest extends TestCase
             ],
         ];
 
-        $reflectionMethod   = $this->remoteAddrReflection->getMethod('getIpAddress');
         $remoteAddr         = new RemoteAddr(null, $options);
-        $getClientIpAddress = (string) $reflectionMethod->invoke($remoteAddr);
+        $getClientIpAddress = (string) $this->getIpAddress->invoke($remoteAddr);
 
         $this->assertEquals('1.1.1.1', $getClientIpAddress);
     }

@@ -64,8 +64,8 @@ final class RemoteAddr implements ValidatorInterface
     {
         $proxyHeader = $options['proxy_header'] ?? 'X_FORWARDED_FOR';
 
-        $this->useProxy       = isset($options['use_proxy']) && (bool) $options['use_proxy'];
-        $this->trustedProxies = isset($options['trusted_proxies']) ? (array) $options['trusted_proxies'] : [];
+        $this->useProxy       = isset($options['use_proxy']) && $options['use_proxy'];
+        $this->trustedProxies = $options['trusted_proxies'] ?? [];
         $this->proxyHeader    = self::normalizeProxyHeader($proxyHeader);
 
         if ($data === null || $data === '') {
