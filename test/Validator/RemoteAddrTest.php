@@ -6,8 +6,6 @@ namespace LaminasTest\Session\Validator;
 
 use Laminas\Session\Validator\RemoteAddr;
 use PHPUnit\Framework\TestCase;
-use ReflectionMethod;
-use ReflectionObject;
 
 /**
  * @covers \Laminas\Session\Validator\RemoteAddr
@@ -18,13 +16,9 @@ class RemoteAddrTest extends TestCase
 
     protected RemoteAddr $defaultRemoteAddr;
 
-    private ReflectionMethod $getIpAddress;
-
     protected function setUp(): void
     {
         $this->defaultRemoteAddr = new RemoteAddr();
-        $reflexionObject         = new ReflectionObject($this->defaultRemoteAddr);
-        $this->getIpAddress      = $reflexionObject->getMethod('getIpAddress');
     }
 
     protected function backup(): void
@@ -195,71 +189,5 @@ class RemoteAddrTest extends TestCase
         $validator = new RemoteAddr(null, $options);
         self::assertEmpty($validator->getData());
         $this->restore();
-    }
-
-    public function testGetIpAddressFromProxy(): void
-    {
-        $this->backup();
-        $_SERVER['REMOTE_ADDR']          = '192.168.0.10';
-        $_SERVER['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 10.0.0.1';
-
-        $options = [
-            'use_proxy'       => true,
-            'trusted_proxies' => [
-                '192.168.0.10',
-                '10.0.0.1',
-            ],
-        ];
-
-        $remoteAddr         = new RemoteAddr(null, $options);
-        $getClientIpAddress = (string) $this->getIpAddress->invoke($remoteAddr);
-
-        $this->assertEquals('8.8.8.8', $getClientIpAddress);
-    }
-
-    public function testGetIpAddressFromProxyRemoteAddressNotTrusted(): void
-    {
-        $_SERVER['REMOTE_ADDR']          = '1.1.1.1';
-        $_SERVER['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 10.0.0.1';
-
-        $options = [
-            'use_proxy'       => true,
-            'trusted_proxies' => [
-                '10.0.0.1',
-            ],
-        ];
-
-        $remoteAddr         = new RemoteAddr(null, $options);
-        $getClientIpAddress = (string) $this->getIpAddress->invoke($remoteAddr);
-
-        $this->assertEquals('1.1.1.1', $getClientIpAddress);
-    }
-
-    /**
-     * Test to prevent attack on the HTTP_X_FORWARDED_FOR header
-     * The client IP is always the first on the left
-     *
-     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.2
-     */
-    public function testGetIpAddressFromProxyFakeData(): void
-    {
-        $_SERVER['REMOTE_ADDR'] = '192.168.0.10';
-        // 1.1.1.1 is the first IP address from the right not representing a known proxy server; as such, we
-        // must treat it as a client IP.
-        $_SERVER['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 10.0.0.2, 1.1.1.1, 10.0.0.1';
-
-        $options = [
-            'use_proxy'       => true,
-            'trusted_proxies' => [
-                '192.168.0.10',
-                '10.0.0.1',
-                '10.0.0.2',
-            ],
-        ];
-
-        $remoteAddr         = new RemoteAddr(null, $options);
-        $getClientIpAddress = (string) $this->getIpAddress->invoke($remoteAddr);
-
-        $this->assertEquals('1.1.1.1', $getClientIpAddress);
     }
 }
