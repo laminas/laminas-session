@@ -1,23 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session\Validator;
 
-class HttpUserAgent implements ValidatorInterface
+final class HttpUserAgent implements ValidatorInterface
 {
-    /**
-     * Internal data
-     *
-     * @var string
-     */
-    protected $data;
-
     /**
      * Constructor
      * get the current user agent and store it in the session as 'valid data'
-     *
-     * @param string|null $data
      */
-    public function __construct($data = null)
+    public function __construct(protected ?string $data = null)
     {
         if ($data === null || $data === '') {
             $data = $_SERVER['HTTP_USER_AGENT'] ?? null;
@@ -28,10 +21,8 @@ class HttpUserAgent implements ValidatorInterface
     /**
      * isValid() - this method will determine if the current user agent matches the
      * user agent we stored when we initialized this variable.
-     *
-     * @return bool
      */
-    public function isValid()
+    public function isValid(): bool
     {
         $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
 
@@ -40,20 +31,16 @@ class HttpUserAgent implements ValidatorInterface
 
     /**
      * Retrieve token for validating call
-     *
-     * @return string
      */
-    public function getData()
+    public function getData(): ?string
     {
         return $this->data;
     }
 
     /**
      * Return validator name
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::class;
     }
