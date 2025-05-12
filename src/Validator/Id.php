@@ -8,32 +8,25 @@ use function ini_get;
 use function is_numeric;
 use function preg_match;
 use function session_id;
-use function strrpos;
-use function substr;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
+use const PHP_VERSION_ID;
 
 /**
  * session_id validator
  *
  * @implements ValidatorInterface<string>
  */
-class Id implements ValidatorInterface
+final class Id implements ValidatorInterface
 {
-    /**
-     * Session identifier.
-     *
-     * @var string
-     */
-    protected $id;
-
     /**
      * Constructor
      *
      * Allows passing the current session_id; if none provided, uses the PHP
      * session_id() function to retrieve it.
-     *
-     * @param null|string $id
      */
-    public function __construct($id = null)
+    public function __construct(protected ?string $id = null)
     {
         if ($id === null || $id === '') {
             $id = session_id();
@@ -49,13 +42,14 @@ class Id implements ValidatorInterface
      */
     public function isValid(): bool
     {
-        $id          = $this->id;
-        $saveHandler = ini_get('session.save_handler');
-        if ($saveHandler === 'cluster') { // Zend Server SC, validate only after last dash
-            $dashPos = strrpos($id, '-');
-            if ($dashPos !== false) {
-                $id = substr($id, $dashPos + 1);
-            }
+        $id = $this->id;
+
+        if (null === $id) {
+            return false;
+        }
+
+        if (PHP_VERSION_ID >= 80400) {
+            trigger_error('session.sid_bits_per_character is deprecated starting with PHP 8.4', E_USER_DEPRECATED);
         }
 
         // Get the session id bits per character INI setting, using 5 if unavailable
