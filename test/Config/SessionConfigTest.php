@@ -693,7 +693,7 @@ class SessionConfigTest extends TestCase
             set_error_handler(static function (int $errno, string $errstr): never {
                 throw new \Exception($errstr, $errno);
             }, E_USER_DEPRECATED);
-            $this->expectExceptionMessage('session.sid_bits_per_character is removed starting with PHP 8.4');
+            $this->expectExceptionMessage('session.sid_bits_per_character is deprecated starting with PHP 8.4');
             $this->config->setSidBitsPerCharacter(4);
         } finally {
             restore_error_handler();
