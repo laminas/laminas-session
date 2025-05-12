@@ -351,7 +351,7 @@ class StandardConfigTest extends TestCase
             set_error_handler(static function (int $errno, string $errstr): never {
                 throw new Exception($errstr, $errno);
             }, E_USER_DEPRECATED);
-            $this->expectExceptionMessage('session.sid_length is removed starting with PHP 8.4');
+            $this->expectExceptionMessage('session.sid_length is deprecated starting with PHP 8.4');
             $this->config->setSidLength(40);
         } finally {
             restore_error_handler();

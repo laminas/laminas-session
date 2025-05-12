@@ -675,7 +675,7 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
     public function setSidLength($sidLength)
     {
         if (PHP_VERSION_ID >= 80400) {
-            trigger_error('session.sid_length is removed starting with PHP 8.4', E_USER_DEPRECATED);
+            trigger_error('session.sid_length is deprecated starting with PHP 8.4', E_USER_DEPRECATED);
         }
 
         if (! is_numeric($sidLength) || $sidLength < 22 || $sidLength > 256) {

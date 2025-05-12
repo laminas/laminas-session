@@ -309,7 +309,7 @@ class SessionConfig extends StandardConfig
     public function setSidBitsPerCharacter(int $sidBitsPerCharacter)
     {
         if (PHP_VERSION_ID >= 80400) {
-            trigger_error('session.sid_bits_per_character is removed starting with PHP 8.4', E_USER_DEPRECATED);
+            trigger_error('session.sid_bits_per_character is deprecated starting with PHP 8.4', E_USER_DEPRECATED);
         }
 
         if (! in_array($sidBitsPerCharacter, $this->validSidBitsPerCharacters)) {
