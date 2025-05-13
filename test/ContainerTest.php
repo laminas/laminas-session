@@ -5,17 +5,24 @@ declare(strict_types=1);
 namespace LaminasTest\Session;
 
 use ArrayObject;
+use Exception;
 use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Container;
 use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\ManagerInterface as Manager;
 use Laminas\Session\Storage\SessionArrayStorage;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use PHPUnit\Framework\TestCase;
 
 use function microtime;
+use function restore_error_handler;
+use function set_error_handler;
 use function sleep;
 use function time;
+
+use const E_USER_DEPRECATED;
 
 /**
  * @covers \Laminas\Session\Container
@@ -148,6 +155,21 @@ class ContainerTest extends TestCase
         Container::setDefaultManager($manager);
         Container::setDefaultManager(null);
         self::assertNotSame($manager, Container::getDefaultManager());
+    }
+
+    #[RequiresPhp('^8.4')]
+    #[IgnoreDeprecations]
+    public function testDefaultManagerUsedError(): void
+    {
+        try {
+            set_error_handler(static function (int $errno, string $errstr): never {
+                throw new Exception($errstr, $errno);
+            }, E_USER_DEPRECATED);
+            $this->expectExceptionMessage('session.sid_bits_per_character is deprecated starting with PHP 8.4');
+            new Container();
+        } finally {
+            restore_error_handler();
+        }
     }
 
     public function testDefaultManagerUsedWhenNoManagerProvided(): void

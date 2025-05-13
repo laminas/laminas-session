@@ -20,6 +20,8 @@ use Laminas\Session\Validator;
 use LaminasTest\Session\ReflectionPropertyTrait;
 use LaminasTest\Session\TestAsset\TestManager;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -98,9 +100,8 @@ class SessionManagerFactoryTest extends TestCase
         self::assertNotSame($manager, Container::getDefaultManager());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[IgnoreDeprecations]
+    #[RunInSeparateProcess]
     public function testFactoryWillAddValidatorViaConfiguration(): void
     {
         $config = [
@@ -110,6 +111,7 @@ class SessionManagerFactoryTest extends TestCase
                 ],
             ],
         ];
+
         $this->services->setService('config', $config);
         $manager = $this->services->get(ManagerInterface::class);
 
@@ -122,12 +124,14 @@ class SessionManagerFactoryTest extends TestCase
         self::assertInstanceOf(EventManager::class, $chain);
 
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
+
         self::assertCount(2, $listeners);
     }
 
     /**
      * @runInSeparateProcess
      */
+    #[IgnoreDeprecations]
     public function testStartingSessionManagerFromFactoryDoesNotTriggerUndefinedVariable(): void
     {
         $storage = new ArrayStorage();
