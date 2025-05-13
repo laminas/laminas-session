@@ -6,6 +6,8 @@ namespace Laminas\Session\Validator;
 
 /**
  * Session validator interface
+ *
+ * @template T
  */
 interface ValidatorInterface
 {
@@ -13,22 +15,18 @@ interface ValidatorInterface
      * This method will be called at the beginning of
      * every session to determine if the current environment matches
      * that which was store in the setup() procedure.
-     *
-     * @return bool
      */
-    public function isValid();
+    public function isValid(): bool;
 
     /**
      * Get data from validator to be used for validation comparisons
      *
-     * @return mixed
+     * @return T
      */
-    public function getData();
+    public function getData(): mixed;
 
     /**
      * Get validator name for use with storing validators between requests
-     *
-     * @return string
      */
-    public function getName();
+    public function getName(): string;
 }

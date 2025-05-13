@@ -2,15 +2,23 @@
 
 declare(strict_types=1);
 
-namespace LaminasTest\Session\TestAsset;
+namespace LaminasTest\Session\Validator;
 
 use Laminas\Session\Validator\ValidatorInterface;
 
 /**
  * @implements ValidatorInterface<false>
  */
-final class TestFailingValidator implements ValidatorInterface
+class StaticValidatorStub implements ValidatorInterface
 {
+    public static int $isValidCallCount = 0;
+
+    public function isValid(): bool
+    {
+        self::$isValidCallCount++;
+        return $this->getData();
+    }
+
     public function getData(): mixed
     {
         return false;
@@ -19,10 +27,5 @@ final class TestFailingValidator implements ValidatorInterface
     public function getName(): string
     {
         return self::class;
-    }
-
-    public function isValid(): bool
-    {
-        return $this->getData();
     }
 }
