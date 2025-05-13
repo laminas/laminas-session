@@ -490,6 +490,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testCallingWriteCloseShouldAlterSessionExistsStatus(): void
     {
         $this->manager = new SessionManager();
@@ -847,6 +848,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testSettingTheIdentifierBeforeStartingTheSessionYieldsTheExpectedId(): void
     {
         $manager = new SessionManager();
