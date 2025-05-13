@@ -7,6 +7,7 @@ namespace LaminasTest\Session;
 use Laminas\Session\Container;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\SessionArrayStorage;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 
 use function var_export;
@@ -163,6 +164,7 @@ class SessionArrayStorageTest extends TestCase
     /**
      * @runInSeparateProcess
      */
+    #[IgnoreDeprecations]
     public function testExpirationHops(): void
     {
         // since we cannot explicitly test reinitializing the session
@@ -189,6 +191,7 @@ class SessionArrayStorageTest extends TestCase
     /**
      * @runInSeparateProcess
      */
+    #[IgnoreDeprecations]
     public function testPreserveRequestAccessTimeAfterStart(): void
     {
         $manager = new SessionManager(null, $this->storage);

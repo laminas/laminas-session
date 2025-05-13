@@ -195,6 +195,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testSessionIsStartedAfterCallingStart(): void
     {
         $this->manager = new SessionManager();
@@ -218,6 +219,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testStartWithOldTraversableSessionData(): void
     {
         // pre-populate session with data
@@ -235,6 +237,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testStorageContentIsPreservedByWriteCloseOperation(): void
     {
         $this->manager = new SessionManager();
@@ -261,6 +264,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testStartConvertsSessionDataFromStorageInterfaceToArrayBeforeMerging(): void
     {
         $this->manager = new SessionManager();
@@ -283,6 +287,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testStartConvertsSessionDataFromTraversableToArrayBeforeMerging(): void
     {
         $this->manager = new SessionManager();
@@ -355,6 +360,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testSettingNameWhenAnActiveSessionExistsRaisesException(): void
     {
         $this->manager = new SessionManager();
@@ -365,6 +371,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testDestroyByDefaultSendsAnExpireCookie(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -396,6 +403,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testSendingFalseToSendExpireCookieWhenCallingDestroyShouldNotSendCookie(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -431,6 +439,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testDestroyDoesNotClearSessionStorageByDefault(): void
     {
         $this->manager = new SessionManager();
@@ -443,6 +452,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testPassingClearStorageOptionWhenCallingDestroyClearsStorage(): void
     {
         $this->manager = new SessionManager();
@@ -454,6 +464,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testDestroySessionWhenHeadersHaveBeenSent(): void
     {
         $this->manager = new SessionManager();
@@ -467,6 +478,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testCallingWriteCloseMarksStorageAsImmutable(): void
     {
         $this->manager = new SessionManager();
@@ -503,6 +515,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testIdShouldNotBeMutableAfterSessionStarted(): void
     {
         $this->manager = new SessionManager();
@@ -515,6 +528,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testRegenerateIdShouldWorkAfterSessionStarted(): void
     {
         $this->manager = new SessionManager();
@@ -535,6 +549,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testRegeneratingIdAfterSessionStartedShouldSendExpireCookie(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -565,6 +580,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testRememberMeShouldSendNewSessionCookieWithUpdatedTimestamp(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -609,6 +625,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testRememberMeShouldSetTimestampBasedOnConfigurationByDefault(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -659,6 +676,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testForgetMeShouldSendCookieWithZeroTimestamp(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -711,6 +729,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testSessionWriteCloseStoresMetadata(): void
     {
         $this->manager = new SessionManager();
@@ -738,6 +757,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testProducedSessionManagerWillNotReplaceSessionSuperGlobalValues(): void
     {
         $this->manager   = new SessionManager();
@@ -750,6 +770,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testValidatorChainSessionMetadataIsPreserved(): void
     {
         $this->manager = new SessionManager();
@@ -778,6 +799,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testRemoteAddressValidationWillSucceedWithValidPreSetData(): void
     {
         $this->manager = new SessionManager();
@@ -812,6 +834,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testIdValidationWillFailOnInvalidData(): void
     {
         $this->manager = new SessionManager();
