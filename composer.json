@@ -41,7 +41,7 @@
         "ext-xdebug": "*",
         "laminas/laminas-cache": "^3.12.2",
         "laminas/laminas-cache-storage-adapter-memory": "^2.3",
-        "laminas/laminas-coding-standard": "~3.0.1",
+        "laminas/laminas-coding-standard": "~3.1.0",
         "laminas/laminas-db": "^2.20.0",
         "laminas/laminas-http": "^2.20",
         "laminas/laminas-validator": "^2.64.1",
