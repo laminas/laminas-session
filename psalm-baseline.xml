@@ -1319,9 +1319,4 @@
       <code><![CDATA[$backup]]></code>
     </MissingConstructor>
   </file>
-  <file src="test/Validator/ValidatorChainTest.php">
-    <NoInterfaceProperties>
-      <code><![CDATA[$validator::$isValidCallCount]]></code>
-    </NoInterfaceProperties>
-  </file>
 </files>
