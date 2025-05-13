@@ -1,5 +1,8 @@
 <?php // phpcs:disable Squiz.Commenting.FunctionComment.WrongStyle
 
+
+declare(strict_types=1);
+
 namespace LaminasTest\Session\Config;
 
 use Laminas\Session\Config\SessionConfig;
@@ -8,6 +11,7 @@ use Laminas\Session\Exception\InvalidArgumentException;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use SessionHandlerInterface;
@@ -15,8 +19,12 @@ use stdClass;
 
 use function extension_loaded;
 use function ini_get;
+use function restore_error_handler;
 use function session_start;
+use function set_error_handler;
 use function var_export;
+
+use const E_USER_DEPRECATED;
 
 /**
  * @runTestsInSeparateProcesses
@@ -116,7 +124,7 @@ class SessionConfigTest extends TestCase
         self::assertSame(
             ini_get('session.save_handler'),
             $this->config->getSaveHandler(),
-            var_export($this->config->toArray(), 1)
+            var_export($this->config->toArray(), true)
         );
     }
 
@@ -677,6 +685,21 @@ class SessionConfigTest extends TestCase
         self::assertSame(ini_get('session.sid_bits_per_character'), $this->config->getSidBitsPerCharacter());
     }
 
+    #[RequiresPhp('^8.4')]
+    #[IgnoreDeprecations]
+    public function testSetBitsPerCharacterError(): void
+    {
+        try {
+            set_error_handler(static function (int $errno, string $errstr): never {
+                throw new \Exception($errstr, $errno);
+            }, E_USER_DEPRECATED);
+            $this->expectExceptionMessage('session.sid_bits_per_character is deprecated starting with PHP 8.4');
+            $this->config->setSidBitsPerCharacter(4);
+        } finally {
+            restore_error_handler();
+        }
+    }
+
     #[DataProvider('sidSidPerCharacters')]
     #[IgnoreDeprecations]
     public function testSidBitsPerCharacterIsMutable(int $sidBitsPerCharacter): void
@@ -691,14 +714,6 @@ class SessionConfigTest extends TestCase
     {
         $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
         self::assertEquals($sidBitsPerCharacter, ini_get('session.sid_bits_per_character'));
-    }
-
-    #[IgnoreDeprecations]
-    public function testSettingInvalidSidBitsPerCharacterRaisesException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid sid bits per character provided');
-        $this->config->setSidBitsPerCharacter('foobar_bogus');
     }
 
     #[IgnoreDeprecations]

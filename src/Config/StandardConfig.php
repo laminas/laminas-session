@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session\Config;
 
 use Laminas\Session\Exception;
@@ -13,7 +15,6 @@ use function implode;
 use function is_array;
 use function is_dir;
 use function is_numeric;
-use function is_readable;
 use function is_string;
 use function is_writable;
 use function method_exists;
@@ -626,100 +627,6 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
     }
 
     /**
-     * Set session.entropy_file
-     *
-     * @deprecated removed in PHP 7.1
-     *
-     * @param  string $entropyFile
-     * @return StandardConfig
-     * @throws Exception\InvalidArgumentException
-     */
-    public function setEntropyFile($entropyFile)
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            trigger_error('session.entropy_file is removed starting with PHP 7.1', E_USER_DEPRECATED);
-        }
-
-        if (! is_readable($entropyFile)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                "Invalid entropy_file provided: '%s'; doesn't exist or not readable",
-                $entropyFile
-            ));
-        }
-
-        $this->setOption('entropy_file', $entropyFile);
-        $this->setStorageOption('entropy_file', $entropyFile);
-        return $this;
-    }
-
-    /**
-     * Get session.entropy_file
-     *
-     * @deprecated removed in PHP 7.1
-     *
-     * @return string
-     */
-    public function getEntropyFile()
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            trigger_error('session.entropy_file is removed starting with PHP 7.1', E_USER_DEPRECATED);
-        }
-
-        if (! isset($this->options['entropy_file'])) {
-            $this->options['entropy_file'] = $this->getStorageOption('entropy_file');
-        }
-
-        return $this->options['entropy_file'];
-    }
-
-    /**
-     * set session.entropy_length
-     *
-     * @deprecated removed in PHP 7.1
-     *
-     * @param  int $entropyLength
-     * @return StandardConfig
-     * @throws Exception\InvalidArgumentException
-     */
-    public function setEntropyLength($entropyLength)
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            trigger_error('session.entropy_length is removed starting with PHP 7.1', E_USER_DEPRECATED);
-        }
-
-        if (! is_numeric($entropyLength)) {
-            throw new Exception\InvalidArgumentException('Invalid entropy_length; must be numeric');
-        }
-        if (0 > $entropyLength) {
-            throw new Exception\InvalidArgumentException('Invalid entropy_length; must be a positive integer or zero');
-        }
-
-        $this->setOption('entropy_length', $entropyLength);
-        $this->setStorageOption('entropy_length', $entropyLength);
-        return $this;
-    }
-
-    /**
-     * Get session.entropy_length
-     *
-     * @deprecated removed in PHP 7.1
-     *
-     * @return string
-     */
-    public function getEntropyLength()
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            trigger_error('session.entropy_length is removed starting with PHP 7.1', E_USER_DEPRECATED);
-        }
-
-        if (! isset($this->options['entropy_length'])) {
-            $this->options['entropy_length'] = $this->getStorageOption('entropy_length');
-        }
-
-        return $this->options['entropy_length'];
-    }
-
-    /**
      * Set session.cache_expire
      *
      * @param  int $cacheExpire
@@ -757,83 +664,6 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
     }
 
     /**
-     * Set session.hash_function
-     *
-     * @deprecated removed in PHP 7.1
-     *
-     * @param  string $hashFunction
-     * @return mixed
-     */
-    public function setHashFunction($hashFunction)
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            trigger_error('session.hash_function is removed starting with PHP 7.1', E_USER_DEPRECATED);
-        }
-
-        return $this->setOption('hash_function', $hashFunction);
-    }
-
-    /**
-     * Get session.hash_function
-     *
-     * @deprecated removed in PHP 7.1
-     *
-     * @return string
-     */
-    public function getHashFunction()
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            trigger_error('session.hash_function is removed starting with PHP 7.1', E_USER_DEPRECATED);
-        }
-
-        return $this->getOption('hash_function');
-    }
-
-    /**
-     * Set session.hash_bits_per_character
-     *
-     * @deprecated removed in PHP 7.1
-     *
-     * @param  int $hashBitsPerCharacter
-     * @return StandardConfig
-     * @throws Exception\InvalidArgumentException
-     */
-    public function setHashBitsPerCharacter($hashBitsPerCharacter)
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            trigger_error('session.hash_bits_per_character is removed starting with PHP 7.1', E_USER_DEPRECATED);
-        }
-
-        if (! is_numeric($hashBitsPerCharacter)) {
-            throw new Exception\InvalidArgumentException('Invalid hash bits per character provided');
-        }
-        $hashBitsPerCharacter = (int) $hashBitsPerCharacter;
-        $this->setOption('hash_bits_per_character', $hashBitsPerCharacter);
-        $this->setStorageOption('hash_bits_per_character', $hashBitsPerCharacter);
-        return $this;
-    }
-
-    /**
-     * Get session.hash_bits_per_character
-     *
-     * @deprecated removed in PHP 7.1
-     *
-     * @return string
-     */
-    public function getHashBitsPerCharacter()
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            trigger_error('session.hash_bits_per_character is removed starting with PHP 7.1', E_USER_DEPRECATED);
-        }
-
-        if (! isset($this->options['hash_bits_per_character'])) {
-            $this->options['hash_bits_per_character'] = $this->getStorageOption('hash_bits_per_character');
-        }
-
-        return $this->options['hash_bits_per_character'];
-    }
-
-    /**
      * Set session.sid_length
      *
      * @deprecated see https://wiki.php.net/rfc/deprecations_php_8_4#sessionsid_length_and_sessionsid_bits_per_character
@@ -844,6 +674,10 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
      */
     public function setSidLength($sidLength)
     {
+        if (PHP_VERSION_ID >= 80400) {
+            trigger_error('session.sid_length is deprecated starting with PHP 8.4', E_USER_DEPRECATED);
+        }
+
         if (! is_numeric($sidLength) || $sidLength < 22 || $sidLength > 256) {
             throw new Exception\InvalidArgumentException('Invalid length provided');
         }
@@ -870,16 +704,11 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
     /**
      * Set session.sid_bits_per_character
      *
-     * @param  int $sidBitsPerCharacter
      * @return StandardConfig
      * @throws Exception\InvalidArgumentException
      */
-    public function setSidBitsPerCharacter($sidBitsPerCharacter)
+    public function setSidBitsPerCharacter(int $sidBitsPerCharacter)
     {
-        if (! is_numeric($sidBitsPerCharacter)) {
-            throw new Exception\InvalidArgumentException('Invalid sid bits per character provided');
-        }
-        $sidBitsPerCharacter = (int) $sidBitsPerCharacter;
         $this->setOption('sid_bits_per_character', $sidBitsPerCharacter);
         $this->setStorageOption('sid_bits_per_character', $sidBitsPerCharacter);
         return $this;

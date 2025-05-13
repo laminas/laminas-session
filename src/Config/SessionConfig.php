@@ -1,23 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session\Config;
 
 use Laminas\Session\Exception;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use SessionHandlerInterface;
 
-use function array_merge;
 use function array_search;
 use function array_shift;
 use function class_exists;
 use function explode;
-use function hash_algos;
 use function implode;
 use function in_array;
 use function ini_get;
 use function ini_set;
 use function is_a;
-use function is_numeric;
 use function is_string;
 use function ob_get_clean;
 use function ob_start;
@@ -105,22 +104,12 @@ class SessionConfig extends StandardConfig
         'private_no_expire',
     ];
 
-    /** @var array Valid hash bits per character (per session.hash_bits_per_character) */
-    protected $validHashBitsPerCharacters = [
-        4,
-        5,
-        6,
-    ];
-
     /** @var array Valid sid bits per character (per session.sid_bits_per_character) */
     protected $validSidBitsPerCharacters = [
         4,
         5,
         6,
     ];
-
-    /** @var array Valid hash functions (per session.hash_function) */
-    protected $validHashFunctions;
 
     /**
      * Override standard option setting.
@@ -310,99 +299,26 @@ class SessionConfig extends StandardConfig
     }
 
     /**
-     * Set session.hash_function
-     *
-     * @deprecated removed in PHP 7.1
-     *
-     * @param  string|int $hashFunction
-     * @return SessionConfig
-     * @throws Exception\InvalidArgumentException
-     */
-    public function setHashFunction($hashFunction)
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            trigger_error('session.hash_function is removed starting with PHP 7.1', E_USER_DEPRECATED);
-        }
-
-        $hashFunction       = (string) $hashFunction;
-        $validHashFunctions = $this->getHashFunctions();
-        if (! in_array($hashFunction, $validHashFunctions, true)) {
-            throw new Exception\InvalidArgumentException('Invalid hash function provided');
-        }
-
-        $this->setOption('hash_function', $hashFunction);
-        ini_set('session.hash_function', $hashFunction);
-        return $this;
-    }
-
-    /**
-     * Set session.hash_bits_per_character
-     *
-     * @deprecated removed in PHP 7.1
-     *
-     * @param  int $hashBitsPerCharacter
-     * @return SessionConfig
-     * @throws Exception\InvalidArgumentException
-     */
-    public function setHashBitsPerCharacter($hashBitsPerCharacter)
-    {
-        if (PHP_VERSION_ID >= 70100) {
-            trigger_error('session.hash_bits_per_character is removed starting with PHP 7.1', E_USER_DEPRECATED);
-        }
-
-        if (
-            ! is_numeric($hashBitsPerCharacter)
-            || ! in_array($hashBitsPerCharacter, $this->validHashBitsPerCharacters)
-        ) {
-            throw new Exception\InvalidArgumentException('Invalid hash bits per character provided');
-        }
-
-        $hashBitsPerCharacter = (int) $hashBitsPerCharacter;
-        $this->setOption('hash_bits_per_character', $hashBitsPerCharacter);
-        ini_set('session.hash_bits_per_character', $hashBitsPerCharacter);
-        return $this;
-    }
-
-    /**
      * Set session.sid_bits_per_character
      *
      * @deprecated see https://wiki.php.net/rfc/deprecations_php_8_4#sessionsid_length_and_sessionsid_bits_per_character
      *
-     * @param  int $sidBitsPerCharacter
      * @return SessionConfig
      * @throws Exception\InvalidArgumentException
      */
-    public function setSidBitsPerCharacter($sidBitsPerCharacter)
+    public function setSidBitsPerCharacter(int $sidBitsPerCharacter)
     {
-        if (
-            ! is_numeric($sidBitsPerCharacter)
-            || ! in_array($sidBitsPerCharacter, $this->validSidBitsPerCharacters)
-        ) {
+        if (PHP_VERSION_ID >= 80400) {
+            trigger_error('session.sid_bits_per_character is deprecated starting with PHP 8.4', E_USER_DEPRECATED);
+        }
+
+        if (! in_array($sidBitsPerCharacter, $this->validSidBitsPerCharacters)) {
             throw new Exception\InvalidArgumentException('Invalid sid bits per character provided');
         }
 
-        $sidBitsPerCharacter = (int) $sidBitsPerCharacter;
         $this->setOption('sid_bits_per_character', $sidBitsPerCharacter);
         ini_set('session.sid_bits_per_character', (string) $sidBitsPerCharacter);
         return $this;
-    }
-
-    /**
-     * Retrieve list of valid hash functions
-     *
-     * @return array
-     */
-    protected function getHashFunctions()
-    {
-        if (empty($this->validHashFunctions)) {
-            /**
-             * @link http://php.net/manual/en/session.configuration.php#ini.session.hash-function
-             * "0" and "1" refer to MD5-128 and SHA1-160, respectively, and are
-             * valid in addition to whatever is reported by hash_algos()
-             */
-            $this->validHashFunctions = array_merge(['0', '1'], hash_algos());
-        }
-        return $this->validHashFunctions;
     }
 
     /**

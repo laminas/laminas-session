@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session;
 
 use Laminas\EventManager\Event;
@@ -9,8 +11,6 @@ use Traversable;
 
 use function array_key_exists;
 use function array_merge;
-use function constant;
-use function defined;
 use function headers_sent;
 use function is_array;
 use function iterator_to_array;
@@ -89,24 +89,7 @@ class SessionManager extends AbstractManager
      */
     public function sessionExists()
     {
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            return true;
-        }
-
-        /**
-         * @var string|false $sid
-         */
-        $sid = defined('SID') ? constant('SID') : false;
-
-        if ($sid !== false && $this->getId()) {
-            return true;
-        }
-
-        if (headers_sent()) {
-            return true;
-        }
-
-        return false;
+        return session_status() === PHP_SESSION_ACTIVE || headers_sent();
     }
 
     /**

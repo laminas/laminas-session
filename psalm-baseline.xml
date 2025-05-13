@@ -158,14 +158,6 @@
       <code><![CDATA[$saveHandler]]></code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/AbstractValidatorChain.php">
-    <DeprecatedClass>
-      <code><![CDATA[AbstractValidatorChainEM3]]></code>
-    </DeprecatedClass>
-    <UnusedClass>
-      <code><![CDATA[AbstractValidatorChain]]></code>
-    </UnusedClass>
-  </file>
   <file src="src/Config/ConfigInterface.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[getOptions]]></code>
@@ -178,10 +170,6 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/Config/SessionConfig.php">
-    <DocblockTypeContradiction>
-      <code><![CDATA[! is_numeric($hashBitsPerCharacter)]]></code>
-      <code><![CDATA[! is_numeric($sidBitsPerCharacter)]]></code>
-    </DocblockTypeContradiction>
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[SessionConfig]]></code>
     </ImplementedReturnTypeMismatch>
@@ -194,7 +182,6 @@
     </InvalidNullableReturnType>
     <MissingConstructor>
       <code><![CDATA[$serializeHandler]]></code>
-      <code><![CDATA[$validHashFunctions]]></code>
     </MissingConstructor>
     <MixedArgument>
       <code><![CDATA[$value]]></code>
@@ -226,8 +213,6 @@
       <code><![CDATA[(string) $iniGet]]></code>
     </RedundantCast>
     <RedundantCastGivenDocblockType>
-      <code><![CDATA[(int) $hashBitsPerCharacter]]></code>
-      <code><![CDATA[(int) $sidBitsPerCharacter]]></code>
       <code><![CDATA[(string) $cacheLimiter]]></code>
       <code><![CDATA[(string) $serializeHandler]]></code>
       <code><![CDATA[(string) $serializeHandler]]></code>
@@ -242,13 +227,10 @@
       <code><![CDATA[! is_numeric($sidLength)]]></code>
       <code><![CDATA[is_numeric($cacheExpire)]]></code>
       <code><![CDATA[is_numeric($cookieLifetime)]]></code>
-      <code><![CDATA[is_numeric($entropyLength)]]></code>
       <code><![CDATA[is_numeric($gcDivisor)]]></code>
       <code><![CDATA[is_numeric($gcMaxlifetime)]]></code>
       <code><![CDATA[is_numeric($gcProbability)]]></code>
-      <code><![CDATA[is_numeric($hashBitsPerCharacter)]]></code>
       <code><![CDATA[is_numeric($rememberMeSeconds)]]></code>
-      <code><![CDATA[is_numeric($sidBitsPerCharacter)]]></code>
       <code><![CDATA[is_string($cookieDomain)]]></code>
       <code><![CDATA[null === $this->cookieDomain]]></code>
       <code><![CDATA[null === $this->cookieHttpOnly]]></code>
@@ -340,10 +322,6 @@
       <code><![CDATA[string]]></code>
       <code><![CDATA[string]]></code>
       <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
       <code><![CDATA[string|null]]></code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
@@ -359,16 +337,12 @@
       <code><![CDATA[$this->cookieSameSite]]></code>
       <code><![CDATA[$this->cookieSecure]]></code>
       <code><![CDATA[$this->cookieSecure]]></code>
-      <code><![CDATA[$this->getOption('hash_function')]]></code>
       <code><![CDATA[$this->name]]></code>
       <code><![CDATA[$this->name]]></code>
       <code><![CDATA[$this->options['cache_expire']]]></code>
-      <code><![CDATA[$this->options['entropy_file']]]></code>
-      <code><![CDATA[$this->options['entropy_length']]]></code>
       <code><![CDATA[$this->options['gc_divisor']]]></code>
       <code><![CDATA[$this->options['gc_maxlifetime']]]></code>
       <code><![CDATA[$this->options['gc_probability']]]></code>
-      <code><![CDATA[$this->options['hash_bits_per_character']]]></code>
       <code><![CDATA[$this->options['sid_bits_per_character']]]></code>
       <code><![CDATA[$this->options['sid_length']]]></code>
       <code><![CDATA[$this->rememberMeSeconds]]></code>
@@ -384,13 +358,6 @@
     <PossiblyInvalidCast>
       <code><![CDATA[str_replace('_', ' ', $key)]]></code>
     </PossiblyInvalidCast>
-    <PossiblyUnusedReturnValue>
-      <code><![CDATA[mixed]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-    </PossiblyUnusedReturnValue>
     <RedundantCastGivenDocblockType>
       <code><![CDATA[(bool) $cookieHttpOnly]]></code>
       <code><![CDATA[(bool) $cookieSecure]]></code>
@@ -400,9 +367,7 @@
       <code><![CDATA[(int) $gcDivisor]]></code>
       <code><![CDATA[(int) $gcMaxlifetime]]></code>
       <code><![CDATA[(int) $gcProbability]]></code>
-      <code><![CDATA[(int) $hashBitsPerCharacter]]></code>
       <code><![CDATA[(int) $rememberMeSeconds]]></code>
-      <code><![CDATA[(int) $sidBitsPerCharacter]]></code>
       <code><![CDATA[(int) $sidLength]]></code>
       <code><![CDATA[(string) $cookiePath]]></code>
       <code><![CDATA[(string) $cookieSameSite]]></code>
@@ -767,49 +732,10 @@
       <code><![CDATA[self]]></code>
     </PossiblyUnusedReturnValue>
   </file>
-  <file src="src/Validator/AbstractValidatorChainEM3.php">
-    <DeprecatedTrait>
-      <code><![CDATA[ValidatorChainTrait]]></code>
-    </DeprecatedTrait>
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[CallbackHandler]]></code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->attachValidator($eventName, $listener, $priority)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[CallbackHandler]]></code>
-    </InvalidReturnType>
-    <MixedAssignment>
-      <code><![CDATA[$data]]></code>
-      <code><![CDATA[$validator]]></code>
-      <code><![CDATA[$validators]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[new $validator($data)]]></code>
-    </MixedMethodCall>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[__construct]]></code>
-    </PossiblyUnusedMethod>
-    <UndefinedDocblockClass>
-      <code><![CDATA[CallbackHandler]]></code>
-    </UndefinedDocblockClass>
-  </file>
   <file src="src/Validator/HttpUserAgent.php">
     <PossiblyNullPropertyAssignmentValue>
       <code><![CDATA[$data]]></code>
     </PossiblyNullPropertyAssignmentValue>
-  </file>
-  <file src="src/Validator/ValidatorChainTrait.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$callback]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$data]]></code>
-    </MixedAssignment>
-    <UndefinedDocblockClass>
-      <code><![CDATA[CallbackHandler|callable]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="src/ValidatorChain.php">
     <MixedArgumentTypeCoercion>
@@ -860,7 +786,6 @@
       <code><![CDATA['foobar_bogus']]></code>
       <code><![CDATA['foobar_bogus']]></code>
       <code><![CDATA['foobar_bogus']]></code>
-      <code><![CDATA['foobar_bogus']]></code>
       <code><![CDATA[24]]></code>
       <code><![CDATA[24]]></code>
     </InvalidArgument>
@@ -868,9 +793,6 @@
       <code><![CDATA[$handler]]></code>
       <code><![CDATA[$saveHandler]]></code>
     </InvalidCast>
-    <InvalidScalarArgument>
-      <code><![CDATA[1]]></code>
-    </InvalidScalarArgument>
     <MissingClosureReturnType>
       <code><![CDATA[static function (?string $module = null) {]]></code>
       <code><![CDATA[static function (?string $module = null) {]]></code>
@@ -882,7 +804,6 @@
     </MissingReturnType>
     <PossiblyNullArgument>
       <code><![CDATA[$this->config]]></code>
-      <code><![CDATA[var_export($this->config->toArray(), 1)]]></code>
     </PossiblyNullArgument>
     <PossiblyNullReference>
       <code><![CDATA[getCacheExpire]]></code>
@@ -968,7 +889,6 @@
       <code><![CDATA[setPhpSaveHandler]]></code>
       <code><![CDATA[setPhpSaveHandler]]></code>
       <code><![CDATA[setPhpSaveHandler]]></code>
-      <code><![CDATA[setPhpSaveHandler]]></code>
       <code><![CDATA[setRememberMeSeconds]]></code>
       <code><![CDATA[setSaveHandler]]></code>
       <code><![CDATA[setSaveHandler]]></code>
@@ -1007,20 +927,12 @@
   </file>
   <file src="test/Config/StandardConfigTest.php">
     <DeprecatedMethod>
-      <code><![CDATA[getEntropyFile]]></code>
-      <code><![CDATA[getEntropyLength]]></code>
-      <code><![CDATA[getHashBitsPerCharacter]]></code>
-      <code><![CDATA[getHashFunction]]></code>
-      <code><![CDATA[setEntropyFile]]></code>
-      <code><![CDATA[setEntropyLength]]></code>
-      <code><![CDATA[setHashBitsPerCharacter]]></code>
-      <code><![CDATA[setHashFunction]]></code>
+      <code><![CDATA[setSidLength]]></code>
       <code><![CDATA[setSidLength]]></code>
       <code><![CDATA[setSidLength]]></code>
       <code><![CDATA[setSidLength]]></code>
     </DeprecatedMethod>
     <InvalidArgument>
-      <code><![CDATA['foobar_bogus']]></code>
       <code><![CDATA['foobar_bogus']]></code>
       <code><![CDATA['foobar_bogus']]></code>
       <code><![CDATA['foobar_bogus']]></code>
@@ -1034,6 +946,9 @@
     <MissingReturnType>
       <code><![CDATA[testCookieSameSiteIsMutable]]></code>
     </MissingReturnType>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[optionsProvider]]></code>
+    </PossiblyUnusedMethod>
     <RedundantCastGivenDocblockType>
       <code><![CDATA[(bool) $this->config->getUseCookies()]]></code>
     </RedundantCastGivenDocblockType>
