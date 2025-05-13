@@ -437,8 +437,8 @@ class SessionManager extends AbstractManager
             $_SERVER['REQUEST_TIME'] - 42000, // TTL for cookie
             $config->getCookiePath(),
             $config->getCookieDomain(),
-            (bool) $config->getCookieSecure(),
-            (bool) $config->getCookieHttpOnly()
+            $config->getCookieSecure(),
+            $config->getCookieHttpOnly()
         );
     }
 
