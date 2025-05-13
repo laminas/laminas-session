@@ -30,3 +30,12 @@ MongoDB support has been completely removed in version 3.0, notably the followin
 
 If you require MongoDB support in your application, you will need to implement that support yourself
 by creating a class that implements `Laminas\Session\SaveHandler\SaveHandlerInterface` as per [the custom save handler documentation](../save-handler.md).
+
+## Changed Features
+
+### `sessionExists()` Method Changes
+
+The implementation of the `SessionManager::sessionExists()` method has been simplified and no longer uses the PHP constant `SID` because this is [deprecated since PHP 8.4](https://wiki.php.net/rfc/deprecations_php_8_4#constant_sid).
+
+> NOTE: **Logical change**
+> Due to this implementation change, `sessionExists()` will now return `false` after `session_close()` has been called, whereas in version 2 it would return `true`.
