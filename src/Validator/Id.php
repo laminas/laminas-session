@@ -13,6 +13,8 @@ use function substr;
 
 /**
  * session_id validator
+ *
+ * @implements ValidatorInterface<string>
  */
 class Id implements ValidatorInterface
 {
@@ -44,10 +46,8 @@ class Id implements ValidatorInterface
      * Is the current session identifier valid?
      *
      * Tests that the identifier does not contain invalid characters.
-     *
-     * @return bool
      */
-    public function isValid()
+    public function isValid(): bool
     {
         $id          = $this->id;
         $saveHandler = ini_get('session.save_handler');
@@ -75,20 +75,16 @@ class Id implements ValidatorInterface
 
     /**
      * Retrieve token for validating call (session_id)
-     *
-     * @return string
      */
-    public function getData()
+    public function getData(): mixed
     {
         return $this->id;
     }
 
     /**
      * Return validator name
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::class;
     }

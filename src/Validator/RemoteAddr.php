@@ -7,6 +7,9 @@ namespace Laminas\Session\Validator;
 use Laminas\Http\PhpEnvironment\RemoteAddress;
 use Laminas\Session\Validator\ValidatorInterface as SessionValidator;
 
+/**
+ * @implements SessionValidator<string>
+ */
 class RemoteAddr implements SessionValidator
 {
     /**
@@ -59,10 +62,8 @@ class RemoteAddr implements SessionValidator
     /**
      * isValid() - this method will determine if the current user IP matches the
      * IP we stored when we initialized this variable.
-     *
-     * @return bool
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return $this->getIpAddress() === $this->getData();
     }
@@ -128,20 +129,16 @@ class RemoteAddr implements SessionValidator
 
     /**
      * Retrieve token for validating call
-     *
-     * @return string
      */
-    public function getData()
+    public function getData(): mixed
     {
         return $this->data;
     }
 
     /**
      * Return validator name
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::class;
     }
