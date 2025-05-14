@@ -26,7 +26,7 @@ final class Id implements ValidatorInterface
      * Allows passing the current session_id; if none provided, uses the PHP
      * session_id() function to retrieve it.
      */
-    public function __construct(protected ?string $id = null)
+    public function __construct(protected mixed $id = null)
     {
         if (null === $id || '' === $id) {
             $id = session_id();
