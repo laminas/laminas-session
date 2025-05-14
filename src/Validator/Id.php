@@ -16,7 +16,7 @@ use const PHP_VERSION_ID;
 /**
  * session_id validator
  *
- * @implements ValidatorInterface<string>
+ * @implements ValidatorInterface<string|null>
  */
 final class Id implements ValidatorInterface
 {
@@ -26,9 +26,9 @@ final class Id implements ValidatorInterface
      * Allows passing the current session_id; if none provided, uses the PHP
      * session_id() function to retrieve it.
      */
-    public function __construct(protected mixed $id = null)
+    public function __construct(protected ?string $id = null)
     {
-        if (null === $id || '' === $id) {
+        if ($id === null || $id === '') {
             $id = session_id();
         }
 
@@ -44,7 +44,7 @@ final class Id implements ValidatorInterface
     {
         $id = $this->id;
 
-        if (null === $id) {
+        if ($id === null) {
             return false;
         }
 
@@ -70,7 +70,7 @@ final class Id implements ValidatorInterface
     /**
      * Retrieve token for validating call (session_id)
      */
-    public function getData(): mixed
+    public function getData(): ?string
     {
         return $this->id;
     }
