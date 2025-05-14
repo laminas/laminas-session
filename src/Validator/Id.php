@@ -47,6 +47,12 @@ class Id implements ValidatorInterface
      */
     public function isValid()
     {
+        if (PHP_VERSION_ID > 80400) {
+            // PHP 8.4 deprecated session.sid_bits_per_character and set it to "4" hard.
+            // Old (pre PHP 8.4) with a higher bitrate are still valid though.
+            return true;
+        }
+
         $id          = $this->id;
         $saveHandler = ini_get('session.save_handler');
         if ($saveHandler === 'cluster') { // Zend Server SC, validate only after last dash
