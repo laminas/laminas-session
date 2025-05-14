@@ -28,7 +28,7 @@ final class Id implements ValidatorInterface
      */
     public function __construct(protected ?string $id = null)
     {
-        if ($id === null || $id === '') {
+        if (null === $id || '' === $id) {
             $id = session_id();
         }
 
