@@ -8,163 +8,123 @@ use Laminas\Session\Config\ConfigInterface;
 
 class TestConfig implements ConfigInterface
 {
-    /**
-     * @param array $options
-     * @return void
-     */
-    public function setOptions($options)
+    public function setOptions(array $options): self
     {
+        return $this;
     }
 
-    /** @return void */
-    public function getOptions()
+    public function getOptions(): array
     {
+        return [];
     }
 
-    /**
-     * @param string $option
-     * @param mixed $value
-     * @return void
-     */
-    public function setOption($option, $value)
+    public function setOption(string $option, mixed $value): self
     {
+        return $this;
     }
 
-    /**
-     * @param string $option
-     * @return void
-     */
-    public function getOption($option)
+    public function getOption(string $option): mixed
     {
+        return false;
     }
 
-    /**
-     * @param string $option
-     * @return void
-     */
-    public function hasOption($option)
+    public function hasOption(string $option): bool
     {
+        return false;
     }
 
-    /** @return void */
-    public function toArray()
+    public function toArray(): array
     {
+        return [];
     }
 
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function setName($name)
+    public function setName(string $name): ConfigInterface
     {
+        return $this;
     }
 
-    /** @return void */
-    public function getName()
+    public function getName(): string
     {
+        return '';
     }
 
-    /**
-     * @param string $savePath
-     * @return void
-     */
-    public function setSavePath($savePath)
+    public function setSavePath(string $savePath): self
     {
+        return $this;
     }
 
-    /** @return void */
-    public function getSavePath()
+    public function getSavePath(): string
     {
+        return '';
     }
 
-    /**
-     * @param int $cookieLifetime
-     * @return void
-     */
-    public function setCookieLifetime($cookieLifetime)
+    public function setCookieLifetime(int $cookieLifetime): self
     {
+        return $this;
     }
 
-    /** @return void */
-    public function getCookieLifetime()
+    public function getCookieLifetime(): int
     {
+        return 0;
     }
 
-    /**
-     * @param string $cookiePath
-     * @return void
-     */
-    public function setCookiePath($cookiePath)
+    public function setCookiePath(string $cookiePath): self
     {
+        return $this;
     }
 
-    /** @return void */
-    public function getCookiePath()
+    public function getCookiePath(): string
     {
+        return '';
     }
 
-    /**
-     * @param string $cookieDomain
-     * @return void
-     */
-    public function setCookieDomain($cookieDomain)
+    public function setCookieDomain(string $cookieDomain): self
     {
+        return $this;
     }
 
-    /** @return void */
-    public function getCookieDomain()
+    public function getCookieDomain(): string
     {
+        return '';
     }
 
-    /**
-     * @param bool $cookieSecure
-     * @return void
-     */
-    public function setCookieSecure($cookieSecure)
+    public function setCookieSecure(bool $cookieSecure): self
     {
+        return $this;
     }
 
-    /** @return void */
-    public function getCookieSecure()
+    public function getCookieSecure(): bool
     {
+        return true;
     }
 
-    /**
-     * @param bool $cookieHttpOnly
-     * @return void
-     */
-    public function setCookieHttpOnly($cookieHttpOnly)
+    public function setCookieHttpOnly(bool $cookieHttpOnly): self
     {
+        return $this;
     }
 
-    /** @return void */
-    public function getCookieHttpOnly()
+    public function getCookieHttpOnly(): bool
     {
+        return false;
     }
 
-    /**
-     * @param bool $useCookies
-     * @return void
-     */
-    public function setUseCookies($useCookies)
+    public function setUseCookies(bool $useCookies): self
     {
+        return $this;
     }
 
-    /** @return void */
-    public function getUseCookies()
+    public function getUseCookies(): bool
     {
+        return false;
     }
 
-    /**
-     * @param int $rememberMeSeconds
-     * @return void
-     */
-    public function setRememberMeSeconds($rememberMeSeconds)
+    public function setRememberMeSeconds(int $rememberMeSeconds): self
     {
+        return $this;
     }
 
-    /** @return void */
-    public function getRememberMeSeconds()
+    public function getRememberMeSeconds(): int
     {
+        return 0;
     }
 }
