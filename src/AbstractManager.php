@@ -10,6 +10,7 @@ use Laminas\Session\ManagerInterface as Manager;
 use Laminas\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
 use Laminas\Session\Storage\SessionArrayStorage;
 use Laminas\Session\Storage\StorageInterface as Storage;
+use Laminas\Session\Validator\ValidatorInterface;
 
 use function class_exists;
 use function sprintf;
@@ -21,28 +22,21 @@ use function sprintf;
  */
 abstract class AbstractManager implements Manager
 {
-    /** @var Config */
-    protected $config;
+    protected Config $config;
 
     /**
      * Default configuration class to use when no configuration provided
-     *
-     * @var string
      */
-    protected $defaultConfigClass = SessionConfig::class;
+    protected string $defaultConfigClass = SessionConfig::class;
 
-    /** @var Storage */
-    protected $storage;
+    protected Storage $storage;
 
     /**
      * Default storage class to use when no storage provided
-     *
-     * @var string
      */
-    protected $defaultStorageClass = SessionArrayStorage::class;
+    protected string $defaultStorageClass = SessionArrayStorage::class;
 
-    /** @var SaveHandler */
-    protected $saveHandler;
+    protected SaveHandler|null $saveHandler = null;
 
     /**
      * Constructor
@@ -53,6 +47,7 @@ abstract class AbstractManager implements Manager
         ?Config $config = null,
         ?Storage $storage = null,
         ?SaveHandler $saveHandler = null,
+        /** @var list<class-string<ValidatorInterface>> */
         protected array $validators = []
     ) {
         // init config
@@ -107,10 +102,8 @@ abstract class AbstractManager implements Manager
 
     /**
      * Set configuration object
-     *
-     * @return AbstractManager
      */
-    public function setConfig(Config $config)
+    public function setConfig(Config $config): static
     {
         $this->config = $config;
         return $this;
@@ -118,20 +111,16 @@ abstract class AbstractManager implements Manager
 
     /**
      * Retrieve configuration object
-     *
-     * @return Config
      */
-    public function getConfig()
+    public function getConfig(): Config
     {
         return $this->config;
     }
 
     /**
      * Set session storage object
-     *
-     * @return AbstractManager
      */
-    public function setStorage(Storage $storage)
+    public function setStorage(Storage $storage): static
     {
         $this->storage = $storage;
         return $this;
@@ -139,20 +128,16 @@ abstract class AbstractManager implements Manager
 
     /**
      * Retrieve storage object
-     *
-     * @return Storage
      */
-    public function getStorage()
+    public function getStorage(): Storage
     {
         return $this->storage;
     }
 
     /**
      * Set session save handler object
-     *
-     * @return AbstractManager
      */
-    public function setSaveHandler(SaveHandler $saveHandler)
+    public function setSaveHandler(SaveHandler $saveHandler): static
     {
         $this->saveHandler = $saveHandler;
         return $this;
@@ -160,10 +145,8 @@ abstract class AbstractManager implements Manager
 
     /**
      * Get SaveHandler Object
-     *
-     * @return SaveHandler
      */
-    public function getSaveHandler()
+    public function getSaveHandler(): SaveHandler|null
     {
         return $this->saveHandler;
     }
