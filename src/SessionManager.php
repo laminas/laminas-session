@@ -6,7 +6,6 @@ namespace Laminas\Session;
 
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerInterface;
-use Laminas\Session\Validator\ValidatorInterface;
 use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\ValidatorInterface;
 use Traversable;
@@ -170,9 +169,6 @@ final class SessionManager extends AbstractManager
         /** @var array<string, mixed> $storage */
         $storage = $this->getStorage()->getMetadata();
 
-        /**
-         * @var class-string<ValidatorInterface> $validatorName
-         */
         foreach ($this->validators as $validatorName) {
             $validatorValues = $this->getStorage()->getMetadata('_VALID');
             if (is_array($validatorValues) && array_key_exists($validatorName, $validatorValues)) {

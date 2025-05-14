@@ -39,3 +39,15 @@ The implementation of the `SessionManager::sessionExists()` method has been simp
 
 > NOTE: **Logical change**
 > Due to this implementation change, `sessionExists()` will now return `false` after `session_close()` has been called, whereas in version 2 it would return `true`.
+
+### Native Types for `ManagerInterface`
+
+Starting from version 3.0, the `ManagerInterface` now uses native PHP 8 type hints for all its methods.
+
+If you have custom classes implementing `ManagerInterface`, you'll need to update your method signatures to match the new interface.
+In addition to the method signature changes, there are several other important modifications:
+
+1. The `Laminas\Session\SessionManager` class is now marked as `final`, so it can no longer be extended
+2. The `setId()` method now only accepts `string` type instead of the previous `int|string` union type
+3. Options like `send_expire_cookie`, `clear_storage` and `preserve_storage` could be set during construction and will be used in `destroy()` and `start()` method calls if the parameter will be passed as null.
+4. All validator types are strictly defined as `class-string<ValidatorInterface>`
