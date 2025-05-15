@@ -4,16 +4,23 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\Validator;
 
+use Laminas\Session\Validator\EnvironmentValueObject;
 use Laminas\Session\Validator\HttpUserAgent;
 use PHPUnit\Framework\TestCase;
 
 class HttpUserAgentTest extends TestCase
 {
+    protected EnvironmentValueObject $environment;
+
+    public function setUp(): void
+    {
+        $this->environment = EnvironmentValueObject::fromGlobals();
+    }
+
     public function testIsValid(): void
     {
-        $_SERVER['HTTP_USER_AGENT'] = 'Test-User-Agent';
-
-        $validator = new HttpUserAgent();
+        $this->environment->setHttpUserAgent('Test-User-Agent');
+        $validator = new HttpUserAgent($this->environment);
 
         self::assertNotNull($validator->getData());
         self::assertTrue($validator->isValid());
@@ -22,9 +29,8 @@ class HttpUserAgentTest extends TestCase
     public function testIsValidWhenNoUserAgentIsSet(): void
     {
         // technically not needed in CLI
-        unset($_SERVER['HTTP_USER_AGENT']);
-
-        $validator = new HttpUserAgent();
+        $this->environment->setHttpUserAgent(null);
+        $validator = new HttpUserAgent($this->environment);
 
         self::assertNull($validator->getData());
         self::assertTrue($validator->isValid());
@@ -32,7 +38,7 @@ class HttpUserAgentTest extends TestCase
 
     public function testGetNameReturnsClassName(): void
     {
-        $validator = new HttpUserAgent();
+        $validator = new HttpUserAgent($this->environment);
 
         self::assertSame(HttpUserAgent::class, $validator->getName());
     }
