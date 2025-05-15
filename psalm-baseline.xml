@@ -576,11 +576,6 @@
       <code><![CDATA[self]]></code>
     </PossiblyUnusedReturnValue>
   </file>
-  <file src="src/Validator/HttpUserAgent.php">
-    <PossiblyNullPropertyAssignmentValue>
-      <code><![CDATA[$data]]></code>
-    </PossiblyNullPropertyAssignmentValue>
-  </file>
   <file src="src/ValidatorChain.php">
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$callback]]></code>
