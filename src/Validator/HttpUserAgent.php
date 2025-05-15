@@ -26,7 +26,7 @@ final class HttpUserAgent implements ValidatorInterface
      * isValid() - this method will determine if the current user agent matches the
      * user agent we stored when we initialized this variable.
      */
-    public function isValid()
+    public function isValid(): bool
     {
         $userAgent = $this->env->getHttpUserAgent() ?? null;
 
