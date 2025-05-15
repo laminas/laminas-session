@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Laminas\Session\Validator;
 
 /**
- * @implements ValidatorInterface<string>
+ * @implements ValidatorInterface<string|null>
  */
 final class HttpUserAgent implements ValidatorInterface
 {
@@ -13,11 +13,12 @@ final class HttpUserAgent implements ValidatorInterface
      * Constructor
      * get the current user agent and store it in the session as 'valid data'
      */
-    public function __construct(protected ?string $data = null)
+    public function __construct(protected EnvironmentValueObject $env, protected ?string $data = null)
     {
         if ($data === null || $data === '') {
-            $data = $_SERVER['HTTP_USER_AGENT'] ?? null;
+            $data = $env->getHttpUserAgent() ?? null;
         }
+
         $this->data = $data;
     }
 
@@ -27,7 +28,7 @@ final class HttpUserAgent implements ValidatorInterface
      */
     public function isValid()
     {
-        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
+        $userAgent = $this->env->getHttpUserAgent() ?? null;
 
         return $userAgent === $this->getData();
     }
