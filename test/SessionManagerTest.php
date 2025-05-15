@@ -818,7 +818,7 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $this->manager->getValidatorChain()
-            ->attach('session.validate', [new Id('invalid-value'), 'isValid']);
+            ->attach('session.validate', [new Id('invalid.value'), 'isValid']);
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Session validation failed');
