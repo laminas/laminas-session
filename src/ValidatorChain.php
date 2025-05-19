@@ -69,9 +69,8 @@ class ValidatorChain extends EventManager
             array_unshift($callback, $test);
         }
         if ($context instanceof ValidatorInterface) {
-            $data = $context->getData();
             $name = $context->getName();
-            $this->getStorage()->setMetadata('_VALID', [$name => $data]);
+            $this->getStorage()->setMetadata('_VALID', [$name => '']);
         }
 
         return parent::attach($event, $callback, $priority);

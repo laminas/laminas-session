@@ -6,12 +6,9 @@ namespace LaminasTest\Session\TestAsset;
 
 use Laminas\Session\Validator\ValidatorInterface;
 
-/**
- * @implements ValidatorInterface<false>
- */
 final class TestFailingValidator implements ValidatorInterface
 {
-    public function getData(): mixed
+    public function getData(): bool
     {
         return false;
     }

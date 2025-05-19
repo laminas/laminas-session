@@ -15,8 +15,6 @@ use const PHP_VERSION_ID;
 
 /**
  * session_id validator
- *
- * @implements ValidatorInterface<string|null>
  */
 final class Id implements ValidatorInterface
 {
@@ -65,14 +63,6 @@ final class Id implements ValidatorInterface
         };
 
         return (bool) preg_match($pattern, $id);
-    }
-
-    /**
-     * Retrieve token for validating call (session_id)
-     */
-    public function getData(): ?string
-    {
-        return $this->id;
     }
 
     /**

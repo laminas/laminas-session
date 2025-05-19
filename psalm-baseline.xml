@@ -451,7 +451,6 @@
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
-      <code><![CDATA[$data]]></code>
       <code><![CDATA[$validator]]></code>
       <code><![CDATA[$validators]]></code>
     </MixedAssignment>

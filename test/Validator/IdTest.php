@@ -10,6 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 
 use function ini_set;
 use function session_id;
@@ -45,9 +46,10 @@ class IdTest extends TestCase
 
     public function testConstructorSetId(): void
     {
-        $id = new Id('1234');
+        $id           = new Id('1234');
+        $idReflection = new ReflectionProperty($id, 'id');
 
-        self::assertSame('1234', $id->getData());
+        self::assertSame('1234', $idReflection->getValue($id));
     }
 
     /**
@@ -58,9 +60,10 @@ class IdTest extends TestCase
         session_start();
         $sessionId = session_id();
 
-        $id = new Id();
+        $id           = new Id();
+        $idReflection = new ReflectionProperty($id, 'id');
 
-        self::assertSame($sessionId, $id->getData());
+        self::assertSame($sessionId, $idReflection->getValue($id));
     }
 
     public function testValidatorName(): void

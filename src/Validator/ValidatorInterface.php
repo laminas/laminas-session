@@ -6,8 +6,6 @@ namespace Laminas\Session\Validator;
 
 /**
  * Session validator interface
- *
- * @template T
  */
 interface ValidatorInterface
 {
@@ -17,13 +15,6 @@ interface ValidatorInterface
      * that which was store in the setup() procedure.
      */
     public function isValid(): bool;
-
-    /**
-     * Get data from validator to be used for validation comparisons
-     *
-     * @return T
-     */
-    public function getData(): mixed;
 
     /**
      * Get validator name for use with storing validators between requests

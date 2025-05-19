@@ -6,9 +6,6 @@ namespace LaminasTest\Session\Validator;
 
 use Laminas\Session\Validator\ValidatorInterface;
 
-/**
- * @implements ValidatorInterface<false>
- */
 class StaticValidatorStub implements ValidatorInterface
 {
     public static int $isValidCallCount = 0;
@@ -19,7 +16,7 @@ class StaticValidatorStub implements ValidatorInterface
         return $this->getData();
     }
 
-    public function getData(): mixed
+    public function getData(): bool
     {
         return false;
     }
