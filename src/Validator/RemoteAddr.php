@@ -6,9 +6,6 @@ namespace Laminas\Session\Validator;
 
 use Laminas\Session\Validator\ValidatorInterface as SessionValidator;
 
-/**
- * @implements SessionValidator<string>
- */
 use function array_diff;
 use function array_map;
 use function array_pop;
@@ -26,8 +23,9 @@ use function strtoupper;
  * trusted_proxies?: array<string>,
  * proxy_header?: non-empty-string,
  * }
+ * @implements SessionValidator<string|null>
  */
-final class RemoteAddr implements ValidatorInterface
+final class RemoteAddr implements SessionValidator
 {
     /**
      * Internal data.
