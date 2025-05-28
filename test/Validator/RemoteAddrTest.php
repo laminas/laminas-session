@@ -12,8 +12,14 @@ use PHPUnit\Framework\TestCase;
  */
 class RemoteAddrTest extends TestCase
 {
-    /** @var array */
-    protected $backup;
+    protected array $backup;
+
+    protected RemoteAddr $defaultRemoteAddr;
+
+    protected function setUp(): void
+    {
+        $this->defaultRemoteAddr = new RemoteAddr();
+    }
 
     protected function backup(): void
     {
@@ -23,17 +29,11 @@ class RemoteAddrTest extends TestCase
             $_SERVER['HTTP_X_FORWARDED_FOR'],
             $_SERVER['HTTP_CLIENT_IP']
         );
-        RemoteAddr::setUseProxy(false);
-        RemoteAddr::setTrustedProxies([]);
-        RemoteAddr::setProxyHeader();
     }
 
     protected function restore(): void
     {
         $_SERVER = $this->backup;
-        RemoteAddr::setUseProxy(false);
-        RemoteAddr::setTrustedProxies([]);
-        RemoteAddr::setProxyHeader();
     }
 
     public function testGetData(): void
@@ -44,7 +44,7 @@ class RemoteAddrTest extends TestCase
 
     public function testDefaultUseProxy(): void
     {
-        self::assertFalse(RemoteAddr::getUseProxy());
+        self::assertFalse($this->defaultRemoteAddr->getUseProxy());
     }
 
     public function testRemoteAddrWithoutProxy(): void
@@ -81,9 +81,11 @@ class RemoteAddrTest extends TestCase
         $this->backup();
         $_SERVER['REMOTE_ADDR']          = '0.1.2.3';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '1.1.2.3';
-        RemoteAddr::setUseProxy(true);
-        RemoteAddr::setTrustedProxies(['0.1.2.3']);
-        $validator = new RemoteAddr();
+        $options                         = [
+            'use_proxy'       => true,
+            'trusted_proxies' => ['0.1.2.3'],
+        ];
+        $validator                       = new RemoteAddr(null, $options);
         self::assertEquals('1.1.2.3', $validator->getData());
         $this->restore();
     }
@@ -94,9 +96,13 @@ class RemoteAddrTest extends TestCase
         $_SERVER['REMOTE_ADDR']          = '0.1.2.3';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '1.1.2.3';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '2.1.2.3';
-        RemoteAddr::setUseProxy(true);
-        RemoteAddr::setTrustedProxies(['0.1.2.3']);
-        $validator = new RemoteAddr();
+
+        $options = [
+            'use_proxy'       => true,
+            'trusted_proxies' => ['0.1.2.3'],
+        ];
+
+        $validator = new RemoteAddr(null, $options);
         self::assertEquals('2.1.2.3', $validator->getData());
         $this->restore();
     }
@@ -106,9 +112,13 @@ class RemoteAddrTest extends TestCase
         $this->backup();
         $_SERVER['REMOTE_ADDR']          = '0.1.2.3';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '2.1.2.3, 1.1.2.3';
-        RemoteAddr::setUseProxy(true);
-        RemoteAddr::setTrustedProxies(['0.1.2.3']);
-        $validator = new RemoteAddr();
+
+        $options = [
+            'use_proxy'       => true,
+            'trusted_proxies' => ['0.1.2.3'],
+        ];
+
+        $validator = new RemoteAddr(null, $options);
         self::assertEquals('1.1.2.3', $validator->getData());
         $this->restore();
     }
@@ -119,8 +129,12 @@ class RemoteAddrTest extends TestCase
         $_SERVER['REMOTE_ADDR']          = '0.1.2.3';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '2.1.2.3, 1.1.2.3';
         $_SERVER['HTTP_CLIENT_IP']       = '0.1.2.4';
-        RemoteAddr::setUseProxy(true);
-        $validator = new RemoteAddr();
+
+        $options = [
+            'trusted_proxies' => ['0.1.2.3'],
+        ];
+
+        $validator = new RemoteAddr(null, $options);
         self::assertEquals('0.1.2.3', $validator->getData());
         $this->restore();
     }
@@ -130,9 +144,13 @@ class RemoteAddrTest extends TestCase
         $this->backup();
         $_SERVER['REMOTE_ADDR']          = '1.1.2.3';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '2.1.2.3, 1.1.2.3';
-        RemoteAddr::setUseProxy(true);
-        RemoteAddr::setTrustedProxies(['1.1.2.3']);
-        $validator = new RemoteAddr();
+
+        $options = [
+            'use_proxy'       => true,
+            'trusted_proxies' => ['1.1.2.3'],
+        ];
+
+        $validator = new RemoteAddr(null, $options);
         self::assertEquals('2.1.2.3', $validator->getData());
         $this->restore();
     }
@@ -143,10 +161,33 @@ class RemoteAddrTest extends TestCase
         $_SERVER['REMOTE_ADDR']          = '0.1.2.3';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '2.1.2.3, 1.1.2.3';
         $_SERVER['HTTP_CLIENT_IP']       = '0.1.2.4';
-        RemoteAddr::setUseProxy(true);
-        RemoteAddr::setProxyHeader('Client-Ip');
-        $validator = new RemoteAddr();
+
+        $options = [
+            'use_proxy'    => true,
+            'proxy_header' => 'Client-Ip',
+        ];
+
+        $validator = new RemoteAddr(null, $options);
         self::assertEquals('0.1.2.3', $validator->getData());
+        $this->restore();
+    }
+
+    public function testGetName(): void
+    {
+        self::assertEquals(RemoteAddr::class, $this->defaultRemoteAddr->getName());
+    }
+
+    public function testUnknownServerHeader(): void
+    {
+        $this->backup();
+
+        $options = [
+            'use_proxy'    => true,
+            'proxy_header' => 'Unknown-Header',
+        ];
+
+        $validator = new RemoteAddr(null, $options);
+        self::assertEmpty($validator->getData());
         $this->restore();
     }
 }
