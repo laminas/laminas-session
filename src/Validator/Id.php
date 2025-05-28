@@ -9,6 +9,8 @@ use function session_id;
 use function strrpos;
 use function substr;
 
+use const PHP_VERSION_ID;
+
 /**
  * session_id validator
  */
@@ -56,9 +58,15 @@ class Id implements ValidatorInterface
             }
         }
 
-        // Get the session id bits per character INI setting, using 5 if unavailable
-        $hashBitsPerChar = ini_get('session.sid_bits_per_character');
-        $hashBitsPerChar = is_numeric($hashBitsPerChar) ? (int) $hashBitsPerChar : 5;
+        if (PHP_VERSION_ID >= 80400) {
+            // PHP 8.4 deprecated session.sid_bits_per_character and set it hard to "4".
+            // Old (pre PHP 8.4) session IDs with a higher bitrate are still valid though.
+            $hashBitsPerChar = 6;
+        } else {
+            // Get the session id bits per character INI setting, using 5 if unavailable
+            $hashBitsPerChar = ini_get('session.sid_bits_per_character');
+            $hashBitsPerChar = is_numeric($hashBitsPerChar) ? (int) $hashBitsPerChar : 5;
+        }
 
         $pattern = match ($hashBitsPerChar) {
             4 => '#^[0-9a-f]*$#',
