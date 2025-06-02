@@ -47,7 +47,7 @@ class IdTest extends TestCase
     public function testConstructorSetId(): void
     {
         $id           = new Id('1234');
-        $idReflection = new ReflectionProperty($id, 'id');
+        $idReflection = new ReflectionProperty($id, 'data');
 
         self::assertSame('1234', $idReflection->getValue($id));
     }
@@ -61,7 +61,7 @@ class IdTest extends TestCase
         $sessionId = session_id();
 
         $id           = new Id();
-        $idReflection = new ReflectionProperty($id, 'id');
+        $idReflection = new ReflectionProperty($id, 'data');
 
         self::assertSame($sessionId, $idReflection->getValue($id));
     }

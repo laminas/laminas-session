@@ -806,7 +806,7 @@ class SessionManagerTest extends TestCase
         $_SESSION      = [
             '__Laminas' => [
                 '_VALID' => [
-                    RemoteAddr::class => '',
+                    RemoteAddr::class => null,
                 ],
             ],
         ];

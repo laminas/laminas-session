@@ -9,15 +9,11 @@ use Laminas\Session\Validator\ValidatorInterface;
 class StaticValidatorStub implements ValidatorInterface
 {
     public static int $isValidCallCount = 0;
+    public ?string $data                = null;
 
     public function isValid(): bool
     {
         self::$isValidCallCount++;
-        return $this->getData();
-    }
-
-    public function getData(): bool
-    {
         return false;
     }
 

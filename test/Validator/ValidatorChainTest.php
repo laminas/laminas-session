@@ -33,14 +33,14 @@ class ValidatorChainTest extends TestCase
         $validatorMetadata = $this->validatorChain->getStorage()->getMetadata('_VALID');
         self::assertIsArray($validatorMetadata);
         self::assertArrayHasKey($validator->getName(), $validatorMetadata);
-        self::assertSame($validatorMetadata[$validator->getName()], $validator->getData());
+        self::assertSame($validatorMetadata[$validator->getName()], $validator->data);
     }
 
     public function testExistingValidatorsAreAttached(): void
     {
         $validator = new StaticValidatorStub();
         $storage   = new ArrayStorage();
-        $storage->setMetadata('_VALID', [$validator::class => $validator->getData()]);
+        $storage->setMetadata('_VALID', [$validator::class => $validator->data]);
 
         $this->validatorChain = new ValidatorChain($storage);
 

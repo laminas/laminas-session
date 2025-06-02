@@ -23,14 +23,13 @@ use function strtoupper;
  * trusted_proxies?: array<string>,
  * proxy_header?: non-empty-string,
  * }
- * @implements SessionValidator<string|null>
  */
 final class RemoteAddr implements SessionValidator
 {
     /**
      * Internal data.
      */
-    private ?string $data;
+    public readonly ?string $data;
 
     /**
      * Whether to use proxy addresses or not.
@@ -58,7 +57,7 @@ final class RemoteAddr implements SessionValidator
      *
      * @param OptionsArgument $options
      */
-    public function __construct(?string $data = null, array $options = [])
+    public function __construct(private readonly ?string $initial = null, array $options = [])
     {
         $proxyHeader = $options['proxy_header'] ?? 'X_FORWARDED_FOR';
 
@@ -66,11 +65,11 @@ final class RemoteAddr implements SessionValidator
         $this->trustedProxies = $options['trusted_proxies'] ?? [];
         $this->proxyHeader    = self::normalizeProxyHeader($proxyHeader);
 
-        if ($data === null || $data === '') {
-            $data = $this->getIpAddress();
+        if ($initial === null || $initial === '') {
+            $initial = $this->getIpAddress();
         }
 
-        $this->data = $data;
+        $this->data = $initial;
     }
 
     /**
@@ -79,7 +78,7 @@ final class RemoteAddr implements SessionValidator
      */
     public function isValid(): bool
     {
-        return $this->getIpAddress() === $this->getData();
+        return (Environment::fromGlobals($_SERVER))->remoteAddr === $this->data;
     }
 
     /**
@@ -93,20 +92,20 @@ final class RemoteAddr implements SessionValidator
     /**
      * Returns client IP address.
      */
-    private function getIpAddress(): string
+    private function getIpAddress(): ?string
     {
         $ip = $this->getIpAddressFromProxy();
 
-        if (false !== $ip) {
+        if ($ip !== false) {
             return $ip;
         }
 
         // direct IP address
-        if (isset($_SERVER['REMOTE_ADDR'])) {
-            return $_SERVER['REMOTE_ADDR'];
+        if ($this->initial !== null) {
+            return $this->initial;
         }
 
-        return '';
+        return null;
     }
 
     /**
@@ -116,22 +115,25 @@ final class RemoteAddr implements SessionValidator
      */
     private function getIpAddressFromProxy(): string|false
     {
+        $environment = Environment::fromGlobals($_SERVER);
+
         if (
             ! $this->useProxy
-            || (isset($_SERVER['REMOTE_ADDR']) && ! in_array($_SERVER['REMOTE_ADDR'], $this->trustedProxies))
+            || ($environment->remoteAddr !== null && ! in_array($environment->remoteAddr, $this->trustedProxies))
         ) {
             return false;
         }
 
-        $header = $this->proxyHeader;
+        $header      = $this->proxyHeader;
+        $proxyHeader = Environment::getServerOption($header);
 
-        if (! isset($_SERVER[$header]) || '' === $_SERVER[$header]) {
+        if ($proxyHeader === null || $proxyHeader === '') {
             return false;
         }
 
         // Extract IPs
-        assert(is_string($_SERVER[$header]));
-        $ips = explode(',', $_SERVER[$header]);
+        assert(is_string($proxyHeader));
+        $ips = explode(',', $proxyHeader);
         // trim, so we can compare against trusted proxies properly
         $ips = array_map('trim', $ips);
         // remove trusted proxy IPs
@@ -163,14 +165,6 @@ final class RemoteAddr implements SessionValidator
             $header = 'HTTP_' . $header;
         }
         return $header;
-    }
-
-    /**
-     * Retrieve token for validating call
-     */
-    public function getData(): ?string
-    {
-        return $this->data;
     }
 
     /**

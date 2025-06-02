@@ -8,8 +8,10 @@ use function is_string;
 
 final class Environment
 {
-    public function __construct(public readonly ?string $userAgent)
-    {
+    public function __construct(
+        public readonly ?string $userAgent = null,
+        public readonly ?string $remoteAddr = null
+    ) {
     }
 
     public static function fromGlobals(array $server): self
@@ -18,6 +20,19 @@ final class Environment
             ? $server['HTTP_USER_AGENT']
             : null;
 
-        return new self($userAgent);
+        $remoteAddr = isset($server['REMOTE_ADDR']) && is_string($server['REMOTE_ADDR'])
+            ? $server['REMOTE_ADDR']
+            : null;
+
+        return new self($userAgent, $remoteAddr);
+    }
+
+    public static function getServerOption(string $name, ?array $superglobal = null): mixed
+    {
+        if ($superglobal === null) {
+            $superglobal = $_SERVER;
+        }
+
+        return $superglobal[$name] ?? null;
     }
 }

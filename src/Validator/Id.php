@@ -18,19 +18,21 @@ use const PHP_VERSION_ID;
  */
 final class Id implements ValidatorInterface
 {
+    public readonly string $data;
+
     /**
      * Constructor
      *
      * Allows passing the current session_id; if none provided, uses the PHP
      * session_id() function to retrieve it.
      */
-    public function __construct(protected ?string $id = null)
+    public function __construct(?string $data = null)
     {
-        if ($id === null || $id === '') {
-            $id = session_id();
+        if ($data === null || $data === '') {
+            $data = session_id();
         }
 
-        $this->id = $id;
+        $this->data = $data;
     }
 
     /**
@@ -40,11 +42,7 @@ final class Id implements ValidatorInterface
      */
     public function isValid(): bool
     {
-        $id = $this->id;
-
-        if ($id === null) {
-            return false;
-        }
+        $id = $this->data;
 
         if (PHP_VERSION_ID >= 80400) {
             trigger_error('session.sid_bits_per_character is deprecated starting with PHP 8.4', E_USER_DEPRECATED);

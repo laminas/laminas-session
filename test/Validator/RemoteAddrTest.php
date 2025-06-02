@@ -18,7 +18,7 @@ class RemoteAddrTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->defaultRemoteAddr = new RemoteAddr();
+        $this->defaultRemoteAddr = new RemoteAddr(initial: '0.1.2.3');
     }
 
     protected function backup(): void
@@ -38,8 +38,8 @@ class RemoteAddrTest extends TestCase
 
     public function testGetData(): void
     {
-        $validator = new RemoteAddr('0.1.2.3');
-        self::assertEquals('0.1.2.3', $validator->getData());
+        $validator = new RemoteAddr(initial: '0.1.2.3');
+        self::assertEquals('0.1.2.3', $validator->data);
     }
 
     public function testDefaultUseProxy(): void
@@ -51,8 +51,8 @@ class RemoteAddrTest extends TestCase
     {
         $this->backup();
         $_SERVER['REMOTE_ADDR'] = '0.1.2.3';
-        $validator              = new RemoteAddr();
-        self::assertEquals('0.1.2.3', $validator->getData());
+        $validator              = new RemoteAddr(initial: $_SERVER['REMOTE_ADDR']);
+        self::assertEquals('0.1.2.3', $validator->data);
         $this->restore();
     }
 
@@ -71,8 +71,8 @@ class RemoteAddrTest extends TestCase
         $this->backup();
         $_SERVER['REMOTE_ADDR']    = '0.1.2.3';
         $_SERVER['HTTP_CLIENT_IP'] = '1.1.2.3';
-        $validator                 = new RemoteAddr();
-        self::assertEquals('0.1.2.3', $validator->getData());
+        $validator                 = new RemoteAddr(initial: $_SERVER['REMOTE_ADDR']);
+        self::assertEquals('0.1.2.3', $validator->data);
         $this->restore();
     }
 
@@ -85,8 +85,9 @@ class RemoteAddrTest extends TestCase
             'use_proxy'       => true,
             'trusted_proxies' => ['0.1.2.3'],
         ];
-        $validator                       = new RemoteAddr(null, $options);
-        self::assertEquals('1.1.2.3', $validator->getData());
+
+        $validator = new RemoteAddr(options: $options);
+        self::assertEquals('1.1.2.3', $validator->data);
         $this->restore();
     }
 
@@ -102,8 +103,8 @@ class RemoteAddrTest extends TestCase
             'trusted_proxies' => ['0.1.2.3'],
         ];
 
-        $validator = new RemoteAddr(null, $options);
-        self::assertEquals('2.1.2.3', $validator->getData());
+        $validator = new RemoteAddr(options: $options);
+        self::assertEquals('2.1.2.3', $validator->data);
         $this->restore();
     }
 
@@ -118,8 +119,8 @@ class RemoteAddrTest extends TestCase
             'trusted_proxies' => ['0.1.2.3'],
         ];
 
-        $validator = new RemoteAddr(null, $options);
-        self::assertEquals('1.1.2.3', $validator->getData());
+        $validator = new RemoteAddr(options: $options);
+        self::assertEquals('1.1.2.3', $validator->data);
         $this->restore();
     }
 
@@ -134,8 +135,8 @@ class RemoteAddrTest extends TestCase
             'trusted_proxies' => ['0.1.2.3'],
         ];
 
-        $validator = new RemoteAddr(null, $options);
-        self::assertEquals('0.1.2.3', $validator->getData());
+        $validator = new RemoteAddr($_SERVER['REMOTE_ADDR'], $options);
+        self::assertEquals('0.1.2.3', $validator->data);
         $this->restore();
     }
 
@@ -150,8 +151,8 @@ class RemoteAddrTest extends TestCase
             'trusted_proxies' => ['1.1.2.3'],
         ];
 
-        $validator = new RemoteAddr(null, $options);
-        self::assertEquals('2.1.2.3', $validator->getData());
+        $validator = new RemoteAddr(options: $options);
+        self::assertEquals('2.1.2.3', $validator->data);
         $this->restore();
     }
 
@@ -167,8 +168,8 @@ class RemoteAddrTest extends TestCase
             'proxy_header' => 'Client-Ip',
         ];
 
-        $validator = new RemoteAddr(null, $options);
-        self::assertEquals('0.1.2.3', $validator->getData());
+        $validator = new RemoteAddr($_SERVER['REMOTE_ADDR'], $options);
+        self::assertEquals('0.1.2.3', $validator->data);
         $this->restore();
     }
 
@@ -186,8 +187,8 @@ class RemoteAddrTest extends TestCase
             'proxy_header' => 'Unknown-Header',
         ];
 
-        $validator = new RemoteAddr(null, $options);
-        self::assertEmpty($validator->getData());
+        $validator = new RemoteAddr(options: $options);
+        self::assertEmpty($validator->data);
         $this->restore();
     }
 }

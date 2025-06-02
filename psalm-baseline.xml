@@ -457,6 +457,9 @@
     <MixedMethodCall>
       <code><![CDATA[new $validator($data)]]></code>
     </MixedMethodCall>
+    <NoInterfaceProperties>
+      <code><![CDATA[$context->data]]></code>
+    </NoInterfaceProperties>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[callable]]></code>
     </PossiblyUnusedReturnValue>

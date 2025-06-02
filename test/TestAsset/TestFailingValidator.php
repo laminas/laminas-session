@@ -8,11 +8,7 @@ use Laminas\Session\Validator\ValidatorInterface;
 
 final class TestFailingValidator implements ValidatorInterface
 {
-    public function getData(): bool
-    {
-        return false;
-    }
-
+    public ?string $data = null;
     public function getName(): string
     {
         return self::class;
@@ -20,6 +16,6 @@ final class TestFailingValidator implements ValidatorInterface
 
     public function isValid(): bool
     {
-        return $this->getData();
+        return false;
     }
 }
