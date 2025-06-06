@@ -14,6 +14,7 @@ use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\SessionArrayStorage;
 use Laminas\Session\Storage\SessionStorage;
+use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
 use LaminasTest\Session\TestAsset\Php81CompatibleStorageInterface;
@@ -38,6 +39,7 @@ use function session_write_close;
 use function set_error_handler;
 use function stristr;
 use function uniqid;
+use function unserialize;
 use function var_export;
 use function xdebug_get_headers;
 
@@ -134,13 +136,13 @@ class SessionManagerTest extends TestCase
     public function testAttachDefaultValidatorsByDefault(): void
     {
         $manager = new SessionManager();
-        $this->assertAttributeEquals([Id::class], 'validators', $manager);
+        $this->assertAttributeEquals([Id::class => null], 'validators', $manager);
     }
 
     public function testCanMergeValidatorsWithDefault(): void
     {
         $defaultValidators = [
-            Id::class,
+            Id::class => null,
         ];
         $validators        = [
             'foo',
@@ -712,7 +714,13 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $chain         = $this->manager->getValidatorChain();
-        $chain->attach('session.validate', [new TestAsset\TestFailingValidator(), 'isValid']);
+        $chain->attach('session.validate', [
+            new TestAsset\TestFailingValidator(
+                Environment::fromGlobals($_SERVER),
+                Environment::fromGlobals($_SERVER)
+            ),
+            'isValid',
+        ]);
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('failed');
         $this->manager->start();
@@ -773,17 +781,25 @@ class SessionManagerTest extends TestCase
     #[IgnoreDeprecations]
     public function testValidatorChainSessionMetadataIsPreserved(): void
     {
+        $current = Environment::fromGlobals($_SERVER);
+
         $this->manager = new SessionManager();
         $this->manager->getValidatorChain()
-            ->attach('session.validate', [new RemoteAddr(), 'isValid']);
+            ->attach('session.validate', [
+                new RemoteAddr(
+                    Environment::fromGlobals($_SERVER),
+                    $current
+                ),
+                'isValid',
+            ]);
 
         self::assertFalse($this->manager->sessionExists());
 
         $this->manager->start();
-
         self::assertIsArray($_SESSION['__Laminas']['_VALID']);
         self::assertArrayHasKey(RemoteAddr::class, $_SESSION['__Laminas']['_VALID']);
-        self::assertEquals('', $_SESSION['__Laminas']['_VALID'][RemoteAddr::class]);
+        self::assertIsString($_SESSION['__Laminas']['_VALID'][RemoteAddr::class]);
+        self::assertEquals($current, unserialize($_SESSION['__Laminas']['_VALID'][RemoteAddr::class]));
     }
 
     #[RunInSeparateProcess]
@@ -791,7 +807,13 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $this->manager->getValidatorChain()
-            ->attach('session.validate', [new RemoteAddr('123.123.123.123'), 'isValid']);
+            ->attach('session.validate', [
+                new RemoteAddr(
+                    Environment::fromGlobals($_SERVER),
+                    new Environment(remoteAddr: '123.123.123.123')
+                ),
+                'isValid',
+            ]);
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Session validation failed');
@@ -823,7 +845,7 @@ class SessionManagerTest extends TestCase
         $_SESSION      = [
             '__Laminas' => [
                 '_VALID' => [
-                    RemoteAddr::class => '123.123.123.123',
+                    RemoteAddr::class => new Environment(remoteAddr: '123.123.123.123'),
                 ],
             ],
         ];
@@ -839,7 +861,13 @@ class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $this->manager->getValidatorChain()
-            ->attach('session.validate', [new Id('invalid-value'), 'isValid']);
+            ->attach('session.validate', [
+                new Id(
+                    new Environment(sessionId: 'invalid_value'),
+                    Environment::fromGlobals($_SERVER)
+                ),
+                'isValid',
+            ]);
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Session validation failed');

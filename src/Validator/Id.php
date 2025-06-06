@@ -7,7 +7,6 @@ namespace Laminas\Session\Validator;
 use function ini_get;
 use function is_numeric;
 use function preg_match;
-use function session_id;
 use function trigger_error;
 
 use const E_USER_DEPRECATED;
@@ -18,21 +17,14 @@ use const PHP_VERSION_ID;
  */
 final class Id implements ValidatorInterface
 {
-    public readonly string $data;
-
     /**
      * Constructor
      *
      * Allows passing the current session_id; if none provided, uses the PHP
      * session_id() function to retrieve it.
      */
-    public function __construct(?string $data = null)
+    public function __construct(public readonly Environment $initial, public readonly Environment $current)
     {
-        if ($data === null || $data === '') {
-            $data = session_id();
-        }
-
-        $this->data = $data;
     }
 
     /**
@@ -42,7 +34,9 @@ final class Id implements ValidatorInterface
      */
     public function isValid(): bool
     {
-        $id = $this->data;
+        if ($this->initial->sessionId === null) {
+            return false;
+        }
 
         if (PHP_VERSION_ID >= 80400) {
             trigger_error('session.sid_bits_per_character is deprecated starting with PHP 8.4', E_USER_DEPRECATED);
@@ -60,7 +54,7 @@ final class Id implements ValidatorInterface
             default => '#^[0-9a-v]*$#',
         };
 
-        return (bool) preg_match($pattern, $id);
+        return (bool) preg_match($pattern, $this->initial->sessionId);
     }
 
     /**

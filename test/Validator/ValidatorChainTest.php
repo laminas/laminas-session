@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace LaminasTest\Session\Validator;
 
 use Laminas\Session\Storage\ArrayStorage;
+use Laminas\Session\Validator\Environment;
 use Laminas\Session\ValidatorChain;
 use LaminasTest\Session\TestAsset\TestFailingValidator;
 use PHPUnit\Framework\TestCase;
+
+use function serialize;
 
 class ValidatorChainTest extends TestCase
 {
@@ -26,22 +29,20 @@ class ValidatorChainTest extends TestCase
 
     public function testAttachValidator(): void
     {
-        $validator = new TestFailingValidator();
+        $validator = new TestFailingValidator(Environment::fromGlobals($_SERVER), Environment::fromGlobals($_SERVER));
 
         $this->validatorChain->attach('test', [$validator, 'isValid']);
 
         $validatorMetadata = $this->validatorChain->getStorage()->getMetadata('_VALID');
         self::assertIsArray($validatorMetadata);
-        self::assertArrayHasKey($validator->getName(), $validatorMetadata);
-        self::assertSame($validatorMetadata[$validator->getName()], $validator->data);
     }
 
     public function testExistingValidatorsAreAttached(): void
     {
-        $validator = new StaticValidatorStub();
+        $validator = new StaticValidatorStub(Environment::fromGlobals($_SERVER), Environment::fromGlobals($_SERVER));
         $storage   = new ArrayStorage();
-        $storage->setMetadata('_VALID', [$validator::class => $validator->data]);
-
+        $storage->setMetadata('_VALID', [$validator::class => null]);
+        $storage->setMetadata('environment', serialize(Environment::fromGlobals($_SERVER)));
         $this->validatorChain = new ValidatorChain($storage);
 
         $this->validatorChain->trigger('session.validate');

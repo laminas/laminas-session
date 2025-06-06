@@ -5,12 +5,12 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\Validator;
 
+use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\Id;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
-use ReflectionProperty;
 
 use function ini_set;
 use function session_id;
@@ -40,16 +40,8 @@ class IdTest extends TestCase
     {
         ini_set('session.sid_bits_per_character', $bitsPerCharacter);
 
-        $validator = new Id($id);
+        $validator = new Id(new Environment(sessionId: $id), Environment::fromGlobals($_SERVER));
         self::assertSame($isValid, $validator->isValid());
-    }
-
-    public function testConstructorSetId(): void
-    {
-        $id           = new Id('1234');
-        $idReflection = new ReflectionProperty($id, 'data');
-
-        self::assertSame('1234', $idReflection->getValue($id));
     }
 
     /**
@@ -59,16 +51,14 @@ class IdTest extends TestCase
     {
         session_start();
         $sessionId = session_id();
+        $id        = new Id(Environment::fromGlobals($_SERVER), Environment::fromGlobals($_SERVER));
 
-        $id           = new Id();
-        $idReflection = new ReflectionProperty($id, 'data');
-
-        self::assertSame($sessionId, $idReflection->getValue($id));
+        self::assertSame($sessionId, $id->initial->sessionId);
     }
 
     public function testValidatorName(): void
     {
-        $id = new Id();
+        $id = new Id(Environment::fromGlobals($_SERVER), Environment::fromGlobals($_SERVER));
 
         self::assertSame(Id::class, $id->getName());
     }

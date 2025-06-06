@@ -9,6 +9,8 @@ namespace Laminas\Session\Validator;
  */
 interface ValidatorInterface
 {
+    public function __construct(Environment $initial, Environment $current);
+
     /**
      * This method will be called at the beginning of
      * every session to determine if the current environment matches

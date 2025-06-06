@@ -241,16 +241,9 @@
     <MissingReturnType>
       <code><![CDATA[initializeValidatorChain]]></code>
     </MissingReturnType>
-    <MixedArgument>
-      <code><![CDATA[$validator]]></code>
-    </MixedArgument>
     <MixedAssignment>
-      <code><![CDATA[$validator]]></code>
       <code><![CDATA[$validatorValues]]></code>
     </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[new $validator(null)]]></code>
-    </MixedMethodCall>
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$id]]></code>
     </MoreSpecificImplementedParamType>
@@ -445,20 +438,21 @@
       <code><![CDATA[static]]></code>
     </PossiblyUnusedReturnValue>
   </file>
+  <file src="src/Validator/Id.php">
+    <PossiblyUnusedProperty>
+      <code><![CDATA[$current]]></code>
+    </PossiblyUnusedProperty>
+  </file>
   <file src="src/ValidatorChain.php">
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$callback]]></code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
-      <code><![CDATA[$validator]]></code>
       <code><![CDATA[$validators]]></code>
     </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[new $validator($data)]]></code>
-    </MixedMethodCall>
     <NoInterfaceProperties>
-      <code><![CDATA[$context->data]]></code>
+      <code><![CDATA[$context->current]]></code>
     </NoInterfaceProperties>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[callable]]></code>
@@ -876,6 +870,9 @@
     </MixedArrayAccess>
   </file>
   <file src="test/TestAsset/TestFailingValidator.php">
+    <PossiblyUnusedProperty>
+      <code><![CDATA[$current]]></code>
+    </PossiblyUnusedProperty>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[bool]]></code>
     </PossiblyUnusedReturnValue>
@@ -948,5 +945,10 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[id]]></code>
     </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Validator/StaticValidatorStub.php">
+    <PossiblyUnusedProperty>
+      <code><![CDATA[$current]]></code>
+    </PossiblyUnusedProperty>
   </file>
 </files>
