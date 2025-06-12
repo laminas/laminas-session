@@ -28,28 +28,29 @@ abstract class Factory
     /**
      * Create and return a StorageInterface instance
      *
-     * @param  string                             $type
-     * @param  array|Traversable                  $options
-     * @return StorageInterface
      * @throws Exception\InvalidArgumentException For unrecognized $type or individual options.
      */
-    public static function factory($type, $options = [])
+    public static function factory(?string $type, iterable $options = []): StorageInterface
     {
         if (! is_string($type)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                '%s expects the $type argument to be a string class name; received "%s"',
-                __METHOD__,
-                get_debug_type($type)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    '%s expects the $type argument to be a string class name; received "%s"',
+                    __METHOD__,
+                    get_debug_type($type)
+                )
+            );
         }
         if (! class_exists($type)) {
             $class = __NAMESPACE__ . '\\' . $type;
             if (! class_exists($class)) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    '%s expects the $type argument to be a valid class name; received "%s"',
-                    __METHOD__,
-                    $type
-                ));
+                throw new Exception\InvalidArgumentException(
+                    sprintf(
+                        '%s expects the $type argument to be a valid class name; received "%s"',
+                        __METHOD__,
+                        $type
+                    )
+                );
             }
             $type = $class;
         }
@@ -58,11 +59,13 @@ abstract class Factory
             $options = ArrayUtils::iteratorToArray($options);
         }
         if (! is_array($options)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                '%s expects the $options argument to be an array or Traversable; received "%s"',
-                __METHOD__,
-                get_debug_type($options)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    '%s expects the $options argument to be an array or Traversable; received "%s"',
+                    __METHOD__,
+                    get_debug_type($options)
+                )
+            );
         }
 
         switch (true) {
@@ -74,22 +77,20 @@ abstract class Factory
             case in_array(StorageInterface::class, class_implements($type)):
                 return new $type($options);
             default:
-                throw new Exception\InvalidArgumentException(sprintf(
-                    'Unrecognized type "%s" provided; expects a class implementing %s\StorageInterface',
-                    $type,
-                    __NAMESPACE__
-                ));
+                throw new Exception\InvalidArgumentException(
+                    sprintf(
+                        'Unrecognized type "%s" provided; expects a class implementing %s\StorageInterface',
+                        $type,
+                        __NAMESPACE__
+                    )
+                );
         }
     }
 
     /**
      * Create a storage object from an ArrayStorage class (or a descendent)
-     *
-     * @param  string       $type
-     * @param  array        $options
-     * @return ArrayStorage
      */
-    protected static function createArrayStorage($type, $options)
+    protected static function createArrayStorage(string $type, array $options): ArrayStorage
     {
         $input         = [];
         $flags         = ArrayObject::ARRAY_AS_PROPS;
@@ -97,11 +98,13 @@ abstract class Factory
 
         if (isset($options['input']) && null !== $options['input']) {
             if (! is_array($options['input'])) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    '%s expects the "input" option to be an array; received "%s"',
-                    $type,
-                    get_debug_type($options['input'])
-                ));
+                throw new Exception\InvalidArgumentException(
+                    sprintf(
+                        '%s expects the "input" option to be an array; received "%s"',
+                        $type,
+                        get_debug_type($options['input'])
+                    )
+                );
             }
             $input = $options['input'];
         }
@@ -112,11 +115,13 @@ abstract class Factory
 
         if (isset($options['iterator_class'])) {
             if (! class_exists($options['iterator_class'])) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    '%s expects the "iterator_class" option to be a valid class; received "%s"',
-                    $type,
-                    get_debug_type($options['iterator_class'])
-                ));
+                throw new Exception\InvalidArgumentException(
+                    sprintf(
+                        '%s expects the "iterator_class" option to be a valid class; received "%s"',
+                        $type,
+                        get_debug_type($options['iterator_class'])
+                    )
+                );
             }
             $iteratorClass = $options['iterator_class'];
         }
@@ -127,11 +132,9 @@ abstract class Factory
     /**
      * Create a storage object from a class extending AbstractSessionArrayStorage
      *
-     * @param  string                             $type
-     * @return AbstractSessionArrayStorage
      * @throws Exception\InvalidArgumentException If the input option is invalid.
      */
-    protected static function createSessionArrayStorage($type, array $options)
+    protected static function createSessionArrayStorage(string $type, array $options): AbstractSessionArrayStorage
     {
         $input = null;
         if (isset($options['input'])) {

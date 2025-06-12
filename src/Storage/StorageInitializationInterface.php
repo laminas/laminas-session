@@ -14,9 +14,6 @@ interface StorageInitializationInterface
 {
     /**
      * Initialize Session Storage
-     *
-     * @param  array $input
-     * @return void
      */
-    public function init($input = null);
+    public function init(?array $input = null): void;
 }

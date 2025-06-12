@@ -352,26 +352,16 @@
   <file src="src/Storage/AbstractSessionArrayStorage.php">
     <InvalidReturnStatement>
       <code><![CDATA[$_SESSION]]></code>
-      <code><![CDATA[$this]]></code>
-      <code><![CDATA[$this]]></code>
       <code><![CDATA[$values]]></code>
       <code><![CDATA[$values]]></code>
-      <code><![CDATA[new ArrayIterator($_SESSION)]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code><![CDATA[SessionStorage]]></code>
-      <code><![CDATA[SessionStorage]]></code>
       <code><![CDATA[array]]></code>
       <code><![CDATA[array<TKey, TValue>]]></code>
-      <code><![CDATA[getIterator]]></code>
     </InvalidReturnType>
     <InvalidScalarArgument>
       <code><![CDATA[$_SESSION]]></code>
     </InvalidScalarArgument>
-    <MethodSignatureMustProvideReturnType>
-      <code><![CDATA[serialize]]></code>
-      <code><![CDATA[unserialize]]></code>
-    </MethodSignatureMustProvideReturnType>
     <MixedArgument>
       <code><![CDATA[$_SESSION['__Laminas']]]></code>
       <code><![CDATA[$_SESSION['__Laminas'][$key]]]></code>
@@ -382,12 +372,6 @@
     <MixedArrayAccess>
       <code><![CDATA[$_SESSION['__Laminas'][$key]]]></code>
     </MixedArrayAccess>
-    <MixedArrayOffset>
-      <code><![CDATA[$_SESSION[$key]]]></code>
-      <code><![CDATA[$_SESSION[$key]]]></code>
-      <code><![CDATA[$_SESSION[$offset]]]></code>
-      <code><![CDATA[$_SESSION[$offset]]]></code>
-    </MixedArrayOffset>
     <MixedAssignment>
       <code><![CDATA[$_SESSION[$offset]]]></code>
       <code><![CDATA[$_SESSION['__Laminas'][$key]]]></code>
@@ -397,14 +381,11 @@
     </MixedAssignment>
     <MixedInferredReturnType>
       <code><![CDATA[bool]]></code>
-      <code><![CDATA[float]]></code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->getMetadata('_READONLY')]]></code>
-      <code><![CDATA[$this->getMetadata('_REQUEST_ACCESS_TIME')]]></code>
     </MixedReturnStatement>
     <ParamNameMismatch>
-      <code><![CDATA[$metaData]]></code>
       <code><![CDATA[$session]]></code>
     </ParamNameMismatch>
     <PossiblyInvalidArgument>
@@ -478,18 +459,10 @@
     </MixedAssignment>
     <MixedInferredReturnType>
       <code><![CDATA[bool]]></code>
-      <code><![CDATA[float]]></code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->getMetadata('_READONLY')]]></code>
-      <code><![CDATA[$this->getMetadata('_REQUEST_ACCESS_TIME')]]></code>
     </MixedReturnStatement>
-    <ParamNameMismatch>
-      <code><![CDATA[$metaData]]></code>
-    </ParamNameMismatch>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$key]]></code>
-    </PossiblyInvalidArgument>
     <PossiblyNullArgument>
       <code><![CDATA[$this['__Laminas']]]></code>
     </PossiblyNullArgument>
@@ -506,7 +479,6 @@
   <file src="src/Storage/Factory.php">
     <DocblockTypeContradiction>
       <code><![CDATA[is_array($options)]]></code>
-      <code><![CDATA[is_string($type)]]></code>
     </DocblockTypeContradiction>
     <InvalidStringClass>
       <code><![CDATA[new $type($input)]]></code>
@@ -532,15 +504,6 @@
       <code><![CDATA[ArrayStorage]]></code>
       <code><![CDATA[StorageInterface]]></code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="src/Storage/SessionArrayStorage.php">
-    <MethodSignatureMustProvideReturnType>
-      <code><![CDATA[offsetGet]]></code>
-    </MethodSignatureMustProvideReturnType>
-    <MixedArrayOffset>
-      <code><![CDATA[$_SESSION[$key]]]></code>
-      <code><![CDATA[$_SESSION[$key]]]></code>
-    </MixedArrayOffset>
   </file>
   <file src="src/Storage/SessionStorage.php">
     <InvalidArgument>
@@ -569,11 +532,11 @@
   </file>
   <file src="src/Storage/StorageInterface.php">
     <PossiblyUnusedReturnValue>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
+      <code><![CDATA[StorageInterface]]></code>
+      <code><![CDATA[StorageInterface]]></code>
+      <code><![CDATA[StorageInterface]]></code>
+      <code><![CDATA[StorageInterface]]></code>
+      <code><![CDATA[StorageInterface]]></code>
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/Validator/HttpUserAgent.php">
@@ -902,10 +865,6 @@
     </UnusedVariable>
   </file>
   <file src="test/Service/StorageFactoryTest.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$config['session_storage']['options']]]></code>
-      <code><![CDATA[$config['session_storage']['options']['input']]]></code>
-    </MixedArrayAccess>
     <UnusedVariable>
       <code><![CDATA[$storage]]></code>
     </UnusedVariable>

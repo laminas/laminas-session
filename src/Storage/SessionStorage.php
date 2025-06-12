@@ -26,15 +26,11 @@ class SessionStorage extends ArrayStorage
      *
      * Sets the $_SESSION superglobal to an ArrayObject, maintaining previous
      * values if any discovered.
-     *
-     * @param array|null $input
-     * @param int        $flags
-     * @param string     $iteratorClass
      */
     public function __construct(
-        $input = null,
-        $flags = ArrayObject::ARRAY_AS_PROPS,
-        $iteratorClass = ArrayIterator::class
+        array|null $input = null,
+        int $flags = ArrayObject::ARRAY_AS_PROPS,
+        string $iteratorClass = ArrayIterator::class
     ) {
         $resetSession = true;
         if ((null === $input) && isset($_SESSION)) {
@@ -73,9 +69,8 @@ class SessionStorage extends ArrayStorage
      * Ensures $_SESSION is set to an instance of the object when complete.
      *
      * @param array<TKey, TValue> $array
-     * @return $this
      */
-    public function fromArray(array $array)
+    public function fromArray(array $array): self
     {
         parent::fromArray($array);
         if ($_SESSION !== $this) {
@@ -87,10 +82,8 @@ class SessionStorage extends ArrayStorage
 
     /**
      * Mark object as isImmutable
-     *
-     * @return $this
      */
-    public function markImmutable()
+    public function markImmutable(): self
     {
         $this['_IMMUTABLE'] = true;
 
@@ -99,10 +92,8 @@ class SessionStorage extends ArrayStorage
 
     /**
      * Determine if this object is isImmutable
-     *
-     * @return bool
      */
-    public function isImmutable()
+    public function isImmutable(): bool
     {
         return isset($this['_IMMUTABLE']) && $this['_IMMUTABLE'];
     }

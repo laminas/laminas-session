@@ -22,61 +22,25 @@ use Traversable;
  */
 interface StorageInterface extends Traversable, ArrayAccess, Serializable, Countable
 {
-    /** @return float */
-    public function getRequestAccessTime();
+    public function getRequestAccessTime(): float;
 
-    /**
-     * @param null|int|string $key
-     * @return self
-     */
-    public function lock($key = null);
+    public function lock(null|int|string $key = null): StorageInterface;
 
-    /**
-     * @param null|int|string $key
-     * @return bool
-     */
-    public function isLocked($key = null);
+    public function isLocked(null|int|string $key = null): bool;
 
-    /**
-     * @param null|int|string $key
-     * @return self
-     */
-    public function unlock($key = null);
+    public function unlock(null|int|string $key = null): StorageInterface;
 
-    /** @return self */
-    public function markImmutable();
+    public function markImmutable(): StorageInterface;
 
-    /** @return bool */
-    public function isImmutable();
+    public function isImmutable(): bool;
 
-    /**
-     * @param string $key
-     * @param mixed $value
-     * @param bool $overwriteArray
-     * @return self
-     */
-    public function setMetadata($key, $value, $overwriteArray = false);
+    public function setMetadata(string $key, mixed $value, bool $overwriteArray = false): StorageInterface;
 
-    /**
-     * @param null|int|string $key
-     * @return mixed
-     */
-    public function getMetadata($key = null);
+    public function getMetadata(null|int|string $key = null): mixed;
 
-    /**
-     * @param null|int|string $key
-     * @return self
-     */
-    public function clear($key = null);
+    public function clear(null|int|string $key = null): StorageInterface;
 
-    /**
-     * @return self
-     */
-    public function fromArray(array $array);
+    public function fromArray(array $array): StorageInterface;
 
-    /**
-     * @param bool $metadata
-     * @return array
-     */
-    public function toArray($metadata = false);
+    public function toArray(bool $metadata = false): array;
 }
