@@ -729,6 +729,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testResumeSessionThatFailsAValidatorShouldRaiseException(): void
     {
         $this->manager = new SessionManager(validators: [TestFailingValidator::class]);
