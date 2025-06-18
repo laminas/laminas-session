@@ -57,7 +57,7 @@ class SessionManager extends AbstractManager
 
     /** @var array Default validators */
     protected $defaultValidators = [
-        Validator\Id::class => null,
+        Validator\Id::class,
     ];
 
     /** @var string value returned by session_name() */
@@ -65,6 +65,8 @@ class SessionManager extends AbstractManager
 
     /** @var EventManagerInterface Validation chain to determine if session is valid */
     protected $validatorChain;
+
+    protected array $options = [];
 
     /**
      * Constructor
@@ -82,6 +84,8 @@ class SessionManager extends AbstractManager
         if ($options['attach_default_validators']) {
             $validators = array_merge($this->defaultValidators, $validators);
         }
+
+        $this->options = $options;
 
         parent::__construct($config, $storage, $saveHandler, $validators);
         register_shutdown_function([$this, 'writeClose']);
@@ -170,10 +174,9 @@ class SessionManager extends AbstractManager
         $storage = $this->getStorage()->getMetadata();
 
         /**
-         * @var string|null $data
          * @var class-string<ValidatorInterface> $validatorName
          */
-        foreach ($this->validators as $validatorName => $data) {
+        foreach ($this->validators as $validatorName) {
             $validatorValues = $this->getStorage()->getMetadata('_VALID');
             if (is_array($validatorValues) && array_key_exists($validatorName, $validatorValues)) {
                 continue;
@@ -188,16 +191,11 @@ class SessionManager extends AbstractManager
                 $this->getStorage()->setMetadata('environment', serialize($initialEnvironment));
             }
 
-            if ($data !== null) {
-                /** @var Environment $currentEnvironment */
-                $currentEnvironment = unserialize($data);
-            } else {
-                $currentEnvironment = Environment::fromGlobals($_SERVER);
-            }
+            $currentEnvironment = Environment::fromGlobals($_SERVER);
 
             $validatorChain = $this->getValidatorChain();
+            $validator      = new $validatorName($initialEnvironment, $currentEnvironment, $this->options);
 
-            $validator = new $validatorName($initialEnvironment, $currentEnvironment);
             $validatorChain->attach('session.validate', [$validator, 'isValid']);
         }
     }

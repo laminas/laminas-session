@@ -9,7 +9,7 @@ use Laminas\Session\Validator\ValidatorInterface;
 
 final class TestFailingValidator implements ValidatorInterface
 {
-    public function __construct(Environment $initial, Environment $current)
+    public function __construct(Environment $initial, Environment $current, array $options = [])
     {
     }
 

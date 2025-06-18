@@ -17,7 +17,6 @@ use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\StorageInterface;
 use Laminas\Session\Validator;
-use Laminas\Session\Validator\Environment;
 use LaminasTest\Session\ReflectionPropertyTrait;
 use LaminasTest\Session\TestAsset\TestManager;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
@@ -108,7 +107,7 @@ class SessionManagerFactoryTest extends TestCase
         $config = [
             'session_manager' => [
                 'validators' => [
-                    Validator\RemoteAddr::class => null,
+                    Validator\RemoteAddr::class,
                 ],
             ],
         ];
@@ -185,16 +184,17 @@ class SessionManagerFactoryTest extends TestCase
         $storage->setMetadata(
             '_VALID',
             [
-                Validator\RemoteAddr::class => new Environment(remoteAddr: '1.2.3.4'),
+                Validator\RemoteAddr::class,
             ]
         );
+
         $this->services->setService(StorageInterface::class, $storage);
         $this->services->setService(
             'config',
             [
                 'session_manager' => [
                     'validators' => [
-                        Validator\RemoteAddr::class => null,
+                        Validator\RemoteAddr::class,
                     ],
                 ],
             ]

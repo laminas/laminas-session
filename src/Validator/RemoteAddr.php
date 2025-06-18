@@ -9,13 +9,8 @@ use Laminas\Session\Validator\ValidatorInterface as SessionValidator;
 use function array_diff;
 use function array_map;
 use function array_pop;
-use function assert;
 use function explode;
 use function in_array;
-use function is_string;
-use function str_replace;
-use function strpos;
-use function strtoupper;
 
 /**
  * @psalm-type OptionsArgument = array{
@@ -26,12 +21,27 @@ use function strtoupper;
  */
 final class RemoteAddr implements SessionValidator
 {
+    public ?string $initialData = null;
+    public ?string $currentData = null;
+
     /**
      * Constructor
      * get the current user IP and store it in the session as 'valid data'
+     *
+     * @param OptionsArgument $options
      */
-    public function __construct(public readonly Environment $initial, public readonly Environment $current)
-    {
+    public function __construct(
+        public readonly Environment $initial,
+        public readonly Environment $current,
+        array $options = []
+    ) {
+        if (isset($options['use_proxy']) && $options['use_proxy'] === true) {
+            $this->initialData = $this->getIpAddress($this->initial, $options);
+            $this->currentData = $this->getIpAddress($this->current, $options);
+        } else {
+            $this->initialData = $this->initial->remoteAddr;
+            $this->currentData = $this->current->remoteAddr;
+        }
     }
 
     /**
@@ -40,7 +50,7 @@ final class RemoteAddr implements SessionValidator
      */
     public function isValid(): bool
     {
-        return $this->initial->remoteAddr === $this->current->remoteAddr;
+        return $this->initialData === $this->currentData;
     }
 
     /**
@@ -48,16 +58,16 @@ final class RemoteAddr implements SessionValidator
      *
      * @param OptionsArgument $options
      */
-    public static function getIpAddress(array $options = [], ?string $remoteAddr = null): ?string
+    public static function getIpAddress(Environment $initial, array $options = []): ?string
     {
-        $ip = self::getIpAddressFromProxy($options, $remoteAddr);
+        $ip = self::getIpAddressFromProxy($initial, $options);
 
         if ($ip !== false) {
             return $ip;
         }
 
-        if ($remoteAddr !== null) {
-            return $remoteAddr;
+        if ($initial->remoteAddr !== null) {
+            return $initial->remoteAddr;
         }
 
         return null;
@@ -70,26 +80,24 @@ final class RemoteAddr implements SessionValidator
      *
      * @param OptionsArgument $options
      */
-    private static function getIpAddressFromProxy(array $options = [], ?string $remoteAddr = null): string|false
+    private static function getIpAddressFromProxy(Environment $initial, array $options = []): string|false
     {
-        $normalizedProxyHeader = self::normalizeProxyHeader($options['proxy_header'] ?? 'X_FORWARDED_FOR');
-        $trustedProxies        = $options['trusted_proxies'] ?? [];
+        $trustedProxies = $options['trusted_proxies'] ?? [];
 
         if (
             ! (isset($options['use_proxy']) && $options['use_proxy'])
-            || ($remoteAddr !== null && ! in_array($remoteAddr, $trustedProxies))
+            || ($initial->remoteAddr !== null && ! in_array($initial->remoteAddr, $trustedProxies))
         ) {
             return false;
         }
 
-        $proxyHeader = Environment::getServerOption($normalizedProxyHeader);
+        $proxyHeader = $initial->forwardedFor;
 
         if ($proxyHeader === null || $proxyHeader === '') {
             return false;
         }
 
         // Extract IPs
-        assert(is_string($proxyHeader));
         $ips = explode(',', $proxyHeader);
         // trim, so we can compare against trusted proxies properly
         $ips = array_map('trim', $ips);
@@ -106,22 +114,6 @@ final class RemoteAddr implements SessionValidator
         // as the originating IP.
         // @see http://en.wikipedia.org/wiki/X-Forwarded-For
         return array_pop($ips);
-    }
-
-    /**
-     * Normalize a header string
-     *
-     * Normalizes a header string to a format that is compatible with
-     * $_SERVER
-     */
-    protected static function normalizeProxyHeader(string $header): string
-    {
-        $header = strtoupper($header);
-        $header = str_replace('-', '_', $header);
-        if (0 !== strpos($header, 'HTTP_')) {
-            $header = 'HTTP_' . $header;
-        }
-        return $header;
     }
 
     /**

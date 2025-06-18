@@ -438,22 +438,10 @@
       <code><![CDATA[static]]></code>
     </PossiblyUnusedReturnValue>
   </file>
-  <file src="src/Validator/Id.php">
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$current]]></code>
-    </PossiblyUnusedProperty>
-  </file>
   <file src="src/ValidatorChain.php">
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$callback]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$data]]></code>
-      <code><![CDATA[$validators]]></code>
-    </MixedAssignment>
-    <NoInterfaceProperties>
-      <code><![CDATA[$context->current]]></code>
-    </NoInterfaceProperties>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[callable]]></code>
     </PossiblyUnusedReturnValue>
@@ -806,6 +794,7 @@
       <code><![CDATA[$_SESSION[$key]]]></code>
       <code><![CDATA[$_SESSION[$key]]]></code>
       <code><![CDATA[$_SESSION['__Laminas']['_VALID']]]></code>
+      <code><![CDATA[$_SESSION['__Laminas']['environment']]]></code>
     </MixedArrayAccess>
     <MixedAssignment>
       <code><![CDATA[$header]]></code>
@@ -921,21 +910,6 @@
       <code><![CDATA[gc]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="test/TestAsset/TestSaveHandlerWithValidator.php">
-    <ImplementedParamTypeMismatch>
-      <code><![CDATA[$data]]></code>
-    </ImplementedParamTypeMismatch>
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[bool]]></code>
-    </ImplementedReturnTypeMismatch>
-    <ParamNameMismatch>
-      <code><![CDATA[$maxlifetime]]></code>
-    </ParamNameMismatch>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[close]]></code>
-      <code><![CDATA[gc]]></code>
-    </PossiblyUnusedMethod>
-  </file>
   <file src="test/TestAsset/TestSimpleCacheAdapter.php">
     <MixedAssignment>
       <code><![CDATA[$result]]></code>
@@ -945,10 +919,5 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[id]]></code>
     </PossiblyUnusedMethod>
-  </file>
-  <file src="test/Validator/StaticValidatorStub.php">
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$current]]></code>
-    </PossiblyUnusedProperty>
   </file>
 </files>

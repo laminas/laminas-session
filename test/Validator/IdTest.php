@@ -40,7 +40,7 @@ class IdTest extends TestCase
     {
         ini_set('session.sid_bits_per_character', $bitsPerCharacter);
 
-        $validator = new Id(new Environment(sessionId: $id), Environment::fromGlobals($_SERVER));
+        $validator = new Id(Environment::fromGlobals($_SERVER), new Environment(sessionId: $id));
         self::assertSame($isValid, $validator->isValid());
     }
 

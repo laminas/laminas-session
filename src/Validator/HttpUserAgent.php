@@ -10,8 +10,11 @@ final class HttpUserAgent implements ValidatorInterface
      * Constructor
      * get the current user agent and store it in the session as 'valid data'
      */
-    public function __construct(public readonly Environment $initial, public readonly Environment $current)
-    {
+    public function __construct(
+        public readonly Environment $initial,
+        public readonly Environment $current,
+        array $option = []
+    ) {
     }
 
     /**

@@ -74,10 +74,11 @@ class RemoteAddrTest extends TestCase
         ];
 
         $validator = new RemoteAddr(
-            Environment::fromGlobals($_SERVER, $options),
-            Environment::fromGlobals($_SERVER, $options)
+            Environment::fromGlobals($_SERVER),
+            Environment::fromGlobals($_SERVER),
+            $options
         );
-        self::assertEquals('1.1.2.3', $validator->current->remoteAddr);
+        self::assertEquals('1.1.2.3', $validator->currentData);
         $this->restore();
     }
 
@@ -94,10 +95,11 @@ class RemoteAddrTest extends TestCase
         ];
 
         $validator = new RemoteAddr(
-            Environment::fromGlobals($_SERVER, $options),
-            Environment::fromGlobals($_SERVER, $options)
+            Environment::fromGlobals($_SERVER),
+            Environment::fromGlobals($_SERVER),
+            $options
         );
-        self::assertEquals('2.1.2.3', $validator->current->remoteAddr);
+        self::assertEquals('2.1.2.3', $validator->currentData);
         $this->restore();
     }
 
@@ -113,11 +115,12 @@ class RemoteAddrTest extends TestCase
         ];
 
         $validator = new RemoteAddr(
-            Environment::fromGlobals($_SERVER, $options),
-            Environment::fromGlobals($_SERVER, $options)
+            Environment::fromGlobals($_SERVER),
+            Environment::fromGlobals($_SERVER),
+            $options
         );
 
-        self::assertEquals('1.1.2.3', $validator->current->remoteAddr);
+        self::assertEquals('1.1.2.3', $validator->currentData);
         $this->restore();
     }
 
@@ -133,8 +136,9 @@ class RemoteAddrTest extends TestCase
         ];
 
         $validator = new RemoteAddr(
-            Environment::fromGlobals($_SERVER, $options),
-            Environment::fromGlobals($_SERVER, $options)
+            Environment::fromGlobals($_SERVER),
+            Environment::fromGlobals($_SERVER),
+            $options
         );
         self::assertEquals('0.1.2.3', $validator->current->remoteAddr);
         $this->restore();
@@ -152,10 +156,11 @@ class RemoteAddrTest extends TestCase
         ];
 
         $validator = new RemoteAddr(
-            Environment::fromGlobals($_SERVER, $options),
-            Environment::fromGlobals($_SERVER, $options)
+            Environment::fromGlobals($_SERVER),
+            Environment::fromGlobals($_SERVER),
+            $options
         );
-        self::assertEquals('2.1.2.3', $validator->current->remoteAddr);
+        self::assertEquals('2.1.2.3', $validator->currentData);
         $this->restore();
     }
 
@@ -172,8 +177,9 @@ class RemoteAddrTest extends TestCase
         ];
 
         $validator = new RemoteAddr(
-            Environment::fromGlobals($_SERVER, $options),
-            Environment::fromGlobals($_SERVER, $options)
+            Environment::fromGlobals($_SERVER),
+            Environment::fromGlobals($_SERVER),
+            $options
         );
         self::assertEquals('0.1.2.3', $validator->current->remoteAddr);
         $this->restore();
@@ -198,8 +204,9 @@ class RemoteAddrTest extends TestCase
         ];
 
         $validator = new RemoteAddr(
-            Environment::fromGlobals($_SERVER, $options),
-            Environment::fromGlobals($_SERVER, $options)
+            Environment::fromGlobals($_SERVER),
+            Environment::fromGlobals($_SERVER),
+            $options
         );
         self::assertEmpty($validator->current->remoteAddr);
         $this->restore();

@@ -6,35 +6,17 @@ namespace Laminas\Session;
 
 use Laminas\EventManager\EventManager;
 use Laminas\Session\Storage\StorageInterface;
-use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\ValidatorInterface;
 
 use function array_shift;
 use function array_unshift;
 use function is_array;
-use function serialize;
-use function unserialize;
 
 class ValidatorChain extends EventManager
 {
     public function __construct(protected StorageInterface $storage)
     {
         parent::__construct();
-        $validators  = $storage->getMetadata('_VALID');
-        $environment = (string) $storage->getMetadata('environment');
-        if ($validators) {
-            /**
-             * @var class-string<ValidatorInterface> $validator
-             */
-            foreach ($validators as $validator => $data) {
-                $currentEnvironment = $data instanceof Environment ? $data : Environment::fromGlobals($_SERVER);
-                $this->attachValidator(
-                    'session.validate',
-                    [new $validator(unserialize($environment), $currentEnvironment), 'isValid'],
-                    1
-                );
-            }
-        }
     }
 
     /**
@@ -82,7 +64,7 @@ class ValidatorChain extends EventManager
         }
         if ($context instanceof ValidatorInterface) {
             $name = $context->getName();
-            $this->getStorage()->setMetadata('_VALID', [$name => serialize($context->current)]);
+            $this->getStorage()->setMetadata('_VALID', [$name]);
         }
         return parent::attach($event, $callback, $priority);
     }

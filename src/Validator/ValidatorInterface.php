@@ -6,10 +6,13 @@ namespace Laminas\Session\Validator;
 
 /**
  * Session validator interface
+ *
+ * @psalm-import-type OptionsArgument from RemoteAddr
  */
 interface ValidatorInterface
 {
-    public function __construct(Environment $initial, Environment $current);
+    /** @param OptionsArgument $options */
+    public function __construct(Environment $initial, Environment $current, array $options = []);
 
     /**
      * This method will be called at the beginning of

@@ -10,8 +10,6 @@ use Laminas\Session\ValidatorChain;
 use LaminasTest\Session\TestAsset\TestFailingValidator;
 use PHPUnit\Framework\TestCase;
 
-use function serialize;
-
 class ValidatorChainTest extends TestCase
 {
     private ValidatorChain $validatorChain;
@@ -35,17 +33,5 @@ class ValidatorChainTest extends TestCase
 
         $validatorMetadata = $this->validatorChain->getStorage()->getMetadata('_VALID');
         self::assertIsArray($validatorMetadata);
-    }
-
-    public function testExistingValidatorsAreAttached(): void
-    {
-        $validator = new StaticValidatorStub(Environment::fromGlobals($_SERVER), Environment::fromGlobals($_SERVER));
-        $storage   = new ArrayStorage();
-        $storage->setMetadata('_VALID', [$validator::class => null]);
-        $storage->setMetadata('environment', serialize(Environment::fromGlobals($_SERVER)));
-        $this->validatorChain = new ValidatorChain($storage);
-
-        $this->validatorChain->trigger('session.validate');
-        self::assertSame(1, $validator::$isValidCallCount);
     }
 }
