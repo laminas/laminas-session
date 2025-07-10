@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Laminas\Session\Storage;
 
+use AllowDynamicProperties;
 use ArrayIterator;
-use Laminas\Stdlib\ArrayObject;
+use ArrayObject;
+use Iterator;
 
 use function is_object;
 
@@ -15,10 +17,11 @@ use function is_object;
  * Replaces the $_SESSION superglobal with an ArrayObject that allows for
  * property access, metadata storage, locking, and immutability.
  *
- * @template TKey of array-key
+ * @template TKey of string
  * @template TValue
  * @template-extends ArrayStorage<TKey, TValue>
  */
+#[AllowDynamicProperties]
 class SessionStorage extends ArrayStorage
 {
     /**
@@ -26,6 +29,9 @@ class SessionStorage extends ArrayStorage
      *
      * Sets the $_SESSION superglobal to an ArrayObject, maintaining previous
      * values if any discovered.
+     *
+     * @param array<TKey, TValue>|null $input
+     * @param class-string<Iterator> $iteratorClass
      */
     public function __construct(
         array|null $input = null,
@@ -60,7 +66,7 @@ class SessionStorage extends ArrayStorage
      */
     public function __destruct()
     {
-        $_SESSION = (array) $this->getArrayCopy();
+        $_SESSION = $this->getArrayCopy();
     }
 
     /**
@@ -70,7 +76,7 @@ class SessionStorage extends ArrayStorage
      *
      * @param array<TKey, TValue> $array
      */
-    public function fromArray(array $array): self
+    public function fromArray(array $array): static
     {
         parent::fromArray($array);
         if ($_SESSION !== $this) {
@@ -83,7 +89,7 @@ class SessionStorage extends ArrayStorage
     /**
      * Mark object as isImmutable
      */
-    public function markImmutable(): self
+    public function markImmutable(): static
     {
         $this['_IMMUTABLE'] = true;
 

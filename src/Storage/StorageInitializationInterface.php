@@ -15,5 +15,5 @@ interface StorageInitializationInterface
     /**
      * Initialize Session Storage
      */
-    public function init(?array $input = null): void;
+    public function init(?iterable $input = null): void;
 }

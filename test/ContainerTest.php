@@ -30,15 +30,6 @@ use const E_USER_DEPRECATED;
  */
 class ContainerTest extends TestCase
 {
-    /**
-     * Hack to allow running tests in separate processes
-     *
-     * @see http://matthewturland.com/2010/08/19/process-isolation-in-phpunit/
-     *
-     * @var bool
-     */
-    protected $preserveGlobalState = false;
-
     /** @var Manager */
     protected $manager;
 
@@ -48,7 +39,7 @@ class ContainerTest extends TestCase
     protected function setUp(): void
     {
         $_SESSION = [];
-        Container::setDefaultManager(null);
+        Container::setDefaultManager();
 
         $config = new StandardConfig();
 
@@ -59,7 +50,7 @@ class ContainerTest extends TestCase
     protected function tearDown(): void
     {
         $_SESSION = [];
-        Container::setDefaultManager(null);
+        Container::setDefaultManager();
     }
 
     public function testInstantiationStartsSession(): void
@@ -558,7 +549,7 @@ class ContainerTest extends TestCase
         $this->container->offsetSet('old', 'old');
         self::assertTrue($this->container->offsetExists('old'));
 
-        $old = $this->container->exchangeArray(new \Laminas\Stdlib\ArrayObject(['new' => 'new']));
+        $old = $this->container->exchangeArray(new ArrayObject(['new' => 'new']));
         self::assertArrayHasKey('old', $old, "'exchangeArray' doesn't return an array of old items");
         self::assertFalse($this->container->offsetExists('old'), "'exchangeArray' doesn't remove old items");
         self::assertTrue($this->container->offsetExists('new'), "'exchangeArray' doesn't add the new array items");

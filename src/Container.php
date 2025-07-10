@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Laminas\Session;
 
+use AllowDynamicProperties;
+
+use function assert;
+use function is_string;
+
 /**
  * Session storage container
  *
@@ -16,16 +21,17 @@ namespace Laminas\Session;
  * @template TValue
  * @template-extends AbstractContainer<TKey, TValue>
  */
+#[AllowDynamicProperties]
 class Container extends AbstractContainer
 {
     /**
      * Retrieve a specific key in the container
      *
-     * @param  string $key
-     * @return mixed
+     * @param TKey|non-empty-string $key
      */
-    public function &offsetGet($key)
+    public function &offsetGet(mixed $key): mixed
     {
+        assert(is_string($key) && $key !== '');
         $ret = null;
         if (! $this->offsetExists($key)) {
             return $ret;

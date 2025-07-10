@@ -6,13 +6,8 @@ declare(strict_types=1);
 namespace Laminas\Session\Storage;
 
 use ArrayAccess;
+use ArrayObject;
 use Laminas\Session\Exception;
-use Laminas\Session\Storage\AbstractSessionArrayStorage;
-use Laminas\Session\Storage\ArrayStorage;
-use Laminas\Session\Storage\StorageInterface;
-use Laminas\Stdlib\ArrayObject;
-use Laminas\Stdlib\ArrayUtils;
-use Traversable;
 
 use function class_exists;
 use function class_implements;
@@ -20,7 +15,6 @@ use function class_parents;
 use function get_debug_type;
 use function in_array;
 use function is_array;
-use function is_string;
 use function sprintf;
 
 abstract class Factory
@@ -30,17 +24,8 @@ abstract class Factory
      *
      * @throws Exception\InvalidArgumentException For unrecognized $type or individual options.
      */
-    public static function factory(?string $type, iterable $options = []): StorageInterface
+    public static function factory(string $type, array $options = []): StorageInterface
     {
-        if (! is_string($type)) {
-            throw new Exception\InvalidArgumentException(
-                sprintf(
-                    '%s expects the $type argument to be a string class name; received "%s"',
-                    __METHOD__,
-                    get_debug_type($type)
-                )
-            );
-        }
         if (! class_exists($type)) {
             $class = __NAMESPACE__ . '\\' . $type;
             if (! class_exists($class)) {
@@ -53,19 +38,6 @@ abstract class Factory
                 );
             }
             $type = $class;
-        }
-
-        if ($options instanceof Traversable) {
-            $options = ArrayUtils::iteratorToArray($options);
-        }
-        if (! is_array($options)) {
-            throw new Exception\InvalidArgumentException(
-                sprintf(
-                    '%s expects the $options argument to be an array or Traversable; received "%s"',
-                    __METHOD__,
-                    get_debug_type($options)
-                )
-            );
         }
 
         switch (true) {

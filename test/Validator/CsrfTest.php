@@ -190,6 +190,7 @@ class CsrfTest extends TestCase
         self::assertIsString($hash);
         $tokenId = $method->invoke($this->validator, $hash);
         self::assertIsString($tokenId);
+        self::assertIsArray($container->tokenList);
         $token = $container->tokenList[$tokenId] ?? '';
         self::assertIsString($token);
 

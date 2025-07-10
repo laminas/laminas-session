@@ -143,9 +143,8 @@ class SessionManagerFactoryTest extends TestCase
         self::assertSame($storage, $manager->getStorage());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testFactoryDoesNotOverwriteValidatorStorageValues(): void
     {
         $storage = new ArrayStorage();
@@ -177,9 +176,8 @@ class SessionManagerFactoryTest extends TestCase
         self::assertSame('1.2.3.4', $validatorData[Validator\RemoteAddr::class]);
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testFactoryDoesNotAttachValidatorTwoTimes(): void
     {
         $storage = new ArrayStorage();

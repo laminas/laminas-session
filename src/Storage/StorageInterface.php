@@ -15,7 +15,8 @@ use Traversable;
  * Defines the minimum requirements for handling userland, in-script session
  * storage (e.g., the $_SESSION superglobal array).
  *
- * @template TKey of array-key
+ * @extends ArrayAccess<string, mixed>
+ * @template TKey of string
  * @template TValue
  * @template-extends Traversable<TKey, TValue>
  * @template-extends ArrayAccess<TKey, TValue>
@@ -24,23 +25,47 @@ interface StorageInterface extends Traversable, ArrayAccess, Serializable, Count
 {
     public function getRequestAccessTime(): float;
 
-    public function lock(null|int|string $key = null): StorageInterface;
+    /**
+     * @param TKey|non-empty-string|null $key
+     */
+    public function lock(?string $key = null): static;
 
-    public function isLocked(null|int|string $key = null): bool;
+    /**
+     * @param TKey|non-empty-string|null $key
+     */
+    public function isLocked(?string $key = null): bool;
 
-    public function unlock(null|int|string $key = null): StorageInterface;
+    /**
+     * @param TKey|non-empty-string|null $key
+     */
+    public function unlock(?string $key = null): static;
 
-    public function markImmutable(): StorageInterface;
+    public function markImmutable(): static;
 
     public function isImmutable(): bool;
 
-    public function setMetadata(string $key, mixed $value, bool $overwriteArray = false): StorageInterface;
+    /**
+     * @param TKey|non-empty-string $key
+     */
+    public function setMetadata(string $key, mixed $value, bool $overwriteArray = false): static;
 
-    public function getMetadata(null|int|string $key = null): mixed;
+    /**
+     * @param TKey|non-empty-string|null $key
+     */
+    public function getMetadata(?string $key = null): mixed;
 
-    public function clear(null|int|string $key = null): StorageInterface;
+    /**
+     * @param TKey|non-empty-string|null $key
+     */
+    public function clear(?string $key = null): static;
 
-    public function fromArray(array $array): StorageInterface;
+    /**
+     * @param array<TKey, TValue> $array
+     */
+    public function fromArray(array $array): static;
 
+    /**
+     * @return array<TKey, TValue>
+     */
     public function toArray(bool $metadata = false): array;
 }
