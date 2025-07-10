@@ -60,7 +60,7 @@
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS'][$key]['hops']]]></code>
     </MixedOperand>
     <MixedReturnTypeCoercion>
-      <code><![CDATA[Traversable]]></code>
+      <code><![CDATA[Iterator]]></code>
       <code><![CDATA[new ArrayIterator($container)]]></code>
     </MixedReturnTypeCoercion>
     <PossiblyNullArgument>

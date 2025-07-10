@@ -7,6 +7,7 @@ namespace Laminas\Session;
 use AllowDynamicProperties;
 use ArrayIterator;
 use ArrayObject;
+use Iterator;
 use Laminas\Session\ManagerInterface as Manager;
 use Laminas\Session\Storage\StorageInterface as Storage;
 use Traversable;
@@ -496,16 +497,14 @@ abstract class AbstractContainer extends ArrayObject
     /**
      * Create a new iterator from an ArrayObject instance
      */
-    public function getIterator(): Traversable
+    public function getIterator(): Iterator
     {
         $this->expireKeys();
         $storage   = $this->getStorage();
         $container = $storage[$this->getName()];
-
-        if ($container instanceof Traversable) {
+        if ($container instanceof Iterator) {
             return $container;
         }
-
         return new ArrayIterator($container);
     }
 
