@@ -14,6 +14,8 @@ interface StorageInitializationInterface
 {
     /**
      * Initialize Session Storage
+     *
+     * @param iterable<string, mixed>|null $input
      */
     public function init(?iterable $input = null): void;
 }

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Laminas\Session\Storage;
 
-use AllowDynamicProperties;
 use ArrayIterator;
-use ArrayObject;
 use IteratorAggregate;
 use Laminas\Session\Exception;
 use Traversable;
@@ -36,12 +34,14 @@ use function unserialize;
  * @template-implements IteratorAggregate<TKey, TValue>
  * @template-implements StorageInterface<TKey, TValue>
  */
-#[AllowDynamicProperties]
 abstract class AbstractSessionArrayStorage implements
     IteratorAggregate,
     StorageInterface,
     StorageInitializationInterface
 {
+    /**
+     * @param iterable<string, mixed>|null $input
+     */
     public function __construct(?iterable $input = null)
     {
         // this is here for B.C.
@@ -53,16 +53,10 @@ abstract class AbstractSessionArrayStorage implements
      */
     public function init(?iterable $input = null): void
     {
-        if ((null === $input) && isset($_SESSION)) {
-            $input = $_SESSION;
-            /** @var iterable $input */
-            if ($input instanceof Traversable && ! $_SESSION instanceof ArrayObject) {
-                $input = iterator_to_array($input);
-            }
-        } elseif (null === $input) {
-            $input = [];
-        }
+        $input  ??= $_SESSION ?? [];
+        $input    = $input instanceof Traversable ? iterator_to_array($input) : $input;
         $_SESSION = $input;
+
         $this->setRequestAccessTime(microtime(true));
     }
 
@@ -190,12 +184,13 @@ abstract class AbstractSessionArrayStorage implements
 
     /**
      * Retrieve an external iterator
+     *
+     * @return Traversable<TKey, TValue>
      */
     public function getIterator(): Traversable
     {
         /** @var Traversable<TKey, TValue> $return */
         $return = new ArrayIterator($_SESSION);
-
         return $return;
     }
 
@@ -203,6 +198,11 @@ abstract class AbstractSessionArrayStorage implements
      * Load session object from an existing array
      *
      * Ensures $_SESSION is set to an instance of the object when complete.
+     *
+     * @template TKeyIn of string
+     * @template TValIn
+     * @param    array<TKeyIn, TValIn> $array
+     * @return   static<TKeyIn, TValIn>
      */
     public function fromArray(array $array): static
     {

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Laminas\Session\Storage;
 
-use AllowDynamicProperties;
-
 use function assert;
 use function is_string;
 
@@ -16,7 +14,6 @@ use function is_string;
  * @template TValue
  * @template-extends AbstractSessionArrayStorage<TKey, TValue>
  */
-#[AllowDynamicProperties]
 class SessionArrayStorage extends AbstractSessionArrayStorage
 {
     /**

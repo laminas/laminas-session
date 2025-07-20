@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Laminas\Session\Storage;
 
-use AllowDynamicProperties;
 use ArrayIterator;
 use ArrayObject;
 use Iterator;
@@ -21,7 +20,6 @@ use function is_object;
  * @template TValue
  * @template-extends ArrayStorage<TKey, TValue>
  */
-#[AllowDynamicProperties]
 class SessionStorage extends ArrayStorage
 {
     /**

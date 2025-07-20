@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Laminas\Session;
 
-use AllowDynamicProperties;
 use ArrayIterator;
 use ArrayObject;
-use Iterator;
 use Laminas\Session\ManagerInterface as Manager;
 use Laminas\Session\Storage\StorageInterface as Storage;
+use ReturnTypeWillChange;
 use Traversable;
 
 use function array_filter;
@@ -20,6 +19,7 @@ use function assert;
 use function is_array;
 use function is_scalar;
 use function is_string;
+use function iterator_to_array;
 use function preg_match;
 use function time;
 
@@ -35,7 +35,6 @@ use function time;
  * @template TValue
  * @template-extends ArrayObject<TKey, TValue>
  */
-#[AllowDynamicProperties]
 abstract class AbstractContainer extends ArrayObject
 {
     /**
@@ -89,7 +88,7 @@ abstract class AbstractContainer extends ArrayObject
     /**
      * Set the default ManagerInterface instance to use when none provided to constructor
      */
-    public static function setDefaultManager(?Manager $manager = null): void
+    public static function setDefaultManager(?Manager $manager): void
     {
         static::$defaultManager = $manager;
     }
@@ -165,7 +164,7 @@ abstract class AbstractContainer extends ArrayObject
     /**
      * Create a new container object on which to act
      */
-    protected function createContainer(): Traversable
+    protected function createContainer(): ArrayObject
     {
         return new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
     }
@@ -385,6 +384,7 @@ abstract class AbstractContainer extends ArrayObject
      * Set Offset
      *
      * @param TKey|non-empty-string $key
+     * @param TValue $value
      */
     public function __set(string $key, mixed $value): void
     {
@@ -465,47 +465,40 @@ abstract class AbstractContainer extends ArrayObject
     /**
      * Exchange the array for another one.
      *
-     * @param array<TKey, TValue>|object $input
+     * @param  array<TKey, TValue>|Traversable $input
      * @return array<TKey, TValue>
      */
     public function exchangeArray(mixed $input): array
     {
-        // handle arrayobject, iterators and the like:
-        if ($input instanceof ArrayObject) {
-            $input = $input->getArrayCopy();
-        }
-        if (! is_array($input)) {
-            $input = (array) $input;
-        }
+        $input = is_array($input) ? $input : iterator_to_array($input);
 
         $storage = $this->verifyNamespace();
         $name    = $this->getName();
 
+        /** @var array<string, mixed>|Traversable<string, mixed> $old */
         $old            = $storage[$name];
         $storage[$name] = $input;
-        if ($old instanceof ArrayObject) {
-            /** @var array<TKey, TValue> $array */
-            $array = $old->getArrayCopy();
-            return $array;
-        }
 
-        /** @var array<TKey, TValue> $array */
-        $array = $old;
-        return $array;
+        /** @var array<TKey, TValue> $return */
+        $return = is_array($old) ? $old : iterator_to_array($old);
+        return $return;
     }
 
     /**
      * Create a new iterator from an ArrayObject instance
+     *
+     * @return Traversable<TKey, TValue>
      */
-    public function getIterator(): Iterator
+    #[ReturnTypeWillChange]
+    public function getIterator(): Traversable
     {
         $this->expireKeys();
         $storage   = $this->getStorage();
         $container = $storage[$this->getName()];
-        if ($container instanceof Iterator) {
-            return $container;
-        }
-        return new ArrayIterator($container);
+
+        /** @var Traversable<TKey, TValue> $return */
+        $return = $container instanceof Traversable ? $container : new ArrayIterator($container);
+        return $return;
     }
 
     /**
@@ -591,14 +584,9 @@ abstract class AbstractContainer extends ArrayObject
         $storage   = $this->verifyNamespace();
         $container = $storage[$this->getName()];
 
-        if ($container instanceof ArrayObject) {
-            /** @var array<TKey, TValue> $array */
-            $array = $container->getArrayCopy();
-            return $array;
-        }
-
         /** @var array<TKey, TValue> $array */
-        $array = $container;
+        $array = $container instanceof ArrayObject ? $container->getArrayCopy() : $container;
+
         return $array;
     }
 }

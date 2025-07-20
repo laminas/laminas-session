@@ -23,7 +23,7 @@ class AbstractContainerTest extends TestCase
     protected function setUp(): void
     {
         $_SESSION = [];
-        Container::setDefaultManager();
+        Container::setDefaultManager(null);
 
         $config = new StandardConfig();
 
@@ -34,7 +34,7 @@ class AbstractContainerTest extends TestCase
     protected function tearDown(): void
     {
         $_SESSION = [];
-        Container::setDefaultManager();
+        Container::setDefaultManager(null);
     }
 
     #[IgnoreDeprecations]

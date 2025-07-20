@@ -11,6 +11,7 @@ use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Container;
 use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\ManagerInterface as Manager;
+use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\SessionArrayStorage;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RequiresPhp;
@@ -39,7 +40,7 @@ class ContainerTest extends TestCase
     protected function setUp(): void
     {
         $_SESSION = [];
-        Container::setDefaultManager();
+        Container::setDefaultManager(null);
 
         $config = new StandardConfig();
 
@@ -50,7 +51,7 @@ class ContainerTest extends TestCase
     protected function tearDown(): void
     {
         $_SESSION = [];
-        Container::setDefaultManager();
+        Container::setDefaultManager(null);
     }
 
     public function testInstantiationStartsSession(): void
@@ -549,7 +550,7 @@ class ContainerTest extends TestCase
         $this->container->offsetSet('old', 'old');
         self::assertTrue($this->container->offsetExists('old'));
 
-        $old = $this->container->exchangeArray(new ArrayObject(['new' => 'new']));
+        $old = $this->container->exchangeArray(new ArrayStorage(['new' => 'new']));
         self::assertArrayHasKey('old', $old, "'exchangeArray' doesn't return an array of old items");
         self::assertFalse($this->container->offsetExists('old'), "'exchangeArray' doesn't remove old items");
         self::assertTrue($this->container->offsetExists('new'), "'exchangeArray' doesn't add the new array items");

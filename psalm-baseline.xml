@@ -4,9 +4,9 @@
     <InvalidStringClass>
       <code><![CDATA[new static::$managerDefaultClass()]]></code>
     </InvalidStringClass>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$container]]></code>
-    </LessSpecificReturnStatement>
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[Traversable<TKey, TValue>]]></code>
+    </LessSpecificImplementedReturnType>
     <MixedArgument>
       <code><![CDATA[$container]]></code>
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS']]]></code>
@@ -51,7 +51,6 @@
       <code><![CDATA[$metadata['EXPIRE_HOPS']['hops']]]></code>
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS'][$key]['hops']]]></code>
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS'][$key]['hops']]]></code>
-      <code><![CDATA[$old]]></code>
       <code><![CDATA[$storage[$name][$offset]]]></code>
     </MixedAssignment>
     <MixedOperand>
@@ -59,10 +58,6 @@
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS'][$key]['hops']]]></code>
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS'][$key]['hops']]]></code>
     </MixedOperand>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[Iterator]]></code>
-      <code><![CDATA[new ArrayIterator($container)]]></code>
-    </MixedReturnTypeCoercion>
     <PossiblyNullArgument>
       <code><![CDATA[$storage]]></code>
     </PossiblyNullArgument>
@@ -282,11 +277,16 @@
     </TypeDoesNotContainType>
   </file>
   <file src="src/Storage/AbstractSessionArrayStorage.php">
+    <ImplementedParamTypeMismatch>
+      <code><![CDATA[$array]]></code>
+    </ImplementedParamTypeMismatch>
     <InvalidReturnStatement>
       <code><![CDATA[$_SESSION]]></code>
+      <code><![CDATA[$this]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[array]]></code>
+      <code><![CDATA[static<TKeyIn, TValIn>]]></code>
     </InvalidReturnType>
     <InvalidScalarArgument>
       <code><![CDATA[$_SESSION]]></code>
@@ -323,7 +323,6 @@
       <code><![CDATA[$session]]></code>
     </PossiblyUnusedParam>
     <RedundantCondition>
-      <code><![CDATA[$_SESSION instanceof ArrayObject]]></code>
       <code><![CDATA[$locks]]></code>
     </RedundantCondition>
   </file>

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Laminas\Session\Storage;
 
-use AllowDynamicProperties;
 use ArrayIterator;
 use ArrayObject;
 use Laminas\Session\Exception;
@@ -30,7 +29,6 @@ use function sprintf;
  * @template-extends ArrayObject<TKey, TValue>
  * @template-implements StorageInterface<TKey, TValue>
  */
-#[AllowDynamicProperties]
 class ArrayStorage extends ArrayObject implements StorageInterface
 {
     /**
