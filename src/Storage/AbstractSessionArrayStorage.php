@@ -330,8 +330,7 @@ abstract class AbstractSessionArrayStorage implements
      * - localizing session storage
      * - etc.
      *
-     * $overwriteArray Whether to overwrite or merge array values; by default, merges
-     *
+     * @param  bool $overwriteArray Whether to overwrite or merge array values; by default, merges
      * @param  TKey|non-empty-string $key
      * @throws Exception\RuntimeException
      */
