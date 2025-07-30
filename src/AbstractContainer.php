@@ -468,7 +468,7 @@ abstract class AbstractContainer extends ArrayObject
      * @param  array<TKey, TValue>|Traversable $input
      * @return array<TKey, TValue>
      */
-    public function exchangeArray(mixed $input): array
+    public function exchangeArray(object|array $input): array
     {
         $input = is_array($input) ? $input : iterator_to_array($input);
 

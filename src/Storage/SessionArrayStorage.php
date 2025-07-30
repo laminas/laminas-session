@@ -21,9 +21,9 @@ class SessionArrayStorage extends AbstractSessionArrayStorage
      *
      * @param TKey|non-empty-string $key
      */
-    public function &__get(mixed $key): mixed
+    public function &__get(string $key): mixed
     {
-        assert(is_string($key) && $key !== '');
+        assert($key !== '');
         /** @psalm-var non-empty-string $key */
         return $_SESSION[$key];
     }

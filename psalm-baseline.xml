@@ -7,6 +7,12 @@
     <LessSpecificImplementedReturnType>
       <code><![CDATA[Traversable<TKey, TValue>]]></code>
     </LessSpecificImplementedReturnType>
+    <MethodSignatureMismatch>
+      <code><![CDATA[$input]]></code>
+    </MethodSignatureMismatch>
+    <MismatchingDocblockParamType>
+      <code><![CDATA[array<TKey, TValue>|Traversable]]></code>
+    </MismatchingDocblockParamType>
     <MixedArgument>
       <code><![CDATA[$container]]></code>
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS']]]></code>
