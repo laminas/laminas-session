@@ -465,7 +465,7 @@ abstract class AbstractContainer extends ArrayObject
     /**
      * Exchange the array for another one.
      *
-     * @param  array<TKey, TValue>|Traversable $input
+     * @param  array<TKey, TValue>|Traversable<TKey, TValue> $input
      * @return array<TKey, TValue>
      */
     public function exchangeArray(object|array $input): array

@@ -11,7 +11,7 @@
       <code><![CDATA[$input]]></code>
     </MethodSignatureMismatch>
     <MismatchingDocblockParamType>
-      <code><![CDATA[array<TKey, TValue>|Traversable]]></code>
+      <code><![CDATA[array<TKey, TValue>|Traversable<TKey, TValue>]]></code>
     </MismatchingDocblockParamType>
     <MixedArgument>
       <code><![CDATA[$container]]></code>
