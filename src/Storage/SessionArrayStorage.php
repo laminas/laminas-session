@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Laminas\Session\Storage;
 
+use function assert;
+use function is_string;
+
 /**
- * Session storage in $_SESSION'
+ * Session storage in $_SESSION
  *
- * @template TKey of array-key
+ * @template TKey of string
  * @template TValue
  * @template-extends AbstractSessionArrayStorage<TKey, TValue>
  */
@@ -16,22 +19,24 @@ class SessionArrayStorage extends AbstractSessionArrayStorage
     /**
      * Get Offset
      *
-     * @param  mixed $key
-     * @return mixed
+     * @param TKey|non-empty-string $key
      */
-    public function &__get($key)
+    public function &__get(string $key): mixed
     {
+        assert($key !== '');
+        /** @psalm-var non-empty-string $key */
         return $_SESSION[$key];
     }
 
     /**
      * Offset Get
      *
-     * @param  mixed $key
-     * @return mixed
+     * @param TKey|non-empty-string $key
      */
-    public function &offsetGet($key)
+    public function &offsetGet(mixed $key): mixed
     {
+        assert(is_string($key) && $key !== '');
+        /** @psalm-var non-empty-string $key */
         return $_SESSION[$key];
     }
 }

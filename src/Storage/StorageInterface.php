@@ -15,68 +15,57 @@ use Traversable;
  * Defines the minimum requirements for handling userland, in-script session
  * storage (e.g., the $_SESSION superglobal array).
  *
- * @template TKey of array-key
+ * @extends ArrayAccess<string, mixed>
+ * @template TKey of string
  * @template TValue
  * @template-extends Traversable<TKey, TValue>
  * @template-extends ArrayAccess<TKey, TValue>
  */
 interface StorageInterface extends Traversable, ArrayAccess, Serializable, Countable
 {
-    /** @return float */
-    public function getRequestAccessTime();
+    public function getRequestAccessTime(): float;
 
     /**
-     * @param null|int|string $key
-     * @return self
+     * @param TKey|non-empty-string|null $key
      */
-    public function lock($key = null);
+    public function lock(?string $key = null): static;
 
     /**
-     * @param null|int|string $key
-     * @return bool
+     * @param TKey|non-empty-string|null $key
      */
-    public function isLocked($key = null);
+    public function isLocked(?string $key = null): bool;
 
     /**
-     * @param null|int|string $key
-     * @return self
+     * @param TKey|non-empty-string|null $key
      */
-    public function unlock($key = null);
+    public function unlock(?string $key = null): static;
 
-    /** @return self */
-    public function markImmutable();
+    public function markImmutable(): static;
 
-    /** @return bool */
-    public function isImmutable();
+    public function isImmutable(): bool;
 
     /**
-     * @param string $key
-     * @param mixed $value
-     * @param bool $overwriteArray
-     * @return self
+     * @param TKey|non-empty-string $key
      */
-    public function setMetadata($key, $value, $overwriteArray = false);
+    public function setMetadata(string $key, mixed $value, bool $overwriteArray = false): static;
 
     /**
-     * @param null|int|string $key
-     * @return mixed
+     * @param TKey|non-empty-string|null $key
      */
-    public function getMetadata($key = null);
+    public function getMetadata(?string $key = null): mixed;
 
     /**
-     * @param null|int|string $key
-     * @return self
+     * @param TKey|non-empty-string|null $key
      */
-    public function clear($key = null);
+    public function clear(?string $key = null): static;
 
     /**
-     * @return self
+     * @param array<TKey, TValue> $array
      */
-    public function fromArray(array $array);
+    public function fromArray(array $array): static;
 
     /**
-     * @param bool $metadata
-     * @return array
+     * @return array<TKey, TValue>
      */
-    public function toArray($metadata = false);
+    public function toArray(bool $metadata = false): array;
 }

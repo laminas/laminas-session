@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session;
 
+use Laminas\Session\AbstractContainer;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface as Manager;
 use LaminasTest\Session\TestAsset\TestContainer;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,20 +17,8 @@ use PHPUnit\Framework\TestCase;
  */
 class AbstractContainerTest extends TestCase
 {
-    /**
-     * Hack to allow running tests in separate processes
-     *
-     * @see http://matthewturland.com/2010/08/19/process-isolation-in-phpunit/
-     *
-     * @var bool
-     */
-    protected $preserveGlobalState = false;
-
-    /** @var Manager */
-    protected $manager;
-
-    /** @var Container */
-    protected $container;
+    protected Manager $manager;
+    protected AbstractContainer $container;
 
     protected function setUp(): void
     {
@@ -47,10 +37,7 @@ class AbstractContainerTest extends TestCase
         Container::setDefaultManager(null);
     }
 
-    /**
-     * This test case fails on laminas-session 2.8.0 with the php error below and works fine on 2.7.*.
-     * "Only variable references should be returned by reference"
-     */
+    #[IgnoreDeprecations]
     public function testOffsetGetMissingKey(): void
     {
         self::assertNull($this->container->offsetGet('this key does not exist in the container'));

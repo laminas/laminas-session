@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Laminas\Session\Storage;
 
 use ArrayIterator;
-use Laminas\Stdlib\ArrayObject;
+use ArrayObject;
+use Iterator;
 
 use function is_object;
 
@@ -15,7 +16,7 @@ use function is_object;
  * Replaces the $_SESSION superglobal with an ArrayObject that allows for
  * property access, metadata storage, locking, and immutability.
  *
- * @template TKey of array-key
+ * @template TKey of string
  * @template TValue
  * @template-extends ArrayStorage<TKey, TValue>
  */
@@ -27,14 +28,13 @@ class SessionStorage extends ArrayStorage
      * Sets the $_SESSION superglobal to an ArrayObject, maintaining previous
      * values if any discovered.
      *
-     * @param array|null $input
-     * @param int        $flags
-     * @param string     $iteratorClass
+     * @param array<TKey, TValue>|null $input
+     * @param class-string<Iterator> $iteratorClass
      */
     public function __construct(
-        $input = null,
-        $flags = ArrayObject::ARRAY_AS_PROPS,
-        $iteratorClass = ArrayIterator::class
+        array|null $input = null,
+        int $flags = ArrayObject::ARRAY_AS_PROPS,
+        string $iteratorClass = ArrayIterator::class
     ) {
         $resetSession = true;
         if ((null === $input) && isset($_SESSION)) {
@@ -64,7 +64,7 @@ class SessionStorage extends ArrayStorage
      */
     public function __destruct()
     {
-        $_SESSION = (array) $this->getArrayCopy();
+        $_SESSION = $this->getArrayCopy();
     }
 
     /**
@@ -73,9 +73,8 @@ class SessionStorage extends ArrayStorage
      * Ensures $_SESSION is set to an instance of the object when complete.
      *
      * @param array<TKey, TValue> $array
-     * @return $this
      */
-    public function fromArray(array $array)
+    public function fromArray(array $array): static
     {
         parent::fromArray($array);
         if ($_SESSION !== $this) {
@@ -87,10 +86,8 @@ class SessionStorage extends ArrayStorage
 
     /**
      * Mark object as isImmutable
-     *
-     * @return $this
      */
-    public function markImmutable()
+    public function markImmutable(): static
     {
         $this['_IMMUTABLE'] = true;
 
@@ -99,10 +96,8 @@ class SessionStorage extends ArrayStorage
 
     /**
      * Determine if this object is isImmutable
-     *
-     * @return bool
      */
-    public function isImmutable()
+    public function isImmutable(): bool
     {
         return isset($this['_IMMUTABLE']) && $this['_IMMUTABLE'];
     }

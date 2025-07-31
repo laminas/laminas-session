@@ -45,7 +45,6 @@ use const E_WARNING;
 use const PHP_SAPI;
 
 /**
- * @preserveGlobalState disabled
  * @covers \Laminas\Session\SessionManager
  */
 class SessionManagerTest extends TestCase

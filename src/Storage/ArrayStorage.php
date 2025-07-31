@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace Laminas\Session\Storage;
 
 use ArrayIterator;
+use ArrayObject;
 use Laminas\Session\Exception;
-use Laminas\Stdlib\ArrayObject;
-use ReturnTypeWillChange;
 
 use function array_flip;
 use function array_key_exists;
 use function array_keys;
 use function array_replace_recursive;
+use function assert;
 use function is_array;
+use function is_string;
 use function microtime;
 use function sprintf;
 
@@ -23,9 +24,7 @@ use function sprintf;
  * Defines an ArrayObject interface for accessing session storage, with options
  * for setting metadata, locking, and marking as isImmutable.
  *
- * @see ReturnTypeWillChange
- *
- * @template TKey of array-key
+ * @template TKey of string
  * @template TValue
  * @template-extends ArrayObject<TKey, TValue>
  * @template-implements StorageInterface<TKey, TValue>
@@ -34,10 +33,8 @@ class ArrayStorage extends ArrayObject implements StorageInterface
 {
     /**
      * Is storage marked isImmutable?
-     *
-     * @var bool
      */
-    protected $isImmutable = false;
+    protected bool $isImmutable = false;
 
     /**
      * Constructor
@@ -45,14 +42,12 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * Instantiates storage as an ArrayObject, allowing property access.
      * Also sets the initial request access time.
      *
-     * @param array  $input
-     * @param int    $flags
-     * @param string $iteratorClass
+     * @param array<TKey, TValue>|StorageInterface $input
      */
     public function __construct(
-        $input = [],
-        $flags = ArrayObject::ARRAY_AS_PROPS,
-        $iteratorClass = ArrayIterator::class
+        array|StorageInterface $input = [],
+        int $flags = ArrayObject::ARRAY_AS_PROPS,
+        string $iteratorClass = ArrayIterator::class
     ) {
         parent::__construct($input, $flags, $iteratorClass);
         $this->setRequestAccessTime(microtime(true));
@@ -60,11 +55,8 @@ class ArrayStorage extends ArrayObject implements StorageInterface
 
     /**
      * Set the request access time
-     *
-     * @param  float        $time
-     * @return $this
      */
-    protected function setRequestAccessTime($time)
+    protected function setRequestAccessTime(float $time): static
     {
         $this->setMetadata('_REQUEST_ACCESS_TIME', $time);
 
@@ -73,12 +65,34 @@ class ArrayStorage extends ArrayObject implements StorageInterface
 
     /**
      * Retrieve the request access time
-     *
-     * @return float
      */
-    public function getRequestAccessTime()
+    public function getRequestAccessTime(): float
     {
-        return $this->getMetadata('_REQUEST_ACCESS_TIME');
+        return (float) $this->getMetadata('_REQUEST_ACCESS_TIME');
+    }
+
+    /**
+     * Get Offset
+     *
+     * @param TKey|non-empty-string $key
+     */
+    public function __get(string $key): mixed
+    {
+        assert($key !== '');
+        /** @psalm-var TKey $key */
+        return $this->offsetGet($key);
+    }
+
+    /**
+     * Set Offset
+     *
+     * @param TKey|non-empty-string $key
+     * @param TValue $value
+     */
+    public function __set(string $key, mixed $value): void
+    {
+        assert($key !== '');
+        $this->offsetSet($key, $value);
     }
 
     /**
@@ -87,14 +101,12 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * If the object is marked as isImmutable, or the object or key is marked as
      * locked, raises an exception.
      *
-     * @param array-key $offset
-     * @param mixed $value
-     * @return void
+     * @param  TKey|non-empty-string $offset
      * @throws Exception\RuntimeException
      */
-    #[ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
+        assert(is_string($offset) && $offset !== '');
         if ($this->isImmutable()) {
             throw new Exception\RuntimeException(
                 sprintf('Cannot set key "%s" as storage is marked isImmutable', $offset)
@@ -106,22 +118,24 @@ class ArrayStorage extends ArrayObject implements StorageInterface
             );
         }
 
+        /** @psalm-var TKey $offset */
         parent::offsetSet($offset, $value);
     }
 
     /**
      * Lock this storage instance, or a key within it
      *
-     * @param  null|int|string $key
-     * @return $this
+     * @param TKey|non-empty-string|null $key
      */
-    public function lock($key = null)
+    public function lock(?string $key = null): static
     {
         if (null === $key) {
             $this->setMetadata('_READONLY', true);
 
             return $this;
         }
+
+        /** @psalm-var TKey $key */
         if (isset($this[$key])) {
             $this->setMetadata('_LOCKS', [$key => true]);
         }
@@ -132,10 +146,9 @@ class ArrayStorage extends ArrayObject implements StorageInterface
     /**
      * Is the object or key marked as locked?
      *
-     * @param  null|int|string $key
-     * @return bool
+     * @param TKey|non-empty-string|null $key
      */
-    public function isLocked($key = null)
+    public function isLocked(?string $key = null): bool
     {
         if ($this->isImmutable()) {
             // isImmutable trumps all
@@ -168,10 +181,9 @@ class ArrayStorage extends ArrayObject implements StorageInterface
     /**
      * Unlock an object or key marked as locked
      *
-     * @param  null|int|string $key
-     * @return $this
+     * @param TKey|non-empty-string|null $key
      */
-    public function unlock($key = null)
+    public function unlock(?string $key = null): static
     {
         if (null === $key) {
             // Unlock everything
@@ -202,10 +214,8 @@ class ArrayStorage extends ArrayObject implements StorageInterface
 
     /**
      * Mark the storage container as isImmutable
-     *
-     * @return $this
      */
-    public function markImmutable()
+    public function markImmutable(): static
     {
         $this->isImmutable = true;
 
@@ -214,10 +224,8 @@ class ArrayStorage extends ArrayObject implements StorageInterface
 
     /**
      * Is the storage container marked as isImmutable?
-     *
-     * @return bool
      */
-    public function isImmutable()
+    public function isImmutable(): bool
     {
         return $this->isImmutable;
     }
@@ -232,13 +240,10 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * - localizing session storage
      * - etc.
      *
-     * @param  string                     $key
-     * @param  mixed                      $value
-     * @param  bool                       $overwriteArray Whether to overwrite or merge array values; by default, merges
-     * @return $this
+     * @param  TKey|non-empty-string $key
      * @throws Exception\RuntimeException
      */
-    public function setMetadata($key, $value, $overwriteArray = false)
+    public function setMetadata(string $key, mixed $value, bool $overwriteArray = false): static
     {
         if ($this->isImmutable) {
             throw new Exception\RuntimeException(
@@ -279,10 +284,9 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * Returns false if no metadata stored, or no metadata exists for the given
      * key.
      *
-     * @param  null|int|string $key
-     * @return mixed
+     * @param TKey|non-empty-string|null $key
      */
-    public function getMetadata($key = null)
+    public function getMetadata(?string $key = null): mixed
     {
         if (! isset($this['__Laminas'])) {
             return false;
@@ -302,11 +306,10 @@ class ArrayStorage extends ArrayObject implements StorageInterface
     /**
      * Clear the storage object or a subkey of the object
      *
-     * @param  null|int|string            $key
-     * @return $this
+     * @param  TKey|non-empty-string|null $key
      * @throws Exception\RuntimeException
      */
-    public function clear($key = null)
+    public function clear(?string $key = null): static
     {
         if ($this->isImmutable()) {
             throw new Exception\RuntimeException('Cannot clear storage as it is marked immutable');
@@ -317,6 +320,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
             return $this;
         }
 
+        /** @psalm-var TKey $key */
         if (! isset($this[$key])) {
             return $this;
         }
@@ -326,7 +330,7 @@ class ArrayStorage extends ArrayObject implements StorageInterface
 
         // Clear key metadata
         $this->setMetadata($key, null)
-             ->unlock($key);
+            ->unlock($key);
 
         return $this;
     }
@@ -335,10 +339,8 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * Load the storage from another array
      *
      * Overwrites any data that was previously set.
-     *
-     * @return $this
      */
-    public function fromArray(array $array)
+    public function fromArray(array $array): static
     {
         $ts = $this->getRequestAccessTime();
         $this->exchangeArray($array);
@@ -350,13 +352,14 @@ class ArrayStorage extends ArrayObject implements StorageInterface
     /**
      * Cast the object to an array
      *
-     * @param  bool $metaData Whether to include metadata
+     * @param  bool $metadata Whether to include metadata
      * @return array<TKey, TValue>
      */
-    public function toArray($metaData = false)
+    public function toArray(bool $metadata = false): array
     {
         $values = $this->getArrayCopy();
-        if ($metaData) {
+
+        if ($metadata) {
             return $values;
         }
         if (isset($values['__Laminas'])) {

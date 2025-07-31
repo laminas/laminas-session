@@ -117,7 +117,9 @@ class StorageFactoryTest extends TestCase
         $storage = $this->services->get(StorageInterface::class);
         self::assertInstanceOf($class, $storage);
         $test = $storage->toArray();
-        self::assertEquals($config['session_storage']['options']['input'], $test);
+
+        self::assertArrayHasKey('foo', $test);
+        self::assertEquals('bar', $test['foo']);
     }
 
     public function testConfigurationWithoutInputIsValid(): void

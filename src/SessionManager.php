@@ -6,7 +6,6 @@ namespace Laminas\Session;
 
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerInterface;
-use Laminas\Stdlib\ArrayUtils;
 use Traversable;
 
 use function array_key_exists;
@@ -121,7 +120,7 @@ class SessionManager extends AbstractManager
             $oldSessionData = $_SESSION;
 
             // convert session data to plain array that’ll be acceptable as
-            // ArrayUtils::merge parameter
+            // array_merge parameter
             if ($oldSessionData instanceof Storage\StorageInterface) {
                 $oldSessionData = $oldSessionData->toArray();
             } elseif ($oldSessionData instanceof Traversable) {
@@ -132,14 +131,15 @@ class SessionManager extends AbstractManager
         session_start();
 
         if (! empty($oldSessionData) && is_array($oldSessionData)) {
-            $_SESSION = ArrayUtils::merge($oldSessionData, $_SESSION, true);
+            /** @var array<string, mixed> $_SESSION */
+            $_SESSION = array_merge($oldSessionData, $_SESSION);
         }
 
         $storage = $this->getStorage();
 
         // Since session is starting, we need to potentially repopulate our
         // session storage
-        if ($storage instanceof Storage\SessionStorage && $_SESSION !== $storage) {
+        if ($storage instanceof Storage\SessionStorage) {
             if (! $preserveStorage) {
                 $storage->fromArray($_SESSION);
             }
