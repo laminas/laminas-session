@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\Validator;
 
+use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\Id;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
@@ -39,15 +40,8 @@ class IdTest extends TestCase
     {
         ini_set('session.sid_bits_per_character', $bitsPerCharacter);
 
-        $validator = new Id($id);
+        $validator = new Id(Environment::fromGlobals($_SERVER), new Environment(sessionId: $id));
         self::assertSame($isValid, $validator->isValid());
-    }
-
-    public function testConstructorSetId(): void
-    {
-        $id = new Id('1234');
-
-        self::assertSame('1234', $id->getData());
     }
 
     /**
@@ -57,15 +51,14 @@ class IdTest extends TestCase
     {
         session_start();
         $sessionId = session_id();
+        $id        = new Id(Environment::fromGlobals($_SERVER), Environment::fromGlobals($_SERVER));
 
-        $id = new Id();
-
-        self::assertSame($sessionId, $id->getData());
+        self::assertSame($sessionId, $id->initial->sessionId);
     }
 
     public function testValidatorName(): void
     {
-        $id = new Id();
+        $id = new Id(Environment::fromGlobals($_SERVER), Environment::fromGlobals($_SERVER));
 
         self::assertSame(Id::class, $id->getName());
     }

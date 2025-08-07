@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\TestAsset;
 
+use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\ValidatorInterface;
 
-/**
- * @implements ValidatorInterface<false>
- */
 final class TestFailingValidator implements ValidatorInterface
 {
-    public function getData(): mixed
+    public function __construct(Environment $initial, Environment $current, array $options = [])
     {
-        return false;
     }
 
+    public ?Environment $current = null;
     public function getName(): string
     {
         return self::class;
@@ -23,6 +21,6 @@ final class TestFailingValidator implements ValidatorInterface
 
     public function isValid(): bool
     {
-        return $this->getData();
+        return false;
     }
 }

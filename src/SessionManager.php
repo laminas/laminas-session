@@ -6,15 +6,20 @@ namespace Laminas\Session;
 
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerInterface;
+use Laminas\Session\Validator\Environment;
+use Laminas\Session\Validator\ValidatorInterface;
 use Traversable;
 
 use function array_key_exists;
 use function array_merge;
+use function assert;
 use function headers_sent;
 use function is_array;
+use function is_string;
 use function iterator_to_array;
 use function preg_match;
 use function register_shutdown_function;
+use function serialize;
 use function session_destroy;
 use function session_id;
 use function session_name;
@@ -24,6 +29,7 @@ use function session_start;
 use function session_status;
 use function session_write_close;
 use function setcookie;
+use function unserialize;
 
 use const PHP_SESSION_ACTIVE;
 
@@ -60,6 +66,8 @@ class SessionManager extends AbstractManager
     /** @var EventManagerInterface Validation chain to determine if session is valid */
     protected $validatorChain;
 
+    protected array $options = [];
+
     /**
      * Constructor
      *
@@ -76,6 +84,8 @@ class SessionManager extends AbstractManager
         if ($options['attach_default_validators']) {
             $validators = array_merge($this->defaultValidators, $validators);
         }
+
+        $this->options = $options;
 
         parent::__construct($config, $storage, $saveHandler, $validators);
         register_shutdown_function([$this, 'writeClose']);
@@ -160,16 +170,32 @@ class SessionManager extends AbstractManager
      */
     protected function initializeValidatorChain()
     {
-        $validatorChain  = $this->getValidatorChain();
-        $validatorValues = $this->getStorage()->getMetadata('_VALID');
+        /** @var array<string, mixed> $storage */
+        $storage = $this->getStorage()->getMetadata();
 
-        foreach ($this->validators as $validator) {
-            // Ignore validators which are already present in Storage
-            if (is_array($validatorValues) && array_key_exists($validator, $validatorValues)) {
+        /**
+         * @var class-string<ValidatorInterface> $validatorName
+         */
+        foreach ($this->validators as $validatorName) {
+            $validatorValues = $this->getStorage()->getMetadata('_VALID');
+            if (is_array($validatorValues) && array_key_exists($validatorName, $validatorValues)) {
                 continue;
             }
 
-            $validator = new $validator(null);
+            if (isset($storage['environment'])) {
+                assert(is_string($storage['environment']));
+                /** @var Environment $initialEnvironment */
+                $initialEnvironment = unserialize($storage['environment']);
+            } else {
+                $initialEnvironment = Environment::fromGlobals($_SERVER);
+                $this->getStorage()->setMetadata('environment', serialize($initialEnvironment));
+            }
+
+            $currentEnvironment = Environment::fromGlobals($_SERVER);
+
+            $validatorChain = $this->getValidatorChain();
+            $validator      = new $validatorName($initialEnvironment, $currentEnvironment, $this->options);
+
             $validatorChain->attach('session.validate', [$validator, 'isValid']);
         }
     }
@@ -399,8 +425,7 @@ class SessionManager extends AbstractManager
     public function isValid()
     {
         $validator = $this->getValidatorChain();
-
-        $event = new Event();
+        $event     = new Event();
         $event->setName('session.validate');
         $event->setTarget($this);
         $event->setParams($this);

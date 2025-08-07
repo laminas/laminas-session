@@ -7,7 +7,6 @@ namespace Laminas\Session\Validator;
 use function ini_get;
 use function is_numeric;
 use function preg_match;
-use function session_id;
 use function trigger_error;
 
 use const E_USER_DEPRECATED;
@@ -15,8 +14,6 @@ use const PHP_VERSION_ID;
 
 /**
  * session_id validator
- *
- * @implements ValidatorInterface<string|null>
  */
 final class Id implements ValidatorInterface
 {
@@ -26,13 +23,11 @@ final class Id implements ValidatorInterface
      * Allows passing the current session_id; if none provided, uses the PHP
      * session_id() function to retrieve it.
      */
-    public function __construct(protected ?string $id = null)
-    {
-        if ($id === null || $id === '') {
-            $id = session_id();
-        }
-
-        $this->id = $id;
+    public function __construct(
+        public readonly Environment $initial,
+        public readonly Environment $current,
+        array $options = []
+    ) {
     }
 
     /**
@@ -42,9 +37,7 @@ final class Id implements ValidatorInterface
      */
     public function isValid(): bool
     {
-        $id = $this->id;
-
-        if ($id === null) {
+        if ($this->current->sessionId === null) {
             return false;
         }
 
@@ -64,15 +57,7 @@ final class Id implements ValidatorInterface
             default => '#^[0-9a-v]*$#',
         };
 
-        return (bool) preg_match($pattern, $id);
-    }
-
-    /**
-     * Retrieve token for validating call (session_id)
-     */
-    public function getData(): ?string
-    {
-        return $this->id;
+        return (bool) preg_match($pattern, $this->current->sessionId);
     }
 
     /**

@@ -9,13 +9,8 @@ use Laminas\Session\Validator\ValidatorInterface as SessionValidator;
 use function array_diff;
 use function array_map;
 use function array_pop;
-use function assert;
 use function explode;
 use function in_array;
-use function is_string;
-use function str_replace;
-use function strpos;
-use function strtoupper;
 
 /**
  * @psalm-type OptionsArgument = array{
@@ -23,34 +18,11 @@ use function strtoupper;
  * trusted_proxies?: array<string>,
  * proxy_header?: non-empty-string,
  * }
- * @implements SessionValidator<string|null>
  */
 final class RemoteAddr implements SessionValidator
 {
-    /**
-     * Internal data.
-     */
-    private ?string $data;
-
-    /**
-     * Whether to use proxy addresses or not.
-     *
-     * As default this setting is disabled - IP address is mostly needed to increase
-     * security. HTTP_* are not reliable since can easily be spoofed. It can be enabled
-     * just for more flexibility, but if user uses proxy to connect to trusted services
-     * it's his/her own risk, only reliable field for IP address is $_SERVER['REMOTE_ADDR'].
-     */
-    private bool $useProxy;
-
-    /**
-     * List of trusted proxy IP addresses
-     */
-    private array $trustedProxies;
-
-    /**
-     * HTTP header to introspect for proxies
-     */
-    private string $proxyHeader;
+    public ?string $initialData = null;
+    public ?string $currentData = null;
 
     /**
      * Constructor
@@ -58,19 +30,18 @@ final class RemoteAddr implements SessionValidator
      *
      * @param OptionsArgument $options
      */
-    public function __construct(?string $data = null, array $options = [])
-    {
-        $proxyHeader = $options['proxy_header'] ?? 'X_FORWARDED_FOR';
-
-        $this->useProxy       = isset($options['use_proxy']) && $options['use_proxy'];
-        $this->trustedProxies = $options['trusted_proxies'] ?? [];
-        $this->proxyHeader    = self::normalizeProxyHeader($proxyHeader);
-
-        if ($data === null || $data === '') {
-            $data = $this->getIpAddress();
+    public function __construct(
+        public readonly Environment $initial,
+        public readonly Environment $current,
+        array $options = []
+    ) {
+        if (isset($options['use_proxy']) && $options['use_proxy'] === true) {
+            $this->initialData = $this->getIpAddress($this->initial, $options);
+            $this->currentData = $this->getIpAddress($this->current, $options);
+        } else {
+            $this->initialData = $this->initial->remoteAddr;
+            $this->currentData = $this->current->remoteAddr;
         }
-
-        $this->data = $data;
     }
 
     /**
@@ -79,63 +50,59 @@ final class RemoteAddr implements SessionValidator
      */
     public function isValid(): bool
     {
-        return $this->getIpAddress() === $this->getData();
-    }
-
-    /**
-     * Checks proxy handling setting.
-     */
-    public function getUseProxy(): bool
-    {
-        return $this->useProxy;
+        return $this->initialData === $this->currentData;
     }
 
     /**
      * Returns client IP address.
+     *
+     * @param OptionsArgument $options
      */
-    private function getIpAddress(): string
+    public static function getIpAddress(Environment $initial, array $options = []): ?string
     {
-        $ip = $this->getIpAddressFromProxy();
+        $ip = self::getIpAddressFromProxy($initial, $options);
 
-        if (false !== $ip) {
+        if ($ip !== false) {
             return $ip;
         }
 
-        // direct IP address
-        if (isset($_SERVER['REMOTE_ADDR'])) {
-            return $_SERVER['REMOTE_ADDR'];
+        if ($initial->remoteAddr !== null) {
+            return $initial->remoteAddr;
         }
 
-        return '';
+        return null;
     }
 
     /**
      * Attempt to get the IP address for a proxied client
      *
      * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.2
+     *
+     * @param OptionsArgument $options
      */
-    private function getIpAddressFromProxy(): string|false
+    private static function getIpAddressFromProxy(Environment $initial, array $options = []): string|false
     {
+        $trustedProxies = $options['trusted_proxies'] ?? [];
+
         if (
-            ! $this->useProxy
-            || (isset($_SERVER['REMOTE_ADDR']) && ! in_array($_SERVER['REMOTE_ADDR'], $this->trustedProxies))
+            ! (isset($options['use_proxy']) && $options['use_proxy'])
+            || ($initial->remoteAddr !== null && ! in_array($initial->remoteAddr, $trustedProxies))
         ) {
             return false;
         }
 
-        $header = $this->proxyHeader;
+        $proxyHeader = $initial->forwardedFor;
 
-        if (! isset($_SERVER[$header]) || '' === $_SERVER[$header]) {
+        if ($proxyHeader === null || $proxyHeader === '') {
             return false;
         }
 
         // Extract IPs
-        assert(is_string($_SERVER[$header]));
-        $ips = explode(',', $_SERVER[$header]);
+        $ips = explode(',', $proxyHeader);
         // trim, so we can compare against trusted proxies properly
         $ips = array_map('trim', $ips);
         // remove trusted proxy IPs
-        $ips = array_diff($ips, $this->trustedProxies);
+        $ips = array_diff($ips, $trustedProxies);
         // Any left?
         if (empty($ips)) {
             return false;
@@ -147,30 +114,6 @@ final class RemoteAddr implements SessionValidator
         // as the originating IP.
         // @see http://en.wikipedia.org/wiki/X-Forwarded-For
         return array_pop($ips);
-    }
-
-    /**
-     * Normalize a header string
-     *
-     * Normalizes a header string to a format that is compatible with
-     * $_SERVER
-     */
-    protected static function normalizeProxyHeader(string $header): string
-    {
-        $header = strtoupper($header);
-        $header = str_replace('-', '_', $header);
-        if (0 !== strpos($header, 'HTTP_')) {
-            $header = 'HTTP_' . $header;
-        }
-        return $header;
-    }
-
-    /**
-     * Retrieve token for validating call
-     */
-    public function getData(): ?string
-    {
-        return $this->data;
     }
 
     /**

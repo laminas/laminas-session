@@ -241,16 +241,9 @@
     <MissingReturnType>
       <code><![CDATA[initializeValidatorChain]]></code>
     </MissingReturnType>
-    <MixedArgument>
-      <code><![CDATA[$validator]]></code>
-    </MixedArgument>
     <MixedAssignment>
-      <code><![CDATA[$validator]]></code>
       <code><![CDATA[$validatorValues]]></code>
     </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[new $validator(null)]]></code>
-    </MixedMethodCall>
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$id]]></code>
     </MoreSpecificImplementedParamType>
@@ -445,24 +438,10 @@
       <code><![CDATA[static]]></code>
     </PossiblyUnusedReturnValue>
   </file>
-  <file src="src/Validator/HttpUserAgent.php">
-    <PossiblyNullPropertyAssignmentValue>
-      <code><![CDATA[$data]]></code>
-    </PossiblyNullPropertyAssignmentValue>
-  </file>
   <file src="src/ValidatorChain.php">
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$callback]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$data]]></code>
-      <code><![CDATA[$data]]></code>
-      <code><![CDATA[$validator]]></code>
-      <code><![CDATA[$validators]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[new $validator($data)]]></code>
-    </MixedMethodCall>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[callable]]></code>
     </PossiblyUnusedReturnValue>
@@ -815,6 +794,7 @@
       <code><![CDATA[$_SESSION[$key]]]></code>
       <code><![CDATA[$_SESSION[$key]]]></code>
       <code><![CDATA[$_SESSION['__Laminas']['_VALID']]]></code>
+      <code><![CDATA[$_SESSION['__Laminas']['environment']]]></code>
     </MixedArrayAccess>
     <MixedAssignment>
       <code><![CDATA[$header]]></code>
@@ -879,6 +859,9 @@
     </MixedArrayAccess>
   </file>
   <file src="test/TestAsset/TestFailingValidator.php">
+    <PossiblyUnusedProperty>
+      <code><![CDATA[$current]]></code>
+    </PossiblyUnusedProperty>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[bool]]></code>
     </PossiblyUnusedReturnValue>
@@ -918,21 +901,6 @@
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[void]]></code>
       <code><![CDATA[void]]></code>
-    </ImplementedReturnTypeMismatch>
-    <ParamNameMismatch>
-      <code><![CDATA[$maxlifetime]]></code>
-    </ParamNameMismatch>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[close]]></code>
-      <code><![CDATA[gc]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="test/TestAsset/TestSaveHandlerWithValidator.php">
-    <ImplementedParamTypeMismatch>
-      <code><![CDATA[$data]]></code>
-    </ImplementedParamTypeMismatch>
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[bool]]></code>
     </ImplementedReturnTypeMismatch>
     <ParamNameMismatch>
       <code><![CDATA[$maxlifetime]]></code>

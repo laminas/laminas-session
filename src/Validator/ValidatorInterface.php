@@ -7,23 +7,19 @@ namespace Laminas\Session\Validator;
 /**
  * Session validator interface
  *
- * @template T
+ * @psalm-import-type OptionsArgument from RemoteAddr
  */
 interface ValidatorInterface
 {
+    /** @param OptionsArgument $options */
+    public function __construct(Environment $initial, Environment $current, array $options = []);
+
     /**
      * This method will be called at the beginning of
      * every session to determine if the current environment matches
      * that which was store in the setup() procedure.
      */
     public function isValid(): bool;
-
-    /**
-     * Get data from validator to be used for validation comparisons
-     *
-     * @return T
-     */
-    public function getData(): mixed;
 
     /**
      * Get validator name for use with storing validators between requests

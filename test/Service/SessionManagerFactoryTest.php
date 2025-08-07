@@ -184,9 +184,10 @@ class SessionManagerFactoryTest extends TestCase
         $storage->setMetadata(
             '_VALID',
             [
-                Validator\RemoteAddr::class => '1.2.3.4',
+                Validator\RemoteAddr::class,
             ]
         );
+
         $this->services->setService(StorageInterface::class, $storage);
         $this->services->setService(
             'config',
@@ -212,7 +213,6 @@ class SessionManagerFactoryTest extends TestCase
         $chain = $manager->getValidatorChain();
 
         self::assertInstanceOf(EventManager::class, $chain);
-
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
         self::assertCount(2, $listeners);
 
