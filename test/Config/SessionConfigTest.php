@@ -32,7 +32,7 @@ use const E_USER_DEPRECATED;
  */
 class SessionConfigTest extends TestCase
 {
-    protected SessionConfig|null $config = null;
+    protected SessionConfig $config;
 
     protected function setUp(): void
     {
@@ -43,7 +43,6 @@ class SessionConfigTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->config                     = null;
         SessionConfig::$phpinfo           = 'phpinfo';
         SessionConfig::$sessionModuleName = 'session_module_name';
     }
@@ -901,6 +900,9 @@ class SessionConfigTest extends TestCase
 
     public function testProvidingNonSessionHandlerToSetPhpSaveHandlerResultsInException(): void
     {
+        $r = new ReflectionProperty($this->config, 'knownSaveHandlers');
+        $r->setValue($this->config, ['files']);
+
         $handler = new stdClass();
 
         $this->expectException(Exception\InvalidArgumentException::class);

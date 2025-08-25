@@ -8,6 +8,7 @@ use Laminas\Session\Container;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\SessionArrayStorage;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
 use function var_export;
@@ -161,10 +162,8 @@ class SessionArrayStorageTest extends TestCase
         self::assertSame($expected, $this->storage->toArray(true));
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     #[IgnoreDeprecations]
+    #[RunInSeparateProcess]
     public function testExpirationHops(): void
     {
         // since we cannot explicitly test reinitializing the session

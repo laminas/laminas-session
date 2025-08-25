@@ -94,9 +94,6 @@
       <code><![CDATA[new $this->defaultConfigClass()]]></code>
       <code><![CDATA[new $this->defaultStorageClass()]]></code>
     </MixedMethodCall>
-    <PropertyNotSetInConstructor>
-      <code><![CDATA[$saveHandler]]></code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Config/ConfigInterface.php">
     <PossiblyUnusedMethod>
@@ -171,12 +168,12 @@
       <code><![CDATA[setStorage]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedReturnValue>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/SaveHandler/Cache.php">
@@ -231,22 +228,12 @@
     </MixedAssignment>
   </file>
   <file src="src/SessionManager.php">
-    <DocblockTypeContradiction>
-      <code><![CDATA[null === $this->name]]></code>
-      <code><![CDATA[null === $this->validatorChain]]></code>
-    </DocblockTypeContradiction>
     <MissingClosureParamType>
       <code><![CDATA[$test]]></code>
     </MissingClosureParamType>
-    <MissingReturnType>
-      <code><![CDATA[initializeValidatorChain]]></code>
-    </MissingReturnType>
     <MixedAssignment>
       <code><![CDATA[$validatorValues]]></code>
     </MixedAssignment>
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$id]]></code>
-    </MoreSpecificImplementedParamType>
     <NoValue>
       <code><![CDATA[$oldSessionData]]></code>
     </NoValue>
@@ -256,17 +243,6 @@
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$_SERVER['REQUEST_TIME']]]></code>
     </PossiblyUndefinedArrayOffset>
-    <PossiblyUnusedReturnValue>
-      <code><![CDATA[bool]]></code>
-    </PossiblyUnusedReturnValue>
-    <PropertyNotSetInConstructor>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$validatorChain]]></code>
-      <code><![CDATA[SessionManager]]></code>
-    </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType>
-      <code><![CDATA[(bool) $deleteOldSession]]></code>
-    </RedundantCastGivenDocblockType>
     <RedundantCondition>
       <code><![CDATA[! empty($oldSessionData) && is_array($oldSessionData)]]></code>
       <code><![CDATA[is_array($oldSessionData)]]></code>
@@ -274,6 +250,9 @@
     <TypeDoesNotContainType>
       <code><![CDATA[$oldSessionData instanceof Traversable]]></code>
     </TypeDoesNotContainType>
+    <UnusedReturnValue>
+      <code><![CDATA[bool]]></code>
+    </UnusedReturnValue>
   </file>
   <file src="src/Storage/AbstractSessionArrayStorage.php">
     <ImplementedParamTypeMismatch>
@@ -434,8 +413,6 @@
       <code><![CDATA[static]]></code>
       <code><![CDATA[static]]></code>
       <code><![CDATA[static]]></code>
-      <code><![CDATA[static]]></code>
-      <code><![CDATA[static]]></code>
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/ValidatorChain.php">
@@ -473,111 +450,6 @@
       <code><![CDATA[testCookieSameSiteDefaultsToIniSettings]]></code>
       <code><![CDATA[testCookieSameSiteIsMutable]]></code>
     </MissingReturnType>
-    <PossiblyNullArgument>
-      <code><![CDATA[$this->config]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference>
-      <code><![CDATA[getCacheExpire]]></code>
-      <code><![CDATA[getCacheLimiter]]></code>
-      <code><![CDATA[getCookieDomain]]></code>
-      <code><![CDATA[getCookieHttpOnly]]></code>
-      <code><![CDATA[getCookieLifetime]]></code>
-      <code><![CDATA[getCookiePath]]></code>
-      <code><![CDATA[getCookieSameSite]]></code>
-      <code><![CDATA[getCookieSecure]]></code>
-      <code><![CDATA[getGcDivisor]]></code>
-      <code><![CDATA[getGcMaxlifetime]]></code>
-      <code><![CDATA[getGcProbability]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getRefererCheck]]></code>
-      <code><![CDATA[getRememberMeSeconds]]></code>
-      <code><![CDATA[getSaveHandler]]></code>
-      <code><![CDATA[getSavePath]]></code>
-      <code><![CDATA[getSerializeHandler]]></code>
-      <code><![CDATA[getSidBitsPerCharacter]]></code>
-      <code><![CDATA[getSidLength]]></code>
-      <code><![CDATA[getUrlRewriterTags]]></code>
-      <code><![CDATA[getUseCookies]]></code>
-      <code><![CDATA[getUseOnlyCookies]]></code>
-      <code><![CDATA[getUseTransSid]]></code>
-      <code><![CDATA[setCacheExpire]]></code>
-      <code><![CDATA[setCacheExpire]]></code>
-      <code><![CDATA[setCacheExpire]]></code>
-      <code><![CDATA[setCacheLimiter]]></code>
-      <code><![CDATA[setCacheLimiter]]></code>
-      <code><![CDATA[setCacheLimiter]]></code>
-      <code><![CDATA[setCookieDomain]]></code>
-      <code><![CDATA[setCookieDomain]]></code>
-      <code><![CDATA[setCookieDomain]]></code>
-      <code><![CDATA[setCookieDomain]]></code>
-      <code><![CDATA[setCookieHttpOnly]]></code>
-      <code><![CDATA[setCookieHttpOnly]]></code>
-      <code><![CDATA[setCookieLifetime]]></code>
-      <code><![CDATA[setCookieLifetime]]></code>
-      <code><![CDATA[setCookieLifetime]]></code>
-      <code><![CDATA[setCookieLifetime]]></code>
-      <code><![CDATA[setCookiePath]]></code>
-      <code><![CDATA[setCookiePath]]></code>
-      <code><![CDATA[setCookiePath]]></code>
-      <code><![CDATA[setCookiePath]]></code>
-      <code><![CDATA[setCookiePath]]></code>
-      <code><![CDATA[setCookieSameSite]]></code>
-      <code><![CDATA[setCookieSameSite]]></code>
-      <code><![CDATA[setCookieSecure]]></code>
-      <code><![CDATA[setCookieSecure]]></code>
-      <code><![CDATA[setGcDivisor]]></code>
-      <code><![CDATA[setGcDivisor]]></code>
-      <code><![CDATA[setGcDivisor]]></code>
-      <code><![CDATA[setGcMaxlifetime]]></code>
-      <code><![CDATA[setGcMaxlifetime]]></code>
-      <code><![CDATA[setGcMaxlifetime]]></code>
-      <code><![CDATA[setGcProbability]]></code>
-      <code><![CDATA[setGcProbability]]></code>
-      <code><![CDATA[setGcProbability]]></code>
-      <code><![CDATA[setGcProbability]]></code>
-      <code><![CDATA[setName]]></code>
-      <code><![CDATA[setName]]></code>
-      <code><![CDATA[setName]]></code>
-      <code><![CDATA[setName]]></code>
-      <code><![CDATA[setOption]]></code>
-      <code><![CDATA[setOption]]></code>
-      <code><![CDATA[setOption]]></code>
-      <code><![CDATA[setOption]]></code>
-      <code><![CDATA[setOption]]></code>
-      <code><![CDATA[setOption]]></code>
-      <code><![CDATA[setOption]]></code>
-      <code><![CDATA[setOption]]></code>
-      <code><![CDATA[setOptions]]></code>
-      <code><![CDATA[setPhpSaveHandler]]></code>
-      <code><![CDATA[setPhpSaveHandler]]></code>
-      <code><![CDATA[setPhpSaveHandler]]></code>
-      <code><![CDATA[setPhpSaveHandler]]></code>
-      <code><![CDATA[setPhpSaveHandler]]></code>
-      <code><![CDATA[setPhpSaveHandler]]></code>
-      <code><![CDATA[setRememberMeSeconds]]></code>
-      <code><![CDATA[setSaveHandler]]></code>
-      <code><![CDATA[setSaveHandler]]></code>
-      <code><![CDATA[setSavePath]]></code>
-      <code><![CDATA[setSavePath]]></code>
-      <code><![CDATA[setSavePath]]></code>
-      <code><![CDATA[setSerializeHandler]]></code>
-      <code><![CDATA[setSerializeHandler]]></code>
-      <code><![CDATA[setSerializeHandler]]></code>
-      <code><![CDATA[setSidBitsPerCharacter]]></code>
-      <code><![CDATA[setSidBitsPerCharacter]]></code>
-      <code><![CDATA[setSidBitsPerCharacter]]></code>
-      <code><![CDATA[setSidBitsPerCharacter]]></code>
-      <code><![CDATA[setSidLength]]></code>
-      <code><![CDATA[setSidLength]]></code>
-      <code><![CDATA[setSidLength]]></code>
-      <code><![CDATA[setStorageOption]]></code>
-      <code><![CDATA[setStorageOption]]></code>
-      <code><![CDATA[setStorageOption]]></code>
-      <code><![CDATA[setUrlRewriterTags]]></code>
-      <code><![CDATA[setUrlRewriterTags]]></code>
-      <code><![CDATA[setUseCookies]]></code>
-      <code><![CDATA[setUseCookies]]></code>
-    </PossiblyNullReference>
     <PossiblyUnusedMethod>
       <code><![CDATA[optionsProvider]]></code>
       <code><![CDATA[sidSidPerCharacters]]></code>
@@ -867,32 +739,12 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="test/TestAsset/TestManager.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[void]]></code>
-      <code><![CDATA[void]]></code>
-      <code><![CDATA[void]]></code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidReturnType>
-      <code><![CDATA[forgetMe]]></code>
-      <code><![CDATA[getId]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getValidatorChain]]></code>
-      <code><![CDATA[isValid]]></code>
-      <code><![CDATA[regenerateId]]></code>
-      <code><![CDATA[sessionExists]]></code>
-      <code><![CDATA[setValidatorChain]]></code>
-    </InvalidReturnType>
     <PossiblyUnusedMethod>
       <code><![CDATA[stop]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedProperty>
-      <code><![CDATA[$configDefaultClass]]></code>
       <code><![CDATA[$started]]></code>
-      <code><![CDATA[$storageDefaultClass]]></code>
     </PossiblyUnusedProperty>
-    <PropertyNotSetInConstructor>
-      <code><![CDATA[TestManager]]></code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="test/TestAsset/TestSaveHandler.php">
     <ImplementedParamTypeMismatch>

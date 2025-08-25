@@ -14,75 +14,45 @@ use Laminas\Session\Storage\StorageInterface as Storage;
  */
 interface ManagerInterface
 {
-    /** @return self */
-    public function setConfig(Config $config);
+    public function setConfig(Config $config): static;
 
-    /** @return Config */
-    public function getConfig();
+    public function getConfig(): Config;
 
-    /** @return self */
-    public function setStorage(Storage $storage);
+    public function setStorage(Storage $storage): static;
 
-    /** @return Storage */
-    public function getStorage();
+    public function getStorage(): Storage;
 
-    /** @return self */
-    public function setSaveHandler(SaveHandler $saveHandler);
+    public function setSaveHandler(SaveHandler $saveHandler): static;
 
-    /** @return SaveHandler */
-    public function getSaveHandler();
+    public function getSaveHandler(): SaveHandler|null;
 
-    /** @return bool */
-    public function sessionExists();
+    public function sessionExists(): bool;
 
-    /** @return void */
-    public function start();
+    public function start(): void;
 
-    /** @return void */
-    public function destroy();
+    public function destroy(): void;
 
-    /** @return void */
-    public function writeClose();
+    public function writeClose(): void;
 
-    /**
-     * @param string $name
-     * @return self
-     */
-    public function setName($name);
+    public function setName(string $name): static;
 
-    /** @return string */
-    public function getName();
+    public function getName(): string;
 
-    /**
-     * @param int|string $id
-     * @return self
-     */
-    public function setId($id);
+    public function setId(string $id): static;
 
-    /** @return int|string */
-    public function getId();
+    public function getId(): string;
 
-    /** @return self */
-    public function regenerateId();
+    public function regenerateId(): static;
 
-    /**
-     * @param null|int $ttl
-     * @return self
-     */
-    public function rememberMe($ttl = null);
+    public function rememberMe(int|null $ttl = null): static;
 
-    /** @return self */
-    public function forgetMe();
+    public function forgetMe(): static;
 
-    /** @return void */
-    public function expireSessionCookie();
+    public function expireSessionCookie(): void;
 
-    /** @return self */
-    public function setValidatorChain(EventManagerInterface $chain);
+    public function setValidatorChain(EventManagerInterface $chain): static;
 
-    /** @return EventManagerInterface */
-    public function getValidatorChain();
+    public function getValidatorChain(): EventManagerInterface;
 
-    /** @return bool */
-    public function isValid();
+    public function isValid(): bool;
 }

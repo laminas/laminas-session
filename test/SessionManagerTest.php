@@ -126,8 +126,7 @@ class SessionManagerTest extends TestCase
     public function testCanPassValidatorsToConstructor(): void
     {
         $validators = [
-            'foo',
-            'bar',
+            TestFailingValidator::class,
         ];
         $manager    = new SessionManager(null, null, null, $validators);
         foreach ($validators as $validator) {
@@ -147,8 +146,7 @@ class SessionManagerTest extends TestCase
             Id::class,
         ];
         $validators        = [
-            'foo',
-            'bar',
+            TestFailingValidator::class,
         ];
         $manager           = new SessionManager(null, null, null, $validators);
         $this->assertAttributeEquals(array_merge($defaultValidators, $validators), 'validators', $manager);
@@ -413,11 +411,19 @@ class SessionManagerTest extends TestCase
             self::markTestSkipped('Xdebug required for this test');
         }
 
-        $this->manager = new SessionManager();
+        $this->manager = new SessionManager(
+            null,
+            null,
+            null,
+            [],
+            [
+                'send_expire_cookie' => false,
+            ]
+        );
         $config        = $this->manager->getConfig();
         $config->setUseCookies(true);
         $this->manager->start();
-        $this->manager->destroy(['send_expire_cookie' => false]);
+        $this->manager->destroy();
 
         echo '';
 
@@ -458,11 +464,19 @@ class SessionManagerTest extends TestCase
     #[IgnoreDeprecations]
     public function testPassingClearStorageOptionWhenCallingDestroyClearsStorage(): void
     {
-        $this->manager = new SessionManager();
+        $this->manager = new SessionManager(
+            null,
+            null,
+            null,
+            [],
+            [
+                'clear_storage' => true,
+            ]
+        );
         $this->manager->start();
         $storage        = $this->manager->getStorage();
         $storage['foo'] = 'bar';
-        $this->manager->destroy(['clear_storage' => true]);
+        $this->manager->destroy();
         self::assertFalse(isset($storage['foo']));
     }
 
@@ -470,13 +484,21 @@ class SessionManagerTest extends TestCase
     #[IgnoreDeprecations]
     public function testDestroySessionWhenHeadersHaveBeenSent(): void
     {
-        $this->manager = new SessionManager();
+        $this->manager = new SessionManager(
+            null,
+            null,
+            null,
+            [],
+            [
+                'clear_storage' => true,
+            ]
+        );
         $this->manager->start();
         $storage        = $this->manager->getStorage();
         $storage['foo'] = 'bar';
         echo ' ';
         ob_flush();
-        $this->manager->destroy(['clear_storage' => true]);
+        $this->manager->destroy();
         self::assertFalse(isset($storage['foo']));
     }
 
