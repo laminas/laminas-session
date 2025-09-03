@@ -33,10 +33,8 @@ class ValidatorChain extends EventManager
 
     /**
      * Retrieve session storage object
-     *
-     * @return StorageInterface
      */
-    public function getStorage()
+    public function getStorage(): StorageInterface
     {
         return $this->storage;
     }
@@ -44,13 +42,8 @@ class ValidatorChain extends EventManager
     /**
      * Internal implementation for attaching a listener to the
      * session validator chain.
-     *
-     * @param string   $event
-     * @param callable $callback
-     * @param int      $priority
-     * @return callable
      */
-    private function attachValidator($event, $callback, $priority)
+    private function attachValidator(string $event, callable $callback, int $priority): callable
     {
         $context = null;
         if ($callback instanceof ValidatorInterface) {
