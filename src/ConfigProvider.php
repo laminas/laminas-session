@@ -8,14 +8,14 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\ServiceManager\ServiceManager;
 
 /** @psalm-import-type ServiceManagerConfiguration from ServiceManager */
-class ConfigProvider
+final class ConfigProvider
 {
     /**
      * Retrieve configuration for laminas-session.
      *
-     * @return array
+     * @return array{'dependencies': ServiceManagerConfiguration, 'validators': ServiceManagerConfiguration}
      */
-    public function __invoke()
+    public function __invoke(): array
     {
         return [
             'dependencies' => $this->getDependencyConfig(),
@@ -28,7 +28,7 @@ class ConfigProvider
      *
      * @return ServiceManagerConfiguration
      */
-    public function getDependencyConfig()
+    public function getDependencyConfig(): array
     {
         return [
             'abstract_factories' => [

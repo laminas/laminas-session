@@ -506,9 +506,6 @@
       <code><![CDATA[$config]]></code>
       <code><![CDATA[$factories]]></code>
     </MixedAssignment>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[(new ConfigProvider())()]]></code>
-    </MixedPropertyTypeCoercion>
     <UndefinedClass>
       <code><![CDATA[LegacyConfigInterface]]></code>
       <code><![CDATA[LegacyManagerInterface]]></code>
