@@ -118,3 +118,21 @@ The `data` property will be removed in version 3.0, as well as the following get
 - `getUseProxy`
 - `setTrustedProxies`
 - `setProxyHeader`
+
+### Invokable factory classes
+
+Due to the update to `laminas/laminas-servicemanager 4` in version 3.0, all factory classes implementing `Laminas\ServiceManager\Factory\FactoryInterface`
+will be forced to be invokable classes:
+
+- `ContainerAbstractServiceFactory`
+- `SessionConfigFactory`
+- `SessionManagerFactory`
+- `StorageFactory`
+
+The `createService()` method implemented in each of the factories is to be removed.
+
+These factories will also be made `final` in version 3.0, and as such any classes extending them are to be refactored.
+
+### ConfigProvider change
+
+The `ConfigProvider` will also be made `final` in version 3.0 so it will no longer be possible to extend.

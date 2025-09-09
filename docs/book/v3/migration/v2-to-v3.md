@@ -35,22 +35,27 @@ to be used by all validators in the chain as the `initial` object passed to thei
 This initial `Environment` object is set in the `initializeValidatorChain` method of `SessionManager` using the data from the `$_SERVER` superglobal.
 It will be the object against which all `current` data objects will be compared to within the different validators.
 
-The implementation of the `SessionManager::sessionExists()` method has been simplified and no longer uses the PHP constant `SID` because this is [deprecated since PHP 8.4](https://wiki.php.net/rfc/deprecations_php_8_4#constant_sid).
+In addition to these changes, there are several other important modifications:
+
+1. The `Laminas\Session\SessionManager` class is now marked as `final`, so it can no longer be extended.
+2. The `setId()` method now only accepts `string` type instead of the previous `int|string` union type.
+3. Options like `send_expire_cookie`, `clear_storage` and `preserve_storage` could be set during construction and will be used in `destroy()` and `start()` method calls if the parameter will be passed as null.
+4. All validator types are strictly defined as `class-string<ValidatorInterface>`.
+5. The implementation of the `sessionExists()` method has been simplified and no longer uses the PHP constant `SID` because this is [deprecated since PHP 8.4](https://wiki.php.net/rfc/deprecations_php_8_4#constant_sid).
 
 > NOTE: **Logical change**
 > Due to this implementation change, `sessionExists()` will now return `false` after `session_close()` has been called, whereas in version 2 it would return `true`.
+
+The following properties have been removed:
+
+- `defaultDestroyOptions`
+- `defaultOptions`
 
 ### Native Types for `ManagerInterface`
 
 Starting from version 3.0, the `ManagerInterface` now uses native PHP 8 type hints for all its methods.
 
 If you have custom classes implementing `ManagerInterface`, you'll need to update your method signatures to match the new interface.
-In addition to the method signature changes, there are several other important modifications:
-
-1. The `Laminas\Session\SessionManager` class is now marked as `final`, so it can no longer be extended.
-2. The `setId()` method now only accepts `string` type instead of the previous `int|string` union type.
-3. Options like `send_expire_cookie`, `clear_storage` and `preserve_storage` could be set during construction and will be used in `destroy()` and `start()` method calls if the parameter will be passed as null.
-4. All validator types are strictly defined as `class-string<ValidatorInterface>`.
 
 ### Cache save handler
 
@@ -145,7 +150,14 @@ The validator makes use of the `sessionId` property of the `$current` `Environme
 In addition to the new `ValidatorInterface` changes and general PHP 8.1 syntax changes, because of the removal of `laminas/laminas-http`
 the `RemoteAddr` validator has also been updated to get the user's IP address itself using the new public `getIpAddress` method.
 
-The `data` property has been removed, as well as the following getters and setters:
+The following properties have been removed:
+
+- `data`
+- `useProxy`
+- `trustedProxies`
+- `proxyHeader`
+
+Their getters and setters have also been removed:
 
 - `getData`
 - `setUseProxy`
@@ -165,6 +177,24 @@ to no longer reattach validators in its constructor.
 Another change is to the format validators are attached internally under the `_VALID` key, with data no longer being saved alongside the validator name.
 
 > Note that the validators will now reject any sessions saved using the old format.
+
+### Invokable factories
+
+Due to the update to `laminas/laminas-servicemanager 4`, all factory classes implementing `Laminas\ServiceManager\Factory\FactoryInterface`
+are now forced to be invokable classes:
+
+- `ContainerAbstractServiceFactory`
+- `SessionConfigFactory`
+- `SessionManagerFactory`
+- `StorageFactory`
+
+The `createService()` method implemented in each of these factories has been removed.
+
+In addition to these changes, all of these classes have been made `final`, and as such are no longer available to be extended.
+
+### ConfigProvider changes
+
+Starting from version 3.0, the `ConfigProvider` is set as `final`.
 
 ## Removed Features
 
