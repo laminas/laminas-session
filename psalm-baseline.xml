@@ -737,6 +737,11 @@
     </ParamNameMismatch>
   </file>
   <file src="src/SessionManager.php">
+    <DeprecatedProperty>
+      <code><![CDATA[$this->defaultDestroyOptions]]></code>
+      <code><![CDATA[$this->defaultDestroyOptions]]></code>
+      <code><![CDATA[$this->defaultOptions]]></code>
+    </DeprecatedProperty>
     <DocblockTypeContradiction>
       <code><![CDATA[$_SESSION !== $storage]]></code>
       <code><![CDATA[null === $this->name]]></code>
@@ -1043,12 +1048,50 @@
       <code><![CDATA[CallbackHandler]]></code>
     </UndefinedDocblockClass>
   </file>
+  <file src="src/Validator/Csrf.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getSalt]]></code>
+      <code><![CDATA[getSalt]]></code>
+      <code><![CDATA[getSession]]></code>
+      <code><![CDATA[getSession]]></code>
+      <code><![CDATA[getTimeout]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="src/Validator/HttpUserAgent.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getData]]></code>
+    </DeprecatedMethod>
+    <DeprecatedProperty>
+      <code><![CDATA[$this->data]]></code>
+      <code><![CDATA[$this->data]]></code>
+    </DeprecatedProperty>
     <PossiblyNullPropertyAssignmentValue>
       <code><![CDATA[$data]]></code>
     </PossiblyNullPropertyAssignmentValue>
   </file>
+  <file src="src/Validator/Id.php">
+    <DeprecatedProperty>
+      <code><![CDATA[$this->id]]></code>
+      <code><![CDATA[$this->id]]></code>
+      <code><![CDATA[$this->id]]></code>
+    </DeprecatedProperty>
+  </file>
+  <file src="src/Validator/RemoteAddr.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getData]]></code>
+    </DeprecatedMethod>
+    <DeprecatedProperty>
+      <code><![CDATA[$this->data]]></code>
+      <code><![CDATA[$this->data]]></code>
+    </DeprecatedProperty>
+  </file>
   <file src="src/Validator/ValidatorChainTrait.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getData]]></code>
+    </DeprecatedMethod>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$callback]]></code>
     </MixedArgumentTypeCoercion>
@@ -1060,6 +1103,9 @@
     </UndefinedDocblockClass>
   </file>
   <file src="src/ValidatorChain.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getData]]></code>
+    </DeprecatedMethod>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$callback]]></code>
     </MixedArgumentTypeCoercion>
@@ -1908,6 +1954,49 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="test/Validator/CsrfTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getHash]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getSalt]]></code>
+      <code><![CDATA[getSalt]]></code>
+      <code><![CDATA[getSalt]]></code>
+      <code><![CDATA[getSalt]]></code>
+      <code><![CDATA[getSalt]]></code>
+      <code><![CDATA[getSession]]></code>
+      <code><![CDATA[getSession]]></code>
+      <code><![CDATA[getSession]]></code>
+      <code><![CDATA[getSession]]></code>
+      <code><![CDATA[getSession]]></code>
+      <code><![CDATA[getSession]]></code>
+      <code><![CDATA[getSession]]></code>
+      <code><![CDATA[getSession]]></code>
+      <code><![CDATA[getSession]]></code>
+      <code><![CDATA[getTimeout]]></code>
+      <code><![CDATA[getTimeout]]></code>
+      <code><![CDATA[getTimeout]]></code>
+      <code><![CDATA[setName]]></code>
+      <code><![CDATA[setName]]></code>
+      <code><![CDATA[setSalt]]></code>
+      <code><![CDATA[setSession]]></code>
+      <code><![CDATA[setSession]]></code>
+      <code><![CDATA[setTimeout]]></code>
+    </DeprecatedMethod>
     <DocblockTypeContradiction>
       <code><![CDATA[$container->hash]]></code>
     </DocblockTypeContradiction>
@@ -1915,17 +2004,47 @@
       <code><![CDATA[assertIsString]]></code>
     </TypeDoesNotContainType>
   </file>
+  <file src="test/Validator/HttpUserAgentTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getData]]></code>
+      <code><![CDATA[getData]]></code>
+    </DeprecatedMethod>
+    <DocblockTypeContradiction>
+      <code><![CDATA[assertNull]]></code>
+    </DocblockTypeContradiction>
+    <RedundantConditionGivenDocblockType>
+      <code><![CDATA[assertNotNull]]></code>
+    </RedundantConditionGivenDocblockType>
+  </file>
   <file src="test/Validator/IdTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getData]]></code>
+      <code><![CDATA[getData]]></code>
+    </DeprecatedMethod>
     <PossiblyUnusedMethod>
       <code><![CDATA[id]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="test/Validator/RemoteAddrTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getData]]></code>
+      <code><![CDATA[getData]]></code>
+      <code><![CDATA[getData]]></code>
+      <code><![CDATA[getData]]></code>
+      <code><![CDATA[getData]]></code>
+      <code><![CDATA[getData]]></code>
+      <code><![CDATA[getData]]></code>
+      <code><![CDATA[getData]]></code>
+      <code><![CDATA[getData]]></code>
+    </DeprecatedMethod>
     <MissingConstructor>
       <code><![CDATA[$backup]]></code>
     </MissingConstructor>
   </file>
   <file src="test/Validator/ValidatorChainTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getData]]></code>
+    </DeprecatedMethod>
     <NoInterfaceProperties>
       <code><![CDATA[$validator::$isValidCallCount]]></code>
     </NoInterfaceProperties>

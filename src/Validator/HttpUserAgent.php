@@ -2,10 +2,15 @@
 
 namespace Laminas\Session\Validator;
 
+/**
+ * @final
+ */
 class HttpUserAgent implements ValidatorInterface
 {
     /**
      * Internal data
+     *
+     * @deprecated This property will be removed in version 3.0
      *
      * @var string
      */
@@ -40,6 +45,8 @@ class HttpUserAgent implements ValidatorInterface
 
     /**
      * Retrieve token for validating call
+     *
+     * @deprecated This method will be removed in version 3.0
      *
      * @return string
      */

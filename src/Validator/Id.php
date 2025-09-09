@@ -13,11 +13,15 @@ use const PHP_VERSION_ID;
 
 /**
  * session_id validator
+ *
+ * @final
  */
 class Id implements ValidatorInterface
 {
     /**
      * Session identifier.
+     *
+     * @deprecated This property will be removed in version 3.0
      *
      * @var string
      */
@@ -81,6 +85,8 @@ class Id implements ValidatorInterface
 
     /**
      * Retrieve token for validating call (session_id)
+     *
+     * @deprecated This method will be removed in version 3.0
      *
      * @return string
      */

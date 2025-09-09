@@ -5,7 +5,10 @@ namespace Laminas\Session;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\ServiceManager\ServiceManager;
 
-/** @psalm-import-type ServiceManagerConfiguration from ServiceManager */
+/**
+ * @psalm-import-type ServiceManagerConfiguration from ServiceManager
+ * @final
+ */
 class ConfigProvider
 {
     /**
