@@ -8,7 +8,7 @@ PHP save handler when utilized in conjunction with
 ## Cache
 
 `Laminas\Session\SaveHandler\Cache` allows you to provide an instance of
-`Laminas\Cache\Storage\Adapter\AdapterInterface` to be utilized as a session save
+`Psr\SimpleCache\CacheInterface` to be utilized as a session save
 handler. Generally if you are utilizing the `Cache` save handler; you are likely
 using products such as memcached.
 
@@ -17,21 +17,12 @@ using products such as memcached.
 A basic example is one like the following:
 
 ```php
-use Laminas\Cache\StorageFactory;
 use Laminas\Session\SaveHandler\Cache;
 use Laminas\Session\SessionManager;
 
-$cache = StorageFactory::factory([
-    'adapter' => [
-       'name' => 'memcached',
-       'options' => [
-           'server' => '127.0.0.1',
-       ],
-    ],
-]);
-
+$cache       = new MemcachedAdapter(); // any adapter implementing Psr\SimpleCache\CacheInterface
 $saveHandler = new Cache($cache);
-$manager = new SessionManager();
+$manager     = new SessionManager();
 $manager->setSaveHandler($saveHandler);
 ```
 

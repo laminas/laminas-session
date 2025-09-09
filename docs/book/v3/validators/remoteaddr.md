@@ -1,26 +1,15 @@
 # Remote Addr
 
 `Laminas\Session\Validator\RemoteAddr` provides a validator to check the session
-against the originally stored `$_SERVER['REMOTE_ADDR']` variable. Validation
-will fail in the event that this does not match and throws an exception in
+against the originally stored `Environment` variable (passed as `$initial` to the validator).
+Validation will fail in the event that this does not match and throws an exception in
 `Laminas\Session\SessionManager` after `session_start()` has been called.
 
-> MISSING: **Installation Requirements**
-> The validation of the IP address depends on the [laminas-http](https://docs.laminas.dev/laminas-http/) component, so be sure to have it installed before getting started:
->
-> ```bash
-> $ composer require laminas/laminas-http
-> ```
+## Supported Options
 
-## Basic Usage
+The following options are supported for `Laminas\Session\Validator\RemoteAddr`.
 
-```php
-$manager = new Laminas\Session\SessionManager();
-$manager->getValidatorChain()->attach(
-    'session.validate',
-    [
-        new Laminas\Session\Validator\RemoteAddr(),
-        'isValid'
-    ]
-  );
-```
+| Option            | Description                                              | Optional/Mandatory |
+|-------------------|----------------------------------------------------------|--------------------|
+| `use_proxy`       | Whether or not to get the user's IP address from a proxy | Optional           |
+| `trusted_proxies` | A list of valid proxy addresses                          | Optional           |
