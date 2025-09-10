@@ -7,9 +7,7 @@ namespace Laminas\Session\Validator;
 use function ini_get;
 use function is_numeric;
 use function preg_match;
-use function trigger_error;
 
-use const E_USER_DEPRECATED;
 use const PHP_VERSION_ID;
 
 /**
@@ -42,12 +40,14 @@ final class Id implements ValidatorInterface
         }
 
         if (PHP_VERSION_ID >= 80400) {
-            trigger_error('session.sid_bits_per_character is deprecated starting with PHP 8.4', E_USER_DEPRECATED);
+            // PHP 8.4 deprecated session.sid_bits_per_character and set it hard to "4".
+            // Old (pre PHP 8.4) session IDs with a higher bitrate are still valid though.
+            $hashBitsPerChar = 6;
+        } else {
+            // Get the session id bits per character INI setting, using 5 if unavailable
+            $hashBitsPerChar = ini_get('session.sid_bits_per_character');
+            $hashBitsPerChar = is_numeric($hashBitsPerChar) ? (int) $hashBitsPerChar : 5;
         }
-
-        // Get the session id bits per character INI setting, using 5 if unavailable
-        $hashBitsPerChar = ini_get('session.sid_bits_per_character');
-        $hashBitsPerChar = is_numeric($hashBitsPerChar) ? (int) $hashBitsPerChar : 5;
 
         $pattern = match ($hashBitsPerChar) {
             4 => '#^[0-9a-f]*$#',
