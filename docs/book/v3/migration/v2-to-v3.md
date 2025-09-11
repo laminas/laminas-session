@@ -13,19 +13,19 @@ This will restrict installation of `laminas-session` in projects that have other
 To facilitate this change, the `laminas/laminas-validator` dependency has also been bumped to the 3.x major version.
 As such, any custom code using version 2.x of `laminas/laminas-validator` will have to be verified and updated if necessary.
 
-### Environment data object
+### Environment Data Object
 
 A new `Environment` final class has been added to replace the internal usage of the `$_SERVER` superglobal across the validator classes.
 An `Environment` object can be instantiated by passing the relevant data to its constructor, or it can be statically created using the `Environment::fromGlobals()` method.
 
-### Codebase updated
+### Codebase Updated
 
 Raised the PHP language level up to the minimum supported version across the codebase, by adding native PHP 8.1 features
 as well as native types where needed.
 
 ## Signature and Behaviour Changes
 
-### SessionManager changes
+### SessionManager Changes
 
 In addition to general PHP 8.1 syntax changes, the `SessionManager` class has been updated to make use of the new validator structure.
 
@@ -57,7 +57,7 @@ Starting from version 3.0, the `ManagerInterface` now uses native PHP 8 type hin
 
 If you have custom classes implementing `ManagerInterface`, you'll need to update your method signatures to match the new interface.
 
-### Cache save handler
+### Cache Save Handler
 
 Because `laminas/laminas-cache` was replaced with `psr/simple-cache`, the `Cache` save handler has been updated.
 The class has been made `final`, with the following properties removed:
@@ -100,14 +100,14 @@ The following method was removed from the interface, as well as from any impleme
 
 - `getData`
 
-### Final validator classes
+### Final Validator Classes
 
 All validator classes included in `laminas-session` are now defined as `final`, as validators were not designed for inheritance.
 Making the validators final prevents inheritance misuse and reduces the backward compatibility surface area that we need to maintain.
 
 If you make use of custom validators extending any of the shipped validators you will have to refactor them.
 
-### Csrf changes
+### Csrf Changes
 
 In addition to the general PHP 8.1 syntax updates, the `Csrf` validator has been changed
 to set all required properties in the constructor despite not implementing the shipped `ValidatorInterface`.
@@ -126,7 +126,7 @@ In consequence, the following public getters and setters have been dropped in ve
 - `setTimeout`
 - `getTimeout`
 
-### HttpUserAgent changes
+### HttpUserAgent Changes
 
 The `data` property has been removed, alongside its getter:
 
@@ -135,7 +135,7 @@ The `data` property has been removed, alongside its getter:
 The constructor method has been updated, dropping the `data` parameter, and now follows the structure required by `ValidatorInterface`.
 The validator makes use of the `userAgent` property of the `Environment` objects it receives for the validation process.
 
-### Id changes
+### Id Changes
 
 The `Id` validator now uses native PHP 8.1 type hints for all its methods.
 The `id` property has been removed, alongside its getter:
@@ -145,7 +145,7 @@ The `id` property has been removed, alongside its getter:
 The constructor method has been updated, dropping the `id` parameter, and now follows the structure required by `ValidatorInterface`.
 The validator makes use of the `sessionId` property of the `$current` `Environment` object it receives for the validation process.
 
-### RemoteAddr changes
+### RemoteAddr Changes
 
 In addition to the new `ValidatorInterface` changes and general PHP 8.1 syntax changes, because of the removal of `laminas/laminas-http`
 the `RemoteAddr` validator has also been updated to get the user's IP address itself using the new public `getIpAddress` method.
@@ -169,7 +169,7 @@ The validator uses the `remoteAddr` and `forwadedFor` properties of the `Environ
 
 > The constructor accepts an associative array of [documented options](../validators/remoteaddr.md#supported-options).
 
-### ValidatorChain changes
+### ValidatorChain Changes
 
 To accommodate the changes to the validator classes and to `SessionManager`, the `ValidatorChain` class has been updated
 to no longer reattach validators in its constructor.
@@ -192,7 +192,7 @@ The `createService()` method implemented in each of these factories has been rem
 
 In addition to these changes, all of these classes have been made `final`, and as such are no longer available to be extended.
 
-### ConfigProvider changes
+### ConfigProvider Changes
 
 Starting from version 3.0, the `ConfigProvider` is set as `final`.
 
@@ -245,7 +245,7 @@ All test files for these classes have also been removed.
 If you require MongoDB support in your application, you will need to implement that support yourself
 by creating a class that implements `Laminas\Session\SaveHandler\SaveHandlerInterface` as per [the custom save handler documentation](../save-handler.md).
 
-### Legacy deprecated classes removal
+### Legacy Deprecated Classes Removal
 
 The following classes previously marked as deprecated and left for backward compatibility have now been removed:
 
