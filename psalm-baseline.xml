@@ -663,6 +663,8 @@
       <code><![CDATA[$_SESSION[$key]]]></code>
       <code><![CDATA[$_SESSION[$key]]]></code>
       <code><![CDATA[$_SESSION['__Laminas']['_VALID']]]></code>
+      <code><![CDATA[$_SESSION['__Laminas']['_VALID']]]></code>
+      <code><![CDATA[$_SESSION['__Laminas']['environment']]]></code>
       <code><![CDATA[$_SESSION['__Laminas']['environment']]]></code>
     </MixedArrayAccess>
     <MixedAssignment>

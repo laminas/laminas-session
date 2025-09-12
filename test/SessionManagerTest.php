@@ -18,6 +18,7 @@ use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
 use LaminasTest\Session\TestAsset\Php81CompatibleStorageInterface;
+use LaminasTest\Session\TestAsset\TestCustomEnvironment;
 use LaminasTest\Session\TestAsset\TestFailingValidator;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
@@ -55,14 +56,11 @@ class SessionManagerTest extends TestCase
 {
     use ReflectionPropertyTrait;
 
-    /** @var false|string */
-    public $error;
+    public false|string $error;
 
-    /** @var string */
-    public $cookieDateFormat = 'D, d-M-y H:i:s e';
+    public string $cookieDateFormat = 'D, d-M-y H:i:s e';
 
-    /** @var SessionManager */
-    protected $manager;
+    protected SessionManager $manager;
 
     protected function setUp(): void
     {
@@ -825,6 +823,35 @@ class SessionManagerTest extends TestCase
             Environment::fromGlobals($_SERVER),
             unserialize((string) $_SESSION['__Laminas']['environment'])
         );
+    }
+
+    #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
+    public function testValidatorChainSessionMetadataIsPreservedWithCustomEnvironment(): void
+    {
+        $this->manager = new SessionManager(currentEnvironment: TestCustomEnvironment::class);
+        self::assertFalse($this->manager->sessionExists());
+        $this->manager->start();
+        $environment = unserialize((string) $this->manager->getStorage()->getMetadata('environment'));
+        assert($environment instanceof TestCustomEnvironment);
+        $this->manager->getValidatorChain()
+            ->attach('session.validate', [
+                new RemoteAddr(
+                    $environment,
+                    TestCustomEnvironment::fromGlobals($_SERVER)
+                ),
+                'isValid',
+            ]);
+        $preservedData  = unserialize((string) $_SESSION['__Laminas']['environment']);
+        $newEnvironment = TestCustomEnvironment::fromGlobals($_SERVER);
+
+        self::assertIsArray($_SESSION['__Laminas']['_VALID']);
+        self::assertIsString($_SESSION['__Laminas']['_VALID'][0]);
+        self::assertInstanceOf(TestCustomEnvironment::class, $preservedData);
+
+        self::assertEquals('fistCustomValue', $preservedData->getFirstCustomProperty());
+        self::assertEquals('secondCustomValue', $preservedData->getSecondCustomProperty());
+        self::assertEquals($newEnvironment, $preservedData);
     }
 
     #[RunInSeparateProcess]

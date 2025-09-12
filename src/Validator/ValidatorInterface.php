@@ -12,7 +12,7 @@ namespace Laminas\Session\Validator;
 interface ValidatorInterface
 {
     /** @param OptionsArgument $options */
-    public function __construct(Environment $initial, Environment $current, array $options = []);
+    public function __construct(EnvironmentInterface $initial, EnvironmentInterface $current, array $options = []);
 
     /**
      * This method will be called at the beginning of

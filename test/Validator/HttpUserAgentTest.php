@@ -6,6 +6,7 @@ namespace LaminasTest\Session\Validator;
 
 use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\HttpUserAgent;
+use LaminasTest\Session\TestAsset\TestCustomEnvironment;
 use PHPUnit\Framework\TestCase;
 
 class HttpUserAgentTest extends TestCase
@@ -16,6 +17,17 @@ class HttpUserAgentTest extends TestCase
         $validator                  = new HttpUserAgent(
             Environment::fromGlobals($_SERVER),
             Environment::fromGlobals($_SERVER)
+        );
+
+        self::assertTrue($validator->isValid());
+    }
+
+    public function testIsValidWithCustomEnvironment(): void
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'Test-User-Agent';
+        $validator                  = new HttpUserAgent(
+            TestCustomEnvironment::fromGlobals($_SERVER),
+            TestCustomEnvironment::fromGlobals($_SERVER)
         );
 
         self::assertTrue($validator->isValid());

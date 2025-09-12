@@ -19,13 +19,10 @@ final class Id implements ValidatorInterface
 {
     /**
      * Constructor
-     *
-     * Allows passing the current session_id; if none provided, uses the PHP
-     * session_id() function to retrieve it.
      */
     public function __construct(
-        public readonly Environment $initial,
-        public readonly Environment $current,
+        public readonly EnvironmentInterface $initial,
+        public readonly EnvironmentInterface $current,
         array $options = []
     ) {
     }
@@ -37,7 +34,8 @@ final class Id implements ValidatorInterface
      */
     public function isValid(): bool
     {
-        if ($this->current->sessionId === null) {
+        $sessionId = $this->current->getSessionId();
+        if ($sessionId === null) {
             return false;
         }
 
@@ -57,7 +55,7 @@ final class Id implements ValidatorInterface
             default => '#^[0-9a-v]*$#',
         };
 
-        return (bool) preg_match($pattern, $this->current->sessionId);
+        return (bool) preg_match($pattern, $sessionId);
     }
 
     /**

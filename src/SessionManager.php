@@ -7,6 +7,7 @@ namespace Laminas\Session;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Session\Validator\Environment;
+use Laminas\Session\Validator\EnvironmentInterface;
 use Laminas\Session\Validator\ValidatorInterface;
 use Traversable;
 
@@ -16,6 +17,7 @@ use function assert;
 use function headers_sent;
 use function is_array;
 use function is_string;
+use function is_subclass_of;
 use function iterator_to_array;
 use function preg_match;
 use function register_shutdown_function;
@@ -62,6 +64,9 @@ final class SessionManager extends AbstractManager
 
     protected array $options = [];
 
+    /** @var class-string<EnvironmentInterface> */
+    protected string $environmentClass = Environment::class;
+
     /**
      * Constructor
      *
@@ -74,7 +79,8 @@ final class SessionManager extends AbstractManager
         ?Storage\StorageInterface $storage = null,
         ?SaveHandler\SaveHandlerInterface $saveHandler = null,
         array $validators = [],
-        array $options = []
+        array $options = [],
+        ?string $currentEnvironment = null
     ) {
         $this->preserveStorage  = $options['preserve_storage'] ?? false;
         $this->sendExpireCookie = $options['send_expire_cookie'] ?? true;
@@ -82,6 +88,10 @@ final class SessionManager extends AbstractManager
 
         if ($options['attach_default_validators'] ?? true) {
             $validators = array_merge($this->defaultValidators, $validators);
+        }
+
+        if (is_string($currentEnvironment) && is_subclass_of($currentEnvironment, EnvironmentInterface::class)) {
+            $this->environmentClass = $currentEnvironment;
         }
 
         $this->options = $options;
@@ -169,25 +179,27 @@ final class SessionManager extends AbstractManager
         /** @var array<string, mixed> $storage */
         $storage = $this->getStorage()->getMetadata();
 
+        if (isset($storage['environment'])) {
+            assert(is_string($storage['environment']));
+            /** @var EnvironmentInterface $initialEnvironment */
+            $initialEnvironment = unserialize($storage['environment']);
+        } else {
+            $initialEnvironment = $this->environmentClass::fromGlobals($_SERVER);
+            $this->getStorage()->setMetadata('environment', serialize($initialEnvironment));
+        }
+
         foreach ($this->validators as $validatorName) {
             $validatorValues = $this->getStorage()->getMetadata('_VALID');
             if (is_array($validatorValues) && array_key_exists($validatorName, $validatorValues)) {
                 continue;
             }
 
-            if (isset($storage['environment'])) {
-                assert(is_string($storage['environment']));
-                /** @var Environment $initialEnvironment */
-                $initialEnvironment = unserialize($storage['environment']);
-            } else {
-                $initialEnvironment = Environment::fromGlobals($_SERVER);
-                $this->getStorage()->setMetadata('environment', serialize($initialEnvironment));
-            }
-
-            $currentEnvironment = Environment::fromGlobals($_SERVER);
-
             $validatorChain = $this->getValidatorChain();
-            $validator      = new $validatorName($initialEnvironment, $currentEnvironment, $this->options);
+            $validator      = new $validatorName(
+                $initialEnvironment,
+                $this->environmentClass::fromGlobals($_SERVER),
+                $this->options
+            );
 
             $validatorChain->attach('session.validate', [$validator, 'isValid']);
         }

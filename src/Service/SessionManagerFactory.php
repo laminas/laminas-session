@@ -14,12 +14,14 @@ use Laminas\Session\ManagerInterface;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\StorageInterface;
+use Laminas\Session\Validator\EnvironmentInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_merge;
 use function class_exists;
 use function get_debug_type;
 use function is_array;
+use function is_string;
 use function is_subclass_of;
 use function sprintf;
 
@@ -106,6 +108,8 @@ final class SessionManagerFactory implements FactoryInterface
             }
         }
 
+        $environmentClass = null;
+
         // Get session manager configuration, if any, and merge with default configuration
         if ($container->has('config')) {
             $configService = $container->get('config');
@@ -123,7 +127,16 @@ final class SessionManagerFactory implements FactoryInterface
             if (isset($managerConfig['options'])) {
                 $options = $managerConfig['options'];
             }
+
+            if (
+                isset($managerConfig['environment'])
+                && is_string($managerConfig['environment'])
+                && is_subclass_of($managerConfig['environment'], EnvironmentInterface::class)
+            ) {
+                $environmentClass = $managerConfig['environment'];
+            }
         }
+
         $managerClass = class_exists($requestedName) ? $requestedName : SessionManager::class;
         if (! is_subclass_of($managerClass, ManagerInterface::class)) {
             throw new ServiceNotCreatedException(sprintf(
@@ -133,7 +146,7 @@ final class SessionManagerFactory implements FactoryInterface
             ));
         }
 
-        $manager = new $managerClass($config, $storage, $saveHandler, $validators, $options);
+        $manager = new $managerClass($config, $storage, $saveHandler, $validators, $options, $environmentClass);
 
         // If configuration enables the session manager as the default manager for container
         // instances, do so.

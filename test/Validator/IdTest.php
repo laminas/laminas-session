@@ -7,6 +7,7 @@ namespace LaminasTest\Session\Validator;
 
 use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\Id;
+use LaminasTest\Session\TestAsset\TestCustomEnvironment;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
@@ -44,6 +45,24 @@ class IdTest extends TestCase
         self::assertSame($isValid, $validator->isValid());
     }
 
+    #[IgnoreDeprecations]
+    #[DataProvider('id')]
+    #[RunInSeparateProcess]
+    public function testIsValidPhpWithCustomEnvironment(int $bitsPerCharacter, string $id, bool $isValid): void
+    {
+        ini_set('session.sid_bits_per_character', $bitsPerCharacter);
+
+        $validator = new Id(
+            TestCustomEnvironment::fromGlobals($_SERVER),
+            new TestCustomEnvironment(
+                sessionId: $id,
+                firstCustomProperty: 'fistCustomValue',
+                secondCustomProperty: 'secondCustomValue'
+            )
+        );
+        self::assertSame($isValid, $validator->isValid());
+    }
+
     /**
      * @runInSeparateProcess
      */
@@ -53,7 +72,7 @@ class IdTest extends TestCase
         $sessionId = session_id();
         $id        = new Id(Environment::fromGlobals($_SERVER), Environment::fromGlobals($_SERVER));
 
-        self::assertSame($sessionId, $id->initial->sessionId);
+        self::assertSame($sessionId, $id->initial->getSessionId());
     }
 
     public function testValidatorName(): void
