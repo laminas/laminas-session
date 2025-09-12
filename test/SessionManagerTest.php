@@ -19,6 +19,7 @@ use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
 use LaminasTest\Session\TestAsset\Php81CompatibleStorageInterface;
 use LaminasTest\Session\TestAsset\TestCustomEnvironment;
+use LaminasTest\Session\TestAsset\TestCustomEnvironmentFactory;
 use LaminasTest\Session\TestAsset\TestFailingValidator;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
@@ -829,7 +830,7 @@ class SessionManagerTest extends TestCase
     #[IgnoreDeprecations]
     public function testValidatorChainSessionMetadataIsPreservedWithCustomEnvironment(): void
     {
-        $this->manager = new SessionManager(environmentClass: TestCustomEnvironment::class);
+        $this->manager = new SessionManager(environmentFactory: new TestCustomEnvironmentFactory());
         self::assertFalse($this->manager->sessionExists());
         $this->manager->start();
         $environment = unserialize((string) $this->manager->getStorage()->getMetadata('environment'));

@@ -6,7 +6,8 @@ namespace Laminas\Session;
 
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerInterface;
-use Laminas\Session\Validator\Environment;
+use Laminas\Session\Service\EnvironmentFactory;
+use Laminas\Session\Service\EnvironmentFactoryInterface;
 use Laminas\Session\Validator\EnvironmentInterface;
 use Laminas\Session\Validator\ValidatorInterface;
 use Traversable;
@@ -17,7 +18,6 @@ use function assert;
 use function headers_sent;
 use function is_array;
 use function is_string;
-use function is_subclass_of;
 use function iterator_to_array;
 use function preg_match;
 use function register_shutdown_function;
@@ -52,20 +52,19 @@ final class SessionManager extends AbstractManager
     private bool $clearStorage;
 
     /** @var list<class-string<ValidatorInterface>> $defaultValidators */
-    protected array $defaultValidators = [
+    private array $defaultValidators = [
         Validator\Id::class,
     ];
 
     /** value returned by session_name() */
-    protected string|null $name = null;
+    private string|null $name = null;
 
     /** Validation chain to determine if session is valid */
-    protected EventManagerInterface|null $validatorChain = null;
+    private EventManagerInterface|null $validatorChain = null;
 
-    protected array $options = [];
+    private array $options = [];
 
-    /** @var class-string<EnvironmentInterface> */
-    protected string $environmentClass = Environment::class;
+    private EnvironmentFactoryInterface $environmentFactory;
 
     /**
      * Constructor
@@ -80,18 +79,15 @@ final class SessionManager extends AbstractManager
         ?SaveHandler\SaveHandlerInterface $saveHandler = null,
         array $validators = [],
         array $options = [],
-        ?string $environmentClass = null
+        ?EnvironmentFactoryInterface $environmentFactory = null,
     ) {
-        $this->preserveStorage  = $options['preserve_storage'] ?? false;
-        $this->sendExpireCookie = $options['send_expire_cookie'] ?? true;
-        $this->clearStorage     = $options['clear_storage'] ?? false;
+        $this->preserveStorage    = $options['preserve_storage'] ?? false;
+        $this->sendExpireCookie   = $options['send_expire_cookie'] ?? true;
+        $this->clearStorage       = $options['clear_storage'] ?? false;
+        $this->environmentFactory = $environmentFactory ?? new EnvironmentFactory();
 
         if ($options['attach_default_validators'] ?? true) {
             $validators = array_merge($this->defaultValidators, $validators);
-        }
-
-        if (is_string($environmentClass) && is_subclass_of($environmentClass, EnvironmentInterface::class)) {
-            $this->environmentClass = $environmentClass;
         }
 
         $this->options = $options;
@@ -184,7 +180,7 @@ final class SessionManager extends AbstractManager
             /** @var EnvironmentInterface $initialEnvironment */
             $initialEnvironment = unserialize($storage['environment']);
         } else {
-            $initialEnvironment = $this->environmentClass::fromGlobals($_SERVER);
+            $initialEnvironment = $this->environmentFactory->getEnvironment();
             $this->getStorage()->setMetadata('environment', serialize($initialEnvironment));
         }
 
@@ -197,7 +193,7 @@ final class SessionManager extends AbstractManager
             $validatorChain = $this->getValidatorChain();
             $validator      = new $validatorName(
                 $initialEnvironment,
-                $this->environmentClass::fromGlobals($_SERVER),
+                $this->environmentFactory->getEnvironment(),
                 $this->options
             );
 
