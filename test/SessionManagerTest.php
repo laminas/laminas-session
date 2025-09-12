@@ -829,7 +829,7 @@ class SessionManagerTest extends TestCase
     #[IgnoreDeprecations]
     public function testValidatorChainSessionMetadataIsPreservedWithCustomEnvironment(): void
     {
-        $this->manager = new SessionManager(currentEnvironment: TestCustomEnvironment::class);
+        $this->manager = new SessionManager(environmentClass: TestCustomEnvironment::class);
         self::assertFalse($this->manager->sessionExists());
         $this->manager->start();
         $environment = unserialize((string) $this->manager->getStorage()->getMetadata('environment'));

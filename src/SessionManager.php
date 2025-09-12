@@ -80,7 +80,7 @@ final class SessionManager extends AbstractManager
         ?SaveHandler\SaveHandlerInterface $saveHandler = null,
         array $validators = [],
         array $options = [],
-        ?string $currentEnvironment = null
+        ?string $environmentClass = null
     ) {
         $this->preserveStorage  = $options['preserve_storage'] ?? false;
         $this->sendExpireCookie = $options['send_expire_cookie'] ?? true;
@@ -90,8 +90,8 @@ final class SessionManager extends AbstractManager
             $validators = array_merge($this->defaultValidators, $validators);
         }
 
-        if (is_string($currentEnvironment) && is_subclass_of($currentEnvironment, EnvironmentInterface::class)) {
-            $this->environmentClass = $currentEnvironment;
+        if (is_string($environmentClass) && is_subclass_of($environmentClass, EnvironmentInterface::class)) {
+            $this->environmentClass = $environmentClass;
         }
 
         $this->options = $options;
