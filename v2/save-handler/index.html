@@ -15,10 +15,10 @@
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-session">
 
-    
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-session/v2/save-handler/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>laminas-session - Laminas Docs</title>
+    <title>Session Save Handlers - laminas-session - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -113,7 +113,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../.">
+            <a href="../..">
                 
                 
     laminas-session
@@ -128,8 +128,111 @@
 
                 
                 
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../installation/" class="subnavigation__link">Installation</a>
+    </li>
 
                     
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../config/" class="subnavigation__link">Session Config</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../container/" class="subnavigation__link">Session Container</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../manager/" class="subnavigation__link">Session Manager</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Session Save Handlers</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../storage/" class="subnavigation__link">Session Storage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Validators</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/introduction/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/httpuseragent/" class="subnavigation__link">Http User Agent</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/remoteaddr/" class="subnavigation__link">Remote Address</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/csrf/" class="subnavigation__link">CSRF Validator</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/writing-custom-validators/" class="subnavigation__link">Writing Custom Validators</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../migration/preparing-for-v3/" class="subnavigation__link">Preparing for v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Application Integration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Usage in a laminas-mvc application</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
                     
                 
             
@@ -199,21 +302,189 @@
                 
                 
                     
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#cache" class="toc__link nav-link">Cache</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#dbtablegateway" class="toc__link nav-link">DbTableGateway</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#mongodb" class="toc__link nav-link">MongoDB</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#custom-save-handlers" class="toc__link nav-link">Custom Save Handlers</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
                 
 
                 
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="https://docs.laminas.dev/">Overview</a></li>
+            <li class="breadcrumb-item"><a href="https://docs.laminas.dev/components/">Components</a></li>
 
-<h1 class="content__title">404</h1>
-<blockquote>
-    <h3>Something went wrong!</h3>
-    <p>
-        We're sorry, but the page you are looking for does not exist.
-    </p>
-</blockquote>
+            
+                <li class="breadcrumb-item">
+                    <a href="../..">
+                        
+    laminas-session
 
-<a href="../." class="btn btn-default" role="button">Go to homepage</a>
+                    </a>
+                </li>
+
+                
+                    
+                        
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Session Save Handlers</li>
+            
+        
+    </ol>
+</nav>
 
 
+
+
+
+
+    
+    
+
+    <h1 id="session-save-handlers">Session Save Handlers</h1>
+<p>laminas-session comes with a set of save handler classes.  Save handlers themselves
+are decoupled from PHP's save handler functions and are only implemented as a
+PHP save handler when utilized in conjunction with
+<code>Laminas\Session\SessionManager</code>.</p>
+<h2 id="cache">Cache</h2>
+<p><code>Laminas\Session\SaveHandler\Cache</code> allows you to provide an instance of
+<code>Laminas\Cache\Storage\Adapter\AdapterInterface</code> to be utilized as a session save
+handler. Generally if you are utilizing the <code>Cache</code> save handler; you are likely
+using products such as memcached.</p>
+<h3 id="basic-usage">Basic usage</h3>
+<p>A basic example is one like the following:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Cache\StorageFactory;
+use Laminas\Session\SaveHandler\Cache;
+use Laminas\Session\SessionManager;
+
+$cache = StorageFactory::factory([
+    'adapter' =&gt; [
+       'name' =&gt; 'memcached',
+       'options' =&gt; [
+           'server' =&gt; '127.0.0.1',
+       ],
+    ],
+]);
+
+$saveHandler = new Cache($cache);
+$manager = new SessionManager();
+$manager-&gt;setSaveHandler($saveHandler);</code></pre>
+<h2 id="dbtablegateway">DbTableGateway</h2>
+<p><code>Laminas\Session\SaveHandler\DbTableGateway</code> allows you to utilize
+<code>Laminas\Db\TableGateway\TableGatewayInterface</code> implementations as a session save
+handler. Setup of a <code>DbTableGateway</code> save handler requires an instance of
+<code>Laminas\Db\TableGateway\TableGatewayInterface</code> and an instance of
+<code>Laminas\Session\SaveHandler\DbTableGatewayOptions</code>. In the most basic setup, a
+<code>TableGateway</code> object and using the defaults of the <code>DbTableGatewayOptions</code> will
+provide you with what you need.</p>
+<h3 id="creating-the-database-table">Creating the database table</h3>
+<pre class="highlight"><code class="language-sql">CREATE TABLE `session` (
+    `id` char(32),
+    `name` char(32),
+    `modified` int,
+    `lifetime` int,
+    `data` text,
+     PRIMARY KEY (`id`, `name`)
+);</code></pre>
+<h3 id="basic-usage_1">Basic usage</h3>
+<pre class="highlight"><code class="language-php">use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Session\SaveHandler\DbTableGateway;
+use Laminas\Session\SaveHandler\DbTableGatewayOptions;
+use Laminas\Session\SessionManager;
+
+$tableGateway = new TableGateway('session', $adapter);
+$saveHandler  = new DbTableGateway($tableGateway, new DbTableGatewayOptions());
+$manager      = new SessionManager();
+$manager-&gt;setSaveHandler($saveHandler);</code></pre>
+<h2 id="mongodb">MongoDB</h2>
+<p><code>Laminas\Session\SaveHandler\MongoDB</code> allows you to provide a MongoDB collection to
+be utilized as a session save handler. You provide the options in the
+<code>Laminas\Session\SaveHandler\MongoDBOptions</code> class. You must install the
+<a href="http://php.net/mongodb">mongodb PHP extensions</a> and the
+<a href="https://github.com/mongodb/mongo-php-library">MongoDB PHP library</a>.</p>
+<h3 id="basic-usage_2">Basic Usage</h3>
+<pre class="highlight"><code class="language-php">use MongoDB\Client;
+use Laminas\Session\SaveHandler\MongoDB;
+use Laminas\Session\SaveHandler\MongoDBOptions;
+use Laminas\Session\SessionManager;
+
+$mongoClient = new Client();
+$options = new MongoDBOptions([
+    'database'   =&gt; 'myapp',
+    'collection' =&gt; 'sessions',
+]);
+$saveHandler = new MongoDB($mongoClient, $options);
+$manager     = new SessionManager();
+$manager-&gt;setSaveHandler($saveHandler);</code></pre>
+<h2 id="custom-save-handlers">Custom Save Handlers</h2>
+<p>There may be cases where you want to create a save handler.  Creating a custom
+save handler is much like creating a custom PHP save handler, with minor
+differences. All laminas-session-compatible save handlers <em>must</em> implement
+<code>Laminas\Session\SaveHandler\SaveHandlerInterface</code>.  Additionally, if your save
+handler has configurable functionality, you will also need to create an options
+class.</p>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../manager/">
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Session Manager
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../storage/">
+                    <small class="page-nav__label">Next</small>
+                    Session Storage
+                    <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+                
             </div>
             <div class="col-md-3 col-sm-12 sidebar">
                 <div class="donation-banner">
@@ -236,7 +507,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../.">
+            <a href="../..">
                 
                 
     laminas-session
@@ -251,8 +522,111 @@
 
                 
                 
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../installation/" class="subnavigation__link">Installation</a>
+    </li>
 
                     
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../config/" class="subnavigation__link">Session Config</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../container/" class="subnavigation__link">Session Container</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../manager/" class="subnavigation__link">Session Manager</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Session Save Handlers</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../storage/" class="subnavigation__link">Session Storage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Validators</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/introduction/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/httpuseragent/" class="subnavigation__link">Http User Agent</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/remoteaddr/" class="subnavigation__link">Remote Address</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/csrf/" class="subnavigation__link">CSRF Validator</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/writing-custom-validators/" class="subnavigation__link">Writing Custom Validators</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../migration/preparing-for-v3/" class="subnavigation__link">Preparing for v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Application Integration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Usage in a laminas-mvc application</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
                     
                 
             
@@ -342,13 +716,13 @@
 </footer>
 
     <script>
-        let base_url = '..',
+        let base_url = '../..',
             project  = "components",
             siteName = 'laminas-session';
     </script>
     <script src="https://docs.laminas.dev/js/scripts.js"></script>
     
-        <script src="../search/main.js"></script>
+        <script src="../../search/main.js"></script>
     
 
     

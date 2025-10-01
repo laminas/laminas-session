@@ -15,10 +15,10 @@
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-session">
 
-    
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-session/v2/storage/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>laminas-session - Laminas Docs</title>
+    <title>Session Storage - laminas-session - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -113,7 +113,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../.">
+            <a href="../..">
                 
                 
     laminas-session
@@ -128,8 +128,111 @@
 
                 
                 
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../installation/" class="subnavigation__link">Installation</a>
+    </li>
 
                     
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../config/" class="subnavigation__link">Session Config</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../container/" class="subnavigation__link">Session Container</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../manager/" class="subnavigation__link">Session Manager</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../save-handler/" class="subnavigation__link">Session Save Handlers</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Session Storage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Validators</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/introduction/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/httpuseragent/" class="subnavigation__link">Http User Agent</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/remoteaddr/" class="subnavigation__link">Remote Address</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/csrf/" class="subnavigation__link">CSRF Validator</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/writing-custom-validators/" class="subnavigation__link">Writing Custom Validators</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../migration/preparing-for-v3/" class="subnavigation__link">Preparing for v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Application Integration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Usage in a laminas-mvc application</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
                     
                 
             
@@ -199,21 +302,171 @@
                 
                 
                     
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#array-storage" class="toc__link nav-link">Array Storage</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#session-storage_1" class="toc__link nav-link">Session Storage</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#session-array-storage" class="toc__link nav-link">Session Array Storage</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#custom-storage" class="toc__link nav-link">Custom Storage</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
                 
 
                 
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="https://docs.laminas.dev/">Overview</a></li>
+            <li class="breadcrumb-item"><a href="https://docs.laminas.dev/components/">Components</a></li>
 
-<h1 class="content__title">404</h1>
-<blockquote>
-    <h3>Something went wrong!</h3>
-    <p>
-        We're sorry, but the page you are looking for does not exist.
-    </p>
-</blockquote>
+            
+                <li class="breadcrumb-item">
+                    <a href="../..">
+                        
+    laminas-session
 
-<a href="../." class="btn btn-default" role="button">Go to homepage</a>
+                    </a>
+                </li>
+
+                
+                    
+                        
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Session Storage</li>
+            
+        
+    </ol>
+</nav>
 
 
+
+
+
+
+    
+    
+
+    <h1 id="session-storage">Session Storage</h1>
+<p>laminas-session comes with a standard set of storage handlers. Storage handlers are
+the intermediary between when the session starts and when the session writes and
+closes.  The default session storage is
+<code>Laminas\Session\Storage\SessionArrayStorage</code>.</p>
+<h2 id="array-storage">Array Storage</h2>
+<p><code>Laminas\Session\Storage\ArrayStorage</code> provides a facility to store all information
+in an <code>ArrayObject</code>. This storage method is likely incompatible with 3rd party
+libraries and all properties will be inaccessible through the <code>$_SESSION</code>
+superglobal. Additionally <code>ArrayStorage</code> will not automatically repopulate the
+storage container in the case of each new request and would have to manually be
+re-populated.</p>
+<h3 id="basic-usage">Basic Usage</h3>
+<pre class="highlight"><code class="language-php">use Laminas\Session\Storage\ArrayStorage;
+use Laminas\Session\SessionManager;
+
+$populateStorage = ['foo' =&gt; 'bar'];
+$storage         = new ArrayStorage($populateStorage);
+$manager         = new SessionManager();
+$manager-&gt;setStorage($storage);</code></pre>
+<h2 id="session-storage_1">Session Storage</h2>
+<p><code>Laminas\Session\Storage\SessionStorage</code> replaces <code>$_SESSION,</code> providing a facility
+to store all information in an <code>ArrayObject</code>. This means that it may not be
+compatible with 3rd party libraries, although information stored in the
+<code>$_SESSION</code> superglobal should be available in other scopes.</p>
+<h3 id="basic-usage_1">Basic Usage</h3>
+<pre class="highlight"><code class="language-php">use Laminas\Session\Storage\SessionStorage;
+use Laminas\Session\SessionManager;
+
+$manager = new SessionManager();
+$manager-&gt;setStorage(new SessionStorage());</code></pre>
+<h2 id="session-array-storage">Session Array Storage</h2>
+<p><code>Laminas\Session\Storage\SessionArrayStorage</code> provides a facility to store all
+information directly in the <code>$_SESSION</code> superglobal. This storage class provides
+the most compatibility with 3rd party libraries and allows for directly storing
+information into <code>$_SESSION</code>.</p>
+<h3 id="basic-usage_2">Basic Usage</h3>
+<pre class="highlight"><code class="language-php">use Laminas\Session\Storage\SessionArrayStorage;
+use Laminas\Session\SessionManager;
+
+$manager = new SessionManager();
+$manager-&gt;setStorage(new SessionArrayStorage());</code></pre>
+<h2 id="custom-storage">Custom Storage</h2>
+<p>To create a custom storage container, you <em>must</em> implement
+<code>Laminas\Session\Storage\StorageInterface</code>. This interface extends each of
+<code>ArrayAccess</code>, <code>Traversable</code>, <code>Serializable</code>, and <code>Countable</code>, and it is in the
+methods those define that the majority of implementation occurs. The following
+methods must also be implemented:</p>
+<pre class="highlight"><code class="language-php">public function getRequestAccessTime() : int;
+
+public function lock(int|string $key = null) : void;
+public function isLocked(int|string $key = null) : bool;
+public function unlock(int|string $key = null) : void;
+
+public function markImmutable() : void;
+public function isImmutable() : bool;
+
+public function setMetadata(string $key, mixed $value, bool $overwriteArray = false) : void;
+public function getMetadata(string $key = null) : mixed;
+
+public function clear(int|string $key = null) : void;
+
+public function fromArray(array $array) : void;
+public function toArray(bool $metaData = false) : array;</code></pre>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../save-handler/">
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Session Save Handlers
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../validators/introduction/">
+                    <small class="page-nav__label">Next</small>
+                    Introduction
+                    <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+                
             </div>
             <div class="col-md-3 col-sm-12 sidebar">
                 <div class="donation-banner">
@@ -236,7 +489,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../.">
+            <a href="../..">
                 
                 
     laminas-session
@@ -251,8 +504,111 @@
 
                 
                 
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../installation/" class="subnavigation__link">Installation</a>
+    </li>
 
                     
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../config/" class="subnavigation__link">Session Config</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../container/" class="subnavigation__link">Session Container</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../manager/" class="subnavigation__link">Session Manager</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../save-handler/" class="subnavigation__link">Session Save Handlers</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Session Storage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Validators</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/introduction/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/httpuseragent/" class="subnavigation__link">Http User Agent</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/remoteaddr/" class="subnavigation__link">Remote Address</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/csrf/" class="subnavigation__link">CSRF Validator</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../validators/writing-custom-validators/" class="subnavigation__link">Writing Custom Validators</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../migration/preparing-for-v3/" class="subnavigation__link">Preparing for v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Application Integration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Usage in a laminas-mvc application</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
                     
                 
             
@@ -342,13 +698,13 @@
 </footer>
 
     <script>
-        let base_url = '..',
+        let base_url = '../..',
             project  = "components",
             siteName = 'laminas-session';
     </script>
     <script src="https://docs.laminas.dev/js/scripts.js"></script>
     
-        <script src="../search/main.js"></script>
+        <script src="../../search/main.js"></script>
     
 
     

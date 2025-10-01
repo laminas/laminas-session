@@ -15,10 +15,10 @@
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-session">
 
-    
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-session/v2/migration/preparing-for-v3/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>laminas-session - Laminas Docs</title>
+    <title>Preparing for v3 - laminas-session - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -113,7 +113,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../.">
+            <a href="../../..">
                 
                 
     laminas-session
@@ -128,8 +128,111 @@
 
                 
                 
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../installation/" class="subnavigation__link">Installation</a>
+    </li>
 
                     
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../config/" class="subnavigation__link">Session Config</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../container/" class="subnavigation__link">Session Container</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../manager/" class="subnavigation__link">Session Manager</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../save-handler/" class="subnavigation__link">Session Save Handlers</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../storage/" class="subnavigation__link">Session Storage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Validators</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../validators/introduction/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../validators/httpuseragent/" class="subnavigation__link">Http User Agent</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../validators/remoteaddr/" class="subnavigation__link">Remote Address</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../validators/csrf/" class="subnavigation__link">CSRF Validator</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../validators/writing-custom-validators/" class="subnavigation__link">Writing Custom Validators</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Preparing for v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Application Integration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Usage in a laminas-mvc application</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
                     
                 
             
@@ -199,21 +302,147 @@
                 
                 
                     
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#upcoming-behaviour-and-signature-changes" class="toc__link nav-link">Upcoming Behaviour and Signature Changes</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#removed-features" class="toc__link nav-link">Removed Features</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
                 
 
                 
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="https://docs.laminas.dev/">Overview</a></li>
+            <li class="breadcrumb-item"><a href="https://docs.laminas.dev/components/">Components</a></li>
 
-<h1 class="content__title">404</h1>
-<blockquote>
-    <h3>Something went wrong!</h3>
-    <p>
-        We're sorry, but the page you are looking for does not exist.
-    </p>
-</blockquote>
+            
+                <li class="breadcrumb-item">
+                    <a href="../../..">
+                        
+    laminas-session
 
-<a href="../." class="btn btn-default" role="button">Go to homepage</a>
+                    </a>
+                </li>
+
+                
+                    
+                        
+                        
+                    
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Migration</li>
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Preparing for v3</li>
+            
+        
+    </ol>
+</nav>
 
 
+
+
+
+
+    
+    
+        <h2 class="chapter__headline">Migration</h2>
+    
+
+    <h1 id="preparing-for-version-3">Preparing for Version 3</h1>
+<p>Version 3 will introduce a number of backwards incompatible changes.
+This document is intended to help you prepare for these changes.</p>
+<h2 id="upcoming-behaviour-and-signature-changes">Upcoming Behaviour and Signature Changes</h2>
+<h3 id="laminaslaminas-cache-replacement"><code>laminas/laminas-cache</code> Replacement</h3>
+<p>From version 3.0 onwards, <code>laminas-session</code> will remove the <code>laminas/laminas-cache</code>
+dependency and replace it with <code>psr/simple-cache</code> to adhere to PSR-16.</p>
+<p>The <code>Laminas\Session\SaveHandler\Cache.php</code> class will be updated to reflect this change.
+Starting from version 3.0 the class will be made <code>final</code> and has been marked as such in the current version.
+The following properties have been marked as deprecated and will be removed in version 3.0:</p>
+<ul>
+<li><code>sessionSavePath</code></li>
+<li><code>sessionName</code></li>
+</ul>
+<p>The following methods will also be removed and have been marked as deprecated in the current version:</p>
+<ul>
+<li><code>setCacheStorage</code></li>
+<li><code>getCacheStorage</code></li>
+<li><code>getCacheStorge</code></li>
+</ul>
+<p>Going forward, you may move <code>laminas/laminas-cache</code> to your application's direct requirements to keep using it,
+or find a PSR-16 implementation in the <code>psr/simple-cache-implementation</code> virtual repository.</p>
+<h2 id="removed-features">Removed Features</h2>
+<h3 id="laminaslaminas-db-removal"><code>laminas/laminas-db</code> Removal</h3>
+<p>Starting from version 3.0 the <code>laminas/laminas-db</code> dependency will be removed.
+The following classes are based on this package and have been marked as <code>deprecated</code> in the current version:</p>
+<ul>
+<li><code>Laminas\Session\SaveHandler\DbTableGateway</code></li>
+<li><code>Laminas\Session\SaveHandler\DbTableGatewayOptions</code></li>
+</ul>
+<p>Version 3.0 will remove these classes without replacement - any custom code based on them will require you to implement
+replacements yourself by creating a class that implements <code>Laminas\Session\SaveHandler\SaveHandlerInterface</code>
+as per <a href="../../save-handler/">the custom save handler documentation</a>,
+with an <code>options</code> class for it if the save handler is configurable.</p>
+<h3 id="mongodb-removal"><code>MongoDB</code> Removal</h3>
+<p><code>Laminas\Session\SaveHandler\MongoDB</code> and its options class <code>Laminas\Session\SaveHandler\MongoDBOptions</code>
+are now deprecated and will be removed without replacement in version 3.0.
+As such, these classes are to be removed from your inheritance tree.
+With this step, the <code>mongodb/mongodb</code> dependency will also be removed starting from version 3.0.</p>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../../validators/writing-custom-validators/">
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Writing Custom Validators
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../../application-integration/usage-in-a-laminas-mvc-application/">
+                    <small class="page-nav__label">Next</small>
+                    Usage in a laminas-mvc application
+                    <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+                
             </div>
             <div class="col-md-3 col-sm-12 sidebar">
                 <div class="donation-banner">
@@ -236,7 +465,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../.">
+            <a href="../../..">
                 
                 
     laminas-session
@@ -251,8 +480,111 @@
 
                 
                 
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../installation/" class="subnavigation__link">Installation</a>
+    </li>
 
                     
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../config/" class="subnavigation__link">Session Config</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../container/" class="subnavigation__link">Session Container</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../manager/" class="subnavigation__link">Session Manager</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../save-handler/" class="subnavigation__link">Session Save Handlers</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../storage/" class="subnavigation__link">Session Storage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Validators</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../validators/introduction/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../validators/httpuseragent/" class="subnavigation__link">Http User Agent</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../validators/remoteaddr/" class="subnavigation__link">Remote Address</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../validators/csrf/" class="subnavigation__link">CSRF Validator</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../validators/writing-custom-validators/" class="subnavigation__link">Writing Custom Validators</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Preparing for v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Application Integration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Usage in a laminas-mvc application</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
                     
                 
             
@@ -342,13 +674,13 @@
 </footer>
 
     <script>
-        let base_url = '..',
+        let base_url = '../../..',
             project  = "components",
             siteName = 'laminas-session';
     </script>
     <script src="https://docs.laminas.dev/js/scripts.js"></script>
     
-        <script src="../search/main.js"></script>
+        <script src="../../../search/main.js"></script>
     
 
     

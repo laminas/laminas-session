@@ -15,10 +15,10 @@
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-session">
 
-    <link rel="canonical" href="https://docs.laminas.dev/laminas-session/">
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-session/v2/config/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>laminas-session - Laminas Docs</title>
+    <title>Session Config - laminas-session - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -113,7 +113,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href=".">
+            <a href="../..">
                 
                 
     laminas-session
@@ -131,37 +131,37 @@
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/installation/" class="subnavigation__link">Installation</a>
+        <a href="../installation/" class="subnavigation__link">Installation</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Session Config</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/config/" class="subnavigation__link">Session Config</a>
+        <a href="../container/" class="subnavigation__link">Session Container</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/container/" class="subnavigation__link">Session Container</a>
+        <a href="../manager/" class="subnavigation__link">Session Manager</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/manager/" class="subnavigation__link">Session Manager</a>
+        <a href="../save-handler/" class="subnavigation__link">Session Save Handlers</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/save-handler/" class="subnavigation__link">Session Save Handlers</a>
-    </li>
-
-                    
-                        
-    <li class="subnavigation__list-item ">
-        <a href="v2/storage/" class="subnavigation__link">Session Storage</a>
+        <a href="../storage/" class="subnavigation__link">Session Storage</a>
     </li>
 
                     
@@ -172,31 +172,31 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/validators/introduction/" class="subnavigation__link">Introduction</a>
+        <a href="../validators/introduction/" class="subnavigation__link">Introduction</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/validators/httpuseragent/" class="subnavigation__link">Http User Agent</a>
+        <a href="../validators/httpuseragent/" class="subnavigation__link">Http User Agent</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/validators/remoteaddr/" class="subnavigation__link">Remote Address</a>
+        <a href="../validators/remoteaddr/" class="subnavigation__link">Remote Address</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/validators/csrf/" class="subnavigation__link">CSRF Validator</a>
+        <a href="../validators/csrf/" class="subnavigation__link">CSRF Validator</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/validators/writing-custom-validators/" class="subnavigation__link">Writing Custom Validators</a>
+        <a href="../validators/writing-custom-validators/" class="subnavigation__link">Writing Custom Validators</a>
     </li>
 
             
@@ -211,7 +211,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/migration/preparing-for-v3/" class="subnavigation__link">Preparing for v3</a>
+        <a href="../migration/preparing-for-v3/" class="subnavigation__link">Preparing for v3</a>
     </li>
 
             
@@ -226,7 +226,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Usage in a laminas-mvc application</a>
+        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Usage in a laminas-mvc application</a>
     </li>
 
             
@@ -301,6 +301,32 @@
             <div class="col-md-9 col-sm-12 content" role="main">
                 
                 
+                    
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#standard-config" class="toc__link nav-link">Standard Config</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#session-config_1" class="toc__link nav-link">Session Config</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#custom-configuration" class="toc__link nav-link">Custom Configuration</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+                
 
                 
                     <nav aria-label="breadcrumb">
@@ -311,10 +337,21 @@
 
             
                 <li class="breadcrumb-item">
-                    
+                    <a href="../..">
+                        
     laminas-session
 
+                    </a>
                 </li>
+
+                
+                    
+                        
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Session Config</li>
             
         
     </ol>
@@ -324,30 +361,239 @@
 
 
 
-    <h1>
+
     
     
-    laminas-session
 
-</h1>
-<p>Object-oriented interface to PHP sessions and storage.</p>
+    <h1 id="session-config">Session Config</h1>
+<p>laminas-session comes with a standard set of config classes, allowing setting where
+a cookie lives, session lifetime, and even configuration of ext/session when
+using <code>Laminas\Session\Config\SessionConfig</code>.</p>
+<h2 id="standard-config">Standard Config</h2>
+<p><code>Laminas\Session\Config\StandardConfig</code> provides the base interface for
+configuring sessions when <em>not</em> leveraging ext/session. This is utilized more
+for specialized cases, such as when you might have session management done by
+another system, or when testing.</p>
+<h3 id="basic-configuration-options">Basic Configuration Options</h3>
+<p>The following configuration options are defined by <code>Laminas\Session\Config\StandardConfig</code>.</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cache_expire</code></td>
+<td><code>integer</code></td>
+<td>Specifies time-to-live for cached session pages in minutes.</td>
+</tr>
+<tr>
+<td><code>cookie_domain</code></td>
+<td><code>string</code></td>
+<td>Specifies the domain to set in the session cookie.</td>
+</tr>
+<tr>
+<td><code>cookie_httponly</code></td>
+<td><code>boolean</code></td>
+<td>Marks the cookie as accessible only through the HTTP protocol.</td>
+</tr>
+<tr>
+<td><code>cookie_lifetime</code></td>
+<td><code>integer</code></td>
+<td>Specifies the lifetime of the cookie in seconds which is sent to the browser.</td>
+</tr>
+<tr>
+<td><code>cookie_path</code></td>
+<td><code>string</code></td>
+<td>Specifies path to set in the session cookie.</td>
+</tr>
+<tr>
+<td><code>cookie_samesite</code></td>
+<td><code>string</code></td>
+<td>Specifies whether cookies should be sent along with cross-site requests. (Since 2.11.0)</td>
+</tr>
+<tr>
+<td><code>cookie_secure</code></td>
+<td><code>boolean</code></td>
+<td>Specifies whether cookies should only be sent over secure connections.</td>
+</tr>
+<tr>
+<td><code>entropy_length</code></td>
+<td><code>integer</code></td>
+<td>Specifies the number of bytes which will be read from the file specified in entropy_file. Removed in PHP 7.1.0.</td>
+</tr>
+<tr>
+<td><code>entropy_file</code></td>
+<td><code>string</code></td>
+<td>Defines a path to an external resource (file) which will be used as an additional entropy. Removed in PHP 7.1.0.</td>
+</tr>
+<tr>
+<td><code>gc_maxlifetime</code></td>
+<td><code>integer</code></td>
+<td>Specifies the number of seconds after which data will be seen as ‘garbage’.</td>
+</tr>
+<tr>
+<td><code>gc_divisor</code></td>
+<td><code>integer</code></td>
+<td>Defines the probability that the gc process is started on every session initialization.</td>
+</tr>
+<tr>
+<td><code>gc_probability</code></td>
+<td><code>integer</code></td>
+<td>Defines the probability that the gc process is started on every session initialization.</td>
+</tr>
+<tr>
+<td><code>hash_function</code></td>
+<td><code>integer</code></td>
+<td>Defines which built-in hash algorithm is used. Removed in PHP 7.1.0.</td>
+</tr>
+<tr>
+<td><code>hash_bits_per_character</code></td>
+<td><code>integer</code></td>
+<td>Defines how many bits are stored in each character when converting the binary hash data. Removed in PHP 7.1.0.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Specifies the name of the session which is used as cookie name.</td>
+</tr>
+<tr>
+<td><code>remember_me_seconds</code></td>
+<td><code>integer</code></td>
+<td>Specifies how long to remember the session before clearing data.</td>
+</tr>
+<tr>
+<td><code>save_path</code></td>
+<td><code>string</code></td>
+<td>Defines the argument which is passed to the save handler.</td>
+</tr>
+<tr>
+<td><code>use_cookies</code></td>
+<td><code>boolean</code></td>
+<td>Specifies whether the module will use cookies to store the session id.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="basic-usage">Basic Usage</h3>
+<pre class="highlight"><code class="language-php">use Laminas\Session\Config\StandardConfig;
+use Laminas\Session\SessionManager;
 
+$config = new StandardConfig();
+$config-&gt;setOptions([
+    'remember_me_seconds' =&gt; 1800,
+    'name'                =&gt; 'laminas',
+]);
+$manager = new SessionManager($config);</code></pre>
+<h2 id="session-config_1">Session Config</h2>
+<p><code>Laminas\Session\Config\SessionConfig</code> provides an interface for configuring
+sessions that leverage PHP's ext/session. Most configuration options configure
+either the <code>Laminas\Session\Storage</code> OR configure ext/session directly.</p>
+<h3 id="basic-configuration-options_1">Basic Configuration Options</h3>
+<p>The following configuration options are defined by <code>Laminas\Session\Config\SessionConfig</code>;
+note that it inherits all configuration from
+<code>Laminas\Session\Config\StandardConfig</code>.</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cache_limiter</code></td>
+<td><code>string</code></td>
+<td>Specifies the cache control method used for session pages.</td>
+</tr>
+<tr>
+<td><code>hash_function</code></td>
+<td><code>string</code></td>
+<td>Allows you to specify the hash algorithm used to generate the session IDs.</td>
+</tr>
+<tr>
+<td><code>php_save_handler</code></td>
+<td><code>string</code></td>
+<td>Defines the name of a PHP save_handler embedded into PHP.</td>
+</tr>
+<tr>
+<td><code>serialize_handler</code></td>
+<td><code>string</code></td>
+<td>Defines the name of the handler which is used to serialize/deserialize data.</td>
+</tr>
+<tr>
+<td><code>url_rewriter_tags</code></td>
+<td><code>string</code></td>
+<td>Specifies which HTML tags are rewritten to include session id if transparent sid enabled.</td>
+</tr>
+<tr>
+<td><code>use_trans_sid</code></td>
+<td><code>boolean</code></td>
+<td>Whether transparent sid support is enabled or not.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="basic-usage_1">Basic Usage</h3>
+<pre class="highlight"><code class="language-php">use Laminas\Session\Config\SessionConfig;
+use Laminas\Session\SessionManager;
 
-
-
-
-    <h2>Installation</h2>
-    <h3>Using Composer</h3>
-    <pre><code class="language-bash">$ composer require laminas/laminas-session</code></pre>
-
-
-<h2>Support</h2>
-<ul>
-    <li>Issues: <a href="https://github.com/laminas/laminas-session/issues">github.com/laminas/laminas-session/issues</a></li>
-    <li>Source: <a href="https://github.com/laminas/laminas-session">github.com/laminas/laminas-session</a></li>
-    <li>Chat: <a href="https://laminas.dev/chat">laminas.dev/chat</a></li>
-    <li>Forum: <a href="https://discourse.laminas.dev/">discourse.laminas.dev</a></li>
-</ul>
+$config = new SessionConfig();
+$config-&gt;setOptions([
+    'phpSaveHandler' =&gt; 'redis',
+    'savePath' =&gt; 'tcp://127.0.0.1:6379?weight=1&amp;timeout=1',
+]);
+$manager = new SessionManager($config);</code></pre>
+<h3 id="service-manager-factory">Service Manager Factory</h3>
+<p>laminas-session ships with a <a href="https://docs.laminas.dev/laminas-servicemanager/">laminas-servicemanager</a>
+factory which reads configuration data from the application configuration and
+injects a corresponding instance of <code>Laminas\Session\Config\SessionConfig</code> into the
+session manager automatically.</p>
+<p>To use this factory, you first need to register it with the service manager by adding the
+appropriate factory definition:</p>
+<pre class="highlight"><code class="language-php">'service_manager' =&gt; [
+    'factories' =&gt; [
+        'Laminas\Session\Config\ConfigInterface' =&gt; 'Laminas\Session\Service\SessionConfigFactory',
+    ],
+],</code></pre>
+<blockquote>
+<h4 id="automated-factory-registration">Automated factory registration</h4>
+<p>Starting with laminas-mvc v3, if you are using the <a href="https://docs.laminas.dev/laminas-component-installer">component installer</a>
+in your application, the above registration will be made automatically for
+you when you install laminas-session.</p>
+</blockquote>
+<p>Then place your application's session configuration in the root-level
+configuration key <code>session_config</code>:</p>
+<pre class="highlight"><code class="language-php">'session_config' =&gt; [
+    'phpSaveHandler' =&gt; 'redis',
+    'savePath' =&gt; 'tcp://127.0.0.1:6379?weight=1&amp;timeout=1',
+],</code></pre>
+<p>Any of the configuration options defined for <a href="#session-config">SessionConfig</a> can be used
+there, as well as the following factory-specific configuration options:</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config_class</code></td>
+<td><code>string</code></td>
+<td>Name of the class to use as the configuration container (Defaults to <code>Laminas\Session\Config\SessionConfig</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="custom-configuration">Custom Configuration</h2>
+<p>In the event that you prefer to create your own session configuration; you
+<em>must</em> implement <code>Laminas\Session\Config\ConfigInterface</code> which contains the basic
+interface for items needed when implementing a session. This includes cookie
+configuration, lifetime, session name, save path, and an interface for getting
+and setting options.</p>
 
 
 
@@ -358,14 +604,20 @@
         
         <li class="page-nav__item">
             
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../installation/">
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Installation
+                </a>
+            
         </li>
 
         
         <li class="page-nav__item">
             
-                <a rel="next" class="page-nav__link page-nav__link--next" href="v2/installation/">
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../container/">
                     <small class="page-nav__label">Next</small>
-                    Installation
+                    Session Container
                     <i class="fa fa-chevron-right"></i>
                 </a>
             
@@ -398,7 +650,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href=".">
+            <a href="../..">
                 
                 
     laminas-session
@@ -416,37 +668,37 @@
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/installation/" class="subnavigation__link">Installation</a>
+        <a href="../installation/" class="subnavigation__link">Installation</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Session Config</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/config/" class="subnavigation__link">Session Config</a>
+        <a href="../container/" class="subnavigation__link">Session Container</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/container/" class="subnavigation__link">Session Container</a>
+        <a href="../manager/" class="subnavigation__link">Session Manager</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/manager/" class="subnavigation__link">Session Manager</a>
+        <a href="../save-handler/" class="subnavigation__link">Session Save Handlers</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/save-handler/" class="subnavigation__link">Session Save Handlers</a>
-    </li>
-
-                    
-                        
-    <li class="subnavigation__list-item ">
-        <a href="v2/storage/" class="subnavigation__link">Session Storage</a>
+        <a href="../storage/" class="subnavigation__link">Session Storage</a>
     </li>
 
                     
@@ -457,31 +709,31 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/validators/introduction/" class="subnavigation__link">Introduction</a>
+        <a href="../validators/introduction/" class="subnavigation__link">Introduction</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/validators/httpuseragent/" class="subnavigation__link">Http User Agent</a>
+        <a href="../validators/httpuseragent/" class="subnavigation__link">Http User Agent</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/validators/remoteaddr/" class="subnavigation__link">Remote Address</a>
+        <a href="../validators/remoteaddr/" class="subnavigation__link">Remote Address</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/validators/csrf/" class="subnavigation__link">CSRF Validator</a>
+        <a href="../validators/csrf/" class="subnavigation__link">CSRF Validator</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/validators/writing-custom-validators/" class="subnavigation__link">Writing Custom Validators</a>
+        <a href="../validators/writing-custom-validators/" class="subnavigation__link">Writing Custom Validators</a>
     </li>
 
             
@@ -496,7 +748,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/migration/preparing-for-v3/" class="subnavigation__link">Preparing for v3</a>
+        <a href="../migration/preparing-for-v3/" class="subnavigation__link">Preparing for v3</a>
     </li>
 
             
@@ -511,7 +763,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Usage in a laminas-mvc application</a>
+        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Usage in a laminas-mvc application</a>
     </li>
 
             
@@ -607,13 +859,13 @@
 </footer>
 
     <script>
-        let base_url = '.',
+        let base_url = '../..',
             project  = "components",
             siteName = 'laminas-session';
     </script>
     <script src="https://docs.laminas.dev/js/scripts.js"></script>
     
-        <script src="search/main.js"></script>
+        <script src="../../search/main.js"></script>
     
 
     
@@ -642,8 +894,3 @@
 
 
 </html>
-
-<!--
-MkDocs version : 1.6.1
-Build Date UTC : 2025-10-01 09:36:19.405104+00:00
--->
