@@ -24,6 +24,7 @@ use function strtr;
  *     session?: Container,
  *     timeout?: ?int,
  * }
+ * @final
  */
 final class Csrf extends AbstractValidator
 {
@@ -105,6 +106,8 @@ final class Csrf extends AbstractValidator
     /**
      * Set CSRF name
      *
+     * @deprecated This method will be removed in version 3.0
+     *
      * @param non-empty-string $name
      */
     public function setName(string $name): void
@@ -115,6 +118,8 @@ final class Csrf extends AbstractValidator
     /**
      * Get CSRF name
      *
+     * @deprecated This method will be removed in version 3.0
+     *
      * @return non-empty-string
      */
     public function getName(): string
@@ -124,6 +129,8 @@ final class Csrf extends AbstractValidator
 
     /**
      * Set session container
+     *
+     * @deprecated This method will be removed in version 3.0
      */
     public function setSession(Container $session): void
     {
@@ -137,6 +144,8 @@ final class Csrf extends AbstractValidator
      * Get session container
      *
      * Instantiate session container if none currently exists
+     *
+     * @deprecated This method will be removed in version 3.0
      */
     public function getSession(): Container
     {
@@ -149,6 +158,8 @@ final class Csrf extends AbstractValidator
     /**
      * Salt for CSRF token
      *
+     * @deprecated This method will be removed in version 3.0
+     *
      * @param non-empty-string $salt
      */
     public function setSalt(string $salt): void
@@ -158,6 +169,8 @@ final class Csrf extends AbstractValidator
 
     /**
      * Retrieve salt for CSRF token
+     *
+     * @deprecated This method will be removed in version 3.0
      *
      * @return non-empty-string
      */
@@ -171,6 +184,8 @@ final class Csrf extends AbstractValidator
      *
      * If no CSRF token currently exists, or should be regenerated,
      * generates one.
+     *
+     * @deprecated This method will be removed in version 3.0
      */
     public function getHash(bool $regenerate = false): string
     {
@@ -197,6 +212,8 @@ final class Csrf extends AbstractValidator
 
     /**
      * Set timeout for CSRF session token
+     *
+     * @deprecated This method will be removed in version 3.0
      */
     public function setTimeout(int|null $ttl): void
     {
@@ -205,6 +222,8 @@ final class Csrf extends AbstractValidator
 
     /**
      * Get CSRF session token timeout
+     *
+     * @deprecated This method will be removed in version 3.0
      */
     public function getTimeout(): int|null
     {

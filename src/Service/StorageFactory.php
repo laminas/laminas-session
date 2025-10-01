@@ -15,6 +15,9 @@ use Laminas\Session\Storage\StorageInterface;
 use function is_array;
 use function sprintf;
 
+/**
+ * @final
+ */
 class StorageFactory implements FactoryInterface
 {
     /**

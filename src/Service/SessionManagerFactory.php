@@ -22,6 +22,9 @@ use function is_array;
 use function is_subclass_of;
 use function sprintf;
 
+/**
+ * @final
+ */
 class SessionManagerFactory implements FactoryInterface
 {
     /**

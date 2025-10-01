@@ -18,6 +18,9 @@ use function get_debug_type;
 use function is_array;
 use function sprintf;
 
+/**
+ * @final
+ */
 class SessionConfigFactory implements FactoryInterface
 {
     /**

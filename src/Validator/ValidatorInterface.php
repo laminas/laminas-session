@@ -19,6 +19,8 @@ interface ValidatorInterface
     /**
      * Get data from validator to be used for validation comparisons
      *
+     * @deprecated This method will be removed in version 3.0
+     *
      * @return mixed
      */
     public function getData();

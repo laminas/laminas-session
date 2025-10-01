@@ -5,10 +5,15 @@ namespace Laminas\Session\Validator;
 use Laminas\Http\PhpEnvironment\RemoteAddress;
 use Laminas\Session\Validator\ValidatorInterface as SessionValidator;
 
+/**
+ * @final
+ */
 class RemoteAddr implements SessionValidator
 {
     /**
      * Internal data.
+     *
+     * @deprecated This property will be removed in version 3.0
      *
      * @var string
      */
@@ -126,6 +131,8 @@ class RemoteAddr implements SessionValidator
 
     /**
      * Retrieve token for validating call
+     *
+     * @deprecated This method will be removed in version 3.0
      *
      * @return string
      */

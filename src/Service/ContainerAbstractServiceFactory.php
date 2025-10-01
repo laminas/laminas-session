@@ -36,6 +36,8 @@ use function strtolower;
  * <code>
  * $container = $services->get('MySessionContainer');
  * </code>
+ *
+ * @final
  */
 class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 {
