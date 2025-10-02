@@ -6,18 +6,21 @@ namespace LaminasTest\Session\TestAsset;
 
 use Laminas\Session\Validator\EnvironmentInterface;
 
+use function assert;
 use function is_string;
+use function serialize;
 use function session_id;
+use function unserialize;
 
 class TestCustomEnvironment implements EnvironmentInterface
 {
     public function __construct(
-        public readonly ?string $userAgent = null,
-        public readonly ?string $remoteAddr = null,
-        public readonly ?string $forwardedFor = null,
-        public readonly ?string $sessionId = null,
-        public readonly string $firstCustomProperty = 'fistCustomValue',
-        public readonly string $secondCustomProperty = 'secondCustomValue',
+        private readonly ?string $userAgent = null,
+        private readonly ?string $remoteAddr = null,
+        private readonly ?string $forwardedFor = null,
+        private readonly ?string $sessionId = null,
+        private readonly string $firstCustomProperty = 'fistCustomValue',
+        private readonly string $secondCustomProperty = 'secondCustomValue',
     ) {
     }
 
@@ -78,5 +81,46 @@ class TestCustomEnvironment implements EnvironmentInterface
     public function getSecondCustomProperty(): string
     {
         return $this->secondCustomProperty;
+    }
+
+    public function serialize(): string
+    {
+        return serialize($this->__serialize());
+    }
+
+    public function unserialize(string $data): TestCustomEnvironment
+    {
+        $environment = unserialize($data);
+        assert($environment instanceof TestCustomEnvironment);
+        return $environment;
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            'userAgent'            => $this->getUserAgent(),
+            'remoteAddr'           => $this->getRemoteAddr(),
+            'forwardedFor'         => $this->getForwardedFor(),
+            'sessionId'            => $this->getSessionId(),
+            'firstCustomProperty'  => $this->getFirstCustomProperty(),
+            'secondCustomProperty' => $this->getSecondCustomProperty(),
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        assert(is_string($data['userAgent']) || $data['userAgent'] === null);
+        assert(is_string($data['remoteAddr']) || $data['remoteAddr'] === null);
+        assert(is_string($data['forwardedFor']) || $data['forwardedFor'] === null);
+        assert(is_string($data['sessionId']) || $data['sessionId'] === null);
+        assert(is_string($data['firstCustomProperty']));
+        assert(is_string($data['secondCustomProperty']));
+
+        $this->userAgent            = $data['userAgent'];
+        $this->remoteAddr           = $data['remoteAddr'];
+        $this->forwardedFor         = $data['forwardedFor'];
+        $this->sessionId            = $data['sessionId'];
+        $this->firstCustomProperty  = $data['firstCustomProperty'];
+        $this->secondCustomProperty = $data['secondCustomProperty'];
     }
 }

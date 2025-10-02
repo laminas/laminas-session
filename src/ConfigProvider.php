@@ -6,8 +6,8 @@ namespace Laminas\Session;
 
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\ServiceManager\ServiceManager;
-use Laminas\Session\Service\EnvironmentFactory;
 use Laminas\Session\Service\EnvironmentFactoryInterface;
+use Laminas\Session\Service\GlobalEnvironmentFactory;
 
 /** @psalm-import-type ServiceManagerConfiguration from ServiceManager */
 final class ConfigProvider
@@ -38,7 +38,7 @@ final class ConfigProvider
             ],
             'aliases'            => [
                 SessionManager::class              => ManagerInterface::class,
-                EnvironmentFactoryInterface::class => EnvironmentFactory::class,
+                EnvironmentFactoryInterface::class => GlobalEnvironmentFactory::class,
 
                 // Legacy Zend Framework aliases
                 'Zend\Session\SessionManager'           => SessionManager::class,
@@ -50,7 +50,7 @@ final class ConfigProvider
                 Config\ConfigInterface::class   => Service\SessionConfigFactory::class,
                 ManagerInterface::class         => Service\SessionManagerFactory::class,
                 Storage\StorageInterface::class => Service\StorageFactory::class,
-                EnvironmentFactory::class       => InvokableFactory::class,
+                GlobalEnvironmentFactory::class => InvokableFactory::class,
             ],
         ];
     }

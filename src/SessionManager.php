@@ -6,8 +6,8 @@ namespace Laminas\Session;
 
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerInterface;
-use Laminas\Session\Service\EnvironmentFactory;
 use Laminas\Session\Service\EnvironmentFactoryInterface;
+use Laminas\Session\Service\GlobalEnvironmentFactory;
 use Laminas\Session\Validator\EnvironmentInterface;
 use Laminas\Session\Validator\ValidatorInterface;
 use Traversable;
@@ -84,7 +84,7 @@ final class SessionManager extends AbstractManager
         $this->preserveStorage    = $options['preserve_storage'] ?? false;
         $this->sendExpireCookie   = $options['send_expire_cookie'] ?? true;
         $this->clearStorage       = $options['clear_storage'] ?? false;
-        $this->environmentFactory = $environmentFactory ?? new EnvironmentFactory();
+        $this->environmentFactory = $environmentFactory ?? new GlobalEnvironmentFactory();
 
         if ($options['attach_default_validators'] ?? true) {
             $validators = array_merge($this->defaultValidators, $validators);

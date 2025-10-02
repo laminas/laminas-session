@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Laminas\Session\Validator;
 
-interface EnvironmentInterface
+use Serializable;
+
+interface EnvironmentInterface extends Serializable
 {
     public function getUserAgent(): ?string;
 
