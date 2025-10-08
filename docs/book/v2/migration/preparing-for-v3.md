@@ -17,7 +17,7 @@ In preparation for this change, make sure any of your classes extending them are
 
 ### Invokable Factory Classes
 
-Due to the upcomming update to `laminas/laminas-servicemanager 4` in version 3.0, all factory classes implementing `Laminas\ServiceManager\Factory\FactoryInterface` will be forced to be invokable classes:
+Due to the upcoming update to `laminas/laminas-servicemanager 4` in version 3.0, all factory classes implementing `Laminas\ServiceManager\Factory\FactoryInterface` will be forced to be invokable classes:
 
 - `ContainerAbstractServiceFactory`
 - `SessionConfigFactory`
