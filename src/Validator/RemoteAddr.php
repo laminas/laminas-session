@@ -16,7 +16,6 @@ use function in_array;
  * @psalm-type OptionsArgument = array{
  * use_proxy?: bool,
  * trusted_proxies?: array<string>,
- * proxy_header?: non-empty-string,
  * }
  */
 final class RemoteAddr implements SessionValidator
@@ -31,16 +30,16 @@ final class RemoteAddr implements SessionValidator
      * @param OptionsArgument $options
      */
     public function __construct(
-        public readonly Environment $initial,
-        public readonly Environment $current,
+        public readonly EnvironmentInterface $initial,
+        public readonly EnvironmentInterface $current,
         array $options = []
     ) {
         if (isset($options['use_proxy']) && $options['use_proxy'] === true) {
             $this->initialData = $this->getIpAddress($this->initial, $options);
             $this->currentData = $this->getIpAddress($this->current, $options);
         } else {
-            $this->initialData = $this->initial->remoteAddr;
-            $this->currentData = $this->current->remoteAddr;
+            $this->initialData = $this->initial->getRemoteAddr();
+            $this->currentData = $this->current->getRemoteAddr();
         }
     }
 
@@ -58,7 +57,7 @@ final class RemoteAddr implements SessionValidator
      *
      * @param OptionsArgument $options
      */
-    public static function getIpAddress(Environment $initial, array $options = []): ?string
+    public static function getIpAddress(EnvironmentInterface $initial, array $options = []): ?string
     {
         $ip = self::getIpAddressFromProxy($initial, $options);
 
@@ -66,8 +65,8 @@ final class RemoteAddr implements SessionValidator
             return $ip;
         }
 
-        if ($initial->remoteAddr !== null) {
-            return $initial->remoteAddr;
+        if ($initial->getRemoteAddr() !== null) {
+            return $initial->getRemoteAddr();
         }
 
         return null;
@@ -80,18 +79,18 @@ final class RemoteAddr implements SessionValidator
      *
      * @param OptionsArgument $options
      */
-    private static function getIpAddressFromProxy(Environment $initial, array $options = []): string|false
+    private static function getIpAddressFromProxy(EnvironmentInterface $initial, array $options = []): string|false
     {
         $trustedProxies = $options['trusted_proxies'] ?? [];
 
         if (
             ! (isset($options['use_proxy']) && $options['use_proxy'])
-            || ($initial->remoteAddr !== null && ! in_array($initial->remoteAddr, $trustedProxies))
+            || ($initial->getRemoteAddr() !== null && ! in_array($initial->getRemoteAddr(), $trustedProxies))
         ) {
             return false;
         }
 
-        $proxyHeader = $initial->forwardedFor;
+        $proxyHeader = $initial->getForwardedFor();
 
         if ($proxyHeader === null || $proxyHeader === '') {
             return false;

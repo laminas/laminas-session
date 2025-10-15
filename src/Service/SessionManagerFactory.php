@@ -63,12 +63,13 @@ final class SessionManagerFactory implements FactoryInterface
         string $requestedName,
         ?array $options = null
     ): ManagerInterface {
-        $config        = null;
-        $storage       = null;
-        $saveHandler   = null;
-        $validators    = [];
-        $managerConfig = $this->defaultManagerConfig;
-        $options       = [];
+        $environmentFactory = null;
+        $config             = null;
+        $storage            = null;
+        $saveHandler        = null;
+        $validators         = [];
+        $managerConfig      = $this->defaultManagerConfig;
+        $options            = [];
 
         if ($container->has(ConfigInterface::class)) {
             $config = $container->get(ConfigInterface::class);
@@ -124,6 +125,19 @@ final class SessionManagerFactory implements FactoryInterface
                 $options = $managerConfig['options'];
             }
         }
+
+        if ($container->has(EnvironmentFactoryInterface::class)) {
+            $environmentFactory = $container->get(EnvironmentFactoryInterface::class);
+            if (! $environmentFactory instanceof EnvironmentFactoryInterface) {
+                throw new ServiceNotCreatedException(sprintf(
+                    'SessionManager requires that the %s service implement %s; received "%s"',
+                    EnvironmentFactoryInterface::class,
+                    EnvironmentFactoryInterface::class,
+                    get_debug_type($environmentFactory)
+                ));
+            }
+        }
+
         $managerClass = class_exists($requestedName) ? $requestedName : SessionManager::class;
         if (! is_subclass_of($managerClass, ManagerInterface::class)) {
             throw new ServiceNotCreatedException(sprintf(
@@ -133,7 +147,7 @@ final class SessionManagerFactory implements FactoryInterface
             ));
         }
 
-        $manager = new $managerClass($config, $storage, $saveHandler, $validators, $options);
+        $manager = new $managerClass($config, $storage, $saveHandler, $validators, $options, $environmentFactory);
 
         // If configuration enables the session manager as the default manager for container
         // instances, do so.

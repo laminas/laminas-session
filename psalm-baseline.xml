@@ -210,6 +210,7 @@
     <MixedAssignment>
       <code><![CDATA[$config]]></code>
       <code><![CDATA[$configService]]></code>
+      <code><![CDATA[$environmentFactory]]></code>
       <code><![CDATA[$options]]></code>
       <code><![CDATA[$saveHandler]]></code>
       <code><![CDATA[$storage]]></code>
@@ -250,6 +251,9 @@
     <TypeDoesNotContainType>
       <code><![CDATA[$oldSessionData instanceof Traversable]]></code>
     </TypeDoesNotContainType>
+    <UnusedProperty>
+      <code><![CDATA[$defaultValidators]]></code>
+    </UnusedProperty>
     <UnusedReturnValue>
       <code><![CDATA[bool]]></code>
     </UnusedReturnValue>
@@ -663,6 +667,8 @@
       <code><![CDATA[$_SESSION[$key]]]></code>
       <code><![CDATA[$_SESSION[$key]]]></code>
       <code><![CDATA[$_SESSION['__Laminas']['_VALID']]]></code>
+      <code><![CDATA[$_SESSION['__Laminas']['_VALID']]]></code>
+      <code><![CDATA[$_SESSION['__Laminas']['environment']]]></code>
       <code><![CDATA[$_SESSION['__Laminas']['environment']]]></code>
     </MixedArrayAccess>
     <MixedAssignment>

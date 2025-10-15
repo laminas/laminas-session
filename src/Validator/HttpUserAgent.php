@@ -11,8 +11,8 @@ final class HttpUserAgent implements ValidatorInterface
      * get the current user agent and store it in the session as 'valid data'
      */
     public function __construct(
-        public readonly Environment $initial,
-        public readonly Environment $current,
+        public readonly EnvironmentInterface $initial,
+        public readonly EnvironmentInterface $current,
         array $option = []
     ) {
     }
@@ -23,7 +23,7 @@ final class HttpUserAgent implements ValidatorInterface
      */
     public function isValid(): bool
     {
-        return $this->initial->userAgent === $this->current->userAgent;
+        return $this->initial->getUserAgent() === $this->current->getUserAgent();
     }
 
     /**

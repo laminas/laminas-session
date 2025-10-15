@@ -6,7 +6,9 @@ namespace Laminas\Session;
 
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerInterface;
-use Laminas\Session\Validator\Environment;
+use Laminas\Session\Service\EnvironmentFactoryInterface;
+use Laminas\Session\Service\GlobalEnvironmentFactory;
+use Laminas\Session\Validator\EnvironmentInterface;
 use Laminas\Session\Validator\ValidatorInterface;
 use Traversable;
 
@@ -50,17 +52,19 @@ final class SessionManager extends AbstractManager
     private bool $clearStorage;
 
     /** @var list<class-string<ValidatorInterface>> $defaultValidators */
-    protected array $defaultValidators = [
+    private array $defaultValidators = [
         Validator\Id::class,
     ];
 
     /** value returned by session_name() */
-    protected string|null $name = null;
+    private string|null $name = null;
 
     /** Validation chain to determine if session is valid */
-    protected EventManagerInterface|null $validatorChain = null;
+    private EventManagerInterface|null $validatorChain = null;
 
-    protected array $options = [];
+    private array $options = [];
+
+    private EnvironmentFactoryInterface $environmentFactory;
 
     /**
      * Constructor
@@ -74,11 +78,13 @@ final class SessionManager extends AbstractManager
         ?Storage\StorageInterface $storage = null,
         ?SaveHandler\SaveHandlerInterface $saveHandler = null,
         array $validators = [],
-        array $options = []
+        array $options = [],
+        ?EnvironmentFactoryInterface $environmentFactory = null,
     ) {
-        $this->preserveStorage  = $options['preserve_storage'] ?? false;
-        $this->sendExpireCookie = $options['send_expire_cookie'] ?? true;
-        $this->clearStorage     = $options['clear_storage'] ?? false;
+        $this->preserveStorage    = $options['preserve_storage'] ?? false;
+        $this->sendExpireCookie   = $options['send_expire_cookie'] ?? true;
+        $this->clearStorage       = $options['clear_storage'] ?? false;
+        $this->environmentFactory = $environmentFactory ?? new GlobalEnvironmentFactory();
 
         if ($options['attach_default_validators'] ?? true) {
             $validators = array_merge($this->defaultValidators, $validators);
@@ -169,25 +175,27 @@ final class SessionManager extends AbstractManager
         /** @var array<string, mixed> $storage */
         $storage = $this->getStorage()->getMetadata();
 
+        if (isset($storage['environment'])) {
+            assert(is_string($storage['environment']));
+            /** @var EnvironmentInterface $initialEnvironment */
+            $initialEnvironment = unserialize($storage['environment']);
+        } else {
+            $initialEnvironment = $this->environmentFactory->getEnvironment();
+            $this->getStorage()->setMetadata('environment', serialize($initialEnvironment));
+        }
+
         foreach ($this->validators as $validatorName) {
             $validatorValues = $this->getStorage()->getMetadata('_VALID');
             if (is_array($validatorValues) && array_key_exists($validatorName, $validatorValues)) {
                 continue;
             }
 
-            if (isset($storage['environment'])) {
-                assert(is_string($storage['environment']));
-                /** @var Environment $initialEnvironment */
-                $initialEnvironment = unserialize($storage['environment']);
-            } else {
-                $initialEnvironment = Environment::fromGlobals($_SERVER);
-                $this->getStorage()->setMetadata('environment', serialize($initialEnvironment));
-            }
-
-            $currentEnvironment = Environment::fromGlobals($_SERVER);
-
             $validatorChain = $this->getValidatorChain();
-            $validator      = new $validatorName($initialEnvironment, $currentEnvironment, $this->options);
+            $validator      = new $validatorName(
+                $initialEnvironment,
+                $this->environmentFactory->getEnvironment(),
+                $this->options
+            );
 
             $validatorChain->attach('session.validate', [$validator, 'isValid']);
         }
