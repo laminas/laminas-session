@@ -57,8 +57,12 @@ class IdTest extends TestCase
     #[IgnoreDeprecations]
     #[DataProvider('id')]
     #[RunInSeparateProcess]
-    public function testIsValidPhpWithCustomEnvironment(int $bitsPerCharacter, string $id, bool $isValid): void
-    {
+    public function testIsValidPhpWithCustomEnvironment(
+        int $bitsPerCharacter,
+        string $id,
+        bool $isValidPhpPre84,
+        bool $isValidPhp84
+    ): void {
         ini_set('session.sid_bits_per_character', $bitsPerCharacter);
 
         $validator = new Id(
@@ -69,7 +73,11 @@ class IdTest extends TestCase
                 secondCustomProperty: 'secondCustomValue'
             )
         );
-        self::assertSame($isValid, $validator->isValid());
+        if (PHP_VERSION_ID >= 80400) {
+            self::assertSame($isValidPhp84, $validator->isValid());
+        } else {
+            self::assertSame($isValidPhpPre84, $validator->isValid());
+        }
     }
 
     /**
