@@ -6,6 +6,7 @@ use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Exception;
 use Laminas\Session\Exception\InvalidArgumentException;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
@@ -18,10 +19,10 @@ use function ini_get;
 use function session_start;
 use function var_export;
 
-/**
- * @runTestsInSeparateProcesses
- * @covers \Laminas\Session\Config\SessionConfig
- */
+use const E_USER_DEPRECATED;
+
+#[RunTestsInSeparateProcesses]
+#[CoversClass(SessionConfig::class)]
 class SessionConfigTest extends TestCase
 {
     protected SessionConfig|null $config = null;
@@ -542,18 +543,14 @@ class SessionConfigTest extends TestCase
         self::assertSame(ini_get('session.cache_limiter'), $this->config->getCacheLimiter());
     }
 
-    /**
-     * @dataProvider cacheLimiters
-     */
+    #[DataProvider('cacheLimiters')]
     public function testCacheLimiterIsMutable(string $cacheLimiter): void
     {
         $this->config->setCacheLimiter($cacheLimiter);
         self::assertEquals($cacheLimiter, $this->config->getCacheLimiter());
     }
 
-    /**
-     * @dataProvider cacheLimiters
-     */
+    #[DataProvider('cacheLimiters')]
     public function testCacheLimiterAltersIniSetting(string $cacheLimiter): void
     {
         $this->config->setCacheLimiter($cacheLimiter);

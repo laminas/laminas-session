@@ -9,6 +9,7 @@ use Laminas\Session\Container;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Validator\Csrf;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 
@@ -310,7 +311,7 @@ class CsrfTest extends TestCase
         ];
     }
 
-    /** @dataProvider fakeValuesDataProvider */
+    #[DataProvider('fakeValuesDataProvider')]
     public function testWithFakeValues(string $value): void
     {
         $validator = new Csrf();

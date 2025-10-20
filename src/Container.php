@@ -14,7 +14,7 @@ namespace Laminas\Session;
  * @template TValue
  * @template-extends AbstractContainer<TKey, TValue>
  */
-class Container extends AbstractContainer
+final class Container extends AbstractContainer
 {
     /**
      * Retrieve a specific key in the container

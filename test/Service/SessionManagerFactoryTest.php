@@ -19,14 +19,13 @@ use Laminas\Session\Validator;
 use LaminasTest\Session\ReflectionPropertyTrait;
 use LaminasTest\Session\TestAsset\TestManager;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 use function iterator_to_array;
 
-/**
- * @covers \Laminas\Session\Service\SessionManagerFactory
- */
+#[CoversClass(SessionManagerFactory::class)]
 class SessionManagerFactoryTest extends TestCase
 {
     use EventListenerIntrospectionTrait;

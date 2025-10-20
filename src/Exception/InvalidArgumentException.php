@@ -2,7 +2,7 @@
 
 namespace Laminas\Session\Exception;
 
-class InvalidArgumentException extends \InvalidArgumentException implements
+final class InvalidArgumentException extends \InvalidArgumentException implements
     ExceptionInterface
 {
 }

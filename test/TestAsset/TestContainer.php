@@ -11,7 +11,7 @@ use Laminas\Session\AbstractContainer;
  * @template TValue
  * @template-extends AbstractContainer<TKey, TValue>
  */
-class TestContainer extends AbstractContainer
+final class TestContainer extends AbstractContainer
 {
     // do nothing
 }

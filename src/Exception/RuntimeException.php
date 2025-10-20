@@ -2,6 +2,6 @@
 
 namespace Laminas\Session\Exception;
 
-class RuntimeException extends \RuntimeException implements ExceptionInterface
+final class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
 }

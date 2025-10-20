@@ -17,10 +17,8 @@ use function microtime;
 use function sleep;
 use function time;
 
-/**
- * @covers \Laminas\Session\Container
- * @covers \Laminas\Session\AbstractContainer
- */
+#[CoversClass(Container::class)]
+#[CoversClass(AbstractContainer::class)]
 class ContainerTest extends TestCase
 {
     /**
@@ -379,10 +377,10 @@ class ContainerTest extends TestCase
         $storage = $this->manager->getStorage();
         $ts      = $storage->getRequestAccessTime();
 
-        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 60);
+        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 60.0);
         self::assertEquals('bar', $this->container->foo);
 
-        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 120);
+        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 120.0);
         self::assertNull($this->container->foo);
     }
 
@@ -405,11 +403,11 @@ class ContainerTest extends TestCase
         $storage = $this->manager->getStorage();
         $ts      = $storage->getRequestAccessTime();
 
-        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 60);
+        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 60.0);
         self::assertEquals('bar', $this->container->foo);
         self::assertEquals('baz', $this->container->bar);
 
-        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 120);
+        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 120.0);
         self::assertNull($this->container->foo);
         self::assertEquals('baz', $this->container->bar);
     }
@@ -437,12 +435,12 @@ class ContainerTest extends TestCase
         $storage = $this->manager->getStorage();
         $ts      = $storage->getRequestAccessTime();
 
-        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 60);
+        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 60.0);
         self::assertEquals('bar', $this->container->foo);
         self::assertEquals('baz', $this->container->bar);
         self::assertEquals('bat', $this->container->baz);
 
-        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 120);
+        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 120.0);
         self::assertNull($this->container->foo);
         self::assertEquals('baz', $this->container->bar);
         self::assertNull($this->container->baz);
@@ -476,7 +474,7 @@ class ContainerTest extends TestCase
         $ts      = $storage->getRequestAccessTime();
 
         // First hop
-        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 60);
+        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 60.0);
         $expected = [
             'foo' => 'bar',
             'bar' => 'baz',
@@ -489,7 +487,7 @@ class ContainerTest extends TestCase
         self::assertSame($expected, $test);
 
         // Second hop
-        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 120);
+        $storage->setMetadata('_REQUEST_ACCESS_TIME', $ts + 120.0);
         $expected = ['bar' => 'baz'];
         $test     = [];
         foreach ($this->container as $key => $value) {

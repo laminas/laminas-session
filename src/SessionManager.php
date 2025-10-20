@@ -301,7 +301,10 @@ class SessionManager extends AbstractManager
             // validation routine; additionally, calling setName() after
             // session_start() can lead to issues, and often we just need the name
             // in order to do things such as setting cookies.
-            $this->name = session_name();
+            $name = session_name();
+            assert(is_string($name));
+
+            $this->name = $name;
         }
         return $this->name;
     }
@@ -334,7 +337,9 @@ class SessionManager extends AbstractManager
      */
     public function getId()
     {
-        return session_id();
+        $ret = session_id();
+        assert(is_string($ret));
+        return $ret;
     }
 
     /**

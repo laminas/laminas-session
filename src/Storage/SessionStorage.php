@@ -17,7 +17,7 @@ use function is_object;
  * @template TValue
  * @template-extends ArrayStorage<TKey, TValue>
  */
-class SessionStorage extends ArrayStorage
+final class SessionStorage extends ArrayStorage
 {
     /**
      * Constructor

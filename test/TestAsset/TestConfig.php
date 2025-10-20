@@ -6,7 +6,7 @@ namespace LaminasTest\Session\TestAsset;
 
 use Laminas\Session\Config\ConfigInterface;
 
-class TestConfig implements ConfigInterface
+final class TestConfig implements ConfigInterface
 {
     /**
      * @param array $options

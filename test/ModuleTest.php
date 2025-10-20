@@ -7,7 +7,7 @@ namespace LaminasTest\Session;
 use Laminas\Session\Module;
 use PHPUnit\Framework\TestCase;
 
-class ModuleTest extends TestCase
+final class ModuleTest extends TestCase
 {
     public function testConfigProvidesServiceManagerConfiguration(): void
     {

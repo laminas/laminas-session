@@ -6,6 +6,7 @@ namespace LaminasTest\Session\SaveHandler;
 
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Session\SaveHandler\Cache;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 use function is_string;
@@ -19,6 +20,7 @@ use function var_export;
  *
  * @covers \Laminas\Session\SaveHandler\Cache
  */
+#[CoversClass(Cache::class)]
 class CacheTest extends TestCase
 {
     /** @var CacheAdapter */

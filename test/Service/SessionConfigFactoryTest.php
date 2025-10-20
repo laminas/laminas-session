@@ -13,6 +13,7 @@ use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\Service\SessionConfigFactory;
 use LaminasTest\Session\TestAsset\TestConfig;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
@@ -24,9 +25,7 @@ use function session_write_close;
 
 use const PHP_SESSION_ACTIVE;
 
-/**
- * @covers \Laminas\Session\Service\SessionConfigFactory
- */
+#[CoversClass(SessionConfigFactory::class)]
 class SessionConfigFactoryTest extends TestCase
 {
     private ServiceManager $services;

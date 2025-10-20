@@ -5,14 +5,11 @@
         bootstrap="./vendor/autoload.php"
         colors="true"
         cacheDirectory=".phpunit.cache"
-        failOnDeprecation="true"
+        displayDetailsOnAllIssues="true"
         failOnNotice="true"
         failOnWarning="true"
         failOnPhpunitDeprecation="true"
-        displayDetailsOnPhpunitDeprecations="true"
-        displayDetailsOnTestsThatTriggerDeprecations="true"
-        displayDetailsOnTestsThatTriggerNotices="true"
-        displayDetailsOnTestsThatTriggerWarnings="true">
+>
   <testsuites>
     <testsuite name="laminas-session Test Suite">
       <directory>./test/</directory>
@@ -38,7 +35,7 @@
     <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB" value="false"/>
     <env name="TESTS_LAMINAS_SESSION_ADAPTER_DRIVER_MONGODB_CONNECTION_STRING" value="mongodb://localhost/"/>
   </php>
-  <source>
+  <source ignoreIndirectDeprecations="true">
     <include>
       <directory suffix=".php">./src</directory>
     </include>

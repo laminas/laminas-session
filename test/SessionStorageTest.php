@@ -6,14 +6,13 @@ namespace LaminasTest\Session;
 
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\SessionStorage;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 use function var_export;
 
-/**
- * @covers \Laminas\Session\Storage\SessionStorage
- */
-class SessionStorageTest extends TestCase
+#[CoversClass(SessionStorage::class)]
+final class SessionStorageTest extends TestCase
 {
     /** @var SessionStorage<string, mixed> */
     private SessionStorage $storage;

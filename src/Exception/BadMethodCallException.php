@@ -2,7 +2,7 @@
 
 namespace Laminas\Session\Exception;
 
-class BadMethodCallException extends \BadMethodCallException implements
+final class BadMethodCallException extends \BadMethodCallException implements
     ExceptionInterface
 {
 }

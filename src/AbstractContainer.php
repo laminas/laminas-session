@@ -141,11 +141,6 @@ abstract class AbstractContainer extends ArrayObject
     {
         if (null === $manager) {
             $manager = static::getDefaultManager();
-            if (! $manager instanceof Manager) {
-                throw new Exception\InvalidArgumentException(
-                    'Manager provided is invalid; must implement ManagerInterface'
-                );
-            }
         }
         $this->manager = $manager;
 
@@ -441,8 +436,9 @@ abstract class AbstractContainer extends ArrayObject
         }
         $storage = $this->getStorage();
         $name    = $this->getName();
+        $ret     = &$storage[$name][$key];
 
-        return $storage[$name][$key];
+        return $ret;
     }
 
     /**
