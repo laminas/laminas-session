@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session;
 
 use Laminas\EventManager\Event;
@@ -9,8 +11,6 @@ use Traversable;
 
 use function array_key_exists;
 use function array_merge;
-use function constant;
-use function defined;
 use function headers_sent;
 use function is_array;
 use function iterator_to_array;
@@ -35,6 +35,20 @@ use const PHP_SESSION_ACTIVE;
  */
 class SessionManager extends AbstractManager
 {
+    /**
+     * Tracks whether a session has been started in this request
+     *
+     * @var bool
+     */
+    private static $sessionStarted = false;
+
+    /**
+     * Tracks the last session ID set via setId() that hasn't been started yet
+     *
+     * @var string|null
+     */
+    private static $pendingSessionId;
+
     /**
      * Default options when a call to {@link destroy()} is made
      * - send_expire_cookie: whether or not to send a cookie expiring the current session cookie
@@ -97,20 +111,40 @@ class SessionManager extends AbstractManager
      */
     public function sessionExists()
     {
+        // Check if session is currently active
         if (session_status() === PHP_SESSION_ACTIVE) {
+            self::$sessionStarted   = true;
+            self::$pendingSessionId = null; // Clear pending ID when session becomes active
             return true;
         }
 
-        /**
-         * @var string|false $sid
-         */
-        $sid = defined('SID') ? constant('SID') : false;
-
-        if ($sid !== false && $this->getId()) {
+        // If we previously detected an active session, it may have been closed with session_write_close()
+        // In this case, the session still logically exists even though it's no longer active
+        if (self::$sessionStarted) {
             return true;
         }
 
-        if (headers_sent()) {
+        $currentSessionId = session_id();
+
+        // If we have a session ID that we set via setId() but haven't started yet, session doesn't exist
+        if ($currentSessionId !== '' && $currentSessionId === self::$pendingSessionId) {
+            return false;
+        }
+
+        // Check if session was started externally (not through this manager)
+        // After session_write_close(), session_id() is set and $_SESSION exists as an array
+        // but session_status() returns PHP_SESSION_NONE
+        if ($currentSessionId !== '' && is_array($_SESSION)) {
+            self::$sessionStarted   = true;
+            self::$pendingSessionId = null;
+            return true;
+        }
+
+        // Check for session auto-started before our code ran
+        // If headers are sent and there's a session ID, a session may have been auto-started
+        if (headers_sent() && $currentSessionId !== '') {
+            self::$sessionStarted   = true;
+            self::$pendingSessionId = null;
             return true;
         }
 
@@ -220,6 +254,8 @@ class SessionManager extends AbstractManager
         }
 
         session_destroy();
+        self::$sessionStarted = false; // Reset flag after destroying session
+
         if (! headers_sent() && $options['send_expire_cookie']) {
             $this->expireSessionCookie();
         }
@@ -322,6 +358,7 @@ class SessionManager extends AbstractManager
             );
         }
         session_id($id);
+        self::$pendingSessionId = $id; // Track that we set an ID but haven't started the session yet
         return $this;
     }
 
