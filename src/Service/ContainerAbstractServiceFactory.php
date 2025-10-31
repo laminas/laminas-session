@@ -7,6 +7,7 @@ namespace Laminas\Session\Service;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface;
+use Override;
 use Psr\Container\ContainerInterface;
 
 use function array_change_key_case;
@@ -43,7 +44,7 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Cached container configuration
      *
-     * @var array
+     * @var array<string, mixed>|null
      */
     protected $config;
 
@@ -54,12 +55,13 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
      */
     protected $configKey = 'session_containers';
 
-    /** @var ManagerInterface */
+    /** @var ManagerInterface|null */
     protected $sessionManager;
 
     /**
      * Can we create an instance of the given service?
      */
+    #[Override]
     public function canCreate(ContainerInterface $container, string $requestedName): bool
     {
         $config = $this->getConfig($container);
@@ -74,6 +76,7 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Create and return a named container.
      */
+    #[Override]
     public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): Container
     {
         $manager = $this->getSessionManager($container);

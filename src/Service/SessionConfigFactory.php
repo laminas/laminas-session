@@ -10,6 +10,7 @@ use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\SameSiteCookieCapableInterface;
 use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
+use Override;
 use Psr\Container\ContainerInterface;
 
 use function class_exists;
@@ -33,6 +34,7 @@ class SessionConfigFactory implements FactoryInterface
      * @throws ServiceNotCreatedException If session_config is missing, or an
      *     invalid config_class is used.
      */
+    #[Override]
     public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): mixed
     {
         $config = $container->get('config');
@@ -113,21 +115,5 @@ class SessionConfigFactory implements FactoryInterface
         $sessionConfig->setOptions($config);
 
         return $sessionConfig;
-    }
-
-    /**
-     * @deprecated This method will be removed in version 3.0
-     * Create and return a config instance (v2 usage).
-     *
-     * @param null|string $canonicalName
-     * @param string $requestedName
-     * @return ConfigInterface
-     */
-    public function createService(
-        ServiceLocatorInterface $services,
-        $canonicalName = null,
-        $requestedName = ConfigInterface::class
-    ) {
-        return $this($services, $requestedName);
     }
 }

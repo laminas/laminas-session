@@ -318,9 +318,6 @@
       <code><![CDATA[null|string]]></code>
       <code><![CDATA[string|null]]></code>
     </ImplementedReturnTypeMismatch>
-    <InvalidArgument>
-      <code><![CDATA[HostnameValidator::ALLOW_ALL]]></code>
-    </InvalidArgument>
     <InvalidArrayAccess>
       <code><![CDATA[$test[0]]]></code>
     </InvalidArrayAccess>
@@ -466,36 +463,6 @@
       <code><![CDATA[(string) $cookieSameSite]]></code>
       <code><![CDATA[(string) $name]]></code>
     </RedundantCastGivenDocblockType>
-  </file>
-  <file src="src/ConfigProvider.php">
-    <MissingDependency>
-      <code><![CDATA[Service\ContainerAbstractServiceFactory]]></code>
-      <code><![CDATA[Service\SessionConfigFactory]]></code>
-      <code><![CDATA[Service\SessionManagerFactory]]></code>
-      <code><![CDATA[Service\StorageFactory]]></code>
-    </MissingDependency>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[ServiceManagerConfiguration]]></code>
-      <code><![CDATA[[
-            'abstract_factories' => [
-                Service\ContainerAbstractServiceFactory::class,
-            ],
-            'aliases'            => [
-                SessionManager::class => ManagerInterface::class,
-
-                // Legacy Zend Framework aliases
-                'Zend\Session\SessionManager'           => SessionManager::class,
-                'Zend\Session\Config\ConfigInterface'   => Config\ConfigInterface::class,
-                'Zend\Session\ManagerInterface'         => ManagerInterface::class,
-                'Zend\Session\Storage\StorageInterface' => Storage\StorageInterface::class,
-            ],
-            'factories'          => [
-                Config\ConfigInterface::class   => Service\SessionConfigFactory::class,
-                ManagerInterface::class         => Service\SessionManagerFactory::class,
-                Storage\StorageInterface::class => Service\StorageFactory::class,
-            ],
-        ]]]></code>
-    </MixedReturnTypeCoercion>
   </file>
   <file src="src/Container.php">
     <ClassMustBeFinal>
@@ -801,86 +768,13 @@
       <code><![CDATA[(string) $nameField]]></code>
     </RedundantCastGivenDocblockType>
   </file>
-  <file src="src/Service/ContainerAbstractServiceFactory.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[canCreate]]></code>
-      <code><![CDATA[canCreateServiceWithName]]></code>
-      <code><![CDATA[createServiceWithName]]></code>
-      <code><![CDATA[getConfig]]></code>
-      <code><![CDATA[getSessionManager]]></code>
-      <code><![CDATA[normalizeContainerName]]></code>
-    </PossiblyUnusedMethod>
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$configKey]]></code>
-      <code><![CDATA[$sessionManager]]></code>
-    </PossiblyUnusedProperty>
-    <UndefinedClass>
-      <code><![CDATA[AbstractFactoryInterface]]></code>
-    </UndefinedClass>
-    <UnusedParam>
-      <code><![CDATA[$container]]></code>
-      <code><![CDATA[$container]]></code>
-      <code><![CDATA[$container]]></code>
-      <code><![CDATA[$container]]></code>
-      <code><![CDATA[$container]]></code>
-      <code><![CDATA[$container]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$options]]></code>
-      <code><![CDATA[$requestedName]]></code>
-      <code><![CDATA[$requestedName]]></code>
-      <code><![CDATA[$requestedName]]></code>
-      <code><![CDATA[$requestedName]]></code>
-    </UnusedParam>
-  </file>
-  <file src="src/Service/SessionConfigFactory.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[createService]]></code>
-    </PossiblyUnusedMethod>
-    <UndefinedClass>
-      <code><![CDATA[FactoryInterface]]></code>
-    </UndefinedClass>
-    <UnusedParam>
-      <code><![CDATA[$canonicalName]]></code>
-      <code><![CDATA[$container]]></code>
-      <code><![CDATA[$options]]></code>
-      <code><![CDATA[$requestedName]]></code>
-      <code><![CDATA[$requestedName]]></code>
-      <code><![CDATA[$services]]></code>
-    </UnusedParam>
-  </file>
-  <file src="src/Service/SessionManagerFactory.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[createService]]></code>
-    </PossiblyUnusedMethod>
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$defaultManagerConfig]]></code>
-    </PossiblyUnusedProperty>
-    <UndefinedClass>
-      <code><![CDATA[FactoryInterface]]></code>
-    </UndefinedClass>
-    <UnusedParam>
-      <code><![CDATA[$canonicalName]]></code>
-      <code><![CDATA[$container]]></code>
-      <code><![CDATA[$options]]></code>
-      <code><![CDATA[$requestedName]]></code>
-      <code><![CDATA[$requestedName]]></code>
-      <code><![CDATA[$services]]></code>
-    </UnusedParam>
-  </file>
   <file src="src/Service/StorageFactory.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[createService]]></code>
     </PossiblyUnusedMethod>
-    <UndefinedClass>
-      <code><![CDATA[FactoryInterface]]></code>
-    </UndefinedClass>
+    <UndefinedClass/>
     <UnusedParam>
       <code><![CDATA[$canonicalName]]></code>
-      <code><![CDATA[$container]]></code>
-      <code><![CDATA[$options]]></code>
       <code><![CDATA[$requestedName]]></code>
       <code><![CDATA[$requestedName]]></code>
       <code><![CDATA[$services]]></code>
@@ -1189,9 +1083,6 @@
       <code><![CDATA[class_parents($type)]]></code>
       <code><![CDATA[class_parents($type)]]></code>
     </PossiblyFalseArgument>
-    <UnusedClass>
-      <code><![CDATA[Factory]]></code>
-    </UnusedClass>
   </file>
   <file src="src/Storage/SessionArrayStorage.php">
     <ClassMustBeFinal>
@@ -1642,12 +1533,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[ConfigProviderTest]]></code>
     </ClassMustBeFinal>
-    <MissingDependency>
-      <code><![CDATA[ContainerAbstractServiceFactory]]></code>
-      <code><![CDATA[SessionConfigFactory]]></code>
-      <code><![CDATA[SessionManagerFactory]]></code>
-      <code><![CDATA[StorageFactory]]></code>
-    </MissingDependency>
     <MissingOverrideAttribute>
       <code><![CDATA[protected function setUp(): void]]></code>
     </MissingOverrideAttribute>
@@ -2033,27 +1918,9 @@
     <ClassMustBeFinal>
       <code><![CDATA[ContainerAbstractServiceFactoryTest]]></code>
     </ClassMustBeFinal>
-    <MissingDependency>
-      <code><![CDATA[ContainerAbstractServiceFactory]]></code>
-      <code><![CDATA[SessionManagerFactory]]></code>
-    </MissingDependency>
     <MissingOverrideAttribute>
       <code><![CDATA[protected function setUp(): void]]></code>
     </MissingOverrideAttribute>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[[
-            'services'           => [
-                'config'                => self::$config,
-                StorageInterface::class => new ArrayStorage(),
-            ],
-            'factories'          => [
-                ManagerInterface::class => SessionManagerFactory::class,
-            ],
-            'abstract_factories' => [
-                ContainerAbstractServiceFactory::class,
-            ],
-        ]]]></code>
-    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$container]]></code>
     </MixedAssignment>
@@ -2068,11 +1935,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[SessionConfigFactoryTest]]></code>
     </ClassMustBeFinal>
-    <MissingDependency>
-      <code><![CDATA[SessionConfigFactory]]></code>
-      <code><![CDATA[SessionConfigFactory]]></code>
-      <code><![CDATA[SessionConfigFactory]]></code>
-    </MissingDependency>
     <MissingOverrideAttribute>
       <code><![CDATA[protected function setUp(): void]]></code>
       <code><![CDATA[protected function tearDown(): void]]></code>
@@ -2080,21 +1942,6 @@
     <MissingReturnType>
       <code><![CDATA[testServiceNotCreatedWhenInvalidSamesiteConfig]]></code>
     </MissingReturnType>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[[
-            'factories' => [
-                ConfigInterface::class => SessionConfigFactory::class,
-            ],
-        ]]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$factory]]></code>
-      <code><![CDATA[$factory]]></code>
-    </MixedAssignment>
-    <MixedFunctionCall>
-      <code><![CDATA[$factory($mockContainer, ConfigInterface::class)]]></code>
-      <code><![CDATA[$factory($mockContainer, ConfigInterface::class)]]></code>
-    </MixedFunctionCall>
     <UndefinedMagicMethod>
       <code><![CDATA[getSaveHandler]]></code>
       <code><![CDATA[getSaveHandler]]></code>
@@ -2108,23 +1955,9 @@
     <ClassMustBeFinal>
       <code><![CDATA[SessionManagerFactoryTest]]></code>
     </ClassMustBeFinal>
-    <MissingDependency>
-      <code><![CDATA[SessionManagerFactory]]></code>
-      <code><![CDATA[SessionManagerFactory]]></code>
-      <code><![CDATA[SessionManagerFactory]]></code>
-    </MissingDependency>
     <MissingOverrideAttribute>
       <code><![CDATA[protected function setUp(): void]]></code>
     </MissingOverrideAttribute>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[[
-            'factories' => [
-                ManagerInterface::class => SessionManagerFactory::class,
-                TestManager::class      => SessionManagerFactory::class,
-                TestSaveHandler::class  => SessionManagerFactory::class,
-            ],
-        ]]]></code>
-    </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
       <code><![CDATA[$listener[0]]]></code>
       <code><![CDATA[$validatorData[Validator\HttpUserAgent::class]]]></code>
@@ -2143,19 +1976,9 @@
     <ClassMustBeFinal>
       <code><![CDATA[StorageFactoryTest]]></code>
     </ClassMustBeFinal>
-    <MissingDependency>
-      <code><![CDATA[StorageFactory]]></code>
-    </MissingDependency>
     <MissingOverrideAttribute>
       <code><![CDATA[protected function setUp(): void]]></code>
     </MissingOverrideAttribute>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[[
-            'factories' => [
-                StorageInterface::class => StorageFactory::class,
-            ],
-        ]]]></code>
-    </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
       <code><![CDATA[$config['session_storage']['options']]]></code>
       <code><![CDATA[$config['session_storage']['options']['input']]]></code>

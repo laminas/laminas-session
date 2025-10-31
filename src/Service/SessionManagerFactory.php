@@ -12,6 +12,7 @@ use Laminas\Session\ManagerInterface;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\StorageInterface;
+use Override;
 use Psr\Container\ContainerInterface;
 
 use function array_merge;
@@ -61,6 +62,7 @@ class SessionManagerFactory implements FactoryInterface
      *   this is true; set it to false to disable.
      * - validators: ...
      */
+    #[Override]
     public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): mixed
     {
         $config        = null;
@@ -146,21 +148,5 @@ class SessionManagerFactory implements FactoryInterface
         }
 
         return $manager;
-    }
-
-    /**
-     * @deprecated This method will be removed in version 3.0
-     * Create a SessionManager instance (v2 usage)
-     *
-     * @param null|string $canonicalName
-     * @param string $requestedName
-     * @return SessionManager
-     */
-    public function createService(
-        ServiceLocatorInterface $services,
-        $canonicalName = null,
-        $requestedName = SessionManager::class
-    ) {
-        return $this($services, $requestedName);
     }
 }
