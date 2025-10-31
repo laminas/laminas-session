@@ -3,9 +3,6 @@
         "mysql",
         "pgsql"
     ],
-    "ignore_php_platform_reqs": [
-        "ext-mongodb"
-    ],
     "ignore_php_platform_requirements": {
         "8.5": true
     }
