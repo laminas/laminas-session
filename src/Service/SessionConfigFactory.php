@@ -4,10 +4,9 @@ namespace Laminas\Session\Service;
 
 // phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\FactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\SameSiteCookieCapableInterface;
 use Laminas\Session\Config\SessionConfig;
@@ -37,7 +36,7 @@ class SessionConfigFactory implements FactoryInterface
      * @throws ServiceNotCreatedException If session_config is missing, or an
      *     invalid config_class is used.
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): mixed
     {
         $config = $container->get('config');
         if (! isset($config['session_config']) || ! is_array($config['session_config'])) {

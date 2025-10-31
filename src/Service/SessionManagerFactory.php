@@ -4,10 +4,9 @@ namespace Laminas\Session\Service;
 
 // phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\FactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface;
@@ -65,7 +64,7 @@ class SessionManagerFactory implements FactoryInterface
      * @param string $requestedName
      * @return SessionManager
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): mixed
     {
         $config        = null;
         $storage       = null;

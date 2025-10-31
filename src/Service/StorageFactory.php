@@ -4,10 +4,9 @@ namespace Laminas\Session\Service;
 
 // phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\FactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\Session\Exception\ExceptionInterface as SessionException;
 use Laminas\Session\Storage\Factory;
 use Laminas\Session\Storage\StorageInterface;
@@ -33,7 +32,7 @@ class StorageFactory implements FactoryInterface
      * @throws ServiceNotCreatedException If session_storage is missing, or the
      *         factory cannot create the storage instance.
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): mixed
     {
         $config = $container->get('config');
         if (! isset($config['session_storage']) || ! is_array($config['session_storage'])) {
