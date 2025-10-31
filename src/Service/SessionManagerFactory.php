@@ -6,13 +6,13 @@ namespace Laminas\Session\Service;
 
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use Psr\Container\ContainerInterface;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\StorageInterface;
+use Psr\Container\ContainerInterface;
 
 use function array_merge;
 use function class_exists;
@@ -60,9 +60,6 @@ class SessionManagerFactory implements FactoryInterface
      *   as the default manager for Container instances. The default value for
      *   this is true; set it to false to disable.
      * - validators: ...
-     *
-     * @param string $requestedName
-     * @return SessionManager
      */
     public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): mixed
     {

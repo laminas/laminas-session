@@ -59,9 +59,6 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Can we create an instance of the given service?
-     *
-     * @param string $requestedName
-     * @return bool
      */
     public function canCreate(ContainerInterface $container, string $requestedName): bool
     {
@@ -76,9 +73,6 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Create and return a named container.
-     *
-     * @param string $requestedName
-     * @return Container
      */
     public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): Container
     {

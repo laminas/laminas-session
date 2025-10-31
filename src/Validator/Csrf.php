@@ -86,7 +86,7 @@ final class Csrf extends AbstractValidator
         if (isset($options['timeout'])) {
             $this->setTimeout($options['timeout']);
         }
-        
+
         parent::__construct($options);
     }
 

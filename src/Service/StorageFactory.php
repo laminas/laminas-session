@@ -6,10 +6,10 @@ namespace Laminas\Session\Service;
 
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use Psr\Container\ContainerInterface;
 use Laminas\Session\Exception\ExceptionInterface as SessionException;
 use Laminas\Session\Storage\Factory;
 use Laminas\Session\Storage\StorageInterface;
+use Psr\Container\ContainerInterface;
 
 use function is_array;
 use function sprintf;
@@ -27,8 +27,6 @@ class StorageFactory implements FactoryInterface
      * type to use, and optionally "options", containing any options to be used in
      * creating the StorageInterface instance.
      *
-     * @param string $requestedName
-     * @return StorageInterface
      * @throws ServiceNotCreatedException If session_storage is missing, or the
      *         factory cannot create the storage instance.
      */

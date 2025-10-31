@@ -6,11 +6,11 @@ namespace Laminas\Session\Service;
 
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use Psr\Container\ContainerInterface;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\SameSiteCookieCapableInterface;
 use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
+use Psr\Container\ContainerInterface;
 
 use function class_exists;
 use function get_debug_type;
@@ -30,9 +30,6 @@ class SessionConfigFactory implements FactoryInterface
      * you may also specify a specific implementation variant using the
      * "config_class" subkey.
      *
-     * @param string $requestedName
-     * @param null|array $options
-     * @return ConfigInterface
      * @throws ServiceNotCreatedException If session_config is missing, or an
      *     invalid config_class is used.
      */
