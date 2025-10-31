@@ -8,7 +8,5 @@
     "ignore_php_platform_requirements": {
         "8.5": true
     },
-    "backwardCompatibilityCheck": {
-        "command": "roave-backward-compatibility-check --from=2.26.x"
-    }
+    "backwardCompatibilityCheck": true
 }
