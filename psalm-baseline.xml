@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
   <file src="src/AbstractContainer.php">
     <DocblockTypeContradiction>
       <code><![CDATA[(null === $key)
@@ -26,6 +26,15 @@
       <code><![CDATA[offsetSet]]></code>
       <code><![CDATA[offsetUnset]]></code>
     </MethodSignatureMustProvideReturnType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function &offsetGet($key)]]></code>
+      <code><![CDATA[public function exchangeArray($input)]]></code>
+      <code><![CDATA[public function getArrayCopy()]]></code>
+      <code><![CDATA[public function getIterator()]]></code>
+      <code><![CDATA[public function offsetExists($key)]]></code>
+      <code><![CDATA[public function offsetSet($offset, $value)]]></code>
+      <code><![CDATA[public function offsetUnset($offset)]]></code>
+    </MissingOverrideAttribute>
     <MixedArgument>
       <code><![CDATA[$container]]></code>
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS']]]></code>
@@ -73,10 +82,6 @@
       <code><![CDATA[$old]]></code>
       <code><![CDATA[$storage[$name][$offset]]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[exchangeArray]]></code>
-      <code><![CDATA[getArrayCopy]]></code>
-    </MixedInferredReturnType>
     <MixedOperand>
       <code><![CDATA[$metadata['EXPIRE_HOPS']['hops']]]></code>
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS'][$key]['hops']]]></code>
@@ -98,6 +103,10 @@
       <code><![CDATA[Container]]></code>
       <code><![CDATA[Container]]></code>
     </MoreSpecificReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$container instanceof ArrayObject ? $container->getArrayCopy() : $container]]></code>
+      <code><![CDATA[$old]]></code>
+    </NullableReturnStatement>
     <ParamNameMismatch>
       <code><![CDATA[$input]]></code>
     </ParamNameMismatch>
@@ -150,6 +159,14 @@
     </TooManyArguments>
   </file>
   <file src="src/AbstractManager.php">
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getConfig()]]></code>
+      <code><![CDATA[public function getSaveHandler()]]></code>
+      <code><![CDATA[public function getStorage()]]></code>
+      <code><![CDATA[public function setConfig(Config $config)]]></code>
+      <code><![CDATA[public function setSaveHandler(SaveHandler $saveHandler)]]></code>
+      <code><![CDATA[public function setStorage(Storage $storage)]]></code>
+    </MissingOverrideAttribute>
     <MixedMethodCall>
       <code><![CDATA[new $this->defaultConfigClass()]]></code>
       <code><![CDATA[new $this->defaultStorageClass()]]></code>
@@ -178,10 +195,18 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/Config/SessionConfig.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SessionConfig]]></code>
+    </ClassMustBeFinal>
     <DocblockTypeContradiction>
       <code><![CDATA[! is_numeric($hashBitsPerCharacter)]]></code>
       <code><![CDATA[! is_numeric($sidBitsPerCharacter)]]></code>
     </DocblockTypeContradiction>
+    <FalsableReturnStatement>
+      <code><![CDATA[ob_get_clean()]]></code>
+      <code><![CDATA[preg_split('#\s+#', $handlers)]]></code>
+      <code><![CDATA[preg_split('#\s+#', $handlers)]]></code>
+    </FalsableReturnStatement>
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[SessionConfig]]></code>
     </ImplementedReturnTypeMismatch>
@@ -189,6 +214,11 @@
       <code><![CDATA[[$this, 'handleError']]]></code>
       <code><![CDATA[[$this, 'handleError']]]></code>
     </InvalidArgument>
+    <InvalidFalsableReturnType>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[string]]></code>
+    </InvalidFalsableReturnType>
     <InvalidNullableReturnType>
       <code><![CDATA[SessionConfig]]></code>
     </InvalidNullableReturnType>
@@ -196,15 +226,21 @@
       <code><![CDATA[$serializeHandler]]></code>
       <code><![CDATA[$validHashFunctions]]></code>
     </MissingConstructor>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getStorageOption($storageOption)]]></code>
+      <code><![CDATA[public function setHashBitsPerCharacter($hashBitsPerCharacter)]]></code>
+      <code><![CDATA[public function setHashFunction($hashFunction)]]></code>
+      <code><![CDATA[public function setOption($option, $value)]]></code>
+      <code><![CDATA[public function setSavePath($savePath)]]></code>
+      <code><![CDATA[public function setSidBitsPerCharacter($sidBitsPerCharacter)]]></code>
+      <code><![CDATA[public function setStorageOption($storageName, $storageValue)]]></code>
+    </MissingOverrideAttribute>
     <MixedArgument>
       <code><![CDATA[$value]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$knownHandlers]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedInferredReturnType>
-      <code><![CDATA[false|string]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$callback($module)]]></code>
       <code><![CDATA[$callback()]]></code>
@@ -213,6 +249,10 @@
       <code><![CDATA[false]]></code>
       <code><![CDATA[false]]></code>
     </PossiblyFalsePropertyAssignmentValue>
+    <PossiblyNullArgument>
+      <code><![CDATA[$content]]></code>
+      <code><![CDATA[$content]]></code>
+    </PossiblyNullArgument>
     <PossiblyUnusedMethod>
       <code><![CDATA[handleError]]></code>
     </PossiblyUnusedMethod>
@@ -281,6 +321,9 @@
     <InvalidArgument>
       <code><![CDATA[HostnameValidator::ALLOW_ALL]]></code>
     </InvalidArgument>
+    <InvalidArrayAccess>
+      <code><![CDATA[$test[0]]]></code>
+    </InvalidArrayAccess>
     <InvalidReturnType>
       <code><![CDATA[mixed]]></code>
     </InvalidReturnType>
@@ -308,6 +351,34 @@
       <code><![CDATA[$useCookies]]></code>
       <code><![CDATA[$useCookies]]></code>
     </MissingConstructor>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getCookieDomain()]]></code>
+      <code><![CDATA[public function getCookieHttpOnly()]]></code>
+      <code><![CDATA[public function getCookieLifetime()]]></code>
+      <code><![CDATA[public function getCookiePath()]]></code>
+      <code><![CDATA[public function getCookieSameSite()]]></code>
+      <code><![CDATA[public function getCookieSecure()]]></code>
+      <code><![CDATA[public function getName()]]></code>
+      <code><![CDATA[public function getOption($option)]]></code>
+      <code><![CDATA[public function getOptions()]]></code>
+      <code><![CDATA[public function getRememberMeSeconds()]]></code>
+      <code><![CDATA[public function getSavePath()]]></code>
+      <code><![CDATA[public function getUseCookies()]]></code>
+      <code><![CDATA[public function hasOption($option)]]></code>
+      <code><![CDATA[public function setCookieDomain($cookieDomain)]]></code>
+      <code><![CDATA[public function setCookieHttpOnly($cookieHttpOnly)]]></code>
+      <code><![CDATA[public function setCookieLifetime($cookieLifetime)]]></code>
+      <code><![CDATA[public function setCookiePath($cookiePath)]]></code>
+      <code><![CDATA[public function setCookieSameSite($cookieSameSite)]]></code>
+      <code><![CDATA[public function setCookieSecure($cookieSecure)]]></code>
+      <code><![CDATA[public function setName($name)]]></code>
+      <code><![CDATA[public function setOption($option, $value)]]></code>
+      <code><![CDATA[public function setOptions($options)]]></code>
+      <code><![CDATA[public function setRememberMeSeconds($rememberMeSeconds)]]></code>
+      <code><![CDATA[public function setSavePath($savePath)]]></code>
+      <code><![CDATA[public function setUseCookies($useCookies)]]></code>
+      <code><![CDATA[public function toArray()]]></code>
+    </MissingOverrideAttribute>
     <MixedArgument>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$key]]></code>
@@ -327,28 +398,6 @@
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[bool]]></code>
-      <code><![CDATA[bool|string]]></code>
-      <code><![CDATA[bool|string]]></code>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[null|string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string|null]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->cookieDomain]]></code>
       <code><![CDATA[$this->cookieDomain]]></code>
@@ -387,6 +436,12 @@
     <PossiblyInvalidCast>
       <code><![CDATA[str_replace('_', ' ', $key)]]></code>
     </PossiblyInvalidCast>
+    <PossiblyNullArgument>
+      <code><![CDATA[preg_replace('#(?<=[a-z])([A-Z])#', '_\1', $option)]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayAccess>
+      <code><![CDATA[$test[0]]]></code>
+    </PossiblyNullArrayAccess>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[mixed]]></code>
       <code><![CDATA[string]]></code>
@@ -412,16 +467,67 @@
       <code><![CDATA[(string) $name]]></code>
     </RedundantCastGivenDocblockType>
   </file>
+  <file src="src/ConfigProvider.php">
+    <MissingDependency>
+      <code><![CDATA[Service\ContainerAbstractServiceFactory]]></code>
+      <code><![CDATA[Service\SessionConfigFactory]]></code>
+      <code><![CDATA[Service\SessionManagerFactory]]></code>
+      <code><![CDATA[Service\StorageFactory]]></code>
+    </MissingDependency>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[ServiceManagerConfiguration]]></code>
+      <code><![CDATA[[
+            'abstract_factories' => [
+                Service\ContainerAbstractServiceFactory::class,
+            ],
+            'aliases'            => [
+                SessionManager::class => ManagerInterface::class,
+
+                // Legacy Zend Framework aliases
+                'Zend\Session\SessionManager'           => SessionManager::class,
+                'Zend\Session\Config\ConfigInterface'   => Config\ConfigInterface::class,
+                'Zend\Session\ManagerInterface'         => ManagerInterface::class,
+                'Zend\Session\Storage\StorageInterface' => Storage\StorageInterface::class,
+            ],
+            'factories'          => [
+                Config\ConfigInterface::class   => Service\SessionConfigFactory::class,
+                ManagerInterface::class         => Service\SessionManagerFactory::class,
+                Storage\StorageInterface::class => Service\StorageFactory::class,
+            ],
+        ]]]></code>
+    </MixedReturnTypeCoercion>
+  </file>
   <file src="src/Container.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Container]]></code>
+    </ClassMustBeFinal>
     <MethodSignatureMustProvideReturnType>
       <code><![CDATA[offsetGet]]></code>
     </MethodSignatureMustProvideReturnType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function &offsetGet($key)]]></code>
+    </MissingOverrideAttribute>
     <MixedArrayAccess>
       <code><![CDATA[$storage[$name][$key]]]></code>
     </MixedArrayAccess>
     <PropertyNotSetInConstructor>
       <code><![CDATA[Container]]></code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Exception/BadMethodCallException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[BadMethodCallException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Exception/InvalidArgumentException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[InvalidArgumentException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Exception/RuntimeException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[RuntimeException]]></code>
+    </ClassMustBeFinal>
   </file>
   <file src="src/ManagerInterface.php">
     <PossiblyUnusedMethod>
@@ -438,7 +544,18 @@
       <code><![CDATA[self]]></code>
     </PossiblyUnusedReturnValue>
   </file>
+  <file src="src/Module.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Module]]></code>
+    </ClassMustBeFinal>
+  </file>
   <file src="src/SaveHandler/Cache.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </ArgumentTypeCoercion>
     <DeprecatedMethod>
       <code><![CDATA[getCacheStorage]]></code>
       <code><![CDATA[getCacheStorage]]></code>
@@ -455,6 +572,14 @@
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[bool]]></code>
     </ImplementedReturnTypeMismatch>
+    <MissingOverrideAttribute>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+    </MissingOverrideAttribute>
     <ParamNameMismatch>
       <code><![CDATA[$maxlifetime]]></code>
     </ParamNameMismatch>
@@ -473,9 +598,10 @@
       <code><![CDATA[$sessionName]]></code>
       <code><![CDATA[$sessionSavePath]]></code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType>
+    <RedundantCast>
+      <code><![CDATA[(bool) $exists]]></code>
       <code><![CDATA[(bool) $this->getCacheStorage()->removeItem($id)]]></code>
-    </RedundantCastGivenDocblockType>
+    </RedundantCast>
   </file>
   <file src="src/SaveHandler/DbTableGateway.php">
     <DeprecatedClass>
@@ -499,6 +625,14 @@
     <InvalidReturnType>
       <code><![CDATA[true]]></code>
     </InvalidReturnType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+    </MissingOverrideAttribute>
     <MixedAssignment>
       <code><![CDATA[$row]]></code>
       <code><![CDATA[$rows]]></code>
@@ -537,6 +671,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="src/SaveHandler/DbTableGatewayOptions.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[DbTableGatewayOptions]]></code>
+    </ClassMustBeFinal>
     <MissingTemplateParam>
       <code><![CDATA[DbTableGatewayOptions]]></code>
     </MissingTemplateParam>
@@ -549,6 +686,9 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/SaveHandler/MongoDB.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[MongoDB]]></code>
+    </ClassMustBeFinal>
     <DeprecatedClass>
       <code><![CDATA[MongoDBOptions]]></code>
       <code><![CDATA[MongoDBOptions]]></code>
@@ -560,10 +700,6 @@
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[bool]]></code>
     </ImplementedReturnTypeMismatch>
-    <ImplicitToStringCast>
-      <code><![CDATA[new Int64((string) $microseconds)]]></code>
-      <code><![CDATA[new Int64((string) floor(microtime(true) * 1000))]]></code>
-    </ImplicitToStringCast>
     <InvalidArgument>
       <code><![CDATA[$this->options->getSaveOptions()]]></code>
       <code><![CDATA[$this->options->getSaveOptions()]]></code>
@@ -571,14 +707,22 @@
     </InvalidArgument>
     <InvalidOperand>
       <code><![CDATA[(string) $session[$this->options->getModifiedField()]]]></code>
+      <code><![CDATA[floor(microtime(true) * 1000) - $maxlifetime * 1000]]></code>
+      <code><![CDATA[microtime(true) * 1000]]></code>
+      <code><![CDATA[microtime(true) * 1000]]></code>
     </InvalidOperand>
+    <MissingOverrideAttribute>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+    </MissingOverrideAttribute>
     <MixedAssignment>
       <code><![CDATA[$timestamp]]></code>
       <code><![CDATA[$timestamp]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string]]></code>
-    </MixedInferredReturnType>
     <MixedMethodCall>
       <code><![CDATA[getData]]></code>
     </MixedMethodCall>
@@ -613,6 +757,9 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/SaveHandler/MongoDBOptions.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[MongoDBOptions]]></code>
+    </ClassMustBeFinal>
     <DocblockTypeContradiction>
       <code><![CDATA[$this->saveOptions === ['w' => 1]]]></code>
       <code><![CDATA[$this->saveOptions === ['w' => 1]]]></code>
@@ -622,6 +769,9 @@
       <code><![CDATA[['safe' => true]]]></code>
       <code><![CDATA[['w' => 1]]]></code>
     </InvalidPropertyAssignmentValue>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function __set($key, $value)]]></code>
+    </MissingOverrideAttribute>
     <MissingParamType>
       <code><![CDATA[$options]]></code>
     </MissingParamType>
@@ -652,89 +802,89 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Service/ContainerAbstractServiceFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[ContainerAbstractServiceFactory]]></code>
-    </DeprecatedInterface>
-    <MissingConstructor>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[canCreate]]></code>
+      <code><![CDATA[canCreateServiceWithName]]></code>
+      <code><![CDATA[createServiceWithName]]></code>
+      <code><![CDATA[getConfig]]></code>
+      <code><![CDATA[getSessionManager]]></code>
+      <code><![CDATA[normalizeContainerName]]></code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
       <code><![CDATA[$config]]></code>
+      <code><![CDATA[$configKey]]></code>
       <code><![CDATA[$sessionManager]]></code>
-    </MissingConstructor>
-    <MixedArgument>
-      <code><![CDATA[$config]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$config[$this->configKey]]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$this->sessionManager]]></code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[null|ManagerInterface]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->sessionManager]]></code>
-      <code><![CDATA[$this->sessionManager]]></code>
-    </MixedReturnStatement>
-    <ParamNameMismatch>
+    </PossiblyUnusedProperty>
+    <UndefinedClass>
+      <code><![CDATA[AbstractFactoryInterface]]></code>
+    </UndefinedClass>
+    <UnusedParam>
       <code><![CDATA[$container]]></code>
       <code><![CDATA[$container]]></code>
-    </ParamNameMismatch>
-    <RedundantConditionGivenDocblockType>
-      <code><![CDATA[$this->sessionManager !== null]]></code>
-      <code><![CDATA[null !== $this->config]]></code>
-    </RedundantConditionGivenDocblockType>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$options]]></code>
+      <code><![CDATA[$requestedName]]></code>
+      <code><![CDATA[$requestedName]]></code>
+      <code><![CDATA[$requestedName]]></code>
+      <code><![CDATA[$requestedName]]></code>
+    </UnusedParam>
   </file>
   <file src="src/Service/SessionConfigFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[SessionConfigFactory]]></code>
-    </DeprecatedInterface>
-    <MixedMethodCall>
-      <code><![CDATA[new $class()]]></code>
-    </MixedMethodCall>
-    <ParamNameMismatch>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[createService]]></code>
+    </PossiblyUnusedMethod>
+    <UndefinedClass>
+      <code><![CDATA[FactoryInterface]]></code>
+    </UndefinedClass>
+    <UnusedParam>
+      <code><![CDATA[$canonicalName]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$options]]></code>
+      <code><![CDATA[$requestedName]]></code>
+      <code><![CDATA[$requestedName]]></code>
       <code><![CDATA[$services]]></code>
-    </ParamNameMismatch>
+    </UnusedParam>
   </file>
   <file src="src/Service/SessionManagerFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[SessionManagerFactory]]></code>
-    </DeprecatedInterface>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$manager]]></code>
-    </LessSpecificReturnStatement>
-    <MixedAssignment>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$configService]]></code>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[createService]]></code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code><![CDATA[$defaultManagerConfig]]></code>
+    </PossiblyUnusedProperty>
+    <UndefinedClass>
+      <code><![CDATA[FactoryInterface]]></code>
+    </UndefinedClass>
+    <UnusedParam>
+      <code><![CDATA[$canonicalName]]></code>
+      <code><![CDATA[$container]]></code>
       <code><![CDATA[$options]]></code>
-      <code><![CDATA[$saveHandler]]></code>
-      <code><![CDATA[$storage]]></code>
-      <code><![CDATA[$validators]]></code>
-    </MixedAssignment>
-    <MoreSpecificReturnType>
-      <code><![CDATA[SessionManager]]></code>
-    </MoreSpecificReturnType>
-    <ParamNameMismatch>
+      <code><![CDATA[$requestedName]]></code>
+      <code><![CDATA[$requestedName]]></code>
       <code><![CDATA[$services]]></code>
-    </ParamNameMismatch>
+    </UnusedParam>
   </file>
   <file src="src/Service/StorageFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[StorageFactory]]></code>
-    </DeprecatedInterface>
-    <MixedArgument>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[createService]]></code>
+    </PossiblyUnusedMethod>
+    <UndefinedClass>
+      <code><![CDATA[FactoryInterface]]></code>
+    </UndefinedClass>
+    <UnusedParam>
+      <code><![CDATA[$canonicalName]]></code>
+      <code><![CDATA[$container]]></code>
       <code><![CDATA[$options]]></code>
-      <code><![CDATA[$type]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$options]]></code>
-      <code><![CDATA[$type]]></code>
-    </MixedAssignment>
-    <ParamNameMismatch>
+      <code><![CDATA[$requestedName]]></code>
+      <code><![CDATA[$requestedName]]></code>
       <code><![CDATA[$services]]></code>
-    </ParamNameMismatch>
+    </UnusedParam>
   </file>
   <file src="src/SessionManager.php">
     <DeprecatedProperty>
@@ -747,9 +897,34 @@
       <code><![CDATA[null === $this->name]]></code>
       <code><![CDATA[null === $this->validatorChain]]></code>
     </DocblockTypeContradiction>
+    <FalsableReturnStatement>
+      <code><![CDATA[$this->name]]></code>
+      <code><![CDATA[session_id()]]></code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType>
+      <code><![CDATA[string]]></code>
+      <code><![CDATA[string]]></code>
+    </InvalidFalsableReturnType>
     <MissingClosureParamType>
       <code><![CDATA[$test]]></code>
     </MissingClosureParamType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function destroy(?array $options = null)]]></code>
+      <code><![CDATA[public function expireSessionCookie()]]></code>
+      <code><![CDATA[public function forgetMe()]]></code>
+      <code><![CDATA[public function getId()]]></code>
+      <code><![CDATA[public function getName()]]></code>
+      <code><![CDATA[public function getValidatorChain()]]></code>
+      <code><![CDATA[public function isValid()]]></code>
+      <code><![CDATA[public function regenerateId($deleteOldSession = true)]]></code>
+      <code><![CDATA[public function rememberMe($ttl = null)]]></code>
+      <code><![CDATA[public function sessionExists()]]></code>
+      <code><![CDATA[public function setId($id)]]></code>
+      <code><![CDATA[public function setName($name)]]></code>
+      <code><![CDATA[public function setValidatorChain(EventManagerInterface $chain)]]></code>
+      <code><![CDATA[public function start($preserveStorage = false)]]></code>
+      <code><![CDATA[public function writeClose()]]></code>
+    </MissingOverrideAttribute>
     <MissingReturnType>
       <code><![CDATA[initializeValidatorChain]]></code>
     </MissingReturnType>
@@ -769,6 +944,9 @@
     <NoValue>
       <code><![CDATA[$oldSessionData]]></code>
     </NoValue>
+    <PossiblyFalsePropertyAssignmentValue>
+      <code><![CDATA[session_name()]]></code>
+    </PossiblyFalsePropertyAssignmentValue>
     <PossiblyNullOperand>
       <code><![CDATA[$_SERVER['REQUEST_TIME']]]></code>
     </PossiblyNullOperand>
@@ -790,6 +968,8 @@
     </RedundantCastGivenDocblockType>
     <RedundantCondition>
       <code><![CDATA[! empty($oldSessionData) && is_array($oldSessionData)]]></code>
+      <code><![CDATA[$currentSessionId !== '' && is_array($_SESSION)]]></code>
+      <code><![CDATA[is_array($_SESSION)]]></code>
       <code><![CDATA[is_array($oldSessionData)]]></code>
     </RedundantCondition>
     <TypeDoesNotContainType>
@@ -819,6 +999,28 @@
       <code><![CDATA[serialize]]></code>
       <code><![CDATA[unserialize]]></code>
     </MethodSignatureMustProvideReturnType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[public function clear($key = null)]]></code>
+      <code><![CDATA[public function fromArray(array $array)]]></code>
+      <code><![CDATA[public function getMetadata($key = null)]]></code>
+      <code><![CDATA[public function getRequestAccessTime()]]></code>
+      <code><![CDATA[public function init($input = null)]]></code>
+      <code><![CDATA[public function isImmutable()]]></code>
+      <code><![CDATA[public function isLocked($key = null)]]></code>
+      <code><![CDATA[public function lock($key = null)]]></code>
+      <code><![CDATA[public function markImmutable()]]></code>
+      <code><![CDATA[public function serialize()]]></code>
+      <code><![CDATA[public function setMetadata($key, $value, $overwriteArray = false)]]></code>
+      <code><![CDATA[public function toArray($metaData = false)]]></code>
+      <code><![CDATA[public function unlock($key = null)]]></code>
+      <code><![CDATA[public function unserialize($session)]]></code>
+    </MissingOverrideAttribute>
     <MixedArgument>
       <code><![CDATA[$_SESSION['__Laminas']]]></code>
       <code><![CDATA[$_SESSION['__Laminas'][$key]]]></code>
@@ -842,10 +1044,6 @@
       <code><![CDATA[$locks]]></code>
       <code><![CDATA[$readOnly]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[bool]]></code>
-      <code><![CDATA[float]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->getMetadata('_READONLY')]]></code>
       <code><![CDATA[$this->getMetadata('_REQUEST_ACCESS_TIME')]]></code>
@@ -890,6 +1088,20 @@
       <code><![CDATA['__Laminas']]></code>
       <code><![CDATA['__Laminas']]></code>
     </InvalidArgument>
+    <MissingOverrideAttribute>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[public function clear($key = null)]]></code>
+      <code><![CDATA[public function fromArray(array $array)]]></code>
+      <code><![CDATA[public function getMetadata($key = null)]]></code>
+      <code><![CDATA[public function getRequestAccessTime()]]></code>
+      <code><![CDATA[public function isImmutable()]]></code>
+      <code><![CDATA[public function isLocked($key = null)]]></code>
+      <code><![CDATA[public function lock($key = null)]]></code>
+      <code><![CDATA[public function markImmutable()]]></code>
+      <code><![CDATA[public function setMetadata($key, $value, $overwriteArray = false)]]></code>
+      <code><![CDATA[public function toArray($metaData = false)]]></code>
+      <code><![CDATA[public function unlock($key = null)]]></code>
+    </MissingOverrideAttribute>
     <MixedArgument>
       <code><![CDATA[$locks]]></code>
       <code><![CDATA[$locks]]></code>
@@ -920,10 +1132,6 @@
       <code><![CDATA[$this['__Laminas']]]></code>
       <code><![CDATA[$this['__Laminas'][$key]]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[bool]]></code>
-      <code><![CDATA[float]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->getMetadata('_READONLY')]]></code>
       <code><![CDATA[$this->getMetadata('_REQUEST_ACCESS_TIME')]]></code>
@@ -976,22 +1184,45 @@
       <code><![CDATA[ArrayStorage]]></code>
       <code><![CDATA[StorageInterface]]></code>
     </MoreSpecificReturnType>
+    <PossiblyFalseArgument>
+      <code><![CDATA[class_implements($type)]]></code>
+      <code><![CDATA[class_parents($type)]]></code>
+      <code><![CDATA[class_parents($type)]]></code>
+    </PossiblyFalseArgument>
+    <UnusedClass>
+      <code><![CDATA[Factory]]></code>
+    </UnusedClass>
   </file>
   <file src="src/Storage/SessionArrayStorage.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SessionArrayStorage]]></code>
+    </ClassMustBeFinal>
     <MethodSignatureMustProvideReturnType>
       <code><![CDATA[offsetGet]]></code>
     </MethodSignatureMustProvideReturnType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function &__get($key)]]></code>
+      <code><![CDATA[public function &offsetGet($key)]]></code>
+    </MissingOverrideAttribute>
     <MixedArrayOffset>
       <code><![CDATA[$_SESSION[$key]]]></code>
       <code><![CDATA[$_SESSION[$key]]]></code>
     </MixedArrayOffset>
   </file>
   <file src="src/Storage/SessionStorage.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SessionStorage]]></code>
+    </ClassMustBeFinal>
     <InvalidArgument>
       <code><![CDATA['_IMMUTABLE']]></code>
       <code><![CDATA['_IMMUTABLE']]></code>
       <code><![CDATA['_IMMUTABLE']]></code>
     </InvalidArgument>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function fromArray(array $array)]]></code>
+      <code><![CDATA[public function isImmutable()]]></code>
+      <code><![CDATA[public function markImmutable()]]></code>
+    </MissingOverrideAttribute>
     <PropertyNotSetInConstructor>
       <code><![CDATA[SessionStorage]]></code>
     </PropertyNotSetInConstructor>
@@ -1033,6 +1264,9 @@
     <InvalidReturnType>
       <code><![CDATA[CallbackHandler]]></code>
     </InvalidReturnType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function attach($eventName, callable $listener, $priority = 1)]]></code>
+    </MissingOverrideAttribute>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
       <code><![CDATA[$validator]]></code>
@@ -1059,6 +1293,9 @@
       <code><![CDATA[getSession]]></code>
       <code><![CDATA[getTimeout]]></code>
     </DeprecatedMethod>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function isValid(mixed $value, array|null $context = null): bool]]></code>
+    </MissingOverrideAttribute>
   </file>
   <file src="src/Validator/HttpUserAgent.php">
     <DeprecatedMethod>
@@ -1068,6 +1305,11 @@
       <code><![CDATA[$this->data]]></code>
       <code><![CDATA[$this->data]]></code>
     </DeprecatedProperty>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getData()]]></code>
+      <code><![CDATA[public function getName()]]></code>
+      <code><![CDATA[public function isValid()]]></code>
+    </MissingOverrideAttribute>
     <PossiblyNullPropertyAssignmentValue>
       <code><![CDATA[$data]]></code>
     </PossiblyNullPropertyAssignmentValue>
@@ -1078,6 +1320,14 @@
       <code><![CDATA[$this->id]]></code>
       <code><![CDATA[$this->id]]></code>
     </DeprecatedProperty>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getData()]]></code>
+      <code><![CDATA[public function getName()]]></code>
+      <code><![CDATA[public function isValid()]]></code>
+    </MissingOverrideAttribute>
+    <PossiblyFalsePropertyAssignmentValue>
+      <code><![CDATA[$id]]></code>
+    </PossiblyFalsePropertyAssignmentValue>
   </file>
   <file src="src/Validator/RemoteAddr.php">
     <DeprecatedMethod>
@@ -1087,14 +1337,16 @@
       <code><![CDATA[$this->data]]></code>
       <code><![CDATA[$this->data]]></code>
     </DeprecatedProperty>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getData()]]></code>
+      <code><![CDATA[public function getName()]]></code>
+      <code><![CDATA[public function isValid()]]></code>
+    </MissingOverrideAttribute>
   </file>
   <file src="src/Validator/ValidatorChainTrait.php">
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
     </DeprecatedMethod>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$callback]]></code>
-    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
     </MixedAssignment>
@@ -1103,12 +1355,15 @@
     </UndefinedDocblockClass>
   </file>
   <file src="src/ValidatorChain.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ValidatorChain]]></code>
+    </ClassMustBeFinal>
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
     </DeprecatedMethod>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$callback]]></code>
-    </MixedArgumentTypeCoercion>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function attach($eventName, callable $listener, $priority = 1)]]></code>
+    </MissingOverrideAttribute>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
       <code><![CDATA[$data]]></code>
@@ -1123,9 +1378,16 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="test/AbstractContainerTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[AbstractContainerTest]]></code>
+    </ClassMustBeFinal>
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[new TestContainer('Default', $manager)]]></code>
     </InvalidPropertyAssignmentValue>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+      <code><![CDATA[protected function tearDown(): void]]></code>
+    </MissingOverrideAttribute>
     <PossiblyUnusedProperty>
       <code><![CDATA[$manager]]></code>
       <code><![CDATA[$preserveGlobalState]]></code>
@@ -1135,6 +1397,9 @@
     <ArgumentTypeCoercion>
       <code><![CDATA['InvalidArgumentException']]></code>
     </ArgumentTypeCoercion>
+    <ClassMustBeFinal>
+      <code><![CDATA[SessionConfigTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedMethod>
       <code><![CDATA[setSidBitsPerCharacter]]></code>
       <code><![CDATA[setSidBitsPerCharacter]]></code>
@@ -1169,6 +1434,10 @@
       <code><![CDATA[static function (?string $module = null) {]]></code>
       <code><![CDATA[static function (?string $module = null) {]]></code>
     </MissingClosureReturnType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+      <code><![CDATA[protected function tearDown(): void]]></code>
+    </MissingOverrideAttribute>
     <MissingReturnType>
       <code><![CDATA[testCookieSameSiteAltersIniSetting]]></code>
       <code><![CDATA[testCookieSameSiteDefaultsToIniSettings]]></code>
@@ -1198,6 +1467,7 @@
       <code><![CDATA[getSerializeHandler]]></code>
       <code><![CDATA[getSidBitsPerCharacter]]></code>
       <code><![CDATA[getSidLength]]></code>
+      <code><![CDATA[getUrlRewriterTags]]></code>
       <code><![CDATA[getUrlRewriterTags]]></code>
       <code><![CDATA[getUseCookies]]></code>
       <code><![CDATA[getUseOnlyCookies]]></code>
@@ -1287,19 +1557,34 @@
       <code><![CDATA[setUrlRewriterTags]]></code>
       <code><![CDATA[setUseCookies]]></code>
       <code><![CDATA[setUseCookies]]></code>
+      <code><![CDATA[toArray]]></code>
     </PossiblyNullReference>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[optionsProvider]]></code>
-      <code><![CDATA[sidSidPerCharacters]]></code>
-    </PossiblyUnusedMethod>
     <PossiblyUnusedParam>
       <code><![CDATA[$getter]]></code>
     </PossiblyUnusedParam>
     <RedundantCondition>
       <code><![CDATA[assertFalse]]></code>
     </RedundantCondition>
+    <UndefinedMagicMethod>
+      <code><![CDATA[getCacheLimiter]]></code>
+      <code><![CDATA[getCacheLimiter]]></code>
+      <code><![CDATA[getRefererCheck]]></code>
+      <code><![CDATA[getSaveHandler]]></code>
+      <code><![CDATA[getSaveHandler]]></code>
+      <code><![CDATA[getSerializeHandler]]></code>
+      <code><![CDATA[getSerializeHandler]]></code>
+      <code><![CDATA[getUrlRewriterTags]]></code>
+      <code><![CDATA[getUrlRewriterTags]]></code>
+      <code><![CDATA[getUseOnlyCookies]]></code>
+      <code><![CDATA[getUseTransSid]]></code>
+      <code><![CDATA[setUrlRewriterTags]]></code>
+      <code><![CDATA[setUrlRewriterTags]]></code>
+    </UndefinedMagicMethod>
   </file>
   <file src="test/Config/StandardConfigTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[StandardConfigTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedMethod>
       <code><![CDATA[getEntropyFile]]></code>
       <code><![CDATA[getEntropyLength]]></code>
@@ -1325,14 +1610,47 @@
       <code><![CDATA[24]]></code>
       <code><![CDATA[24]]></code>
     </InvalidArgument>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+    </MissingOverrideAttribute>
     <MissingReturnType>
       <code><![CDATA[testCookieSameSiteIsMutable]]></code>
     </MissingReturnType>
     <RedundantCastGivenDocblockType>
       <code><![CDATA[(bool) $this->config->getUseCookies()]]></code>
     </RedundantCastGivenDocblockType>
+    <UndefinedMagicMethod>
+      <code><![CDATA[getCacheLimiter]]></code>
+      <code><![CDATA[getRefererCheck]]></code>
+      <code><![CDATA[getRefererCheck]]></code>
+      <code><![CDATA[getSaveHandler]]></code>
+      <code><![CDATA[getSerializeHandler]]></code>
+      <code><![CDATA[getUrlRewriterTags]]></code>
+      <code><![CDATA[getUseOnlyCookies]]></code>
+      <code><![CDATA[getUseTransSid]]></code>
+      <code><![CDATA[setCacheLimiter]]></code>
+      <code><![CDATA[setRefererCheck]]></code>
+      <code><![CDATA[setRefererCheck]]></code>
+      <code><![CDATA[setSaveHandler]]></code>
+      <code><![CDATA[setSerializeHandler]]></code>
+      <code><![CDATA[setUrlRewriterTags]]></code>
+      <code><![CDATA[setUseOnlyCookies]]></code>
+      <code><![CDATA[setUseTransSid]]></code>
+    </UndefinedMagicMethod>
   </file>
   <file src="test/ConfigProviderTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ConfigProviderTest]]></code>
+    </ClassMustBeFinal>
+    <MissingDependency>
+      <code><![CDATA[ContainerAbstractServiceFactory]]></code>
+      <code><![CDATA[SessionConfigFactory]]></code>
+      <code><![CDATA[SessionManagerFactory]]></code>
+      <code><![CDATA[StorageFactory]]></code>
+    </MissingDependency>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+    </MissingOverrideAttribute>
     <MixedArgument>
       <code><![CDATA[$abstractFactories]]></code>
     </MixedArgument>
@@ -1374,6 +1692,23 @@
     </UndefinedClass>
   </file>
   <file src="test/ContainerTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ContainerTest]]></code>
+    </ClassMustBeFinal>
+    <InvalidOperand>
+      <code><![CDATA[$ts + 120]]></code>
+      <code><![CDATA[$ts + 120]]></code>
+      <code><![CDATA[$ts + 120]]></code>
+      <code><![CDATA[$ts + 120]]></code>
+      <code><![CDATA[$ts + 60]]></code>
+      <code><![CDATA[$ts + 60]]></code>
+      <code><![CDATA[$ts + 60]]></code>
+      <code><![CDATA[$ts + 60]]></code>
+    </InvalidOperand>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+      <code><![CDATA[protected function tearDown(): void]]></code>
+    </MissingOverrideAttribute>
     <MixedArgument>
       <code><![CDATA[$metadata]]></code>
       <code><![CDATA[$metadata]]></code>
@@ -1432,6 +1767,11 @@
       <code><![CDATA[$container]]></code>
     </UnusedVariable>
   </file>
+  <file src="test/ModuleTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ModuleTest]]></code>
+    </ClassMustBeFinal>
+  </file>
   <file src="test/SaveHandler/AbstractDbTableGatewayTestCase.php">
     <DeprecatedClass>
       <code><![CDATA[DbTableGatewayOptions]]></code>
@@ -1457,6 +1797,10 @@
       <code><![CDATA[! $this->adapter]]></code>
       <code><![CDATA[$this->adapter]]></code>
     </DocblockTypeContradiction>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+      <code><![CDATA[protected function tearDown(): void]]></code>
+    </MissingOverrideAttribute>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
     </MixedAssignment>
@@ -1470,6 +1814,12 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/SaveHandler/CacheTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[CacheTest]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+    </MissingOverrideAttribute>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
     </MixedAssignment>
@@ -1485,29 +1835,56 @@
     </UndefinedDocblockClass>
   </file>
   <file src="test/SaveHandler/DbTableGateway/MysqliAdapterTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[MysqliAdapterTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedClass>
       <code><![CDATA[DbTableGateway::class]]></code>
       <code><![CDATA[DbTableGateway::class]]></code>
     </DeprecatedClass>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function getAdapter(): Adapter]]></code>
+    </MissingOverrideAttribute>
   </file>
   <file src="test/SaveHandler/DbTableGateway/PdoMysqlAdapterTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[PdoMysqlAdapterTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedClass>
       <code><![CDATA[DbTableGateway::class]]></code>
       <code><![CDATA[DbTableGateway::class]]></code>
     </DeprecatedClass>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function getAdapter()]]></code>
+    </MissingOverrideAttribute>
   </file>
   <file src="test/SaveHandler/DbTableGateway/PdoSqliteAdapterTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[PdoSqliteAdapterTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedClass>
       <code><![CDATA[DbTableGateway::class]]></code>
     </DeprecatedClass>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function getAdapter(): Adapter]]></code>
+    </MissingOverrideAttribute>
   </file>
   <file src="test/SaveHandler/DbTableGateway/PgsqlAdapterTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[PgsqlAdapterTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedClass>
       <code><![CDATA[DbTableGateway::class]]></code>
       <code><![CDATA[DbTableGateway::class]]></code>
     </DeprecatedClass>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function getAdapter(): Adapter]]></code>
+    </MissingOverrideAttribute>
   </file>
   <file src="test/SaveHandler/DbTableGatewayOptionsTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[DbTableGatewayOptionsTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedClass>
       <code><![CDATA[new DbTableGatewayOptions(
             [
@@ -1555,6 +1932,9 @@
     </UnusedVariable>
   </file>
   <file src="test/SaveHandler/MongoDBOptionsTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[MongoDBOptionsTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedClass>
       <code><![CDATA[new MongoDBOptions(
             [
@@ -1607,6 +1987,9 @@
     </DeprecatedClass>
   </file>
   <file src="test/SaveHandler/MongoDBTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[MongoDBTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedClass>
       <code><![CDATA[MongoDBOptions]]></code>
       <code><![CDATA[new MongoDB($this->mongoClient, $this->options)]]></code>
@@ -1637,12 +2020,40 @@
       <code><![CDATA[456]]></code>
       <code><![CDATA[456]]></code>
     </InvalidArgument>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+      <code><![CDATA[protected function tearDown(): void]]></code>
+    </MissingOverrideAttribute>
     <RedundantConditionGivenDocblockType>
       <code><![CDATA[assertTrue]]></code>
       <code><![CDATA[is_string($data)]]></code>
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/Service/ContainerAbstractServiceFactoryTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ContainerAbstractServiceFactoryTest]]></code>
+    </ClassMustBeFinal>
+    <MissingDependency>
+      <code><![CDATA[ContainerAbstractServiceFactory]]></code>
+      <code><![CDATA[SessionManagerFactory]]></code>
+    </MissingDependency>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+    </MissingOverrideAttribute>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[[
+            'services'           => [
+                'config'                => self::$config,
+                StorageInterface::class => new ArrayStorage(),
+            ],
+            'factories'          => [
+                ManagerInterface::class => SessionManagerFactory::class,
+            ],
+            'abstract_factories' => [
+                ContainerAbstractServiceFactory::class,
+            ],
+        ]]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$container]]></code>
     </MixedAssignment>
@@ -1654,82 +2065,117 @@
     </PossiblyUnusedParam>
   </file>
   <file src="test/Service/SessionConfigFactoryTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SessionConfigFactoryTest]]></code>
+    </ClassMustBeFinal>
+    <MissingDependency>
+      <code><![CDATA[SessionConfigFactory]]></code>
+      <code><![CDATA[SessionConfigFactory]]></code>
+      <code><![CDATA[SessionConfigFactory]]></code>
+    </MissingDependency>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+      <code><![CDATA[protected function tearDown(): void]]></code>
+    </MissingOverrideAttribute>
     <MissingReturnType>
       <code><![CDATA[testServiceNotCreatedWhenInvalidSamesiteConfig]]></code>
     </MissingReturnType>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[[
+            'factories' => [
+                ConfigInterface::class => SessionConfigFactory::class,
+            ],
+        ]]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
-      <code><![CDATA[$config]]></code>
+      <code><![CDATA[$factory]]></code>
+      <code><![CDATA[$factory]]></code>
     </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getName]]></code>
-    </MixedMethodCall>
+    <MixedFunctionCall>
+      <code><![CDATA[$factory($mockContainer, ConfigInterface::class)]]></code>
+      <code><![CDATA[$factory($mockContainer, ConfigInterface::class)]]></code>
+    </MixedFunctionCall>
+    <UndefinedMagicMethod>
+      <code><![CDATA[getSaveHandler]]></code>
+      <code><![CDATA[getSaveHandler]]></code>
+    </UndefinedMagicMethod>
   </file>
   <file src="test/Service/SessionManagerFactoryTest.php">
-    <MixedArgument>
+    <ArgumentTypeCoercion>
       <code><![CDATA[$chain]]></code>
       <code><![CDATA[$chain]]></code>
-      <code><![CDATA[$manager]]></code>
-    </MixedArgument>
+    </ArgumentTypeCoercion>
+    <ClassMustBeFinal>
+      <code><![CDATA[SessionManagerFactoryTest]]></code>
+    </ClassMustBeFinal>
+    <MissingDependency>
+      <code><![CDATA[SessionManagerFactory]]></code>
+      <code><![CDATA[SessionManagerFactory]]></code>
+      <code><![CDATA[SessionManagerFactory]]></code>
+    </MissingDependency>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+    </MissingOverrideAttribute>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[[
+            'factories' => [
+                ManagerInterface::class => SessionManagerFactory::class,
+                TestManager::class      => SessionManagerFactory::class,
+                TestSaveHandler::class  => SessionManagerFactory::class,
+            ],
+        ]]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
       <code><![CDATA[$listener[0]]]></code>
       <code><![CDATA[$validatorData[Validator\HttpUserAgent::class]]]></code>
       <code><![CDATA[$validatorData[Validator\RemoteAddr::class]]]></code>
     </MixedArrayAccess>
     <MixedAssignment>
-      <code><![CDATA[$chain]]></code>
-      <code><![CDATA[$chain]]></code>
       <code><![CDATA[$listener]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
-      <code><![CDATA[$manager]]></code>
       <code><![CDATA[$validatorData]]></code>
     </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getConfig]]></code>
-      <code><![CDATA[getSaveHandler]]></code>
-      <code><![CDATA[getStorage]]></code>
-      <code><![CDATA[getStorage]]></code>
-      <code><![CDATA[getValidatorChain]]></code>
-      <code><![CDATA[getValidatorChain]]></code>
-      <code><![CDATA[start]]></code>
-      <code><![CDATA[start]]></code>
-      <code><![CDATA[start]]></code>
-    </MixedMethodCall>
     <UnusedVariable>
       <code><![CDATA[$manager]]></code>
       <code><![CDATA[$manager]]></code>
     </UnusedVariable>
   </file>
   <file src="test/Service/StorageFactoryTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[StorageFactoryTest]]></code>
+    </ClassMustBeFinal>
+    <MissingDependency>
+      <code><![CDATA[StorageFactory]]></code>
+    </MissingDependency>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+    </MissingOverrideAttribute>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[[
+            'factories' => [
+                StorageInterface::class => StorageFactory::class,
+            ],
+        ]]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
       <code><![CDATA[$config['session_storage']['options']]]></code>
       <code><![CDATA[$config['session_storage']['options']['input']]]></code>
     </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$storage]]></code>
-      <code><![CDATA[$storage]]></code>
-      <code><![CDATA[$test]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[toArray]]></code>
-    </MixedMethodCall>
     <UnusedVariable>
       <code><![CDATA[$storage]]></code>
     </UnusedVariable>
   </file>
   <file src="test/SessionArrayStorageTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SessionArrayStorageTest]]></code>
+    </ClassMustBeFinal>
     <InvalidScalarArgument>
       <code><![CDATA[$_SESSION]]></code>
       <code><![CDATA[$_SESSION]]></code>
     </InvalidScalarArgument>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+      <code><![CDATA[protected function tearDown(): void]]></code>
+    </MissingOverrideAttribute>
     <MixedArrayAccess>
       <code><![CDATA[$_SESSION['test']['foo']]]></code>
       <code><![CDATA[$this->storage['foo']['bar']]]></code>
@@ -1745,8 +2191,24 @@
     <TypeDoesNotContainType>
       <code><![CDATA[assertSame]]></code>
     </TypeDoesNotContainType>
+    <UndefinedMagicPropertyAssignment>
+      <code><![CDATA[$storage->bar]]></code>
+      <code><![CDATA[$this->storage->bar]]></code>
+      <code><![CDATA[$this->storage->foo]]></code>
+      <code><![CDATA[$this->storage->foo]]></code>
+      <code><![CDATA[$this->storage->foo]]></code>
+      <code><![CDATA[$this->storage->foo]]></code>
+      <code><![CDATA[$this->storage->foo]]></code>
+    </UndefinedMagicPropertyAssignment>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$this->storage->bar]]></code>
+      <code><![CDATA[$this->storage->foo]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="test/SessionManagerTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SessionManagerTest]]></code>
+    </ClassMustBeFinal>
     <DocblockTypeContradiction>
       <code><![CDATA[assertIsArray]]></code>
     </DocblockTypeContradiction>
@@ -1757,6 +2219,9 @@
     <InvalidScalarArgument>
       <code><![CDATA[$_SESSION]]></code>
     </InvalidScalarArgument>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+    </MissingOverrideAttribute>
     <MixedArgument>
       <code><![CDATA[$header]]></code>
       <code><![CDATA[$header]]></code>
@@ -1821,14 +2286,24 @@
     </UnusedVariable>
   </file>
   <file src="test/SessionStorageTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SessionStorageTest]]></code>
+    </ClassMustBeFinal>
     <InvalidMethodCall>
       <code><![CDATA[getArrayCopy]]></code>
     </InvalidMethodCall>
     <InvalidScalarArgument>
       <code><![CDATA[$_SESSION]]></code>
     </InvalidScalarArgument>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+      <code><![CDATA[protected function tearDown(): void]]></code>
+    </MissingOverrideAttribute>
   </file>
   <file src="test/StorageTest.php">
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+    </MissingOverrideAttribute>
     <MixedArrayAccess>
       <code><![CDATA[$this->storage['foo']['bar']]]></code>
       <code><![CDATA[$this->storage['foo']['bar']]]></code>
@@ -1841,6 +2316,9 @@
     </PossiblyNullArrayAccess>
   </file>
   <file src="test/TestAsset/TestConfig.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[TestConfig]]></code>
+    </ClassMustBeFinal>
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[void]]></code>
       <code><![CDATA[void]]></code>
@@ -1855,13 +2333,45 @@
       <code><![CDATA[void]]></code>
       <code><![CDATA[void]]></code>
     </ImplementedReturnTypeMismatch>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getCookieDomain()]]></code>
+      <code><![CDATA[public function getCookieHttpOnly()]]></code>
+      <code><![CDATA[public function getCookieLifetime()]]></code>
+      <code><![CDATA[public function getCookiePath()]]></code>
+      <code><![CDATA[public function getCookieSecure()]]></code>
+      <code><![CDATA[public function getName()]]></code>
+      <code><![CDATA[public function getOption($option)]]></code>
+      <code><![CDATA[public function getOptions()]]></code>
+      <code><![CDATA[public function getRememberMeSeconds()]]></code>
+      <code><![CDATA[public function getSavePath()]]></code>
+      <code><![CDATA[public function getUseCookies()]]></code>
+      <code><![CDATA[public function hasOption($option)]]></code>
+      <code><![CDATA[public function setCookieDomain($cookieDomain)]]></code>
+      <code><![CDATA[public function setCookieHttpOnly($cookieHttpOnly)]]></code>
+      <code><![CDATA[public function setCookieLifetime($cookieLifetime)]]></code>
+      <code><![CDATA[public function setCookiePath($cookiePath)]]></code>
+      <code><![CDATA[public function setCookieSecure($cookieSecure)]]></code>
+      <code><![CDATA[public function setName($name)]]></code>
+      <code><![CDATA[public function setOption($option, $value)]]></code>
+      <code><![CDATA[public function setOptions($options)]]></code>
+      <code><![CDATA[public function setRememberMeSeconds($rememberMeSeconds)]]></code>
+      <code><![CDATA[public function setSavePath($savePath)]]></code>
+      <code><![CDATA[public function setUseCookies($useCookies)]]></code>
+      <code><![CDATA[public function toArray()]]></code>
+    </MissingOverrideAttribute>
   </file>
   <file src="test/TestAsset/TestContainer.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[TestContainer]]></code>
+    </ClassMustBeFinal>
     <PropertyNotSetInConstructor>
       <code><![CDATA[TestContainer]]></code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/TestAsset/TestDbTableGatewaySaveHandler.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[TestDbTableGatewaySaveHandler]]></code>
+    </ClassMustBeFinal>
     <DeprecatedClass>
       <code><![CDATA[DbTableGateway]]></code>
       <code><![CDATA[parent::destroy($id)]]></code>
@@ -1871,6 +2381,10 @@
       <code><![CDATA[destroy]]></code>
       <code><![CDATA[read]]></code>
     </MethodSignatureMustProvideReturnType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function destroy($id)]]></code>
+      <code><![CDATA[public function read($id, $destroyExpired = true)]]></code>
+    </MissingOverrideAttribute>
     <PossiblyInvalidArgument>
       <code><![CDATA[$id]]></code>
       <code><![CDATA[$id]]></code>
@@ -1885,11 +2399,22 @@
     </UnusedClass>
   </file>
   <file src="test/TestAsset/TestFailingValidator.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[TestFailingValidator]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getData()]]></code>
+      <code><![CDATA[public function getName()]]></code>
+      <code><![CDATA[public function isValid()]]></code>
+    </MissingOverrideAttribute>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[bool]]></code>
     </PossiblyUnusedReturnValue>
   </file>
   <file src="test/TestAsset/TestManager.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[TestManager]]></code>
+    </ClassMustBeFinal>
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[void]]></code>
       <code><![CDATA[void]]></code>
@@ -1908,6 +2433,23 @@
       <code><![CDATA[sessionExists]]></code>
       <code><![CDATA[setValidatorChain]]></code>
     </InvalidReturnType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function destroy()]]></code>
+      <code><![CDATA[public function expireSessionCookie()]]></code>
+      <code><![CDATA[public function forgetMe()]]></code>
+      <code><![CDATA[public function getId()]]></code>
+      <code><![CDATA[public function getName()]]></code>
+      <code><![CDATA[public function getValidatorChain()]]></code>
+      <code><![CDATA[public function isValid()]]></code>
+      <code><![CDATA[public function regenerateId()]]></code>
+      <code><![CDATA[public function rememberMe($ttl = null)]]></code>
+      <code><![CDATA[public function sessionExists()]]></code>
+      <code><![CDATA[public function setId($id)]]></code>
+      <code><![CDATA[public function setName($name)]]></code>
+      <code><![CDATA[public function setValidatorChain(EventManagerInterface $chain)]]></code>
+      <code><![CDATA[public function start()]]></code>
+      <code><![CDATA[public function writeClose()]]></code>
+    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[stop]]></code>
     </PossiblyUnusedMethod>
@@ -1925,6 +2467,9 @@
     </UndefinedDocblockClass>
   </file>
   <file src="test/TestAsset/TestSaveHandler.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[TestSaveHandler]]></code>
+    </ClassMustBeFinal>
     <ImplementedParamTypeMismatch>
       <code><![CDATA[$data]]></code>
     </ImplementedParamTypeMismatch>
@@ -1932,6 +2477,14 @@
       <code><![CDATA[void]]></code>
       <code><![CDATA[void]]></code>
     </ImplementedReturnTypeMismatch>
+    <MissingOverrideAttribute>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[public function close(): bool]]></code>
+      <code><![CDATA[public function destroy($id): bool]]></code>
+      <code><![CDATA[public function write($id, $data): bool]]></code>
+    </MissingOverrideAttribute>
     <ParamNameMismatch>
       <code><![CDATA[$maxlifetime]]></code>
     </ParamNameMismatch>
@@ -1940,12 +2493,23 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="test/TestAsset/TestSaveHandlerWithValidator.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[TestSaveHandlerWithValidator]]></code>
+    </ClassMustBeFinal>
     <ImplementedParamTypeMismatch>
       <code><![CDATA[$data]]></code>
     </ImplementedParamTypeMismatch>
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[bool]]></code>
     </ImplementedReturnTypeMismatch>
+    <MissingOverrideAttribute>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[#[ReturnTypeWillChange]]]></code>
+      <code><![CDATA[public function close(): bool]]></code>
+      <code><![CDATA[public function destroy($id): bool]]></code>
+      <code><![CDATA[public function open(string $path, string $name): bool]]></code>
+    </MissingOverrideAttribute>
     <ParamNameMismatch>
       <code><![CDATA[$maxlifetime]]></code>
     </ParamNameMismatch>
@@ -1954,6 +2518,9 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="test/Validator/CsrfTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[CsrfTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedMethod>
       <code><![CDATA[getHash]]></code>
       <code><![CDATA[getHash]]></code>
@@ -2000,11 +2567,18 @@
     <DocblockTypeContradiction>
       <code><![CDATA[$container->hash]]></code>
     </DocblockTypeContradiction>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+      <code><![CDATA[protected function tearDown(): void]]></code>
+    </MissingOverrideAttribute>
     <TypeDoesNotContainType>
       <code><![CDATA[assertIsString]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="test/Validator/HttpUserAgentTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[HttpUserAgentTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
       <code><![CDATA[getData]]></code>
@@ -2017,15 +2591,18 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/Validator/IdTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[IdTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
       <code><![CDATA[getData]]></code>
     </DeprecatedMethod>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[id]]></code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="test/Validator/RemoteAddrTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[RemoteAddrTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
       <code><![CDATA[getData]]></code>
@@ -2042,9 +2619,18 @@
     </MissingConstructor>
   </file>
   <file src="test/Validator/ValidatorChainTest.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ValidatorChainTest]]></code>
+    </ClassMustBeFinal>
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
     </DeprecatedMethod>
+    <MissingOverrideAttribute>
+      <code><![CDATA[protected function setUp(): void]]></code>
+      <code><![CDATA[public function getData(): bool]]></code>
+      <code><![CDATA[public function getName(): string]]></code>
+      <code><![CDATA[public function isValid(): bool]]></code>
+    </MissingOverrideAttribute>
     <NoInterfaceProperties>
       <code><![CDATA[$validator::$isValidCallCount]]></code>
     </NoInterfaceProperties>
