@@ -73,6 +73,20 @@ final class Csrf extends AbstractValidator
     /** @param OptionsArgument $options */
     public function __construct(array $options = [])
     {
+        // Handle options manually for validator v3 compatibility
+        if (isset($options['name'])) {
+            $this->setName($options['name']);
+        }
+        if (isset($options['salt'])) {
+            $this->setSalt($options['salt']);
+        }
+        if (isset($options['session'])) {
+            $this->setSession($options['session']);
+        }
+        if (isset($options['timeout'])) {
+            $this->setTimeout($options['timeout']);
+        }
+        
         parent::__construct($options);
     }
 
