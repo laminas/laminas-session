@@ -9,10 +9,12 @@ use Traversable;
 
 use function array_key_exists;
 use function array_merge;
+use function assert;
 use function constant;
 use function defined;
 use function headers_sent;
 use function is_array;
+use function is_string;
 use function iterator_to_array;
 use function preg_match;
 use function register_shutdown_function;

@@ -20,7 +20,7 @@ use function str_replace;
 use function strtr;
 use function uniqid;
 
-class CsrfTest extends TestCase
+final class CsrfTest extends TestCase
 {
     private Csrf $validator;
     private SessionManager $sessionManager;
@@ -111,9 +111,7 @@ class CsrfTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider timeoutValuesDataProvider
-     */
+    #[DataProvider('timeoutValuesDataProvider')]
     public function testTimeoutIsMutable(int|null $timeout, ?int $expected): void
     {
         $this->validator->setTimeout($timeout);

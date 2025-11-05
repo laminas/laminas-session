@@ -10,7 +10,7 @@ use function array_shift;
 use function array_unshift;
 use function is_array;
 
-final class ValidatorChain extends EventManager
+class ValidatorChain extends EventManager
 {
     public function __construct(protected StorageInterface $storage)
     {

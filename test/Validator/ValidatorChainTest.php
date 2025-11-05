@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 use function assert;
 use function property_exists;
 
-class ValidatorChainTest extends TestCase
+final class ValidatorChainTest extends TestCase
 {
     private ValidatorChain $validatorChain;
 

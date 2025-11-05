@@ -2,8 +2,10 @@
 
 namespace Laminas\Session\Validator;
 
+use function assert;
 use function ini_get;
 use function is_numeric;
+use function is_string;
 use function preg_match;
 use function session_id;
 use function strrpos;
@@ -39,6 +41,7 @@ class Id implements ValidatorInterface
     {
         if ($id === null || $id === '') {
             $id = session_id();
+            assert(is_string($id));
         }
 
         $this->id = $id;

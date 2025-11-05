@@ -6,9 +6,7 @@
         colors="true"
         cacheDirectory=".phpunit.cache"
         displayDetailsOnAllIssues="true"
-        failOnNotice="true"
-        failOnWarning="true"
-        failOnPhpunitDeprecation="true"
+        failOnAllIssues="true"
 >
   <testsuites>
     <testsuite name="laminas-session Test Suite">

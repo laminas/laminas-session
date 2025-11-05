@@ -473,11 +473,10 @@ abstract class AbstractContainer extends ArrayObject
 
         $old            = $storage[$name];
         $storage[$name] = $input;
-        if ($old instanceof ArrayObject) {
-            return $old->getArrayCopy();
-        }
 
-        return $old;
+        /** @var array<TKey, TValue> $return */
+        $return = $old instanceof ArrayObject ? $old->getArrayCopy() : $old;
+        return $return;
     }
 
     /** @inheritDoc */
@@ -595,6 +594,8 @@ abstract class AbstractContainer extends ArrayObject
         $storage   = $this->verifyNamespace();
         $container = $storage[$this->getName()];
 
-        return $container instanceof ArrayObject ? $container->getArrayCopy() : $container;
+        /** @var array<TKey, TValue> $array */
+        $array = $container instanceof ArrayObject ? $container->getArrayCopy() : $container;
+        return $array;
     }
 }

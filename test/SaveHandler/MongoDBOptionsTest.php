@@ -6,16 +6,15 @@ namespace LaminasTest\Session\SaveHandler;
 
 use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\SaveHandler\MongoDBOptions;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 use function getenv;
 use function phpversion;
 use function version_compare;
 
-/**
- * @covers \Laminas\Session\SaveHandler\MongoDbOptions
- */
-class MongoDBOptionsTest extends TestCase
+#[CoversClass(MongoDBOptions::class)]
+final class MongoDBOptionsTest extends TestCase
 {
     public function testDefaults(): void
     {

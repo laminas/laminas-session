@@ -26,7 +26,7 @@ use function session_write_close;
 use const PHP_SESSION_ACTIVE;
 
 #[CoversClass(SessionConfigFactory::class)]
-class SessionConfigFactoryTest extends TestCase
+final class SessionConfigFactoryTest extends TestCase
 {
     private ServiceManager $services;
 

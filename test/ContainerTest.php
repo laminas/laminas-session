@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace LaminasTest\Session;
 
 use ArrayObject;
+use Laminas\Session\AbstractContainer;
 use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Container;
 use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\ManagerInterface as Manager;
 use Laminas\Session\Storage\SessionArrayStorage;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 use function microtime;
@@ -19,7 +21,7 @@ use function time;
 
 #[CoversClass(Container::class)]
 #[CoversClass(AbstractContainer::class)]
-class ContainerTest extends TestCase
+final class ContainerTest extends TestCase
 {
     /**
      * Hack to allow running tests in separate processes

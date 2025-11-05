@@ -16,6 +16,11 @@
         </ignoreFiles>
     </projectFiles>
     <issueHandlers>
+        <ClassMustBeFinal>
+            <errorLevel type="suppress">
+                <directory name="src" />
+            </errorLevel>
+        </ClassMustBeFinal>
         <MissingOverrideAttribute>
             <errorLevel type="suppress">
                 <directory name="src" />

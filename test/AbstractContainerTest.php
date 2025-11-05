@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session;
 
+use Laminas\Session\AbstractContainer;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface as Manager;
@@ -12,7 +13,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(AbstractContainer::class)]
-class AbstractContainerTest extends TestCase
+final class AbstractContainerTest extends TestCase
 {
     /**
      * Hack to allow running tests in separate processes

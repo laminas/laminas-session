@@ -6,14 +6,11 @@ namespace LaminasTest\Session\SaveHandler;
 
 use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\SaveHandler\DbTableGatewayOptions;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Unit testing for DbTableGatewayOptions
- *
- * @covers \Laminas\Session\SaveHandler\DbTableGatewayOptions
- */
-class DbTableGatewayOptionsTest extends TestCase
+#[CoversClass(DbTableGatewayOptions::class)]
+final class DbTableGatewayOptionsTest extends TestCase
 {
     public function testDefaults(): void
     {

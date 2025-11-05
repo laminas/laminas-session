@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(RemoteAddr::class)]
-class RemoteAddrTest extends TestCase
+final class RemoteAddrTest extends TestCase
 {
     /** @var array */
     protected $backup;

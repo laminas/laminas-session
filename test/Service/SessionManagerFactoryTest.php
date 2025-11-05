@@ -20,13 +20,14 @@ use LaminasTest\Session\ReflectionPropertyTrait;
 use LaminasTest\Session\TestAsset\TestManager;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 use function iterator_to_array;
 
 #[CoversClass(SessionManagerFactory::class)]
-class SessionManagerFactoryTest extends TestCase
+final class SessionManagerFactoryTest extends TestCase
 {
     use EventListenerIntrospectionTrait;
     use ReflectionPropertyTrait;
@@ -96,9 +97,7 @@ class SessionManagerFactoryTest extends TestCase
         self::assertNotSame($manager, Container::getDefaultManager());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testFactoryWillAddValidatorViaConfiguration(): void
     {
         $config = [
@@ -118,9 +117,7 @@ class SessionManagerFactoryTest extends TestCase
         self::assertCount(2, $listeners);
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testStartingSessionManagerFromFactoryDoesNotTriggerUndefinedVariable(): void
     {
         $storage = new ArrayStorage();
@@ -132,9 +129,7 @@ class SessionManagerFactoryTest extends TestCase
         self::assertSame($storage, $manager->getStorage());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testFactoryDoesNotOverwriteValidatorStorageValues(): void
     {
         $storage = new ArrayStorage();
@@ -166,9 +161,7 @@ class SessionManagerFactoryTest extends TestCase
         self::assertSame('1.2.3.4', $validatorData[Validator\RemoteAddr::class]);
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testFactoryDoesNotAttachValidatorTwoTimes(): void
     {
         $storage = new ArrayStorage();
