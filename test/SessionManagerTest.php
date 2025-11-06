@@ -183,7 +183,7 @@ final class SessionManagerTest extends TestCase
         $this->manager = new SessionManager();
         session_start();
         session_write_close();
-        self::assertTrue($this->manager->sessionExists());
+        self::assertFalse($this->manager->sessionExists());
     }
 
     #[RunInSeparateProcess]
@@ -488,7 +488,7 @@ final class SessionManagerTest extends TestCase
         $this->manager = new SessionManager();
         $this->manager->start();
         $this->manager->writeClose();
-        self::assertTrue($this->manager->sessionExists());
+        self::assertFalse($this->manager->sessionExists());
     }
 
     #[RunInSeparateProcess]
@@ -851,8 +851,7 @@ final class SessionManagerTest extends TestCase
 
         $manager->writeClose();
 
-        // calling writeClose() does not mark the session as closed
-        self::assertTrue($manager->sessionExists());
+        self::assertFalse($manager->sessionExists());
         self::assertSame($id, $manager->getId());
     }
 
