@@ -966,18 +966,32 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/Validator/AbstractValidatorChainEM3.php">
+    <ConstructorSignatureMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ConstructorSignatureMismatch>
     <DeprecatedTrait>
       <code><![CDATA[ValidatorChainTrait]]></code>
     </DeprecatedTrait>
+    <ImplementedParamTypeMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ImplementedParamTypeMismatch>
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[CallbackHandler]]></code>
     </ImplementedReturnTypeMismatch>
+    <InvalidExtendClass>
+      <code><![CDATA[EventManager]]></code>
+    </InvalidExtendClass>
     <InvalidReturnStatement>
       <code><![CDATA[$this->attachValidator($eventName, $listener, $priority)]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[CallbackHandler]]></code>
     </InvalidReturnType>
+    <MethodSignatureMismatch>
+      <code><![CDATA[public function __construct(StorageInterface $storage)]]></code>
+      <code><![CDATA[public function __construct(StorageInterface $storage)]]></code>
+      <code><![CDATA[public function attach($eventName, callable $listener, $priority = 1)]]></code>
+    </MethodSignatureMismatch>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
       <code><![CDATA[$validator]]></code>
@@ -986,9 +1000,9 @@
     <MixedMethodCall>
       <code><![CDATA[new $validator($data)]]></code>
     </MixedMethodCall>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[__construct]]></code>
-    </PossiblyUnusedMethod>
+    <ParamNameMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ParamNameMismatch>
     <UndefinedDocblockClass>
       <code><![CDATA[CallbackHandler]]></code>
     </UndefinedDocblockClass>
@@ -1045,9 +1059,23 @@
     </UndefinedDocblockClass>
   </file>
   <file src="src/ValidatorChain.php">
+    <ConstructorSignatureMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ConstructorSignatureMismatch>
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
     </DeprecatedMethod>
+    <ImplementedParamTypeMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ImplementedParamTypeMismatch>
+    <InvalidExtendClass>
+      <code><![CDATA[EventManager]]></code>
+    </InvalidExtendClass>
+    <MethodSignatureMismatch>
+      <code><![CDATA[public function __construct(protected StorageInterface $storage)]]></code>
+      <code><![CDATA[public function __construct(protected StorageInterface $storage)]]></code>
+      <code><![CDATA[public function attach($eventName, callable $listener, $priority = 1)]]></code>
+    </MethodSignatureMismatch>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
       <code><![CDATA[$data]]></code>
@@ -1057,6 +1085,9 @@
     <MixedMethodCall>
       <code><![CDATA[new $validator($data)]]></code>
     </MixedMethodCall>
+    <ParamNameMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ParamNameMismatch>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[callable]]></code>
     </PossiblyUnusedReturnValue>
