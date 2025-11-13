@@ -47,7 +47,7 @@
         "laminas/laminas-db": "^2.20.0",
         "laminas/laminas-http": "^2.22",
         "laminas/laminas-validator": "^2.64.4",
-        "mongodb/mongodb": "~2.1.1",
+        "mongodb/mongodb": "~2.1.1 || v2.1.x-dev",
         "phpunit/phpunit": "^11.5.42",
         "psalm/plugin-phpunit": "^0.19.5",
         "vimeo/psalm": "^6.13.1"
@@ -86,6 +86,7 @@
     },
     "conflict": {
         "zendframework/zend-session": "*",
-        "amphp/amp":"<2.6.4"
+        "amphp/amp":"<2.6.4",
+        "mongodb/mongodb": "<=2.1.1"
     }
 }
