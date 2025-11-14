@@ -7,7 +7,7 @@ namespace LaminasTest\Session\TestAsset;
 use Laminas\Session\Storage\StorageInterface;
 
 /**
- * @template TKey of array-key
+ * @template TKey of string
  * @template TValue
  * @template-extends StorageInterface<TKey, TValue>
  */

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session;
 
 use Laminas\EventManager\EventManager;
@@ -15,12 +17,6 @@ class ValidatorChain extends EventManager
     public function __construct(protected StorageInterface $storage)
     {
         parent::__construct();
-        $validators = $storage->getMetadata('_VALID');
-        if ($validators) {
-            foreach ($validators as $validator => $data) {
-                $this->attachValidator('session.validate', [new $validator($data), 'isValid'], 1);
-            }
-        }
     }
 
     /**
@@ -37,10 +33,8 @@ class ValidatorChain extends EventManager
 
     /**
      * Retrieve session storage object
-     *
-     * @return StorageInterface
      */
-    public function getStorage()
+    public function getStorage(): StorageInterface
     {
         return $this->storage;
     }
@@ -48,13 +42,8 @@ class ValidatorChain extends EventManager
     /**
      * Internal implementation for attaching a listener to the
      * session validator chain.
-     *
-     * @param string   $event
-     * @param callable $callback
-     * @param int      $priority
-     * @return callable
      */
-    private function attachValidator($event, $callback, $priority)
+    private function attachValidator(string $event, callable $callback, int $priority): callable
     {
         $context = null;
         if ($callback instanceof ValidatorInterface) {
@@ -67,11 +56,9 @@ class ValidatorChain extends EventManager
             array_unshift($callback, $test);
         }
         if ($context instanceof ValidatorInterface) {
-            $data = $context->getData();
             $name = $context->getName();
-            $this->getStorage()->setMetadata('_VALID', [$name => $data]);
+            $this->getStorage()->setMetadata('_VALID', [$name]);
         }
-
         return parent::attach($event, $callback, $priority);
     }
 }

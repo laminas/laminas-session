@@ -19,6 +19,24 @@ nav:
             - "Preparing for v3": v2/migration/preparing-for-v3.md
         - "Application Integration":
             - "Usage in a laminas-mvc application": v2/application-integration/usage-in-a-laminas-mvc-application.md
+    - v3:
+        - Installation: v3/installation.md
+        - "Session Config": v3/config.md
+        - "Session Container": v3/container.md
+        - "Session Manager": v3/manager.md
+        - "Session Save Handlers": v3/save-handler.md
+        - "Session Storage": v3/storage.md
+        - Validators:
+            - Introduction: v3/validators/introduction.md
+            - "Http User Agent": v3/validators/httpuseragent.md
+            - "Remote Address": v3/validators/remoteaddr.md
+            - "CSRF Validator": v3/validators/csrf.md
+            - "Writing Custom Validators": v3/validators/writing-custom-validators.md
+        - Migration:
+            - "Migration from Version 2 to 3": v3/migration/v2-to-v3.md
+        - "Application Integration":
+            - "Usage in a laminas-mvc application": v3/application-integration/usage-in-a-laminas-mvc-application.md
+
 site_name: laminas-session
 site_description: 'Object-oriented interface to PHP sessions and storage.'
 repo_url: 'https://github.com/laminas/laminas-session'
@@ -27,22 +45,23 @@ extra:
     installation:
       config_provider_class: 'Laminas\Session\ConfigProvider'
       module_class: 'Laminas\Session\Module'
-    current_version: v2
+    current_version: v3
     versions:
+        - v3
         - v2
 plugins:
     - redirects:
           redirect_maps:
-              installation.md: v2/installation.md
-              config.md: v2/config.md
-              container.md: v2/container.md
-              manager.md: v2/manager.md
-              save-handler.md: v2/save-handler.md
-              storage.md: v2/storage.md
-              validators/introduction.md: v2/validators/introduction.md
-              validators/httpuseragent.md: v2/validators/httpuseragent.md
-              validators/remoteaddr.md: v2/validators/remoteaddr.md
-              validators/csrf.md: v2/validators/csrf.md
-              validators/writing-custom-validators.md: v2/validators/writing-custom-validators.md
-              application-integration/usage-in-a-laminas-mvc-application.md: v2/application-integration/usage-in-a-laminas-mvc-application.md
-              validator.md: v2/validators/introduction.md
+              installation.md: v3/installation.md
+              config.md: v3/config.md
+              container.md: v3/container.md
+              manager.md: v3/manager.md
+              save-handler.md: v3/save-handler.md
+              storage.md: v3/storage.md
+              validators/introduction.md: v3/validators/introduction.md
+              validators/httpuseragent.md: v3/validators/httpuseragent.md
+              validators/remoteaddr.md: v3/validators/remoteaddr.md
+              validators/csrf.md: v3/validators/csrf.md
+              validators/writing-custom-validators.md: v3/validators/writing-custom-validators.md
+              application-integration/usage-in-a-laminas-mvc-application.md: v3/application-integration/usage-in-a-laminas-mvc-application.md
+              validator.md: v3/validators/introduction.md

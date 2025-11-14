@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session\Service;
 
 // phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
-use Interop\Container\ContainerInterface;
-use Laminas\ServiceManager\AbstractFactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface;
+use Psr\Container\ContainerInterface;
 
 use function array_change_key_case;
 use function array_flip;
@@ -39,88 +40,48 @@ use function strtolower;
  *
  * @final
  */
-class ContainerAbstractServiceFactory implements AbstractFactoryInterface
+final class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 {
     /**
      * Cached container configuration
-     *
-     * @var array
      */
-    protected $config;
+    private ?array $config = null;
 
     /**
      * Configuration key in which session containers live
-     *
-     * @var string
      */
-    protected $configKey = 'session_containers';
+    private string $configKey = 'session_containers';
 
-    /** @var ManagerInterface */
-    protected $sessionManager;
+    private ?ManagerInterface $sessionManager = null;
 
     /**
-     * Can we create an instance of the given service? (v3 usage).
-     *
-     * @param string $requestedName
-     * @return bool
+     * Can we create an instance of the given service?
      */
-    public function canCreate(ContainerInterface $container, $requestedName)
+    public function canCreate(ContainerInterface $container, string $requestedName): bool
     {
         $config = $this->getConfig($container);
         if ($config === []) {
             return false;
         }
 
-        $containerName = $this->normalizeContainerName($requestedName);
-        return array_key_exists($containerName, $config);
+        return array_key_exists(strtolower($requestedName), $config);
     }
 
     /**
-     * @deprecated This method will be removed in version 3.0
-     * Can we create an instance of the given service? (v2 usage)
-     *
-     * @param string $name
-     * @param string $requestedName
-     * @return bool
+     * Create and return a named container.
      */
-    public function canCreateServiceWithName(ServiceLocatorInterface $container, $name, $requestedName)
-    {
-        return $this->canCreate($container, $requestedName);
-    }
-
-    /**
-     * Create and return a named container (v3 usage).
-     *
-     * @param string $requestedName
-     * @return Container
-     */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): Container
     {
         $manager = $this->getSessionManager($container);
         return new Container($requestedName, $manager);
     }
 
     /**
-     * @deprecated This method will be removed in version 3.0
-     * Create and return a named container (v2 usage).
-     *
-     * @param string $name
-     * @param string $requestedName
-     * @return Container
-     */
-    public function createServiceWithName(ServiceLocatorInterface $container, $name, $requestedName)
-    {
-        return $this($container, $requestedName);
-    }
-
-    /**
      * Retrieve config from service locator, and cache for later
-     *
-     * @return array
      */
-    protected function getConfig(ContainerInterface $container)
+    private function getConfig(ContainerInterface $container): array
     {
-        if (null !== $this->config) {
+        if ($this->config !== null) {
             return $this->config;
         }
 
@@ -145,30 +106,21 @@ class ContainerAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Retrieve the session manager instance, if any
-     *
-     * @return null|ManagerInterface
      */
-    protected function getSessionManager(ContainerInterface $container)
+    private function getSessionManager(ContainerInterface $container): ?ManagerInterface
     {
         if ($this->sessionManager !== null) {
             return $this->sessionManager;
         }
 
         if ($container->has(ManagerInterface::class)) {
-            $this->sessionManager = $container->get(ManagerInterface::class);
+            $sessionManager = $container->get(ManagerInterface::class);
+
+            if ($sessionManager instanceof ManagerInterface) {
+                $this->sessionManager = $sessionManager;
+            }
         }
 
         return $this->sessionManager;
-    }
-
-    /**
-     * Normalize the container name in order to perform a lookup
-     *
-     * @param  string $name
-     * @return string
-     */
-    protected function normalizeContainerName($name)
-    {
-        return strtolower($name);
     }
 }

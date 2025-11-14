@@ -1,0 +1,258 @@
+# Migration from Version 2 to 3
+
+`laminas-session` introduces a number of backward incompatible changes that might affect your application.
+This document details those changes and provides suggestions on how to update your application to work with version 3.
+
+## New Features
+
+### Service Manager v4 Support
+
+Laminas Session now supports [Service Manager v4](https://docs.laminas.dev/laminas-servicemanager/).
+This will restrict installation of `laminas-session` in projects that have other dependencies still constrained to version 3.x of service manager, such as version 2.x of `laminas-captcha`.
+
+To facilitate this change, the `laminas/laminas-validator` dependency has also been bumped to the 3.x major version.
+As such, any custom code using version 2.x of `laminas/laminas-validator` will have to be verified and updated if necessary.
+
+### Environment Data Object
+
+A new `Environment` final class has been added to replace the internal usage of the `$_SERVER` superglobal across the validator classes.
+An `Environment` object can be instantiated by passing the relevant data to its constructor, or it can be statically created using the `Environment::fromGlobals()` method.
+
+### Codebase Updated
+
+Raised the PHP language level up to the minimum supported version across the codebase, by adding native PHP 8.1 features
+as well as native types where needed.
+
+## Signature and Behaviour Changes
+
+### SessionManager Changes
+
+In addition to general PHP 8.1 syntax changes, the `SessionManager` class has been updated to make use of the new validator structure.
+
+The validation flow in version 3.0.x requires and initial `Environment` object with all properties set to be saved in the storage metadata under the `environment` key,
+to be used by all validators in the chain as the `initial` object passed to their constructor.
+
+This initial `Environment` object is set in the `initializeValidatorChain` method of `SessionManager` using the data from the `$_SERVER` superglobal.
+It will be the object against which all `current` data objects will be compared to within the different validators.
+
+In addition to these changes, there are several other important modifications:
+
+1. The `Laminas\Session\SessionManager` class is now marked as `final`, so it can no longer be extended.
+2. The `setId()` method now only accepts `string` type instead of the previous `int|string` union type.
+3. Options like `send_expire_cookie`, `clear_storage` and `preserve_storage` could be set during construction and will be used in `destroy()` and `start()` method calls if the parameter will be passed as null.
+4. All validator types are strictly defined as `class-string<ValidatorInterface>`.
+5. The implementation of the `sessionExists()` method has been simplified and no longer uses the PHP constant `SID` because this is [deprecated since PHP 8.4](https://wiki.php.net/rfc/deprecations_php_8_4#constant_sid).
+
+> NOTE: **Logical change**
+> Due to this implementation change, `sessionExists()` will now return `false` after `session_close()` has been called, whereas in version 2 it would return `true`.
+
+The following properties have been removed:
+
+- `defaultDestroyOptions`
+- `defaultOptions`
+
+### Native Types for `ManagerInterface`
+
+Starting from version 3.0, the `ManagerInterface` now uses native PHP 8 type hints for all its methods.
+
+If you have custom classes implementing `ManagerInterface`, you'll need to update your method signatures to match the new interface.
+
+### Cache Save Handler
+
+Because `laminas/laminas-cache` was replaced with `psr/simple-cache`, the `Cache` save handler has been updated.
+The class has been made `final`, with the following properties removed:
+
+- `sessionSavePath`
+- `sessionName`
+
+The following methods have also been removed:
+
+- `setCacheStorage`
+- `getCacheStorage`
+- `getCacheStorge`
+
+To make sure all session IDs received are compliant with the PSR-16 specification for cache keys,
+`laminas-session` will hash received keys for the internal cache keys.
+
+As the PSR spec defines `CacheException` and `InvalidArgumentException` for any implementing library,
+two new exception classes have been introduced to catch PSR cache exceptions and rethrow them in the package's own namespace:
+
+- `SimpleCacheException`
+- `SimpleCacheInvalidArgumentException`
+
+Going forward, you may move `laminas/laminas-cache` to your application's direct requirements to keep using it,
+or find a PSR-16 implementation in the `psr/simple-cache-implementation` virtual repository or [Laminas Integrations Page](https://getlaminas.org/integrations/).
+
+### ValidatorInterface changes
+
+Starting from version 3.0 the `ValidatorInterface` now specifies the constructor structure needed for validators, with mandatory
+`Environment` objects representing the initial and current states to be used by the validators, while also accepting an `options` array.
+
+The classes implementing `ValidatorInterface` have all been updated to match the new `__construct(Environment $initial, Environment $current, array $options = [])` structure:
+
+- `HttpUserAgent`
+- `Id`
+- `RemoteAddr`
+
+> Note that the `Csrf` validator keeps its original usage, not implementing `ValidatorInterface`, and is not affected by this change.
+
+The following method was removed from the interface, as well as from any implementing class:
+
+- `getData`
+
+### Final Validator Classes
+
+All validator classes included in `laminas-session` are now defined as `final`, as validators were not designed for inheritance.
+Making the validators final prevents inheritance misuse and reduces the backward compatibility surface area that we need to maintain.
+
+If you make use of custom validators extending any of the shipped validators you will have to refactor them.
+
+### Csrf Changes
+
+In addition to the general PHP 8.1 syntax updates, the `Csrf` validator has been changed
+to set all required properties in the constructor despite not implementing the shipped `ValidatorInterface`.
+
+> The constructor accepts an associative array of [documented options](../validators/csrf.md#supported-options).
+
+In consequence, the following public getters and setters have been dropped in version 3.0:
+
+- `setName`
+- `getName`
+- `setSession`
+- `getSession`
+- `setSalt`
+- `getSalt`
+- `getHash`
+- `setTimeout`
+- `getTimeout`
+
+### HttpUserAgent Changes
+
+The `data` property has been removed, alongside its getter:
+
+- `getData`
+
+The constructor method has been updated, dropping the `data` parameter, and now follows the structure required by `ValidatorInterface`.
+The validator makes use of the `userAgent` property of the `Environment` objects it receives for the validation process.
+
+### Id Changes
+
+The `Id` validator now uses native PHP 8.1 type hints for all its methods.
+The `id` property has been removed, alongside its getter:
+
+- `getData`
+
+The constructor method has been updated, dropping the `id` parameter, and now follows the structure required by `ValidatorInterface`.
+The validator makes use of the `sessionId` property of the `$current` `Environment` object it receives for the validation process.
+
+### RemoteAddr Changes
+
+In addition to the new `ValidatorInterface` changes and general PHP 8.1 syntax changes, because of the removal of `laminas/laminas-http`
+the `RemoteAddr` validator has also been updated to get the user's IP address itself using the new public `getIpAddress` method.
+
+The following properties have been removed:
+
+- `data`
+- `useProxy`
+- `trustedProxies`
+- `proxyHeader`
+
+Their getters and setters have also been removed:
+
+- `getData`
+- `setUseProxy`
+- `getUseProxy`
+- `setTrustedProxies`
+- `setProxyHeader`
+
+The validator uses the `remoteAddr` and `forwadedFor` properties of the `Environment` object to handle validation.
+
+> The constructor accepts an associative array of [documented options](../validators/remoteaddr.md#supported-options).
+
+### ValidatorChain Changes
+
+To accommodate the changes to the validator classes and to `SessionManager`, the `ValidatorChain` class has been updated
+to no longer reattach validators in its constructor.
+
+Another change is to the format validators are attached internally under the `_VALID` key, with data no longer being saved alongside the validator name.
+
+> Note that the validators will now reject any sessions saved using the old format.
+
+### Invokable factories
+
+Due to the update to `laminas/laminas-servicemanager 4`, all factory classes implementing `Laminas\ServiceManager\Factory\FactoryInterface`
+are now forced to be invokable classes:
+
+- `ContainerAbstractServiceFactory`
+- `SessionConfigFactory`
+- `SessionManagerFactory`
+- `StorageFactory`
+
+The `createService()` method implemented in each of these factories has been removed.
+
+In addition to these changes, all of these classes have been made `final`, and as such are no longer available to be extended.
+
+### ConfigProvider Changes
+
+Starting from version 3.0, the `ConfigProvider` is set as `final`.
+
+## Removed Features
+
+### `laminas/laminas-cache` Removal
+
+The `laminas/laminas-cache` dependency has been dropped in starting from version 3.0.
+A decision was taken to require external cache adapters to adhere to [PSR-16](https://www.php-fig.org/psr/psr-16/),
+and as such, this dependency was replaced with `psr/simple-cache`.
+
+### `laminas/laminas-db` Removal
+
+Starting from version 3.0 the `laminas/laminas-db` dependency has been removed.
+In consequence, the following classes, based on this package, have also been removed:
+
+- `Laminas\Session\SaveHandler\DbTableGateway`
+- `Laminas\Session\SaveHandler\DbTableGatewayOptions`
+
+All test files for these classes have also been removed.
+
+Any custom code based on them will require you to implement
+replacements yourself by creating classes that implement `Laminas\Session\SaveHandler\SaveHandlerInterface`
+as per [the custom save handler documentation](../save-handler.md),
+with `options` classes for them if the save handlers are configurable.
+
+Alternatively, [axleus/laminas-db](https://github.com/axleus/laminas-db) is an up to date,
+actively maintained fork of `laminas/laminas-db` which plans to adopt the save handler.
+
+### `laminas/laminas-http` Removal
+
+The `laminas/laminas-http` dependency was only used in the `RemoteAddr` validator to get the user's IP address.
+This functionality has been moved directly to the validator, allowing for the package to be removed, in the interest of a smaller dependency tree.
+
+Make sure to explicitly require this package if your custom code is making use of it.
+
+### `laminas/laminas-stdlib` Removal
+
+Starting from version 3.0, the `laminas/laminas-stdlib` dependency has been dropped, with its usage being replaced with native PHP alternatives.
+
+### `MongoDB` Removal
+
+MongoDB support has been completely removed in version 3.0, notably the following classes no longer exist:
+
+- `Laminas\Session\SaveHandler\MongoDB`
+- `Laminas\Session\SaveHandler\MongoDBOptions`
+
+All test files for these classes have also been removed.
+
+If you require MongoDB support in your application, you will need to implement that support yourself
+by creating a class that implements `Laminas\Session\SaveHandler\SaveHandlerInterface` as per [the custom save handler documentation](../save-handler.md).
+
+### Legacy Deprecated Classes Removal
+
+The following classes previously marked as deprecated and left for backward compatibility have now been removed:
+
+- `autoload-dev/ReturnTypeWillChange`
+- `AbstractValidatorChain`
+- `AbstractValidatorChainEM3`
+- `ValidatorChainTrait`
+- `src/compatibility/autoload.php`
+
+Alongside them, any attached test classes have also been removed.

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\Validator;
 
+use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\HttpUserAgent;
+use LaminasTest\Session\TestAsset\TestCustomEnvironment;
 use PHPUnit\Framework\TestCase;
 
 final class HttpUserAgentTest extends TestCase
@@ -12,10 +14,22 @@ final class HttpUserAgentTest extends TestCase
     public function testIsValid(): void
     {
         $_SERVER['HTTP_USER_AGENT'] = 'Test-User-Agent';
+        $validator                  = new HttpUserAgent(
+            Environment::fromGlobals($_SERVER),
+            Environment::fromGlobals($_SERVER)
+        );
 
-        $validator = new HttpUserAgent();
+        self::assertTrue($validator->isValid());
+    }
 
-        self::assertNotNull($validator->getData());
+    public function testIsValidWithCustomEnvironment(): void
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'Test-User-Agent';
+        $validator                  = new HttpUserAgent(
+            TestCustomEnvironment::fromGlobals($_SERVER),
+            TestCustomEnvironment::fromGlobals($_SERVER)
+        );
+
         self::assertTrue($validator->isValid());
     }
 
@@ -23,16 +37,14 @@ final class HttpUserAgentTest extends TestCase
     {
         // technically not needed in CLI
         unset($_SERVER['HTTP_USER_AGENT']);
+        $validator = new HttpUserAgent(new Environment(userAgent: null), Environment::fromGlobals($_SERVER));
 
-        $validator = new HttpUserAgent();
-
-        self::assertNull($validator->getData());
         self::assertTrue($validator->isValid());
     }
 
     public function testGetNameReturnsClassName(): void
     {
-        $validator = new HttpUserAgent();
+        $validator = new HttpUserAgent(new Environment(userAgent: null), Environment::fromGlobals($_SERVER));
 
         self::assertSame(HttpUserAgent::class, $validator->getName());
     }

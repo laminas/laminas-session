@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\Service;
 
+use Laminas\EventManager\EventManager;
 use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\ServiceManager;
@@ -20,6 +21,7 @@ use LaminasTest\Session\ReflectionPropertyTrait;
 use LaminasTest\Session\TestAsset\TestManager;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -97,6 +99,7 @@ final class SessionManagerFactoryTest extends TestCase
         self::assertNotSame($manager, Container::getDefaultManager());
     }
 
+    #[IgnoreDeprecations]
     #[RunInSeparateProcess]
     public function testFactoryWillAddValidatorViaConfiguration(): void
     {
@@ -107,17 +110,25 @@ final class SessionManagerFactoryTest extends TestCase
                 ],
             ],
         ];
+
         $this->services->setService('config', $config);
         $manager = $this->services->get(ManagerInterface::class);
 
         $manager->start();
 
-        $chain     = $manager->getValidatorChain();
+        self::assertInstanceOf(ManagerInterface::class, $manager);
+
+        $chain = $manager->getValidatorChain();
+
+        self::assertInstanceOf(EventManager::class, $chain);
+
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
+
         self::assertCount(2, $listeners);
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testStartingSessionManagerFromFactoryDoesNotTriggerUndefinedVariable(): void
     {
         $storage = new ArrayStorage();
@@ -130,6 +141,7 @@ final class SessionManagerFactoryTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testFactoryDoesNotOverwriteValidatorStorageValues(): void
     {
         $storage = new ArrayStorage();
@@ -162,15 +174,17 @@ final class SessionManagerFactoryTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testFactoryDoesNotAttachValidatorTwoTimes(): void
     {
         $storage = new ArrayStorage();
         $storage->setMetadata(
             '_VALID',
             [
-                Validator\RemoteAddr::class => '1.2.3.4',
+                Validator\RemoteAddr::class,
             ]
         );
+
         $this->services->setService(StorageInterface::class, $storage);
         $this->services->setService(
             'config',
@@ -184,13 +198,18 @@ final class SessionManagerFactoryTest extends TestCase
         );
 
         $manager = $this->services->get(ManagerInterface::class);
+
+        self::assertInstanceOf(ManagerInterface::class, $manager);
+
         try {
             $manager->start();
         } catch (RuntimeException) {
             // Ignore exception, because we are not interested whether session validation passes in this test
         }
 
-        $chain     = $manager->getValidatorChain();
+        $chain = $manager->getValidatorChain();
+
+        self::assertInstanceOf(EventManager::class, $chain);
         $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
         self::assertCount(2, $listeners);
 

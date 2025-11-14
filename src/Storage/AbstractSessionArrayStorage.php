@@ -1,20 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session\Storage;
 
 use ArrayIterator;
-use ArrayObject;
 use IteratorAggregate;
 use Laminas\Session\Exception;
-use ReturnTypeWillChange;
+use Traversable;
 
 use function array_flip;
 use function array_key_exists;
 use function array_keys;
 use function array_replace_recursive;
+use function assert;
 use function count;
 use function is_array;
-use function is_object;
+use function is_string;
+use function iterator_to_array;
 use function microtime;
 use function serialize;
 use function sprintf;
@@ -26,9 +29,7 @@ use function unserialize;
  * Replaces the $_SESSION superglobal with an ArrayObject that allows for
  * property access, metadata storage, locking, and immutability.
  *
- * @see ReturnTypeWillChange
- *
- * @template TKey of array-key
+ * @template TKey of string
  * @template TValue
  * @template-implements IteratorAggregate<TKey, TValue>
  * @template-implements StorageInterface<TKey, TValue>
@@ -39,11 +40,9 @@ abstract class AbstractSessionArrayStorage implements
     StorageInitializationInterface
 {
     /**
-     * Constructor
-     *
-     * @param array|null $input
+     * @param iterable<string, mixed>|null $input
      */
-    public function __construct($input = null)
+    public function __construct(?iterable $input = null)
     {
         // this is here for B.C.
         $this->init($input);
@@ -51,30 +50,22 @@ abstract class AbstractSessionArrayStorage implements
 
     /**
      * Initialize Storage
-     *
-     * @param  array $input
-     * @return void
      */
-    public function init($input = null)
+    public function init(?iterable $input = null): void
     {
-        if ((null === $input) && isset($_SESSION)) {
-            $input = $_SESSION;
-            if (is_object($input) && ! $_SESSION instanceof ArrayObject) {
-                $input = (array) $input;
-            }
-        } elseif (null === $input) {
-            $input = [];
-        }
+        $input  ??= $_SESSION ?? [];
+        $input    = $input instanceof Traversable ? iterator_to_array($input) : $input;
         $_SESSION = $input;
+
         $this->setRequestAccessTime(microtime(true));
     }
 
     /**
      * Get Offset
      *
-     * @return mixed
+     * @param TKey|non-empty-string $key
      */
-    public function __get(mixed $key)
+    public function __get(string $key): mixed
     {
         return $this->offsetGet($key);
     }
@@ -82,9 +73,10 @@ abstract class AbstractSessionArrayStorage implements
     /**
      * Set Offset
      *
-     * @return void
+     * @param TKey|non-empty-string $key
+     * @param TValue $value
      */
-    public function __set(mixed $key, mixed $value)
+    public function __set(string $key, mixed $value): void
     {
         $this->offsetSet($key, $value);
     }
@@ -92,9 +84,9 @@ abstract class AbstractSessionArrayStorage implements
     /**
      * Isset Offset
      *
-     * @return bool
+     * @param TKey|non-empty-string $key
      */
-    public function __isset(mixed $key)
+    public function __isset(string $key): bool
     {
         return $this->offsetExists($key);
     }
@@ -102,10 +94,11 @@ abstract class AbstractSessionArrayStorage implements
     /**
      * Unset Offset
      *
-     * @return void
+     * @param TKey|non-empty-string $key
      */
-    public function __unset(mixed $key)
+    public function __unset(string $key): void
     {
+        assert($key !== '');
         $this->offsetUnset($key);
     }
 
@@ -121,64 +114,60 @@ abstract class AbstractSessionArrayStorage implements
     /**
      * Offset Exists
      *
-     * @return bool
+     * @param TKey|non-empty-string $key
      */
-    #[ReturnTypeWillChange]
-    public function offsetExists(mixed $key)
+    public function offsetExists(mixed $key): bool
     {
+        assert(is_string($key) && $key !== '');
         return isset($_SESSION[$key]);
     }
 
     /**
      * Offset Get
      *
-     * @return mixed
+     * @param TKey|non-empty-string $key
      */
-    #[ReturnTypeWillChange]
-    public function offsetGet(mixed $key)
+    public function offsetGet(mixed $key): mixed
     {
+        assert(is_string($key) && $key !== '');
         return $_SESSION[$key] ?? null;
     }
 
     /**
      * Offset Set
      *
-     * @return void
+     * @param TKey|non-empty-string $offset
+     * @param TValue $value
      */
-    #[ReturnTypeWillChange]
-    public function offsetSet(mixed $offset, mixed $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
+        assert(is_string($offset) && $offset !== '');
         $_SESSION[$offset] = $value;
     }
 
     /**
      * Offset Unset
      *
-     * @return void
+     * @param TKey|non-empty-string $offset
      */
-    #[ReturnTypeWillChange]
-    public function offsetUnset(mixed $offset)
+    public function offsetUnset(mixed $offset): void
     {
+        assert(is_string($offset) && $offset !== '');
         unset($_SESSION[$offset]);
     }
 
     /**
      * Count
-     *
-     * @return int
      */
-    #[ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         return count($_SESSION);
     }
 
     /**
-     * Seralize
-     *
-     * @return string
+     * Serialize
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize($_SESSION);
     }
@@ -186,19 +175,23 @@ abstract class AbstractSessionArrayStorage implements
     /**
      * Unserialize
      *
-     * @param  string $session
-     * @return mixed
+     * @param non-empty-string $session
      */
-    public function unserialize($session)
+    public function unserialize(string $session): mixed
     {
         return unserialize($session);
     }
 
-    /** @inheritDoc */
-    #[ReturnTypeWillChange]
-    public function getIterator()
+    /**
+     * Retrieve an external iterator
+     *
+     * @return Traversable<TKey, TValue>
+     */
+    public function getIterator(): Traversable
     {
-        return new ArrayIterator($_SESSION);
+        /** @var Traversable<TKey, TValue> $return */
+        $return = new ArrayIterator($_SESSION);
+        return $return;
     }
 
     /**
@@ -206,9 +199,12 @@ abstract class AbstractSessionArrayStorage implements
      *
      * Ensures $_SESSION is set to an instance of the object when complete.
      *
-     * @return SessionStorage
+     * @template TKeyIn of string
+     * @template TValIn
+     * @param    array<TKeyIn, TValIn> $array
+     * @return   static<TKeyIn, TValIn>
      */
-    public function fromArray(array $array)
+    public function fromArray(array $array): static
     {
         $ts       = $this->getRequestAccessTime();
         $_SESSION = $array;
@@ -219,10 +215,8 @@ abstract class AbstractSessionArrayStorage implements
 
     /**
      * Mark object as isImmutable
-     *
-     * @return SessionStorage
      */
-    public function markImmutable()
+    public function markImmutable(): static
     {
         $_SESSION['_IMMUTABLE'] = true;
 
@@ -231,10 +225,8 @@ abstract class AbstractSessionArrayStorage implements
 
     /**
      * Determine if this object is isImmutable
-     *
-     * @return bool
      */
-    public function isImmutable()
+    public function isImmutable(): bool
     {
         return isset($_SESSION['_IMMUTABLE']) && $_SESSION['_IMMUTABLE'];
     }
@@ -242,10 +234,9 @@ abstract class AbstractSessionArrayStorage implements
     /**
      * Lock this storage instance, or a key within it
      *
-     * @param  null|int|string $key
-     * @return $this
+     * @psalm-param TKey|non-empty-string|null $key
      */
-    public function lock($key = null)
+    public function lock(?string $key = null): static
     {
         if (null === $key) {
             $this->setMetadata('_READONLY', true);
@@ -262,10 +253,9 @@ abstract class AbstractSessionArrayStorage implements
     /**
      * Is the object or key marked as locked?
      *
-     * @param  null|int|string $key
-     * @return bool
+     * @param TKey|non-empty-string|null $key
      */
-    public function isLocked($key = null)
+    public function isLocked(?string $key = null): bool
     {
         if ($this->isImmutable()) {
             // isImmutable trumps all
@@ -299,10 +289,9 @@ abstract class AbstractSessionArrayStorage implements
     /**
      * Unlock an object or key marked as locked
      *
-     * @param  null|int|string $key
-     * @return $this
+     * @param TKey|non-empty-string|null $key
      */
-    public function unlock($key = null)
+    public function unlock(?string $key = null): static
     {
         if (null === $key) {
             // Unlock everything
@@ -341,13 +330,11 @@ abstract class AbstractSessionArrayStorage implements
      * - localizing session storage
      * - etc.
      *
-     * @param  string                     $key
-     * @param  mixed                      $value
-     * @param  bool                       $overwriteArray Whether to overwrite or merge array values; by default, merges
-     * @return $this
+     * @param  bool $overwriteArray Whether to overwrite or merge array values; by default, merges
+     * @param  TKey|non-empty-string $key
      * @throws Exception\RuntimeException
      */
-    public function setMetadata($key, $value, $overwriteArray = false)
+    public function setMetadata(string $key, mixed $value, bool $overwriteArray = false): static
     {
         if ($this->isImmutable()) {
             throw new Exception\RuntimeException(
@@ -384,10 +371,9 @@ abstract class AbstractSessionArrayStorage implements
      * Returns false if no metadata stored, or no metadata exists for the given
      * key.
      *
-     * @param  null|int|string $key
-     * @return mixed
+     * @param TKey|non-empty-string|null $key
      */
-    public function getMetadata($key = null)
+    public function getMetadata(?string $key = null): mixed
     {
         if (! isset($_SESSION['__Laminas'])) {
             return false;
@@ -407,11 +393,10 @@ abstract class AbstractSessionArrayStorage implements
     /**
      * Clear the storage object or a subkey of the object
      *
-     * @param  null|int|string            $key
-     * @return $this
+     * @param  TKey|non-empty-string|null $key
      * @throws Exception\RuntimeException
      */
-    public function clear($key = null)
+    public function clear(?string $key = null): static
     {
         if ($this->isImmutable()) {
             throw new Exception\RuntimeException('Cannot clear storage as it is marked immutable');
@@ -431,21 +416,16 @@ abstract class AbstractSessionArrayStorage implements
 
     /**
      * Retrieve the request access time
-     *
-     * @return float
      */
-    public function getRequestAccessTime()
+    public function getRequestAccessTime(): float
     {
-        return $this->getMetadata('_REQUEST_ACCESS_TIME');
+        return (float) $this->getMetadata('_REQUEST_ACCESS_TIME');
     }
 
     /**
      * Set the request access time
-     *
-     * @param  float        $time
-     * @return $this
      */
-    protected function setRequestAccessTime($time)
+    protected function setRequestAccessTime(float $time): static
     {
         $this->setMetadata('_REQUEST_ACCESS_TIME', $time);
 
@@ -455,18 +435,18 @@ abstract class AbstractSessionArrayStorage implements
     /**
      * Cast the object to an array
      *
-     * @param  bool $metaData Whether to include metadata
+     * @param  bool $metadata Whether to include metadata
      * @return array<TKey, TValue>
      */
-    public function toArray($metaData = false)
+    public function toArray(bool $metadata = false): array
     {
-        if (isset($_SESSION)) {
-            $values = $_SESSION;
-        } else {
-            $values = [];
-        }
+        /** @var iterable $values */
+        $values = $_SESSION ?? [];
 
-        if ($metaData) {
+        /** @var array<TKey, TValue> $values */
+        $values = is_array($values) ? $values : iterator_to_array($values);
+
+        if ($metadata) {
             return $values;
         }
 

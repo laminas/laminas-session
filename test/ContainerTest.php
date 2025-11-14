@@ -11,6 +11,7 @@ use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Container;
 use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\ManagerInterface as Manager;
+use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\SessionArrayStorage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -23,15 +24,6 @@ use function time;
 #[CoversClass(AbstractContainer::class)]
 final class ContainerTest extends TestCase
 {
-    /**
-     * Hack to allow running tests in separate processes
-     *
-     * @see http://matthewturland.com/2010/08/19/process-isolation-in-phpunit/
-     *
-     * @var bool
-     */
-    protected $preserveGlobalState = false;
-
     /** @var Manager */
     protected $manager;
 
@@ -536,7 +528,7 @@ final class ContainerTest extends TestCase
         $this->container->offsetSet('old', 'old');
         self::assertTrue($this->container->offsetExists('old'));
 
-        $old = $this->container->exchangeArray(new \Laminas\Stdlib\ArrayObject(['new' => 'new']));
+        $old = $this->container->exchangeArray(new ArrayStorage(['new' => 'new']));
         self::assertArrayHasKey('old', $old, "'exchangeArray' doesn't return an array of old items");
         self::assertFalse($this->container->offsetExists('old'), "'exchangeArray' doesn't remove old items");
         self::assertTrue($this->container->offsetExists('new'), "'exchangeArray' doesn't add the new array items");

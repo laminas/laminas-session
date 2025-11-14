@@ -1,8 +1,5 @@
 {
     "extensions": [
-        "mongodb",
-        "mysql",
-        "pgsql",
         "xdebug"
     ],
     "ignore_php_platform_requirements": {

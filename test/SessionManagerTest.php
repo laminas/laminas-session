@@ -14,9 +14,13 @@ use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\SessionArrayStorage;
 use Laminas\Session\Storage\SessionStorage;
+use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
 use LaminasTest\Session\TestAsset\Php81CompatibleStorageInterface;
+use LaminasTest\Session\TestAsset\TestCustomEnvironment;
+use LaminasTest\Session\TestAsset\TestCustomEnvironmentFactory;
+use LaminasTest\Session\TestAsset\TestFailingValidator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
@@ -26,6 +30,7 @@ use PHPUnit\Framework\TestCase;
 use Traversable;
 
 use function array_merge;
+use function assert;
 use function extension_loaded;
 use function headers_sent;
 use function ini_get;
@@ -41,6 +46,7 @@ use function session_write_close;
 use function set_error_handler;
 use function stristr;
 use function uniqid;
+use function unserialize;
 use function var_export;
 use function xdebug_get_headers;
 
@@ -53,14 +59,11 @@ final class SessionManagerTest extends TestCase
 {
     use ReflectionPropertyTrait;
 
-    /** @var false|string */
-    public $error;
+    public false|string $error;
 
-    /** @var string */
-    public $cookieDateFormat = 'D, d-M-y H:i:s e';
+    public string $cookieDateFormat = 'D, d-M-y H:i:s e';
 
-    /** @var SessionManager */
-    protected $manager;
+    protected SessionManager $manager;
 
     protected function setUp(): void
     {
@@ -124,8 +127,7 @@ final class SessionManagerTest extends TestCase
     public function testCanPassValidatorsToConstructor(): void
     {
         $validators = [
-            'foo',
-            'bar',
+            TestFailingValidator::class,
         ];
         $manager    = new SessionManager(null, null, null, $validators);
         foreach ($validators as $validator) {
@@ -145,8 +147,7 @@ final class SessionManagerTest extends TestCase
             Id::class,
         ];
         $validators        = [
-            'foo',
-            'bar',
+            TestFailingValidator::class,
         ];
         $manager           = new SessionManager(null, null, null, $validators);
         $this->assertAttributeEquals(array_merge($defaultValidators, $validators), 'validators', $manager);
@@ -177,13 +178,12 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
-    #[IgnoreDeprecations]
-    public function testSessionExistsReturnsTrueWhenSessionStartedThenWritten(): void
+    public function testSessionExistsReturnsFalseWhenSessionStartedThenWrittenAndClosed(): void
     {
         $this->manager = new SessionManager();
         session_start();
         session_write_close();
-        self::assertTrue($this->manager->sessionExists());
+        self::assertFalse($this->manager->sessionExists());
     }
 
     #[RunInSeparateProcess]
@@ -197,6 +197,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testSessionIsStartedAfterCallingStart(): void
     {
         $this->manager = new SessionManager();
@@ -220,6 +221,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testStartWithOldTraversableSessionData(): void
     {
         // pre-populate session with data
@@ -237,6 +239,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testStorageContentIsPreservedByWriteCloseOperation(): void
     {
         $this->manager = new SessionManager();
@@ -263,6 +266,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testStartConvertsSessionDataFromStorageInterfaceToArrayBeforeMerging(): void
     {
         $this->manager = new SessionManager();
@@ -285,6 +289,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testStartConvertsSessionDataFromTraversableToArrayBeforeMerging(): void
     {
         $this->manager = new SessionManager();
@@ -357,6 +362,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testSettingNameWhenAnActiveSessionExistsRaisesException(): void
     {
         $this->manager = new SessionManager();
@@ -367,6 +373,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     #[RequiresPhpExtension('xdebug')]
     public function testDestroyByDefaultSendsAnExpireCookie(): void
     {
@@ -399,6 +406,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     #[RequiresPhpExtension('xdebug')]
     public function testSendingFalseToSendExpireCookieWhenCallingDestroyShouldNotSendCookie(): void
     {
@@ -406,11 +414,19 @@ final class SessionManagerTest extends TestCase
             self::markTestSkipped('Xdebug required for this test');
         }
 
-        $this->manager = new SessionManager();
+        $this->manager = new SessionManager(
+            null,
+            null,
+            null,
+            [],
+            [
+                'send_expire_cookie' => false,
+            ]
+        );
         $config        = $this->manager->getConfig();
         $config->setUseCookies(true);
         $this->manager->start();
-        $this->manager->destroy(['send_expire_cookie' => false]);
+        $this->manager->destroy();
 
         echo '';
 
@@ -435,6 +451,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testDestroyDoesNotClearSessionStorageByDefault(): void
     {
         $this->manager = new SessionManager();
@@ -447,30 +464,49 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testPassingClearStorageOptionWhenCallingDestroyClearsStorage(): void
     {
-        $this->manager = new SessionManager();
+        $this->manager = new SessionManager(
+            null,
+            null,
+            null,
+            [],
+            [
+                'clear_storage' => true,
+            ]
+        );
         $this->manager->start();
         $storage        = $this->manager->getStorage();
         $storage['foo'] = 'bar';
-        $this->manager->destroy(['clear_storage' => true]);
+        $this->manager->destroy();
         self::assertFalse(isset($storage['foo']));
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testDestroySessionWhenHeadersHaveBeenSent(): void
     {
-        $this->manager = new SessionManager();
+        $this->manager = new SessionManager(
+            null,
+            null,
+            null,
+            [],
+            [
+                'clear_storage' => true,
+            ]
+        );
         $this->manager->start();
         $storage        = $this->manager->getStorage();
         $storage['foo'] = 'bar';
         echo ' ';
         ob_flush();
-        $this->manager->destroy(['clear_storage' => true]);
+        $this->manager->destroy();
         self::assertFalse(isset($storage['foo']));
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testCallingWriteCloseMarksStorageAsImmutable(): void
     {
         $this->manager = new SessionManager();
@@ -483,12 +519,12 @@ final class SessionManagerTest extends TestCase
 
     #[RunInSeparateProcess]
     #[IgnoreDeprecations]
-    public function testCallingWriteCloseShouldNotAlterSessionExistsStatus(): void
+    public function testCallingWriteCloseShouldAlterSessionExistsStatus(): void
     {
         $this->manager = new SessionManager();
         $this->manager->start();
         $this->manager->writeClose();
-        self::assertTrue($this->manager->sessionExists());
+        self::assertFalse($this->manager->sessionExists());
     }
 
     #[RunInSeparateProcess]
@@ -508,6 +544,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testIdShouldNotBeMutableAfterSessionStarted(): void
     {
         $this->manager = new SessionManager();
@@ -520,6 +557,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testRegenerateIdShouldWorkAfterSessionStarted(): void
     {
         $this->manager = new SessionManager();
@@ -540,6 +578,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     #[RequiresPhpExtension('xdebug')]
     public function testRegeneratingIdAfterSessionStartedShouldSendExpireCookie(): void
     {
@@ -572,6 +611,7 @@ final class SessionManagerTest extends TestCase
 
     #[RunInSeparateProcess]
     #[RequiresPhpExtension('xdebug')]
+    #[IgnoreDeprecations]
     public function testRememberMeShouldSendNewSessionCookieWithUpdatedTimestamp(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -617,6 +657,7 @@ final class SessionManagerTest extends TestCase
 
     #[RunInSeparateProcess]
     #[RequiresPhpExtension('xdebug')]
+    #[IgnoreDeprecations]
     public function testRememberMeShouldSetTimestampBasedOnConfigurationByDefault(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -667,6 +708,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     #[RequiresPhpExtension('xdebug')]
     public function testForgetMeShouldSendCookieWithZeroTimestamp(): void
     {
@@ -703,23 +745,30 @@ final class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $chain         = $this->manager->getValidatorChain();
-        $chain->attach('session.validate', [new TestAsset\TestFailingValidator(), 'isValid']);
+        $chain->attach('session.validate', [
+            new TestFailingValidator(
+                Environment::fromGlobals($_SERVER),
+                Environment::fromGlobals($_SERVER)
+            ),
+            'isValid',
+        ]);
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('failed');
         $this->manager->start();
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testResumeSessionThatFailsAValidatorShouldRaiseException(): void
     {
-        $this->manager = new SessionManager();
-        $this->manager->setSaveHandler(new TestAsset\TestSaveHandlerWithValidator());
+        $this->manager = new SessionManager(validators: [TestFailingValidator::class]);
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('failed');
         $this->manager->start();
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testSessionWriteCloseStoresMetadata(): void
     {
         $this->manager = new SessionManager();
@@ -747,6 +796,7 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testProducedSessionManagerWillNotReplaceSessionSuperGlobalValues(): void
     {
         $this->manager   = new SessionManager();
@@ -759,19 +809,58 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testValidatorChainSessionMetadataIsPreserved(): void
     {
         $this->manager = new SessionManager();
-        $this->manager->getValidatorChain()
-            ->attach('session.validate', [new RemoteAddr(), 'isValid']);
-
         self::assertFalse($this->manager->sessionExists());
-
         $this->manager->start();
+        $environment = unserialize((string) $this->manager->getStorage()->getMetadata('environment'));
+        assert($environment instanceof Environment);
+        $this->manager->getValidatorChain()
+            ->attach('session.validate', [
+                new RemoteAddr(
+                    $environment,
+                    Environment::fromGlobals($_SERVER)
+                ),
+                'isValid',
+            ]);
 
         self::assertIsArray($_SESSION['__Laminas']['_VALID']);
-        self::assertArrayHasKey(RemoteAddr::class, $_SESSION['__Laminas']['_VALID']);
-        self::assertEquals('', $_SESSION['__Laminas']['_VALID'][RemoteAddr::class]);
+        self::assertIsString($_SESSION['__Laminas']['_VALID'][0]);
+        self::assertEquals(
+            Environment::fromGlobals($_SERVER),
+            unserialize((string) $_SESSION['__Laminas']['environment'])
+        );
+    }
+
+    #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
+    public function testValidatorChainSessionMetadataIsPreservedWithCustomEnvironment(): void
+    {
+        $this->manager = new SessionManager(environmentFactory: new TestCustomEnvironmentFactory());
+        self::assertFalse($this->manager->sessionExists());
+        $this->manager->start();
+        $environment = unserialize((string) $this->manager->getStorage()->getMetadata('environment'));
+        assert($environment instanceof TestCustomEnvironment);
+        $this->manager->getValidatorChain()
+            ->attach('session.validate', [
+                new RemoteAddr(
+                    $environment,
+                    TestCustomEnvironment::fromGlobals($_SERVER)
+                ),
+                'isValid',
+            ]);
+        $preservedData  = unserialize((string) $_SESSION['__Laminas']['environment']);
+        $newEnvironment = TestCustomEnvironment::fromGlobals($_SERVER);
+
+        self::assertIsArray($_SESSION['__Laminas']['_VALID']);
+        self::assertIsString($_SESSION['__Laminas']['_VALID'][0]);
+        self::assertInstanceOf(TestCustomEnvironment::class, $preservedData);
+
+        self::assertEquals('fistCustomValue', $preservedData->getFirstCustomProperty());
+        self::assertEquals('secondCustomValue', $preservedData->getSecondCustomProperty());
+        self::assertEquals($newEnvironment, $preservedData);
     }
 
     #[RunInSeparateProcess]
@@ -779,7 +868,13 @@ final class SessionManagerTest extends TestCase
     {
         $this->manager = new SessionManager();
         $this->manager->getValidatorChain()
-            ->attach('session.validate', [new RemoteAddr('123.123.123.123'), 'isValid']);
+            ->attach('session.validate', [
+                new RemoteAddr(
+                    Environment::fromGlobals($_SERVER),
+                    new Environment(remoteAddr: '123.123.123.123')
+                ),
+                'isValid',
+            ]);
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Session validation failed');
@@ -787,13 +882,14 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testRemoteAddressValidationWillSucceedWithValidPreSetData(): void
     {
         $this->manager = new SessionManager();
         $_SESSION      = [
             '__Laminas' => [
                 '_VALID' => [
-                    RemoteAddr::class => '',
+                    RemoteAddr::class,
                 ],
             ],
         ];
@@ -804,28 +900,18 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
-    public function testRemoteAddressValidationWillFailWithInvalidPreSetData(): void
-    {
-        $this->manager = new SessionManager();
-        $_SESSION      = [
-            '__Laminas' => [
-                '_VALID' => [
-                    RemoteAddr::class => '123.123.123.123',
-                ],
-            ],
-        ];
-
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Session validation failed');
-        $this->manager->start();
-    }
-
-    #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testIdValidationWillFailOnInvalidData(): void
     {
         $this->manager = new SessionManager();
         $this->manager->getValidatorChain()
-            ->attach('session.validate', [new Id('invalid.value'), 'isValid']);
+            ->attach('session.validate', [
+                new Id(
+                    Environment::fromGlobals($_SERVER),
+                    new Environment(sessionId: 'invalid_value')
+                ),
+                'isValid',
+            ]);
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Session validation failed');
@@ -851,8 +937,7 @@ final class SessionManagerTest extends TestCase
 
         $manager->writeClose();
 
-        // calling writeClose() does not mark the session as closed
-        self::assertTrue($manager->sessionExists());
+        self::assertFalse($manager->sessionExists());
         self::assertSame($id, $manager->getId());
     }
 

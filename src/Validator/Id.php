@@ -1,68 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session\Validator;
 
-use function assert;
 use function ini_get;
 use function is_numeric;
-use function is_string;
 use function preg_match;
-use function session_id;
-use function strrpos;
-use function substr;
 
 use const PHP_VERSION_ID;
 
 /**
  * session_id validator
- *
- * @final
  */
-class Id implements ValidatorInterface
+final class Id implements ValidatorInterface
 {
     /**
-     * Session identifier.
-     *
-     * @deprecated This property will be removed in version 3.0
-     *
-     * @var string
-     */
-    protected $id;
-
-    /**
      * Constructor
-     *
-     * Allows passing the current session_id; if none provided, uses the PHP
-     * session_id() function to retrieve it.
-     *
-     * @param null|string $id
      */
-    public function __construct($id = null)
-    {
-        if ($id === null || $id === '') {
-            $id = session_id();
-            assert(is_string($id));
-        }
-
-        $this->id = $id;
+    public function __construct(
+        public readonly EnvironmentInterface $initial,
+        public readonly EnvironmentInterface $current,
+        array $options = []
+    ) {
     }
 
     /**
      * Is the current session identifier valid?
      *
      * Tests that the identifier does not contain invalid characters.
-     *
-     * @return bool
      */
-    public function isValid()
+    public function isValid(): bool
     {
-        $id          = $this->id;
-        $saveHandler = ini_get('session.save_handler');
-        if ($saveHandler === 'cluster') { // Zend Server SC, validate only after last dash
-            $dashPos = strrpos($id, '-');
-            if ($dashPos !== false) {
-                $id = substr($id, $dashPos + 1);
-            }
+        $sessionId = $this->current->getSessionId();
+        if ($sessionId === null) {
+            return false;
         }
 
         if (PHP_VERSION_ID >= 80400) {
@@ -83,27 +55,13 @@ class Id implements ValidatorInterface
             default => '#^[0-9a-v]*$#',
         };
 
-        return (bool) preg_match($pattern, $id);
-    }
-
-    /**
-     * Retrieve token for validating call (session_id)
-     *
-     * @deprecated This method will be removed in version 3.0
-     *
-     * @return string
-     */
-    public function getData()
-    {
-        return $this->id;
+        return (bool) preg_match($pattern, $sessionId);
     }
 
     /**
      * Return validator name
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::class;
     }

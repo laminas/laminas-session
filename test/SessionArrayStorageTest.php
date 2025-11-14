@@ -162,6 +162,7 @@ final class SessionArrayStorageTest extends TestCase
         self::assertSame($expected, $this->storage->toArray(true));
     }
 
+    #[IgnoreDeprecations]
     #[RunInSeparateProcess]
     public function testExpirationHops(): void
     {
@@ -187,6 +188,7 @@ final class SessionArrayStorageTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[IgnoreDeprecations]
     public function testPreserveRequestAccessTimeAfterStart(): void
     {
         $manager = new SessionManager(null, $this->storage);

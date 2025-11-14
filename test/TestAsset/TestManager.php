@@ -5,35 +5,25 @@ declare(strict_types=1);
 namespace LaminasTest\Session\TestAsset;
 
 use Laminas\EventManager\EventManagerInterface;
-use Laminas\Sessin\Storage\StorageInterface;
 use Laminas\Session\AbstractManager;
-use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Storage\ArrayStorage;
+use Laminas\Session\ValidatorChain;
 
 final class TestManager extends AbstractManager
 {
-    /** @var bool */
-    public $started = false;
+    public bool $started = false;
 
-    /**
-     * @var string
-     * @psalm-var class-string<ConfigInterface>
-     */
-    protected $configDefaultClass = StandardConfig::class;
+    protected string $defaultConfigClass = StandardConfig::class;
 
-    /**
-     * @var string
-     * @psalm-var class-string<StorageInterface>
-     */
-    protected $storageDefaultClass = ArrayStorage::class;
+    protected string $defaultStorageClass = ArrayStorage::class;
 
-    public function start()
+    public function start(): void
     {
         $this->started = true;
     }
 
-    public function destroy()
+    public function destroy(): void
     {
         $this->started = false;
     }
@@ -42,68 +32,67 @@ final class TestManager extends AbstractManager
     {
     }
 
-    public function writeClose()
+    public function writeClose(): void
     {
         $this->started = false;
     }
 
-    public function getName()
+    public function getName(): string
     {
+        return self::class;
     }
 
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function setName($name)
+    public function setName(string $name): static
     {
+        return $this;
     }
 
-    public function getId()
+    public function getId(): string
     {
+        return 'TestManagerId';
     }
 
-    /**
-     * @param string|int $id
-     * @return void
-     */
-    public function setId($id)
+    public function setId(string $id): static
     {
+        return $this;
     }
 
-    public function regenerateId()
+    public function regenerateId(): static
     {
+        return $this;
     }
 
-    /**
-     * @param null|int $ttl
-     * @return void
-     */
-    public function rememberMe($ttl = null)
+    public function rememberMe(int|null $ttl = null): static
     {
+        return $this;
     }
 
-    public function forgetMe()
+    public function forgetMe(): static
     {
+        return $this;
     }
 
-    public function setValidatorChain(EventManagerInterface $chain)
+    public function setValidatorChain(EventManagerInterface $chain): static
     {
+        return $this;
     }
 
-    public function getValidatorChain()
+    public function getValidatorChain(): EventManagerInterface
     {
+        return new ValidatorChain($this->getStorage());
     }
 
-    public function isValid()
+    public function isValid(): bool
     {
+        return true;
     }
 
-    public function sessionExists()
+    public function sessionExists(): bool
     {
+        return true;
     }
 
-    public function expireSessionCookie()
+    public function expireSessionCookie(): void
     {
     }
 }

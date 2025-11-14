@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session\Config;
 
 /**
@@ -9,112 +11,53 @@ interface ConfigInterface
 {
     /**
      * @param array<string, mixed> $options
-     * @return void
      */
-    public function setOptions($options);
+    public function setOptions(array $options): ConfigInterface;
 
     /** @return array<string, mixed> */
-    public function getOptions();
+    public function getOptions(): array;
 
-    /**
-     * @param string $option
-     * @return void
-     */
-    public function setOption($option, mixed $value);
+    public function setOption(string $option, mixed $value): ConfigInterface;
 
-    /**
-     * @param string $option
-     * @return mixed
-     */
-    public function getOption($option);
+    public function getOption(string $option): mixed;
 
-    /**
-     * @param string $option
-     * @return bool
-     */
-    public function hasOption($option);
+    public function hasOption(string $option): bool;
 
-    /** @return array */
-    public function toArray();
+    public function toArray(): array;
 
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function setName($name);
+    public function setName(string $name): ConfigInterface;
 
-    /** @return string */
-    public function getName();
+    public function getName(): string;
 
-    /**
-     * @param string $savePath
-     * @return void
-     */
-    public function setSavePath($savePath);
+    public function setSavePath(string $savePath): ConfigInterface;
 
-    /** @return string */
-    public function getSavePath();
+    public function getSavePath(): string;
 
-    /**
-     * @param int $cookieLifetime
-     * @return void
-     */
-    public function setCookieLifetime($cookieLifetime);
+    public function setCookieLifetime(int $cookieLifetime): ConfigInterface;
 
-    /** @return int */
-    public function getCookieLifetime();
+    public function getCookieLifetime(): int;
 
-    /**
-     * @param string $cookiePath
-     * @return void
-     */
-    public function setCookiePath($cookiePath);
+    public function setCookiePath(string $cookiePath): ConfigInterface;
 
-    /** @return string */
-    public function getCookiePath();
+    public function getCookiePath(): string;
 
-    /**
-     * @param string $cookieDomain
-     * @return void
-     */
-    public function setCookieDomain($cookieDomain);
+    public function setCookieDomain(string $cookieDomain): ConfigInterface;
 
-    /** @return string */
-    public function getCookieDomain();
+    public function getCookieDomain(): string;
 
-    /**
-     * @param bool $cookieSecure
-     * @return void
-     */
-    public function setCookieSecure($cookieSecure);
+    public function setCookieSecure(bool $cookieSecure): ConfigInterface;
 
-    /** @return bool */
-    public function getCookieSecure();
+    public function getCookieSecure(): bool;
 
-    /**
-     * @param bool $cookieHttpOnly
-     * @return void
-     */
-    public function setCookieHttpOnly($cookieHttpOnly);
+    public function setCookieHttpOnly(bool $cookieHttpOnly): ConfigInterface;
 
-    /** @return bool */
-    public function getCookieHttpOnly();
+    public function getCookieHttpOnly(): bool;
 
-    /**
-     * @param bool $useCookies
-     * @return void
-     */
-    public function setUseCookies($useCookies);
+    public function setUseCookies(bool $useCookies): ConfigInterface;
 
-    /** @return bool */
-    public function getUseCookies();
+    public function getUseCookies(): bool;
 
-    /**
-     * @param int $rememberMeSeconds
-     * @return void
-     */
-    public function setRememberMeSeconds($rememberMeSeconds);
+    public function setRememberMeSeconds(int $rememberMeSeconds): ConfigInterface;
 
-    /** @return int */
-    public function getRememberMeSeconds();
+    public function getRememberMeSeconds(): int;
 }

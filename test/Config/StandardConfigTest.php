@@ -1,5 +1,8 @@
 <?php // phpcs:disable Squiz.Commenting.FunctionComment.WrongStyle
 
+
+declare(strict_types=1);
+
 namespace LaminasTest\Session\Config;
 
 use Exception;
@@ -7,6 +10,8 @@ use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Exception\InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use PHPUnit\Framework\TestCase;
 
 use function extension_loaded;
@@ -18,12 +23,42 @@ use const E_USER_DEPRECATED;
 #[CoversClass(StandardConfig::class)]
 final class StandardConfigTest extends TestCase
 {
-    /** @var StandardConfig */
-    protected $config;
+    protected StandardConfig $config;
 
     protected function setUp(): void
     {
         $this->config = new StandardConfig();
+    }
+
+    public function testChainingSetters(): void
+    {
+        $config = $this->config->setName('FOO')
+            ->setCookieDomain('BAR')
+            ->setCookieLifetime(3600)
+            ->setCookiePath(__DIR__)
+            ->setCookieHttpOnly(true)
+            ->setCookieSecure(true)
+            ->setRememberMeSeconds(3600)
+            ->setSavePath(__DIR__)
+            ->setUseCookies(true)
+            ->setGcDivisor(2)
+            ->setCookieSameSite('Lax')
+            ->setOptions(['gc_probability' => 1]);
+
+        self::assertInstanceOf(StandardConfig::class, $config);
+        self::assertSame($this->config, $config);
+
+        self::assertEquals('FOO', $this->config->getName());
+        self::assertEquals('BAR', $this->config->getCookieDomain());
+        self::assertEquals(3600, $this->config->getCookieLifetime());
+        self::assertEquals(__DIR__, $this->config->getCookiePath());
+        self::assertTrue($this->config->getCookieHttpOnly());
+        self::assertTrue($this->config->getCookieSecure());
+        self::assertEquals(3600, $this->config->getRememberMeSeconds());
+        self::assertEquals(__DIR__, $this->config->getSavePath());
+        self::assertTrue($this->config->getUseCookies());
+        self::assertEquals(2, $this->config->getGcDivisor());
+        self::assertEquals(1, $this->config->getGcProbability());
     }
 
     // session.save_path
@@ -71,13 +106,6 @@ final class StandardConfigTest extends TestCase
         self::assertEquals(0, $this->config->getGcProbability());
     }
 
-    public function testSettingInvalidGcProbabilityRaisesException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid gc_probability; must be numeric');
-        $this->config->setGcProbability('foobar_bogus');
-    }
-
     public function testSettingInvalidGcProbabilityRaisesException2(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -100,13 +128,6 @@ final class StandardConfigTest extends TestCase
         self::assertEquals(20, $this->config->getGcDivisor());
     }
 
-    public function testSettingInvalidGcDivisorRaisesException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid gc_divisor; must be numeric');
-        $this->config->setGcDivisor('foobar_bogus');
-    }
-
     public function testSettingInvalidGcDivisorRaisesException2(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -120,13 +141,6 @@ final class StandardConfigTest extends TestCase
     {
         $this->config->setGcMaxlifetime(20);
         self::assertEquals(20, $this->config->getGcMaxlifetime());
-    }
-
-    public function testSettingInvalidGcMaxlifetimeRaisesException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid gc_maxlifetime; must be numeric');
-        $this->config->setGcMaxlifetime('foobar_bogus');
     }
 
     public function testSettingInvalidGcMaxlifetimeRaisesException2(): void
@@ -159,13 +173,6 @@ final class StandardConfigTest extends TestCase
         self::assertEquals(0, $this->config->getCookieLifetime());
     }
 
-    public function testSettingInvalidCookieLifetimeRaisesException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid cookie_lifetime; must be numeric');
-        $this->config->setCookieLifetime('foobar_bogus');
-    }
-
     public function testSettingInvalidCookieLifetimeRaisesException2(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -185,7 +192,7 @@ final class StandardConfigTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid cookie path');
-        $this->config->setCookiePath(24);
+        $this->config->setCookiePath('24');
     }
 
     public function testSettingInvalidCookiePathRaisesException2(): void
@@ -214,13 +221,6 @@ final class StandardConfigTest extends TestCase
     {
         $this->config->setCookieDomain('');
         self::assertEquals('', $this->config->getCookieDomain());
-    }
-
-    public function testSettingInvalidCookieDomainRaisesException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid cookie domain: must be a string');
-        $this->config->setCookieDomain(24);
     }
 
     public function testSettingInvalidCookieDomainRaisesException2(): void
@@ -259,7 +259,7 @@ final class StandardConfigTest extends TestCase
     public function testUseCookiesIsMutable(): void
     {
         $this->config->setUseCookies(true);
-        self::assertEquals(true, (bool) $this->config->getUseCookies());
+        self::assertEquals(true, $this->config->getUseCookies());
     }
 
     // session.use_only_cookies
@@ -282,62 +282,6 @@ final class StandardConfigTest extends TestCase
     {
         $this->config->setRefererCheck('');
         self::assertEquals('', $this->config->getRefererCheck());
-    }
-
-    public function testSetEntropyFileError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-
-        try {
-            $this->expectExceptionMessage('session.entropy_file is removed starting with PHP 7.1');
-            $this->config->getEntropyFile();
-        } finally {
-            restore_error_handler();
-        }
-    }
-
-    public function testGetEntropyFileError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-
-        try {
-            $this->expectExceptionMessage('session.entropy_file is removed starting with PHP 7.1');
-            $this->config->setEntropyFile(__FILE__);
-        } finally {
-            restore_error_handler();
-        }
-    }
-
-    public function testGetEntropyLengthError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-
-        try {
-            $this->expectExceptionMessage('session.entropy_length is removed starting with PHP 7.1');
-            $this->config->getEntropyLength();
-        } finally {
-            restore_error_handler();
-        }
-    }
-
-    public function testSetEntropyLengthError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-
-        try {
-            $this->expectExceptionMessage('session.entropy_length is removed starting with PHP 7.1');
-            $this->config->setEntropyLength(0);
-        } finally {
-            restore_error_handler();
-        }
     }
 
     // session.cache_limiter
@@ -368,13 +312,6 @@ final class StandardConfigTest extends TestCase
         self::assertEquals(20, $this->config->getCacheExpire());
     }
 
-    public function testSettingInvalidCacheExpireRaisesException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid cache_expire; must be numeric');
-        $this->config->setCacheExpire('foobar_bogus');
-    }
-
     public function testSettingInvalidCacheExpireRaisesException2(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -390,77 +327,31 @@ final class StandardConfigTest extends TestCase
         self::assertEquals(true, (bool) $this->config->getUseTransSid());
     }
 
-    public function testGetHashFunctionError(): void
+    // session.sid_length
+    #[RequiresPhp('^8.4')]
+    #[IgnoreDeprecations]
+    public function testSidLengthError(): void
     {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-
         try {
-            $this->expectExceptionMessage('session.hash_function is removed starting with PHP 7.1');
-            $this->config->getHashFunction();
-        } finally {
-            restore_error_handler();
-        }
-    }
-
-    public function testSetHashFunctionError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-
-        try {
-            $this->expectExceptionMessage('session.hash_function is removed starting with PHP 7.1');
-            $this->config->setHashFunction('foobar_bogus');
-        } finally {
-            restore_error_handler();
-        }
-    }
-
-    public function testGetHashBitsPerCharacterError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-
-        try {
-            $this->expectExceptionMessage('session.hash_bits_per_character is removed starting with PHP 7.1');
-            $this->config->getHashBitsPerCharacter();
-        } finally {
-            restore_error_handler();
-        }
-    }
-
-    public function testSetHashBitsPerCharacterError(): void
-    {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_DEPRECATED);
-
-        try {
-            $this->expectExceptionMessage('session.hash_bits_per_character is removed starting with PHP 7.1');
-            $this->config->setHashBitsPerCharacter(5);
+            set_error_handler(static function (int $errno, string $errstr): never {
+                throw new Exception($errstr, $errno);
+            }, E_USER_DEPRECATED);
+            $this->expectExceptionMessage('session.sid_length is deprecated starting with PHP 8.4');
+            $this->config->setSidLength(40);
         } finally {
             restore_error_handler();
         }
     }
 
     // session.sid_length
-
+    #[IgnoreDeprecations]
     public function testSidLengthIsMutable(): void
     {
         $this->config->setSidLength(40);
         self::assertEquals(40, $this->config->getSidLength());
     }
 
-    public function testSettingInvalidSidLengthRaisesException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid length provided');
-        $this->config->setSidLength('foobar_bogus');
-    }
-
+    #[IgnoreDeprecations]
     public function testSettingOutOfRangeSidLengthRaisesException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -481,17 +372,11 @@ final class StandardConfigTest extends TestCase
     }
 
     #[DataProvider('sidBitsPerCharacters')]
+    #[IgnoreDeprecations]
     public function testSidBitsPerCharacterIsMutable(int $sidBitsPerCharacter): void
     {
         $this->config->setSidBitsPerCharacter($sidBitsPerCharacter);
         self::assertEquals($sidBitsPerCharacter, $this->config->getSidBitsPerCharacter());
-    }
-
-    public function testSettingInvalidSidBitsPerCharacterRaisesException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid sid bits per character provided');
-        $this->config->setSidBitsPerCharacter('foobar_bogus');
     }
 
     // url_rewriter.tags
@@ -510,13 +395,6 @@ final class StandardConfigTest extends TestCase
         self::assertEquals(20, $this->config->getRememberMeSeconds());
     }
 
-    public function testSettingInvalidRememberMeSecondsRaisesException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid remember_me_seconds; must be numeric');
-        $this->config->setRememberMeSeconds('foobar_bogus');
-    }
-
     public function testSettingInvalidRememberMeSecondsRaisesException2(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -525,6 +403,7 @@ final class StandardConfigTest extends TestCase
     }
 
     // setOptions
+    #[IgnoreDeprecations]
     #[DataProvider('optionsProvider')]
     public function testSetOptionsTranslatesUnderscoreSeparatedKeys(string $option, string $getter, mixed $value): void
     {

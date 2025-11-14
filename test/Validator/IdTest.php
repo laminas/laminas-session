@@ -1,8 +1,13 @@
 <?php // phpcs:disable SlevomatCodingStandard.Namespaces.UnusedUses.MismatchingCaseSensitivity
 
+
+declare(strict_types=1);
+
 namespace LaminasTest\Session\Validator;
 
+use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\Id;
+use LaminasTest\Session\TestAsset\TestCustomEnvironment;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
@@ -36,11 +41,11 @@ final class IdTest extends TestCase
     #[IgnoreDeprecations]
     #[DataProvider('id')]
     #[RunInSeparateProcess]
-    public function testIsValidPhp71(int $bitsPerCharacter, string $id, bool $isValidPhpPre84, bool $isValidPhp84): void
+    public function testIsValidPhp(int $bitsPerCharacter, string $id, bool $isValidPhpPre84, bool $isValidPhp84): void
     {
         ini_set('session.sid_bits_per_character', $bitsPerCharacter);
 
-        $validator = new Id($id);
+        $validator = new Id(Environment::fromGlobals($_SERVER), new Environment(sessionId: $id));
 
         if (PHP_VERSION_ID >= 80400) {
             self::assertSame($isValidPhp84, $validator->isValid());
@@ -49,11 +54,30 @@ final class IdTest extends TestCase
         }
     }
 
-    public function testConstructorSetId(): void
-    {
-        $id = new Id('1234');
+    #[IgnoreDeprecations]
+    #[DataProvider('id')]
+    #[RunInSeparateProcess]
+    public function testIsValidPhpWithCustomEnvironment(
+        int $bitsPerCharacter,
+        string $id,
+        bool $isValidPhpPre84,
+        bool $isValidPhp84
+    ): void {
+        ini_set('session.sid_bits_per_character', $bitsPerCharacter);
 
-        self::assertSame('1234', $id->getData());
+        $validator = new Id(
+            TestCustomEnvironment::fromGlobals($_SERVER),
+            new TestCustomEnvironment(
+                sessionId: $id,
+                firstCustomProperty: 'fistCustomValue',
+                secondCustomProperty: 'secondCustomValue'
+            ),
+        );
+        if (PHP_VERSION_ID >= 80400) {
+            self::assertSame($isValidPhp84, $validator->isValid());
+        } else {
+            self::assertSame($isValidPhpPre84, $validator->isValid());
+        }
     }
 
     #[RunInSeparateProcess]
@@ -61,15 +85,14 @@ final class IdTest extends TestCase
     {
         session_start();
         $sessionId = session_id();
+        $id        = new Id(Environment::fromGlobals($_SERVER), Environment::fromGlobals($_SERVER));
 
-        $id = new Id();
-
-        self::assertSame($sessionId, $id->getData());
+        self::assertSame($sessionId, $id->initial->getSessionId());
     }
 
     public function testValidatorName(): void
     {
-        $id = new Id();
+        $id = new Id(Environment::fromGlobals($_SERVER), Environment::fromGlobals($_SERVER));
 
         self::assertSame(Id::class, $id->getName());
     }

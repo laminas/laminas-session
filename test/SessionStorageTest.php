@@ -14,13 +14,12 @@ use function var_export;
 #[CoversClass(SessionStorage::class)]
 final class SessionStorageTest extends TestCase
 {
-    /** @var SessionStorage<string, mixed> */
+    /** @var SessionStorage<string, mixed> $storage */
     private SessionStorage $storage;
 
     protected function setUp(): void
     {
-        $_SESSION = [];
-        /** @var SessionStorage<string, mixed> $sessionStorage */
+        $_SESSION       = [];
         $sessionStorage = new SessionStorage();
         $this->storage  = $sessionStorage;
     }

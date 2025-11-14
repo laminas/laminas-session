@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Session\Storage;
 
 /**
@@ -13,8 +15,7 @@ interface StorageInitializationInterface
     /**
      * Initialize Session Storage
      *
-     * @param  array $input
-     * @return void
+     * @param iterable<string, mixed>|null $input
      */
-    public function init($input = null);
+    public function init(?iterable $input = null): void;
 }
