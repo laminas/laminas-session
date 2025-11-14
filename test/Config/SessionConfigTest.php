@@ -6,8 +6,10 @@ use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Exception;
 use Laminas\Session\Exception\InvalidArgumentException;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use SessionHandlerInterface;
@@ -18,11 +20,9 @@ use function ini_get;
 use function session_start;
 use function var_export;
 
-/**
- * @runTestsInSeparateProcesses
- * @covers \Laminas\Session\Config\SessionConfig
- */
-class SessionConfigTest extends TestCase
+#[RunTestsInSeparateProcesses]
+#[CoversClass(SessionConfig::class)]
+final class SessionConfigTest extends TestCase
 {
     protected SessionConfig|null $config = null;
 
@@ -113,10 +113,11 @@ class SessionConfigTest extends TestCase
 
     public function testSaveHandlerDefaultsToIniSettings(): void
     {
+        self::assertInstanceOf(SessionConfig::class, $this->config);
         self::assertSame(
             ini_get('session.save_handler'),
             $this->config->getSaveHandler(),
-            var_export($this->config->toArray(), 1)
+            var_export($this->config->toArray(), true)
         );
     }
 
@@ -542,18 +543,14 @@ class SessionConfigTest extends TestCase
         self::assertSame(ini_get('session.cache_limiter'), $this->config->getCacheLimiter());
     }
 
-    /**
-     * @dataProvider cacheLimiters
-     */
+    #[DataProvider('cacheLimiters')]
     public function testCacheLimiterIsMutable(string $cacheLimiter): void
     {
         $this->config->setCacheLimiter($cacheLimiter);
         self::assertEquals($cacheLimiter, $this->config->getCacheLimiter());
     }
 
-    /**
-     * @dataProvider cacheLimiters
-     */
+    #[DataProvider('cacheLimiters')]
     public function testCacheLimiterAltersIniSetting(string $cacheLimiter): void
     {
         $this->config->setCacheLimiter($cacheLimiter);
@@ -718,6 +715,7 @@ class SessionConfigTest extends TestCase
 
     public function testUrlRewriterTagsIsMutable(): void
     {
+        self::assertInstanceOf(SessionConfig::class, $this->config);
         $this->config->setUrlRewriterTags('a=href,form=action');
         self::assertEquals('a=href,form=action', $this->config->getUrlRewriterTags());
     }

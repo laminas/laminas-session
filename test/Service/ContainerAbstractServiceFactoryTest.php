@@ -11,12 +11,12 @@ use Laminas\Session\Service\ContainerAbstractServiceFactory;
 use Laminas\Session\Service\SessionManagerFactory;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\StorageInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Laminas\Session\Service\ContainerAbstractServiceFactory
- */
-class ContainerAbstractServiceFactoryTest extends TestCase
+#[CoversClass(ContainerAbstractServiceFactory::class)]
+final class ContainerAbstractServiceFactoryTest extends TestCase
 {
     /** @var array{session_containers: list<string>} */
     private static array $config = [
@@ -59,9 +59,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
         return $containers;
     }
 
-    /**
-     * @dataProvider validContainers
-     */
+    #[DataProvider('validContainers')]
     public function testCanRetrieveNamedContainers(string $serviceName, string $containerName): void
     {
         self::assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
@@ -70,9 +68,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
         self::assertEquals($containerName, $container->getName());
     }
 
-    /**
-     * @dataProvider validContainers
-     */
+    #[DataProvider('validContainers')]
     public function testContainersAreInjectedWithSessionManagerService(string $serviceName, string $containerName): void
     {
         self::assertTrue($this->services->has($serviceName), "Container does not have service by name '$serviceName'");
@@ -93,9 +89,7 @@ class ContainerAbstractServiceFactoryTest extends TestCase
         return $containers;
     }
 
-    /**
-     * @dataProvider invalidContainers
-     */
+    #[DataProvider('invalidContainers')]
     public function testInvalidContainerNamesAreNotMatchedByAbstractFactory(string $name): void
     {
         self::assertFalse($this->services->has($name));

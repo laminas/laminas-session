@@ -15,7 +15,34 @@
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
-
+    <issueHandlers>
+        <ClassMustBeFinal>
+            <errorLevel type="suppress">
+                <directory name="src" />
+            </errorLevel>
+        </ClassMustBeFinal>
+        <MissingOverrideAttribute>
+            <errorLevel type="suppress">
+                <directory name="src" />
+                <directory name="test" />
+            </errorLevel>
+        </MissingOverrideAttribute>
+        <UndefinedMagicPropertyAssignment>
+            <errorLevel type="suppress">
+                <directory name="test" />
+            </errorLevel>
+        </UndefinedMagicPropertyAssignment>
+        <UndefinedMagicPropertyFetch>
+            <errorLevel type="suppress">
+                <directory name="test" />
+            </errorLevel>
+        </UndefinedMagicPropertyFetch>
+        <UndefinedMagicMethod>
+            <errorLevel type="suppress">
+                <directory name="test" />
+            </errorLevel>
+        </UndefinedMagicMethod>
+    </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
     </plugins>

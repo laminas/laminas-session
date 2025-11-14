@@ -12,7 +12,7 @@ use function extension_loaded;
 use function getenv;
 use function sprintf;
 
-class PdoMysqlAdapterTest extends AbstractDbTableGatewayTestCase
+final class PdoMysqlAdapterTest extends AbstractDbTableGatewayTestCase
 {
     /**
      * @return Adapter

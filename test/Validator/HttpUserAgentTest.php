@@ -7,7 +7,7 @@ namespace LaminasTest\Session\Validator;
 use Laminas\Session\Validator\HttpUserAgent;
 use PHPUnit\Framework\TestCase;
 
-class HttpUserAgentTest extends TestCase
+final class HttpUserAgentTest extends TestCase
 {
     public function testIsValid(): void
     {

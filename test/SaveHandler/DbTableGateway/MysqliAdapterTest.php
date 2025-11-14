@@ -12,7 +12,7 @@ use function extension_loaded;
 use function getenv;
 use function sprintf;
 
-class MysqliAdapterTest extends AbstractDbTableGatewayTestCase
+final class MysqliAdapterTest extends AbstractDbTableGatewayTestCase
 {
     protected function getAdapter(): Adapter
     {

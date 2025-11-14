@@ -17,7 +17,10 @@ use Laminas\Session\Storage\SessionStorage;
 use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
 use LaminasTest\Session\TestAsset\Php81CompatibleStorageInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 use Traversable;
@@ -44,11 +47,9 @@ use function xdebug_get_headers;
 use const E_WARNING;
 use const PHP_SAPI;
 
-/**
- * @preserveGlobalState disabled
- * @covers \Laminas\Session\SessionManager
- */
-class SessionManagerTest extends TestCase
+#[PreserveGlobalState(false)]
+#[CoversClass(SessionManager::class)]
+final class SessionManagerTest extends TestCase
 {
     use ReflectionPropertyTrait;
 
@@ -366,6 +367,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[RequiresPhpExtension('xdebug')]
     public function testDestroyByDefaultSendsAnExpireCookie(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -397,6 +399,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[RequiresPhpExtension('xdebug')]
     public function testSendingFalseToSendExpireCookieWhenCallingDestroyShouldNotSendCookie(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -537,6 +540,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[RequiresPhpExtension('xdebug')]
     public function testRegeneratingIdAfterSessionStartedShouldSendExpireCookie(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -567,6 +571,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[RequiresPhpExtension('xdebug')]
     public function testRememberMeShouldSendNewSessionCookieWithUpdatedTimestamp(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -611,6 +616,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[RequiresPhpExtension('xdebug')]
     public function testRememberMeShouldSetTimestampBasedOnConfigurationByDefault(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -661,6 +667,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[RequiresPhpExtension('xdebug')]
     public function testForgetMeShouldSendCookieWithZeroTimestamp(): void
     {
         if (! extension_loaded('xdebug')) {

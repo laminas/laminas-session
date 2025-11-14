@@ -7,14 +7,15 @@ namespace LaminasTest\Session;
 use Laminas\Session\Container;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\SessionArrayStorage;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
 use function var_export;
 
-/**
- * @covers \Laminas\Session\Storage\SessionArrayStorage
- */
-class SessionArrayStorageTest extends TestCase
+#[CoversClass(SessionArrayStorage::class)]
+final class SessionArrayStorageTest extends TestCase
 {
     private SessionArrayStorage $storage;
 
@@ -115,6 +116,7 @@ class SessionArrayStorageTest extends TestCase
         self::assertFalse(isset($this->storage['foo']['bar']));
     }
 
+    #[IgnoreDeprecations]
     public function testSessionWorksWithContainer(): void
     {
         // Run without any validators; session ID is often invalid in CLI
@@ -160,9 +162,7 @@ class SessionArrayStorageTest extends TestCase
         self::assertSame($expected, $this->storage->toArray(true));
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testExpirationHops(): void
     {
         // since we cannot explicitly test reinitializing the session
@@ -186,9 +186,7 @@ class SessionArrayStorageTest extends TestCase
         self::assertNull($container->foo);
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testPreserveRequestAccessTimeAfterStart(): void
     {
         $manager = new SessionManager(null, $this->storage);

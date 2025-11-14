@@ -12,7 +12,7 @@ use function extension_loaded;
 use function getenv;
 use function sprintf;
 
-class PgsqlAdapterTest extends AbstractDbTableGatewayTestCase
+final class PgsqlAdapterTest extends AbstractDbTableGatewayTestCase
 {
     protected function getAdapter(): Adapter
     {

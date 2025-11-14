@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
   <file src="src/AbstractContainer.php">
     <DocblockTypeContradiction>
       <code><![CDATA[(null === $key)
@@ -73,23 +73,12 @@
       <code><![CDATA[$old]]></code>
       <code><![CDATA[$storage[$name][$offset]]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[exchangeArray]]></code>
-      <code><![CDATA[getArrayCopy]]></code>
-    </MixedInferredReturnType>
     <MixedOperand>
       <code><![CDATA[$metadata['EXPIRE_HOPS']['hops']]]></code>
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS'][$key]['hops']]]></code>
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS'][$key]['hops']]]></code>
     </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$container instanceof ArrayObject ? $container->getArrayCopy() : $container]]></code>
-      <code><![CDATA[$container instanceof ArrayObject ? $container->getArrayCopy() : $container]]></code>
-      <code><![CDATA[$old]]></code>
-      <code><![CDATA[$old]]></code>
-    </MixedReturnStatement>
     <MixedReturnTypeCoercion>
-      <code><![CDATA[$old->getArrayCopy()]]></code>
       <code><![CDATA[getIterator]]></code>
       <code><![CDATA[new ArrayIterator($container)]]></code>
     </MixedReturnTypeCoercion>
@@ -202,9 +191,6 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$knownHandlers]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedInferredReturnType>
-      <code><![CDATA[false|string]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$callback($module)]]></code>
       <code><![CDATA[$callback()]]></code>
@@ -327,28 +313,6 @@
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[bool]]></code>
-      <code><![CDATA[bool|string]]></code>
-      <code><![CDATA[bool|string]]></code>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[null|string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string|null]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->cookieDomain]]></code>
       <code><![CDATA[$this->cookieDomain]]></code>
@@ -407,7 +371,6 @@
       <code><![CDATA[(int) $rememberMeSeconds]]></code>
       <code><![CDATA[(int) $sidBitsPerCharacter]]></code>
       <code><![CDATA[(int) $sidLength]]></code>
-      <code><![CDATA[(string) $cookiePath]]></code>
       <code><![CDATA[(string) $cookieSameSite]]></code>
       <code><![CDATA[(string) $name]]></code>
     </RedundantCastGivenDocblockType>
@@ -560,10 +523,6 @@
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[bool]]></code>
     </ImplementedReturnTypeMismatch>
-    <ImplicitToStringCast>
-      <code><![CDATA[new Int64((string) $microseconds)]]></code>
-      <code><![CDATA[new Int64((string) floor(microtime(true) * 1000))]]></code>
-    </ImplicitToStringCast>
     <InvalidArgument>
       <code><![CDATA[$this->options->getSaveOptions()]]></code>
       <code><![CDATA[$this->options->getSaveOptions()]]></code>
@@ -576,9 +535,6 @@
       <code><![CDATA[$timestamp]]></code>
       <code><![CDATA[$timestamp]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string]]></code>
-    </MixedInferredReturnType>
     <MixedMethodCall>
       <code><![CDATA[getData]]></code>
     </MixedMethodCall>
@@ -670,9 +626,6 @@
       <code><![CDATA[$config]]></code>
       <code><![CDATA[$this->sessionManager]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[null|ManagerInterface]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->sessionManager]]></code>
       <code><![CDATA[$this->sessionManager]]></code>
@@ -842,10 +795,6 @@
       <code><![CDATA[$locks]]></code>
       <code><![CDATA[$readOnly]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[bool]]></code>
-      <code><![CDATA[float]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->getMetadata('_READONLY')]]></code>
       <code><![CDATA[$this->getMetadata('_REQUEST_ACCESS_TIME')]]></code>
@@ -920,10 +869,6 @@
       <code><![CDATA[$this['__Laminas']]]></code>
       <code><![CDATA[$this['__Laminas'][$key]]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[bool]]></code>
-      <code><![CDATA[float]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->getMetadata('_READONLY')]]></code>
       <code><![CDATA[$this->getMetadata('_REQUEST_ACCESS_TIME')]]></code>
@@ -1021,18 +966,32 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/Validator/AbstractValidatorChainEM3.php">
+    <ConstructorSignatureMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ConstructorSignatureMismatch>
     <DeprecatedTrait>
       <code><![CDATA[ValidatorChainTrait]]></code>
     </DeprecatedTrait>
+    <ImplementedParamTypeMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ImplementedParamTypeMismatch>
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[CallbackHandler]]></code>
     </ImplementedReturnTypeMismatch>
+    <InvalidExtendClass>
+      <code><![CDATA[EventManager]]></code>
+    </InvalidExtendClass>
     <InvalidReturnStatement>
       <code><![CDATA[$this->attachValidator($eventName, $listener, $priority)]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[CallbackHandler]]></code>
     </InvalidReturnType>
+    <MethodSignatureMismatch>
+      <code><![CDATA[public function __construct(StorageInterface $storage)]]></code>
+      <code><![CDATA[public function __construct(StorageInterface $storage)]]></code>
+      <code><![CDATA[public function attach($eventName, callable $listener, $priority = 1)]]></code>
+    </MethodSignatureMismatch>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
       <code><![CDATA[$validator]]></code>
@@ -1041,9 +1000,9 @@
     <MixedMethodCall>
       <code><![CDATA[new $validator($data)]]></code>
     </MixedMethodCall>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[__construct]]></code>
-    </PossiblyUnusedMethod>
+    <ParamNameMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ParamNameMismatch>
     <UndefinedDocblockClass>
       <code><![CDATA[CallbackHandler]]></code>
     </UndefinedDocblockClass>
@@ -1092,9 +1051,6 @@
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
     </DeprecatedMethod>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$callback]]></code>
-    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
     </MixedAssignment>
@@ -1103,12 +1059,23 @@
     </UndefinedDocblockClass>
   </file>
   <file src="src/ValidatorChain.php">
+    <ConstructorSignatureMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ConstructorSignatureMismatch>
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
     </DeprecatedMethod>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$callback]]></code>
-    </MixedArgumentTypeCoercion>
+    <ImplementedParamTypeMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ImplementedParamTypeMismatch>
+    <InvalidExtendClass>
+      <code><![CDATA[EventManager]]></code>
+    </InvalidExtendClass>
+    <MethodSignatureMismatch>
+      <code><![CDATA[public function __construct(protected StorageInterface $storage)]]></code>
+      <code><![CDATA[public function __construct(protected StorageInterface $storage)]]></code>
+      <code><![CDATA[public function attach($eventName, callable $listener, $priority = 1)]]></code>
+    </MethodSignatureMismatch>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
       <code><![CDATA[$data]]></code>
@@ -1118,6 +1085,9 @@
     <MixedMethodCall>
       <code><![CDATA[new $validator($data)]]></code>
     </MixedMethodCall>
+    <ParamNameMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ParamNameMismatch>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[callable]]></code>
     </PossiblyUnusedReturnValue>
@@ -1162,9 +1132,6 @@
       <code><![CDATA[$handler]]></code>
       <code><![CDATA[$saveHandler]]></code>
     </InvalidCast>
-    <InvalidScalarArgument>
-      <code><![CDATA[1]]></code>
-    </InvalidScalarArgument>
     <MissingClosureReturnType>
       <code><![CDATA[static function (?string $module = null) {]]></code>
       <code><![CDATA[static function (?string $module = null) {]]></code>
@@ -1176,7 +1143,6 @@
     </MissingReturnType>
     <PossiblyNullArgument>
       <code><![CDATA[$this->config]]></code>
-      <code><![CDATA[var_export($this->config->toArray(), 1)]]></code>
     </PossiblyNullArgument>
     <PossiblyNullReference>
       <code><![CDATA[getCacheExpire]]></code>
@@ -1193,7 +1159,6 @@
       <code><![CDATA[getName]]></code>
       <code><![CDATA[getRefererCheck]]></code>
       <code><![CDATA[getRememberMeSeconds]]></code>
-      <code><![CDATA[getSaveHandler]]></code>
       <code><![CDATA[getSavePath]]></code>
       <code><![CDATA[getSerializeHandler]]></code>
       <code><![CDATA[getSidBitsPerCharacter]]></code>
@@ -1284,20 +1249,15 @@
       <code><![CDATA[setStorageOption]]></code>
       <code><![CDATA[setStorageOption]]></code>
       <code><![CDATA[setUrlRewriterTags]]></code>
-      <code><![CDATA[setUrlRewriterTags]]></code>
       <code><![CDATA[setUseCookies]]></code>
       <code><![CDATA[setUseCookies]]></code>
     </PossiblyNullReference>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[optionsProvider]]></code>
-      <code><![CDATA[sidSidPerCharacters]]></code>
-    </PossiblyUnusedMethod>
-    <PossiblyUnusedParam>
-      <code><![CDATA[$getter]]></code>
-    </PossiblyUnusedParam>
     <RedundantCondition>
       <code><![CDATA[assertFalse]]></code>
     </RedundantCondition>
+    <UnusedParam>
+      <code><![CDATA[$getter]]></code>
+    </UnusedParam>
   </file>
   <file src="test/Config/StandardConfigTest.php">
     <DeprecatedMethod>
@@ -1509,6 +1469,7 @@
   </file>
   <file src="test/SaveHandler/DbTableGatewayOptionsTest.php">
     <DeprecatedClass>
+      <code><![CDATA[DbTableGatewayOptions::class]]></code>
       <code><![CDATA[new DbTableGatewayOptions(
             [
                 'dataColumn' => null,
@@ -1556,6 +1517,7 @@
   </file>
   <file src="test/SaveHandler/MongoDBOptionsTest.php">
     <DeprecatedClass>
+      <code><![CDATA[MongoDBOptions::class]]></code>
       <code><![CDATA[new MongoDBOptions(
             [
                 'collection' => null,
@@ -1608,6 +1570,7 @@
   </file>
   <file src="test/SaveHandler/MongoDBTest.php">
     <DeprecatedClass>
+      <code><![CDATA[MongoDB::class]]></code>
       <code><![CDATA[MongoDBOptions]]></code>
       <code><![CDATA[new MongoDB($this->mongoClient, $this->options)]]></code>
       <code><![CDATA[new MongoDB($this->mongoClient, $this->options)]]></code>
@@ -1649,9 +1612,9 @@
     <MixedMethodCall>
       <code><![CDATA[getManager]]></code>
     </MixedMethodCall>
-    <PossiblyUnusedParam>
+    <UnusedParam>
       <code><![CDATA[$containerName]]></code>
-    </PossiblyUnusedParam>
+    </UnusedParam>
   </file>
   <file src="test/Service/SessionConfigFactoryTest.php">
     <MissingReturnType>
@@ -1715,15 +1678,11 @@
     </MixedArrayAccess>
     <MixedAssignment>
       <code><![CDATA[$storage]]></code>
-      <code><![CDATA[$storage]]></code>
       <code><![CDATA[$test]]></code>
     </MixedAssignment>
     <MixedMethodCall>
       <code><![CDATA[toArray]]></code>
     </MixedMethodCall>
-    <UnusedVariable>
-      <code><![CDATA[$storage]]></code>
-    </UnusedVariable>
   </file>
   <file src="test/SessionArrayStorageTest.php">
     <InvalidScalarArgument>
@@ -1803,9 +1762,6 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[handleErrors]]></code>
     </PossiblyUnusedMethod>
-    <PossiblyUnusedParam>
-      <code><![CDATA[$errno]]></code>
-    </PossiblyUnusedParam>
     <PossiblyUnusedProperty>
       <code><![CDATA[$cookieDateFormat]]></code>
     </PossiblyUnusedProperty>
@@ -1816,6 +1772,9 @@
     <TypeDoesNotContainType>
       <code><![CDATA[assertIsArray]]></code>
     </TypeDoesNotContainType>
+    <UnusedParam>
+      <code><![CDATA[$errno]]></code>
+    </UnusedParam>
     <UnusedVariable>
       <code><![CDATA[$origId]]></code>
     </UnusedVariable>
@@ -2021,9 +1980,6 @@
       <code><![CDATA[getData]]></code>
       <code><![CDATA[getData]]></code>
     </DeprecatedMethod>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[id]]></code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="test/Validator/RemoteAddrTest.php">
     <DeprecatedMethod>

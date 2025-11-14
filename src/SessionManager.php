@@ -9,10 +9,12 @@ use Traversable;
 
 use function array_key_exists;
 use function array_merge;
+use function assert;
 use function constant;
 use function defined;
 use function headers_sent;
 use function is_array;
+use function is_string;
 use function iterator_to_array;
 use function preg_match;
 use function register_shutdown_function;
@@ -301,7 +303,10 @@ class SessionManager extends AbstractManager
             // validation routine; additionally, calling setName() after
             // session_start() can lead to issues, and often we just need the name
             // in order to do things such as setting cookies.
-            $this->name = session_name();
+            $name = session_name();
+            assert(is_string($name));
+
+            $this->name = $name;
         }
         return $this->name;
     }
@@ -334,7 +339,9 @@ class SessionManager extends AbstractManager
      */
     public function getId()
     {
-        return session_id();
+        $ret = session_id();
+        assert(is_string($ret));
+        return $ret;
     }
 
     /**

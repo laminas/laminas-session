@@ -13,6 +13,8 @@ use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\Service\SessionConfigFactory;
 use LaminasTest\Session\TestAsset\TestConfig;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
@@ -24,10 +26,8 @@ use function session_write_close;
 
 use const PHP_SESSION_ACTIVE;
 
-/**
- * @covers \Laminas\Session\Service\SessionConfigFactory
- */
-class SessionConfigFactoryTest extends TestCase
+#[CoversClass(SessionConfigFactory::class)]
+final class SessionConfigFactoryTest extends TestCase
 {
     private ServiceManager $services;
 
@@ -120,6 +120,7 @@ class SessionConfigFactoryTest extends TestCase
         $this->services->get(ConfigInterface::class);
     }
 
+    #[RunInSeparateProcess]
     public function testCanCreateSaveHandlerServiceAndPathViaConfig(): void
     {
         $saveHandler   = new TestSaveHandler();
@@ -162,6 +163,7 @@ class SessionConfigFactoryTest extends TestCase
         self::assertSame($savePath, session_save_path());
     }
 
+    #[RunInSeparateProcess]
     public function testCanCreateSaveHandlerAndPathViaConfig(): void
     {
         $saveHandler   = new TestSaveHandler();

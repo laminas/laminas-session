@@ -10,7 +10,7 @@ use ReturnTypeWillChange;
 /**
  * @see ReturnTypeWillChange
  */
-class TestSaveHandlerWithValidator implements SaveHandler
+final class TestSaveHandlerWithValidator implements SaveHandler
 {
     public function open(string $path, string $name): bool
     {

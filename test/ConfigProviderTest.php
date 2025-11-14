@@ -19,7 +19,7 @@ use Zend\Session\ManagerInterface as LegacyManagerInterface;
 use Zend\Session\SessionManager as LegacySessionManager;
 use Zend\Session\Storage\StorageInterface as LegacyStorageInterface;
 
-class ConfigProviderTest extends TestCase
+final class ConfigProviderTest extends TestCase
 {
     /** @var array<string, mixed> */
     private array $config;

@@ -6,7 +6,7 @@ namespace LaminasTest\Session\TestAsset;
 
 use Laminas\Session\SaveHandler\DbTableGateway;
 
-class TestDbTableGatewaySaveHandler extends DbTableGateway
+final class TestDbTableGatewaySaveHandler extends DbTableGateway
 {
     /** @var int */
     protected $numReadCalls = 0;

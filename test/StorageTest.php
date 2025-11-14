@@ -6,11 +6,10 @@ namespace LaminasTest\Session;
 
 use Laminas\Session\Exception\RuntimeException;
 use Laminas\Session\Storage\ArrayStorage;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Laminas\Session\Storage\ArrayStorage
- */
+#[CoversClass(ArrayStorage::class)]
 final class StorageTest extends TestCase
 {
     private ArrayStorage $storage;

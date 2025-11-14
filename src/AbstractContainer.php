@@ -141,11 +141,6 @@ abstract class AbstractContainer extends ArrayObject
     {
         if (null === $manager) {
             $manager = static::getDefaultManager();
-            if (! $manager instanceof Manager) {
-                throw new Exception\InvalidArgumentException(
-                    'Manager provided is invalid; must implement ManagerInterface'
-                );
-            }
         }
         $this->manager = $manager;
 
@@ -441,8 +436,9 @@ abstract class AbstractContainer extends ArrayObject
         }
         $storage = $this->getStorage();
         $name    = $this->getName();
+        $ret     = &$storage[$name][$key];
 
-        return $storage[$name][$key];
+        return $ret;
     }
 
     /**
@@ -477,11 +473,9 @@ abstract class AbstractContainer extends ArrayObject
 
         $old            = $storage[$name];
         $storage[$name] = $input;
-        if ($old instanceof ArrayObject) {
-            return $old->getArrayCopy();
-        }
 
-        return $old;
+        /** @psalm-var array<TKey, TValue> */
+        return $old instanceof ArrayObject ? $old->getArrayCopy() : $old;
     }
 
     /** @inheritDoc */
@@ -599,6 +593,7 @@ abstract class AbstractContainer extends ArrayObject
         $storage   = $this->verifyNamespace();
         $container = $storage[$this->getName()];
 
+        /** @psalm-var array<TKey, TValue> */
         return $container instanceof ArrayObject ? $container->getArrayCopy() : $container;
     }
 }

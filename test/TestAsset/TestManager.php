@@ -11,7 +11,7 @@ use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Storage\ArrayStorage;
 
-class TestManager extends AbstractManager
+final class TestManager extends AbstractManager
 {
     /** @var bool */
     public $started = false;

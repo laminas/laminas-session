@@ -14,7 +14,7 @@ use function session_start;
 
 use const PHP_VERSION_ID;
 
-class IdTest extends TestCase
+final class IdTest extends TestCase
 {
     /** @psalm-return iterable<string, array{0: int, 1: string, 2: bool, 3: bool}> */
     public static function id(): iterable
@@ -56,9 +56,7 @@ class IdTest extends TestCase
         self::assertSame('1234', $id->getData());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testInitializedWithSessionIdWhenIdIsNotPassed(): void
     {
         session_start();

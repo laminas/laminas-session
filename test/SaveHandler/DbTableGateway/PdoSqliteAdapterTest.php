@@ -11,7 +11,7 @@ use LaminasTest\Session\SaveHandler\AbstractDbTableGatewayTestCase;
 use function extension_loaded;
 use function sprintf;
 
-class PdoSqliteAdapterTest extends AbstractDbTableGatewayTestCase
+final class PdoSqliteAdapterTest extends AbstractDbTableGatewayTestCase
 {
     protected function getAdapter(): Adapter
     {
