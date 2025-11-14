@@ -45,7 +45,7 @@ final class CacheTest extends TestCase
             ->method('set')
             ->with($cacheKey, self::anything())
             ->willReturnCallback(
-                static function (string $firstArgs, string $secondArgs) use ($cacheStorage, $cacheKey): bool {
+                function (string $firstArgs, string $secondArgs) use ($cacheStorage, $cacheKey): bool {
                     $cacheStorage->expects($this->any())
                     ->method('has')
                     ->willReturn(true);

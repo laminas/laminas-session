@@ -9,8 +9,8 @@ use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface as Manager;
 use LaminasTest\Session\TestAsset\TestContainer;
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(AbstractContainer::class)]

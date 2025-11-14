@@ -43,7 +43,7 @@
         "amphp/dns": "^2.4.0",
         "amphp/socket": "^2.3.1",
         "laminas/laminas-coding-standard": "~3.1.0",
-        "phpunit/phpunit": "^11.5.42",
+        "phpunit/phpunit": "^11.5.44",
         "psalm/plugin-phpunit": "^0.19.5",
         "vimeo/psalm": "^6.13.1"
     },

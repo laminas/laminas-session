@@ -13,6 +13,7 @@ use function array_shift;
 use function assert;
 use function implode;
 use function is_dir;
+use function is_string;
 use function is_writable;
 use function method_exists;
 use function parse_url;
