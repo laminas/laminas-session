@@ -2,58 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.laminas.dev/laminas-session/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/config/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/container/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/installation/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/manager/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/save-handler/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/storage/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/application-integration/usage-in-a-laminas-mvc-application/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/migration/preparing-for-v3/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/validators/csrf/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/validators/httpuseragent/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/validators/introduction/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/validators/remoteaddr/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-session/v2/validators/writing-custom-validators/</loc>
-         <lastmod>2025-10-11</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
 </urlset>
