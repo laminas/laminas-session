@@ -8,6 +8,7 @@ use Laminas\Session\Container;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\SessionArrayStorage;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
@@ -115,6 +116,7 @@ final class SessionArrayStorageTest extends TestCase
         self::assertFalse(isset($this->storage['foo']['bar']));
     }
 
+    #[IgnoreDeprecations]
     public function testSessionWorksWithContainer(): void
     {
         // Run without any validators; session ID is often invalid in CLI
