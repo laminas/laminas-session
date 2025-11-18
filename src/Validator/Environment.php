@@ -36,7 +36,7 @@ final class Environment implements EnvironmentInterface
 
         $sessionId = session_id();
 
-        return new self($userAgent, $remoteAddr, $forwardedFor, $sessionId);
+        return new self($userAgent, $remoteAddr, $forwardedFor, $sessionId !== false ? $sessionId : null);
     }
 
     public function getUserAgent(): ?string

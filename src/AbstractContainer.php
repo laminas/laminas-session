@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Laminas\Session;
 
+use AllowDynamicProperties;
 use ArrayIterator;
 use ArrayObject;
 use Laminas\Session\ManagerInterface as Manager;
@@ -34,7 +35,9 @@ use function time;
  * @template TKey of string
  * @template TValue
  * @template-extends ArrayObject<TKey, TValue>
+ * @psalm-no-seal-properties
  */
+#[AllowDynamicProperties]
 abstract class AbstractContainer extends ArrayObject
 {
     /**
@@ -372,7 +375,9 @@ abstract class AbstractContainer extends ArrayObject
      */
     public function &__get(string $key): mixed
     {
-        return $this->offsetGet($key);
+        /** @psalm-var mixed $ret */
+        $ret = $this->offsetGet($key);
+        return $ret;
     }
 
     /**

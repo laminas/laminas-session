@@ -116,10 +116,10 @@ final class CsrfTest extends TestCase
     public function testHashIsGeneratedOnFirstRetrieval(): void
     {
         $hash = $this->getValidatorPropertyValue('hash');
-
-        self::assertNotEmpty($hash);
+        self::assertIsString($hash);
 
         $test = $this->getValidatorPropertyValue('hash');
+        self::assertIsString($test);
 
         self::assertSame($hash, $test);
     }

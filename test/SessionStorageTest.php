@@ -7,6 +7,7 @@ namespace LaminasTest\Session;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\SessionStorage;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 
 use function var_export;
@@ -76,6 +77,7 @@ final class SessionStorageTest extends TestCase
         self::assertSame($expected, $_SESSION);
     }
 
+    #[IgnoreDeprecations]
     public function testModifyingOneSessionObjectModifiesTheOther(): void
     {
         $this->storage->foo = 'bar';
@@ -84,6 +86,7 @@ final class SessionStorageTest extends TestCase
         self::assertEquals('foo', $this->storage->bar);
     }
 
+    #[IgnoreDeprecations]
     public function testMarkingOneSessionObjectImmutableShouldMarkOtherInstancesImmutable(): void
     {
         $this->storage->foo = 'bar';

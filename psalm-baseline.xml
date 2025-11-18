@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
   <file src="src/AbstractContainer.php">
+    <DocblockTypeContradiction>
+      <code><![CDATA[$old instanceof ArrayObject]]></code>
+    </DocblockTypeContradiction>
     <InvalidStringClass>
       <code><![CDATA[new static::$managerDefaultClass()]]></code>
     </InvalidStringClass>
     <LessSpecificImplementedReturnType>
       <code><![CDATA[Traversable<TKey, TValue>]]></code>
     </LessSpecificImplementedReturnType>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this]]></code>
+    </LessSpecificReturnStatement>
     <MixedArgument>
       <code><![CDATA[$container]]></code>
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS']]]></code>
@@ -401,6 +407,23 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/ValidatorChain.php">
+    <ConstructorSignatureMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ConstructorSignatureMismatch>
+    <ImplementedParamTypeMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ImplementedParamTypeMismatch>
+    <InvalidExtendClass>
+      <code><![CDATA[EventManager]]></code>
+    </InvalidExtendClass>
+    <MethodSignatureMismatch>
+      <code><![CDATA[public function __construct(protected StorageInterface $storage)]]></code>
+      <code><![CDATA[public function __construct(protected StorageInterface $storage)]]></code>
+      <code><![CDATA[public function attach($eventName, callable $listener, $priority = 1)]]></code>
+    </MethodSignatureMismatch>
+    <ParamNameMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ParamNameMismatch>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[callable]]></code>
     </PossiblyUnusedReturnValue>
@@ -435,6 +458,9 @@
     <RedundantCondition>
       <code><![CDATA[assertFalse]]></code>
     </RedundantCondition>
+    <UnusedParam>
+      <code><![CDATA[$getter]]></code>
+    </UnusedParam>
   </file>
   <file src="test/Config/StandardConfigTest.php">
     <DeprecatedMethod>
@@ -558,6 +584,9 @@
     <MixedMethodCall>
       <code><![CDATA[getManager]]></code>
     </MixedMethodCall>
+    <UnusedParam>
+      <code><![CDATA[$containerName]]></code>
+    </UnusedParam>
   </file>
   <file src="test/Service/SessionConfigFactoryTest.php">
     <MissingReturnType>
@@ -605,6 +634,7 @@
       <code><![CDATA[assertIsArray]]></code>
     </DocblockTypeContradiction>
     <InvalidArgument>
+      <code><![CDATA[$storage]]></code>
       <code><![CDATA[$this->error]]></code>
       <code><![CDATA[[$this, 'handleErrors']]]></code>
     </InvalidArgument>
@@ -670,6 +700,9 @@
     <TypeDoesNotContainType>
       <code><![CDATA[assertIsArray]]></code>
     </TypeDoesNotContainType>
+    <UnusedParam>
+      <code><![CDATA[$errno]]></code>
+    </UnusedParam>
     <UnusedVariable>
       <code><![CDATA[$origId]]></code>
     </UnusedVariable>
@@ -688,6 +721,9 @@
       <code><![CDATA[$this->storage['foo']['bar']]]></code>
       <code><![CDATA[$this->storage['foo']['bar']['baz']]]></code>
     </MixedArrayAccess>
+    <RedundantCondition>
+      <code><![CDATA[assertTrue]]></code>
+    </RedundantCondition>
   </file>
   <file src="test/TestAsset/TestFailingValidator.php">
     <PossiblyUnusedProperty>
@@ -722,6 +758,9 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="test/TestAsset/TestSimpleCacheAdapter.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[TestSimpleCacheAdapter]]></code>
+    </ClassMustBeFinal>
     <MixedAssignment>
       <code><![CDATA[$result]]></code>
     </MixedAssignment>

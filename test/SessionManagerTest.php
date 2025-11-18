@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session;
 
+use ArrayAccess;
 use ArrayIterator;
 use DateTime;
 use Laminas\Session\Config\SessionConfig;
@@ -247,6 +248,7 @@ final class SessionManagerTest extends TestCase
         $storage        = $this->manager->getStorage();
         $storage['foo'] = 'bar';
         $this->manager->writeClose();
+        self::assertInstanceOf(ArrayAccess::class, $storage);
         self::assertArrayHasKey('foo', $storage);
         self::assertEquals('bar', $storage['foo']);
     }

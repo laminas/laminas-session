@@ -12,7 +12,7 @@ use function serialize;
 use function session_id;
 use function unserialize;
 
-class TestCustomEnvironment implements EnvironmentInterface
+final class TestCustomEnvironment implements EnvironmentInterface
 {
     public function __construct(
         private readonly ?string $userAgent = null,
@@ -47,7 +47,7 @@ class TestCustomEnvironment implements EnvironmentInterface
             $userAgent,
             $remoteAddr,
             $forwardedFor,
-            $sessionId,
+            $sessionId !== false ? $sessionId : null,
             $firstCustomProperty,
             $secondCustomProperty
         );

@@ -25,7 +25,7 @@ use function serialize;
 use function sprintf;
 use function unserialize;
 
-class SimpleCacheTest extends TestCase
+final class SimpleCacheTest extends TestCase
 {
     protected Cache $cacheAdapter;
     protected ReflectionClass $cacheAdapterReflection;

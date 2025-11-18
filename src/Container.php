@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Laminas\Session;
 
+use AllowDynamicProperties;
+
 use function assert;
 use function is_string;
 
@@ -18,7 +20,9 @@ use function is_string;
  * @template TKey of string
  * @template TValue
  * @template-extends AbstractContainer<TKey, TValue>
+ * @psalm-no-seal-properties
  */
+#[AllowDynamicProperties]
 class Container extends AbstractContainer
 {
     /**
