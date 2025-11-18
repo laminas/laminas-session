@@ -8,6 +8,7 @@ namespace LaminasTest\Session\Config;
 use Exception;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Exception\InvalidArgumentException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RequiresPhp;
@@ -19,10 +20,8 @@ use function set_error_handler;
 
 use const E_USER_DEPRECATED;
 
-/**
- * @covers \Laminas\Session\Config\StandardConfig
- */
-class StandardConfigTest extends TestCase
+#[CoversClass(StandardConfig::class)]
+final class StandardConfigTest extends TestCase
 {
     protected StandardConfig $config;
 
@@ -298,9 +297,7 @@ class StandardConfigTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider cacheLimiters
-     */
+    #[DataProvider('cacheLimiters')]
     public function testCacheLimiterIsMutable(string $cacheLimiter): void
     {
         $this->config->setCacheLimiter($cacheLimiter);

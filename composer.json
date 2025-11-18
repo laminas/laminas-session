@@ -18,7 +18,7 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.1.99"
+            "php": "8.2.99"
         },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
@@ -32,18 +32,20 @@
         }
     },
     "require": {
-        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
-        "laminas/laminas-eventmanager": "^3.12",
+        "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+        "laminas/laminas-eventmanager": "^3.14.0",
         "laminas/laminas-servicemanager": "^4.0",
         "laminas/laminas-validator": "^3.0",
         "psr/simple-cache": "^3.0"
     },
     "require-dev": {
         "ext-xdebug": "*",
-        "laminas/laminas-coding-standard": "~3.0.1",
-        "phpunit/phpunit": "^10.5.38",
-        "psalm/plugin-phpunit": "^0.19.0",
-        "vimeo/psalm": "^5.26.1"
+        "amphp/dns": "^2.4.0",
+        "amphp/socket": "^2.3.1",
+        "laminas/laminas-coding-standard": "~3.1.0",
+        "phpunit/phpunit": "^11.5.44",
+        "psalm/plugin-phpunit": "^0.19.5",
+        "vimeo/psalm": "^6.13.1"
     },
     "suggest": {
         "psr/simple-cache-implementation": "Find implementations of PSR-16 in this virtual package",

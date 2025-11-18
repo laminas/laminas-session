@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
   <file src="src/AbstractContainer.php">
+    <DocblockTypeContradiction>
+      <code><![CDATA[$old instanceof ArrayObject]]></code>
+    </DocblockTypeContradiction>
     <InvalidStringClass>
       <code><![CDATA[new static::$managerDefaultClass()]]></code>
     </InvalidStringClass>
     <LessSpecificImplementedReturnType>
       <code><![CDATA[Traversable<TKey, TValue>]]></code>
     </LessSpecificImplementedReturnType>
-    <MethodSignatureMismatch>
-      <code><![CDATA[$input]]></code>
-    </MethodSignatureMismatch>
-    <MismatchingDocblockParamType>
-      <code><![CDATA[array<TKey, TValue>|Traversable<TKey, TValue>]]></code>
-    </MismatchingDocblockParamType>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this]]></code>
+    </LessSpecificReturnStatement>
     <MixedArgument>
       <code><![CDATA[$container]]></code>
       <code><![CDATA[$metadata['EXPIRE_HOPS_KEYS']]]></code>
@@ -115,9 +115,6 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$knownHandlers]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedInferredReturnType>
-      <code><![CDATA[string|false]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$callback($module)]]></code>
       <code><![CDATA[$callback()]]></code>
@@ -146,10 +143,6 @@
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->name]]></code>
       <code><![CDATA[$this->name]]></code>
@@ -289,9 +282,6 @@
       <code><![CDATA[$locks]]></code>
       <code><![CDATA[$readOnly]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[bool]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->getMetadata('_READONLY')]]></code>
     </MixedReturnStatement>
@@ -354,9 +344,6 @@
       <code><![CDATA[$this['__Laminas']]]></code>
       <code><![CDATA[$this['__Laminas'][$key]]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[bool]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->getMetadata('_READONLY')]]></code>
     </MixedReturnStatement>
@@ -420,9 +407,23 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/ValidatorChain.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$callback]]></code>
-    </MixedArgumentTypeCoercion>
+    <ConstructorSignatureMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ConstructorSignatureMismatch>
+    <ImplementedParamTypeMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ImplementedParamTypeMismatch>
+    <InvalidExtendClass>
+      <code><![CDATA[EventManager]]></code>
+    </InvalidExtendClass>
+    <MethodSignatureMismatch>
+      <code><![CDATA[public function __construct(protected StorageInterface $storage)]]></code>
+      <code><![CDATA[public function __construct(protected StorageInterface $storage)]]></code>
+      <code><![CDATA[public function attach($eventName, callable $listener, $priority = 1)]]></code>
+    </MethodSignatureMismatch>
+    <ParamNameMismatch>
+      <code><![CDATA[$storage]]></code>
+    </ParamNameMismatch>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[callable]]></code>
     </PossiblyUnusedReturnValue>
@@ -454,16 +455,12 @@
       <code><![CDATA[testCookieSameSiteDefaultsToIniSettings]]></code>
       <code><![CDATA[testCookieSameSiteIsMutable]]></code>
     </MissingReturnType>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[optionsProvider]]></code>
-      <code><![CDATA[sidSidPerCharacters]]></code>
-    </PossiblyUnusedMethod>
-    <PossiblyUnusedParam>
-      <code><![CDATA[$getter]]></code>
-    </PossiblyUnusedParam>
     <RedundantCondition>
       <code><![CDATA[assertFalse]]></code>
     </RedundantCondition>
+    <UnusedParam>
+      <code><![CDATA[$getter]]></code>
+    </UnusedParam>
   </file>
   <file src="test/Config/StandardConfigTest.php">
     <DeprecatedMethod>
@@ -474,10 +471,6 @@
     <MissingReturnType>
       <code><![CDATA[testCookieSameSiteIsMutable]]></code>
     </MissingReturnType>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[optionsProvider]]></code>
-      <code><![CDATA[sidBitsPerCharacters]]></code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="test/ConfigProviderTest.php">
     <MixedArgument>
@@ -591,9 +584,9 @@
     <MixedMethodCall>
       <code><![CDATA[getManager]]></code>
     </MixedMethodCall>
-    <PossiblyUnusedParam>
+    <UnusedParam>
       <code><![CDATA[$containerName]]></code>
-    </PossiblyUnusedParam>
+    </UnusedParam>
   </file>
   <file src="test/Service/SessionConfigFactoryTest.php">
     <MissingReturnType>
@@ -613,11 +606,6 @@
     <UnusedVariable>
       <code><![CDATA[$manager]]></code>
       <code><![CDATA[$manager]]></code>
-    </UnusedVariable>
-  </file>
-  <file src="test/Service/StorageFactoryTest.php">
-    <UnusedVariable>
-      <code><![CDATA[$storage]]></code>
     </UnusedVariable>
   </file>
   <file src="test/SessionArrayStorageTest.php">
@@ -646,6 +634,7 @@
       <code><![CDATA[assertIsArray]]></code>
     </DocblockTypeContradiction>
     <InvalidArgument>
+      <code><![CDATA[$storage]]></code>
       <code><![CDATA[$this->error]]></code>
       <code><![CDATA[[$this, 'handleErrors']]]></code>
     </InvalidArgument>
@@ -701,9 +690,6 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[handleErrors]]></code>
     </PossiblyUnusedMethod>
-    <PossiblyUnusedParam>
-      <code><![CDATA[$errno]]></code>
-    </PossiblyUnusedParam>
     <PossiblyUnusedProperty>
       <code><![CDATA[$cookieDateFormat]]></code>
     </PossiblyUnusedProperty>
@@ -714,6 +700,9 @@
     <TypeDoesNotContainType>
       <code><![CDATA[assertIsArray]]></code>
     </TypeDoesNotContainType>
+    <UnusedParam>
+      <code><![CDATA[$errno]]></code>
+    </UnusedParam>
     <UnusedVariable>
       <code><![CDATA[$origId]]></code>
     </UnusedVariable>
@@ -732,6 +721,9 @@
       <code><![CDATA[$this->storage['foo']['bar']]]></code>
       <code><![CDATA[$this->storage['foo']['bar']['baz']]]></code>
     </MixedArrayAccess>
+    <RedundantCondition>
+      <code><![CDATA[assertTrue]]></code>
+    </RedundantCondition>
   </file>
   <file src="test/TestAsset/TestFailingValidator.php">
     <PossiblyUnusedProperty>
@@ -766,13 +758,11 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="test/TestAsset/TestSimpleCacheAdapter.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[TestSimpleCacheAdapter]]></code>
+    </ClassMustBeFinal>
     <MixedAssignment>
       <code><![CDATA[$result]]></code>
     </MixedAssignment>
-  </file>
-  <file src="test/Validator/IdTest.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[id]]></code>
-    </PossiblyUnusedMethod>
   </file>
 </files>

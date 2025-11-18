@@ -20,6 +20,7 @@ use Laminas\Session\Validator;
 use LaminasTest\Session\ReflectionPropertyTrait;
 use LaminasTest\Session\TestAsset\TestManager;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
@@ -27,10 +28,8 @@ use RuntimeException;
 
 use function iterator_to_array;
 
-/**
- * @covers \Laminas\Session\Service\SessionManagerFactory
- */
-class SessionManagerFactoryTest extends TestCase
+#[CoversClass(SessionManagerFactory::class)]
+final class SessionManagerFactoryTest extends TestCase
 {
     use EventListenerIntrospectionTrait;
     use ReflectionPropertyTrait;
@@ -128,9 +127,7 @@ class SessionManagerFactoryTest extends TestCase
         self::assertCount(2, $listeners);
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     #[IgnoreDeprecations]
     public function testStartingSessionManagerFromFactoryDoesNotTriggerUndefinedVariable(): void
     {

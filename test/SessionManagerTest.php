@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session;
 
+use ArrayAccess;
 use ArrayIterator;
 use DateTime;
 use Laminas\Session\Config\SessionConfig;
@@ -21,7 +22,10 @@ use LaminasTest\Session\TestAsset\Php81CompatibleStorageInterface;
 use LaminasTest\Session\TestAsset\TestCustomEnvironment;
 use LaminasTest\Session\TestAsset\TestCustomEnvironmentFactory;
 use LaminasTest\Session\TestAsset\TestFailingValidator;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 use Traversable;
@@ -50,10 +54,9 @@ use function xdebug_get_headers;
 use const E_WARNING;
 use const PHP_SAPI;
 
-/**
- * @covers \Laminas\Session\SessionManager
- */
-class SessionManagerTest extends TestCase
+#[PreserveGlobalState(false)]
+#[CoversClass(SessionManager::class)]
+final class SessionManagerTest extends TestCase
 {
     use ReflectionPropertyTrait;
 
@@ -245,6 +248,7 @@ class SessionManagerTest extends TestCase
         $storage        = $this->manager->getStorage();
         $storage['foo'] = 'bar';
         $this->manager->writeClose();
+        self::assertInstanceOf(ArrayAccess::class, $storage);
         self::assertArrayHasKey('foo', $storage);
         self::assertEquals('bar', $storage['foo']);
     }
@@ -372,6 +376,7 @@ class SessionManagerTest extends TestCase
 
     #[RunInSeparateProcess]
     #[IgnoreDeprecations]
+    #[RequiresPhpExtension('xdebug')]
     public function testDestroyByDefaultSendsAnExpireCookie(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -404,6 +409,7 @@ class SessionManagerTest extends TestCase
 
     #[RunInSeparateProcess]
     #[IgnoreDeprecations]
+    #[RequiresPhpExtension('xdebug')]
     public function testSendingFalseToSendExpireCookieWhenCallingDestroyShouldNotSendCookie(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -575,6 +581,7 @@ class SessionManagerTest extends TestCase
 
     #[RunInSeparateProcess]
     #[IgnoreDeprecations]
+    #[RequiresPhpExtension('xdebug')]
     public function testRegeneratingIdAfterSessionStartedShouldSendExpireCookie(): void
     {
         if (! extension_loaded('xdebug')) {
@@ -605,6 +612,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[RequiresPhpExtension('xdebug')]
     #[IgnoreDeprecations]
     public function testRememberMeShouldSendNewSessionCookieWithUpdatedTimestamp(): void
     {
@@ -650,6 +658,7 @@ class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
+    #[RequiresPhpExtension('xdebug')]
     #[IgnoreDeprecations]
     public function testRememberMeShouldSetTimestampBasedOnConfigurationByDefault(): void
     {
@@ -702,6 +711,7 @@ class SessionManagerTest extends TestCase
 
     #[RunInSeparateProcess]
     #[IgnoreDeprecations]
+    #[RequiresPhpExtension('xdebug')]
     public function testForgetMeShouldSendCookieWithZeroTimestamp(): void
     {
         if (! extension_loaded('xdebug')) {

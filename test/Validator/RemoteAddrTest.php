@@ -7,12 +7,11 @@ namespace LaminasTest\Session\Validator;
 use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\RemoteAddr;
 use LaminasTest\Session\TestAsset\TestCustomEnvironment;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Laminas\Session\Validator\RemoteAddr
- */
-class RemoteAddrTest extends TestCase
+#[CoversClass(RemoteAddr::class)]
+final class RemoteAddrTest extends TestCase
 {
     protected array $backup = [];
 

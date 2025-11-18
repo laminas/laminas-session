@@ -9,13 +9,12 @@ use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface as Manager;
 use LaminasTest\Session\TestAsset\TestContainer;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Laminas\Session\AbstractContainer
- */
-class AbstractContainerTest extends TestCase
+#[CoversClass(AbstractContainer::class)]
+final class AbstractContainerTest extends TestCase
 {
     protected Manager $manager;
     protected AbstractContainer $container;

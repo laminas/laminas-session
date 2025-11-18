@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Laminas\Session;
 
+use AllowDynamicProperties;
 use ArrayIterator;
 use ArrayObject;
 use Laminas\Session\ManagerInterface as Manager;
@@ -34,7 +35,9 @@ use function time;
  * @template TKey of string
  * @template TValue
  * @template-extends ArrayObject<TKey, TValue>
+ * @psalm-no-seal-properties
  */
+#[AllowDynamicProperties]
 abstract class AbstractContainer extends ArrayObject
 {
     /**
@@ -132,11 +135,6 @@ abstract class AbstractContainer extends ArrayObject
     {
         if (null === $manager) {
             $manager = static::getDefaultManager();
-            if (! $manager instanceof Manager) {
-                throw new Exception\InvalidArgumentException(
-                    'Manager provided is invalid; must implement ManagerInterface'
-                );
-            }
         }
         $this->manager = $manager;
 
@@ -377,7 +375,9 @@ abstract class AbstractContainer extends ArrayObject
      */
     public function &__get(string $key): mixed
     {
-        return $this->offsetGet($key);
+        /** @psalm-var mixed $ret */
+        $ret = $this->offsetGet($key);
+        return $ret;
     }
 
     /**
@@ -442,8 +442,9 @@ abstract class AbstractContainer extends ArrayObject
         }
         $storage = $this->getStorage();
         $name    = $this->getName();
+        $ret     = &$storage[$name][$key];
 
-        return $storage[$name][$key];
+        return $ret;
     }
 
     /**
@@ -479,9 +480,8 @@ abstract class AbstractContainer extends ArrayObject
         $old            = $storage[$name];
         $storage[$name] = $input;
 
-        /** @var array<TKey, TValue> $return */
-        $return = is_array($old) ? $old : iterator_to_array($old);
-        return $return;
+        /** @psalm-var array<TKey, TValue> */
+        return $old instanceof ArrayObject ? $old->getArrayCopy() : $old;
     }
 
     /**
@@ -584,9 +584,7 @@ abstract class AbstractContainer extends ArrayObject
         $storage   = $this->verifyNamespace();
         $container = $storage[$this->getName()];
 
-        /** @var array<TKey, TValue> $array */
-        $array = $container instanceof ArrayObject ? $container->getArrayCopy() : $container;
-
-        return $array;
+        /** @psalm-var array<TKey, TValue> */
+        return $container instanceof ArrayObject ? $container->getArrayCopy() : $container;
     }
 }

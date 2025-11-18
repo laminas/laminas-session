@@ -12,12 +12,12 @@ use Laminas\Session\Service\StorageFactory;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\SessionArrayStorage;
 use Laminas\Session\Storage\StorageInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Laminas\Session\Service\StorageFactory
- */
-class StorageFactoryTest extends TestCase
+#[CoversClass(StorageFactory::class)]
+final class StorageFactoryTest extends TestCase
 {
     private ServiceManager $services;
 
@@ -108,9 +108,9 @@ class StorageFactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider sessionStorageConfig
      * @psalm-param class-string $class
      */
+    #[DataProvider('sessionStorageConfig')]
     public function testUsesConfigurationToCreateStorage(array $config, string $class): void
     {
         $this->services->setService('config', $config);
@@ -181,13 +181,11 @@ class StorageFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider invalidSessionStorageConfig
-     */
+    #[DataProvider('invalidSessionStorageConfig')]
     public function testInvalidConfigurationRaisesServiceNotCreatedException(array $config): void
     {
         $this->services->setService('config', $config);
         $this->expectException(ServiceNotCreatedException::class);
-        $storage = $this->services->get(StorageInterface::class);
+        $this->services->get(StorageInterface::class);
     }
 }

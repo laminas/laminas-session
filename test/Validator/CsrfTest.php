@@ -10,6 +10,8 @@ use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Validator\Csrf;
 use LaminasTest\Session\ReflectionPropertyTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use ReflectionObject;
@@ -21,7 +23,7 @@ use function str_replace;
 use function strtr;
 use function uniqid;
 
-class CsrfTest extends TestCase
+final class CsrfTest extends TestCase
 {
     use ReflectionPropertyTrait;
 
@@ -72,6 +74,7 @@ class CsrfTest extends TestCase
         self::assertSame('salt', $salt);
     }
 
+    #[IgnoreDeprecations]
     public function testSessionContainerIsLazyLoadedIfNotSet(): void
     {
         $container = $this->getValidatorPropertyValue('session');
@@ -89,6 +92,7 @@ class CsrfTest extends TestCase
         self::assertSame(300, $this->getValidatorPropertyValue('timeout'));
     }
 
+    #[IgnoreDeprecations]
     public function testAllOptionsMayBeSetViaConstructor(): void
     {
         $container = new Container('foo', $this->sessionManager);
@@ -108,13 +112,14 @@ class CsrfTest extends TestCase
         self::assertSame(600, $this->getReflectionProperty($validator, 'timeout'));
     }
 
+    #[IgnoreDeprecations]
     public function testHashIsGeneratedOnFirstRetrieval(): void
     {
         $hash = $this->getValidatorPropertyValue('hash');
-
-        self::assertNotEmpty($hash);
+        self::assertIsString($hash);
 
         $test = $this->getValidatorPropertyValue('hash');
+        self::assertIsString($test);
 
         self::assertSame($hash, $test);
     }
@@ -156,11 +161,13 @@ class CsrfTest extends TestCase
         self::assertSame($expected, $validator->getSessionName());
     }
 
+    #[IgnoreDeprecations]
     public function testIsValidReturnsFalseWhenValueDoesNotMatchHash(): void
     {
         self::assertFalse($this->validator->isValid('foo'));
     }
 
+    #[IgnoreDeprecations]
     public function testValidationErrorMatchesNotSameConstantAndRelatedMessage(): void
     {
         $this->validator->isValid('foo');
@@ -170,6 +177,7 @@ class CsrfTest extends TestCase
         self::assertSame('The form submitted did not originate from the expected site', $messages[Csrf::NOT_SAME]);
     }
 
+    #[IgnoreDeprecations]
     public function testIsValidReturnsTrueWhenValueMatchesHash(): void
     {
         $hash = $this->getValidatorPropertyValue('hash');
@@ -177,6 +185,7 @@ class CsrfTest extends TestCase
         self::assertTrue($this->validator->isValid($hash));
     }
 
+    #[IgnoreDeprecations]
     public function testSessionContainerContainsHashAfterHashHasBeenGenerated(): void
     {
         $container = $this->getValidatorPropertyValue('session');
@@ -200,6 +209,7 @@ class CsrfTest extends TestCase
         self::assertSame($hash, $testHash);
     }
 
+    #[IgnoreDeprecations]
     public function testMultipleValidatorsSharingContainerGenerateDifferentHashes(): void
     {
         $validatorOne = new Csrf();
@@ -220,6 +230,7 @@ class CsrfTest extends TestCase
         self::assertNotSame($hashOne, $hashTwo);
     }
 
+    #[IgnoreDeprecations]
     public function testCanValidateAnyHashWithinTheSameContainer(): void
     {
         $validatorOne = new Csrf();
@@ -236,6 +247,7 @@ class CsrfTest extends TestCase
         self::assertTrue($validatorTwo->isValid($hashTwo));
     }
 
+    #[IgnoreDeprecations]
     public function testCannotValidateHashesOfOtherContainers(): void
     {
         $validatorOne = new Csrf();
@@ -259,6 +271,7 @@ class CsrfTest extends TestCase
         self::assertTrue($validatorTwo->isValid($hashTwo));
     }
 
+    #[IgnoreDeprecations]
     public function testCannotReValidateAnExpiredHash(): void
     {
         $hash = $this->getValidatorPropertyValue('hash');
@@ -302,7 +315,8 @@ class CsrfTest extends TestCase
         ];
     }
 
-    /** @dataProvider fakeValuesDataProvider */
+    #[IgnoreDeprecations]
+    #[DataProvider('fakeValuesDataProvider')]
     public function testWithFakeValues(string $value): void
     {
         $validator = new Csrf();

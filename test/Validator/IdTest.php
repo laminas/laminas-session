@@ -19,7 +19,7 @@ use function session_start;
 
 use const PHP_VERSION_ID;
 
-class IdTest extends TestCase
+final class IdTest extends TestCase
 {
     /** @psalm-return iterable<string, array{0: int, 1: string, 2: bool, 3: bool}> */
     public static function id(): iterable
@@ -71,7 +71,7 @@ class IdTest extends TestCase
                 sessionId: $id,
                 firstCustomProperty: 'fistCustomValue',
                 secondCustomProperty: 'secondCustomValue'
-            )
+            ),
         );
         if (PHP_VERSION_ID >= 80400) {
             self::assertSame($isValidPhp84, $validator->isValid());
@@ -80,9 +80,7 @@ class IdTest extends TestCase
         }
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testInitializedWithSessionIdWhenIdIsNotPassed(): void
     {
         session_start();

@@ -18,6 +18,7 @@ use function in_array;
 use function ini_get;
 use function ini_set;
 use function is_a;
+use function is_array;
 use function is_string;
 use function ob_get_clean;
 use function ob_start;
@@ -328,6 +329,7 @@ class SessionConfig extends StandardConfig
         }
 
         $content = array_shift($matches);
+        assert(is_string($content));
 
         $handlers = str_contains($content, '</td>')
             ? $this->parseSaveHandlersFromHtml($content)
@@ -428,7 +430,10 @@ class SessionConfig extends StandardConfig
 
         ob_start();
         $phpinfo(INFO_MODULES);
-        return ob_get_clean();
+        $ret = ob_get_clean();
+        assert(is_string($ret));
+
+        return $ret;
     }
 
     /**
@@ -443,7 +448,9 @@ class SessionConfig extends StandardConfig
         }
 
         $handlers = trim($matches['handlers']);
-        return preg_split('#\s+#', $handlers);
+        $ret      = preg_split('#\s+#', $handlers);
+        assert(is_array($ret));
+        return $ret;
     }
 
     /**
@@ -455,7 +462,9 @@ class SessionConfig extends StandardConfig
     {
         [$prefix, $handlers] = explode('=>', $content);
         $handlers            = trim($handlers);
-        return preg_split('#\s+#', $handlers);
+        $ret                 = preg_split('#\s+#', $handlers);
+        assert(is_array($ret));
+        return $ret;
     }
 
     private function sessionModuleName(?string $module = null): string|false

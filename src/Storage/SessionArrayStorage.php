@@ -25,7 +25,8 @@ class SessionArrayStorage extends AbstractSessionArrayStorage
     {
         assert($key !== '');
         /** @psalm-var non-empty-string $key */
-        return $_SESSION[$key];
+        $ret = &$_SESSION[$key];
+        return $ret;
     }
 
     /**
@@ -37,6 +38,7 @@ class SessionArrayStorage extends AbstractSessionArrayStorage
     {
         assert(is_string($key) && $key !== '');
         /** @psalm-var non-empty-string $key */
-        return $_SESSION[$key];
+        $ret = &$_SESSION[$key];
+        return $ret;
     }
 }

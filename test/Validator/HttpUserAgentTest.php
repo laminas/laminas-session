@@ -9,7 +9,7 @@ use Laminas\Session\Validator\HttpUserAgent;
 use LaminasTest\Session\TestAsset\TestCustomEnvironment;
 use PHPUnit\Framework\TestCase;
 
-class HttpUserAgentTest extends TestCase
+final class HttpUserAgentTest extends TestCase
 {
     public function testIsValid(): void
     {

@@ -40,13 +40,16 @@ abstract class Factory
             $type = $class;
         }
 
+        $classParents    = class_parents($type);
+        $classImplements = class_implements($type);
+
         switch (true) {
-            case in_array(AbstractSessionArrayStorage::class, class_parents($type)):
+            case in_array(AbstractSessionArrayStorage::class, $classParents !== false ? $classParents : []):
                 return static::createSessionArrayStorage($type, $options);
             case $type === ArrayStorage::class:
-            case in_array(ArrayStorage::class, class_parents($type)):
+            case in_array(ArrayStorage::class, $classParents !== false ? $classParents : []):
                 return static::createArrayStorage($type, $options);
-            case in_array(StorageInterface::class, class_implements($type)):
+            case in_array(StorageInterface::class, $classImplements !== false ? $classImplements : []):
                 return new $type($options);
             default:
                 throw new Exception\InvalidArgumentException(

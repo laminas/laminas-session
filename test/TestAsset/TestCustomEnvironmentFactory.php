@@ -7,7 +7,7 @@ namespace LaminasTest\Session\TestAsset;
 use Laminas\Session\Service\EnvironmentFactoryInterface;
 use Laminas\Session\Validator\EnvironmentInterface;
 
-class TestCustomEnvironmentFactory implements EnvironmentFactoryInterface
+final class TestCustomEnvironmentFactory implements EnvironmentFactoryInterface
 {
     public function getEnvironment(): EnvironmentInterface
     {

@@ -10,14 +10,17 @@ use Laminas\Validator\Hostname as HostnameValidator;
 use function array_key_exists;
 use function array_merge;
 use function array_shift;
+use function assert;
 use function implode;
 use function is_dir;
+use function is_string;
 use function is_writable;
 use function method_exists;
 use function parse_url;
 use function preg_replace;
 use function sprintf;
 use function str_replace;
+use function str_starts_with;
 use function strtolower;
 use function substr;
 use function trigger_error;
@@ -362,8 +365,11 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
      */
     public function setCookiePath(string $cookiePath): StandardConfig
     {
-        $test = parse_url($cookiePath, PHP_URL_PATH);
-        if ($test !== $cookiePath || '/' !== $test[0]) {
+        $path = parse_url($cookiePath, PHP_URL_PATH);
+
+        assert(is_string($path));
+
+        if ($path !== $cookiePath || ! str_starts_with($path, '/')) {
             throw new Exception\InvalidArgumentException('Invalid cookie path');
         }
 
@@ -648,7 +654,9 @@ class StandardConfig implements ConfigInterface, SameSiteCookieCapableInterface
     {
         $prefix = substr($method, 0, 3);
         $option = substr($method, 3);
-        $key    = strtolower(preg_replace('#(?<=[a-z])([A-Z])#', '_\1', $option));
+        $key    = preg_replace('#(?<=[a-z])([A-Z])#', '_\1', $option);
+        assert(is_string($key));
+        $key = strtolower($key);
 
         if ($prefix === 'set') {
             $value = array_shift($args);

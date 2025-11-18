@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-        bootstrap="./vendor/autoload.php"
-        colors="true"
-        cacheDirectory=".phpunit.cache"
-        failOnDeprecation="true"
-        failOnNotice="true"
-        failOnWarning="true"
-        failOnPhpunitDeprecation="true"
-        displayDetailsOnPhpunitDeprecations="true"
-        displayDetailsOnTestsThatTriggerDeprecations="true"
-        displayDetailsOnTestsThatTriggerNotices="true"
-        displayDetailsOnTestsThatTriggerWarnings="true">
-  <testsuites>
-    <testsuite name="laminas-session Test Suite">
-      <directory>./test/</directory>
-    </testsuite>
-  </testsuites>
-  <groups>
-    <exclude>
-      <group>disable</group>
-    </exclude>
-  </groups>
-  <php>
-    <ini name="date.timezone" value="UTC"/>
-  </php>
-  <source>
-    <include>
-      <directory suffix=".php">./src</directory>
-    </include>
-    <exclude>
-      <file>src/compatibility/autoload.php</file>
-    </exclude>
-  </source>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="./vendor/autoload.php"
+    colors="true"
+    cacheDirectory=".phpunit.cache"
+    failOnDeprecation="true"
+    failOnNotice="true"
+    failOnWarning="true"
+    failOnPhpunitDeprecation="true"
+    displayDetailsOnAllIssues="true"
+>
+    <testsuites>
+        <testsuite name="laminas-session Test Suite">
+            <directory>./test/</directory>
+        </testsuite>
+    </testsuites>
+    <groups>
+        <exclude>
+            <group>disable</group>
+        </exclude>
+    </groups>
+    <php>
+        <ini name="date.timezone" value="UTC"/>
+    </php>
+    <source ignoreIndirectDeprecations="true">
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+        <exclude>
+            <file>src/compatibility/autoload.php</file>
+        </exclude>
+    </source>
 </phpunit>

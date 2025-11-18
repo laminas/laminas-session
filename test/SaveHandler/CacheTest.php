@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LaminasTest\Session\SaveHandler;
 
 use Laminas\Session\SaveHandler\Cache;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\SimpleCache\CacheInterface;
 
@@ -16,10 +17,9 @@ use function var_export;
 /**
  * Unit testing for DbTable include all tests for
  * regular session handling
- *
- * @covers \Laminas\Session\SaveHandler\Cache
  */
-class CacheTest extends TestCase
+#[CoversClass(Cache::class)]
+final class CacheTest extends TestCase
 {
     protected array $testArray;
 
@@ -41,16 +41,16 @@ class CacheTest extends TestCase
         $cacheKey = hash('xxh32', $id);
 
         $cacheStorage = $this->createMock(CacheInterface::class);
-        $cacheStorage->expects(self::any())
+        $cacheStorage->expects($this->any())
             ->method('set')
             ->with($cacheKey, self::anything())
             ->willReturnCallback(
-                static function (string $firstArgs, string $secondArgs) use ($cacheStorage, $cacheKey): bool {
-                    $cacheStorage->expects(self::any())
+                function (string $firstArgs, string $secondArgs) use ($cacheStorage, $cacheKey): bool {
+                    $cacheStorage->expects($this->any())
                     ->method('has')
                     ->willReturn(true);
 
-                    $cacheStorage->expects(self::any())
+                    $cacheStorage->expects($this->any())
                     ->method('get')
                     ->with($cacheKey)
                     ->willReturn($secondArgs);
@@ -80,16 +80,16 @@ class CacheTest extends TestCase
         $cacheKey = hash('xxh32', $id);
 
         $cacheStorage = $this->createMock(CacheInterface::class);
-        $cacheStorage->expects(self::any())
+        $cacheStorage->expects($this->any())
             ->method('set')
             ->with($cacheKey, self::anything())
             ->willReturnCallback(
-                static function (string $firstArgs, string $secondArgs) use ($cacheStorage, $cacheKey): bool {
-                    $cacheStorage->expects(self::any())
+                function (string $firstArgs, string $secondArgs) use ($cacheStorage, $cacheKey): bool {
+                    $cacheStorage->expects($this->any())
                         ->method('has')
                         ->willReturn(true);
 
-                    $cacheStorage->expects(self::any())
+                    $cacheStorage->expects($this->any())
                     ->method('get')
                     ->with($cacheKey)
                     ->willReturn($secondArgs);
@@ -116,12 +116,12 @@ class CacheTest extends TestCase
             ->method('set')
             ->with($cacheKey, self::anything())
             ->willReturnCallback(
-                static function (string $firstArgs, string $secondArgs) use ($cacheStorage, $cacheKey): bool {
-                    $cacheStorage->expects(self::any())
+                function (string $firstArgs, string $secondArgs) use ($cacheStorage, $cacheKey): bool {
+                    $cacheStorage->expects($this->any())
                         ->method('has')
                         ->willReturn(true);
 
-                    $cacheStorage->expects(self::any())
+                    $cacheStorage->expects($this->any())
                     ->method('get')
                     ->with($cacheKey)
                     ->willReturn($secondArgs);
@@ -147,7 +147,7 @@ class CacheTest extends TestCase
     public function testReadWillReturnFalseOnCacheMiss(): void
     {
         $cacheStorage = $this->createMock(CacheInterface::class);
-        $cacheStorage->expects(self::any())->method('get')->willReturn(false);
+        $cacheStorage->expects($this->any())->method('get')->willReturn(false);
         $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
 
         $id = '242';
@@ -176,12 +176,12 @@ class CacheTest extends TestCase
         $cacheKey = hash('xxh32', $id);
 
         $cacheStorage = $this->createMock(CacheInterface::class);
-        $cacheStorage->expects(self::any())
+        $cacheStorage->expects($this->any())
             ->method('set')
             ->with($cacheKey, self::anything())
             ->willReturnCallback(
-                static function (string $firstArgs, string $secondArgs) use ($cacheStorage, $cacheKey): bool {
-                    $cacheStorage->expects(self::any())
+                function (string $firstArgs, string $secondArgs) use ($cacheStorage, $cacheKey): bool {
+                    $cacheStorage->expects($this->any())
                     ->method('get')
                     ->with($cacheKey)
                     ->willReturn($secondArgs);

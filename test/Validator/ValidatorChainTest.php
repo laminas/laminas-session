@@ -10,7 +10,7 @@ use Laminas\Session\ValidatorChain;
 use LaminasTest\Session\TestAsset\TestFailingValidator;
 use PHPUnit\Framework\TestCase;
 
-class ValidatorChainTest extends TestCase
+final class ValidatorChainTest extends TestCase
 {
     private ValidatorChain $validatorChain;
 
