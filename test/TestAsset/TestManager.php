@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\TestAsset;
 
-use Laminas\EventManager\EventManagerInterface;
 use Laminas\Session\AbstractManager;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Storage\ArrayStorage;
-use Laminas\Session\ValidatorChain;
 
 final class TestManager extends AbstractManager
 {
@@ -72,19 +70,8 @@ final class TestManager extends AbstractManager
         return $this;
     }
 
-    public function setValidatorChain(EventManagerInterface $chain): static
+    public function isValid(): void
     {
-        return $this;
-    }
-
-    public function getValidatorChain(): EventManagerInterface
-    {
-        return new ValidatorChain($this->getStorage());
-    }
-
-    public function isValid(): bool
-    {
-        return true;
     }
 
     public function sessionExists(): bool

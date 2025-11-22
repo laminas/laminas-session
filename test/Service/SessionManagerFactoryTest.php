@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\Service;
 
-use Laminas\EventManager\EventManager;
-use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Config\ConfigInterface;
@@ -17,6 +15,7 @@ use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\StorageInterface;
 use Laminas\Session\Validator;
+use Laminas\Session\Validator\RemoteAddr;
 use LaminasTest\Session\ReflectionPropertyTrait;
 use LaminasTest\Session\TestAsset\TestManager;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
@@ -24,14 +23,12 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
-use function iterator_to_array;
+use function is_a;
 
 #[CoversClass(SessionManagerFactory::class)]
 final class SessionManagerFactoryTest extends TestCase
 {
-    use EventListenerIntrospectionTrait;
     use ReflectionPropertyTrait;
 
     private ServiceManager $services;
@@ -118,13 +115,12 @@ final class SessionManagerFactoryTest extends TestCase
 
         self::assertInstanceOf(ManagerInterface::class, $manager);
 
-        $chain = $manager->getValidatorChain();
-
-        self::assertInstanceOf(EventManager::class, $chain);
-
-        $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
-
-        self::assertCount(2, $listeners);
+        $containedValidators = $this->getReflectionProperty($manager, 'validators');
+        self::assertIsArray($containedValidators);
+        self::assertCount(2, $containedValidators);
+        foreach ($containedValidators as $validator) {
+            self::assertTrue(is_a($validator, Validator\ValidatorInterface::class, true));
+        }
     }
 
     #[RunInSeparateProcess]
@@ -178,19 +174,14 @@ final class SessionManagerFactoryTest extends TestCase
     public function testFactoryDoesNotAttachValidatorTwoTimes(): void
     {
         $storage = new ArrayStorage();
-        $storage->setMetadata(
-            '_VALID',
-            [
-                Validator\RemoteAddr::class,
-            ]
-        );
-
         $this->services->setService(StorageInterface::class, $storage);
         $this->services->setService(
             'config',
             [
                 'session_manager' => [
                     'validators' => [
+                        Validator\RemoteAddr::class,
+                        Validator\RemoteAddr::class,
                         Validator\RemoteAddr::class,
                     ],
                 ],
@@ -200,23 +191,17 @@ final class SessionManagerFactoryTest extends TestCase
         $manager = $this->services->get(ManagerInterface::class);
 
         self::assertInstanceOf(ManagerInterface::class, $manager);
+        $manager->start();
 
-        try {
-            $manager->start();
-        } catch (RuntimeException) {
-            // Ignore exception, because we are not interested whether session validation passes in this test
-        }
-
-        $chain = $manager->getValidatorChain();
-
-        self::assertInstanceOf(EventManager::class, $chain);
-        $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
-        self::assertCount(2, $listeners);
+        $containedValidators = $this->getReflectionProperty($manager, 'validators');
+        self::assertIsArray($containedValidators);
+        self::assertCount(2, $containedValidators);
 
         $found = false;
-        foreach ($listeners as $listener) {
-            // Listeners are all [$validator, 'isValid'] callbacks
-            if ($listener[0] instanceof Validator\RemoteAddr) {
+        foreach ($containedValidators as $validator) {
+            self::assertTrue(is_a($validator, Validator\ValidatorInterface::class, true));
+
+            if (is_a($validator, RemoteAddr::class, true)) {
                 $found = true;
                 break;
             }

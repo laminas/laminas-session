@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Laminas\Session;
 
-use Laminas\EventManager\Event;
-use Laminas\EventManager\EventManagerInterface;
+use Laminas\Session\Exception\SessionValidationFailedException;
 use Laminas\Session\Service\EnvironmentFactoryInterface;
 use Laminas\Session\Service\GlobalEnvironmentFactory;
 use Laminas\Session\Validator\EnvironmentInterface;
 use Laminas\Session\Validator\ValidatorInterface;
 use Traversable;
 
-use function array_key_exists;
 use function array_merge;
+use function array_unique;
 use function assert;
 use function headers_sent;
 use function is_array;
@@ -51,16 +50,13 @@ final class SessionManager extends AbstractManager
     private bool $sendExpireCookie;
     private bool $clearStorage;
 
-    /** @var list<class-string<ValidatorInterface>> $defaultValidators */
+    /** @var list<ValidatorInterface> */
     private array $defaultValidators = [
         Validator\Id::class,
     ];
 
     /** value returned by session_name() */
     private string|null $name = null;
-
-    /** Validation chain to determine if session is valid */
-    private EventManagerInterface|null $validatorChain = null;
 
     private array $options = [];
 
@@ -92,7 +88,10 @@ final class SessionManager extends AbstractManager
 
         $this->options = $options;
 
-        parent::__construct($config, $storage, $saveHandler, $validators);
+        /** @psalm-var list<ValidatorInterface> $uniqueValidators */
+        $uniqueValidators = array_unique($validators);
+
+        parent::__construct($config, $storage, $saveHandler, $uniqueValidators);
         register_shutdown_function($this->writeClose(...));
     }
 
@@ -160,46 +159,14 @@ final class SessionManager extends AbstractManager
             $storage->init($_SESSION);
         }
 
-        $this->initializeValidatorChain();
-
-        if (! $this->isValid()) {
-            throw new Exception\RuntimeException('Session validation failed');
-        }
+        $this->isValid();
     }
 
     /**
      * Create validators, insert reference value and add them to the validator chain
+     *
+     * @throws SessionValidationFailedException
      */
-    protected function initializeValidatorChain(): void
-    {
-        /** @var array<string, mixed> $storage */
-        $storage = $this->getStorage()->getMetadata();
-
-        if (isset($storage['environment'])) {
-            assert(is_string($storage['environment']));
-            /** @var EnvironmentInterface $initialEnvironment */
-            $initialEnvironment = unserialize($storage['environment']);
-        } else {
-            $initialEnvironment = $this->environmentFactory->getEnvironment();
-            $this->getStorage()->setMetadata('environment', serialize($initialEnvironment));
-        }
-
-        foreach ($this->validators as $validatorName) {
-            $validatorValues = $this->getStorage()->getMetadata('_VALID');
-            if (is_array($validatorValues) && array_key_exists($validatorName, $validatorValues)) {
-                continue;
-            }
-
-            $validatorChain = $this->getValidatorChain();
-            $validator      = new $validatorName(
-                $initialEnvironment,
-                $this->environmentFactory->getEnvironment(),
-                $this->options
-            );
-
-            $validatorChain->attach('session.validate', [$validator, 'isValid']);
-        }
-    }
 
     /**
      * Destroy/end a session
@@ -370,49 +337,34 @@ final class SessionManager extends AbstractManager
     }
 
     /**
-     * Set the validator chain to use when validating a session
-     *
-     * In most cases, you should use an instance of {@link ValidatorChain}.
-     */
-    public function setValidatorChain(EventManagerInterface $chain): static
-    {
-        $this->validatorChain = $chain;
-        return $this;
-    }
-
-    /**
-     * Get the validator chain to use when validating a session
-     *
-     * By default, uses an instance of {@link ValidatorChain}.
-     */
-    public function getValidatorChain(): EventManagerInterface
-    {
-        if (null === $this->validatorChain) {
-            $this->setValidatorChain(new ValidatorChain($this->getStorage()));
-            assert($this->validatorChain instanceof EventManagerInterface);
-        }
-        return $this->validatorChain;
-    }
-
-    /**
      * Is this session valid?
      *
      * Notifies the Validator Chain until either all validators have returned
      * true or one has failed.
      */
-    public function isValid(): bool
+    public function isValid(): void
     {
-        $validator = $this->getValidatorChain();
-        $event     = new Event();
-        $event->setName('session.validate');
-        $event->setTarget($this);
-        $event->setParams($this);
+        /** @var array<string, mixed> $storage */
+        $storage = $this->getStorage()->getMetadata();
 
-        $falseResult = static fn($test): bool => false === $test;
+        if (isset($storage['environment'])) {
+            assert(is_string($storage['environment']));
+            /** @var EnvironmentInterface $initialEnvironment */
+            $initialEnvironment = unserialize($storage['environment']);
+        } else {
+            $initialEnvironment = $this->environmentFactory->getEnvironment();
+            $this->getStorage()->setMetadata('environment', serialize($initialEnvironment));
+        }
 
-        $responses = $validator->triggerEventUntil($falseResult, $event);
+        foreach ($this->validators as $validatorName) {
+            $validator = new $validatorName($this->options);
 
-        return ! $responses->stopped();
+            if (! $validator instanceof ValidatorInterface) {
+                continue;
+            }
+
+            $validator->validate($initialEnvironment, $this->environmentFactory->getEnvironment());
+        }
     }
 
     /**

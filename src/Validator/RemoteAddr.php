@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Laminas\Session\Validator;
 
+use Laminas\Session\Exception\SessionValidationFailedException;
 use Laminas\Session\Validator\ValidatorInterface as SessionValidator;
 
 use function array_diff;
@@ -29,27 +30,29 @@ final class RemoteAddr implements SessionValidator
      *
      * @param OptionsArgument $options
      */
-    public function __construct(
-        public readonly EnvironmentInterface $initial,
-        public readonly EnvironmentInterface $current,
-        array $options = []
-    ) {
-        if (isset($options['use_proxy']) && $options['use_proxy'] === true) {
-            $this->initialData = $this->getIpAddress($this->initial, $options);
-            $this->currentData = $this->getIpAddress($this->current, $options);
-        } else {
-            $this->initialData = $this->initial->getRemoteAddr();
-            $this->currentData = $this->current->getRemoteAddr();
-        }
+    public function __construct(protected array $options = [])
+    {
     }
 
     /**
-     * isValid() - this method will determine if the current user IP matches the
+     * This method will determine if the current user IP matches the
      * IP we stored when we initialized this variable.
+     *
+     * @throws SessionValidationFailedException
      */
-    public function isValid(): bool
+    public function validate(EnvironmentInterface $initial, EnvironmentInterface $current): void
     {
-        return $this->initialData === $this->currentData;
+        if (isset($this->options['use_proxy']) && $this->options['use_proxy'] === true) {
+            $this->initialData = $this->getIpAddress($initial, $this->options);
+            $this->currentData = $this->getIpAddress($current, $this->options);
+        } else {
+            $this->initialData = $initial->getRemoteAddr();
+            $this->currentData = $current->getRemoteAddr();
+        }
+
+        if ($this->initialData !== $this->currentData) {
+            throw new SessionValidationFailedException('Remote address validation failed');
+        }
     }
 
     /**
@@ -113,13 +116,5 @@ final class RemoteAddr implements SessionValidator
         // as the originating IP.
         // @see http://en.wikipedia.org/wiki/X-Forwarded-For
         return array_pop($ips);
-    }
-
-    /**
-     * Return validator name
-     */
-    public function getName(): string
-    {
-        return self::class;
     }
 }

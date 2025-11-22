@@ -33,7 +33,6 @@
     },
     "require": {
         "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
-        "laminas/laminas-eventmanager": "^3.14.0",
         "laminas/laminas-servicemanager": "^4.0",
         "laminas/laminas-validator": "^3.0",
         "psr/simple-cache": "^3.0"

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Laminas\Session\Validator;
 
+use Laminas\Session\Exception\SessionValidationFailedException;
+
 use function ini_get;
 use function is_numeric;
 use function preg_match;
@@ -18,23 +20,23 @@ final class Id implements ValidatorInterface
     /**
      * Constructor
      */
-    public function __construct(
-        public readonly EnvironmentInterface $initial,
-        public readonly EnvironmentInterface $current,
-        array $options = []
-    ) {
+    public function __construct(array $options = [])
+    {
     }
 
     /**
      * Is the current session identifier valid?
      *
      * Tests that the identifier does not contain invalid characters.
+     *
+     * @throws SessionValidationFailedException
      */
-    public function isValid(): bool
+    public function validate(EnvironmentInterface $initial, EnvironmentInterface $current): void
     {
-        $sessionId = $this->current->getSessionId();
+        $sessionId = $current->getSessionId();
+
         if ($sessionId === null) {
-            return false;
+            throw new SessionValidationFailedException('Session id validation failed');
         }
 
         if (PHP_VERSION_ID >= 80400) {
@@ -55,14 +57,8 @@ final class Id implements ValidatorInterface
             default => '#^[0-9a-v]*$#',
         };
 
-        return (bool) preg_match($pattern, $sessionId);
-    }
-
-    /**
-     * Return validator name
-     */
-    public function getName(): string
-    {
-        return self::class;
+        if (! (bool) preg_match($pattern, $sessionId)) {
+            throw new SessionValidationFailedException('Session id validation failed');
+        }
     }
 }

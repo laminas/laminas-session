@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Laminas\Session;
 
-use Laminas\EventManager\EventManagerInterface;
 use Laminas\Session\Config\ConfigInterface as Config;
+use Laminas\Session\Exception\SessionValidationFailedException;
 use Laminas\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
 use Laminas\Session\Storage\StorageInterface as Storage;
 
@@ -50,9 +50,6 @@ interface ManagerInterface
 
     public function expireSessionCookie(): void;
 
-    public function setValidatorChain(EventManagerInterface $chain): static;
-
-    public function getValidatorChain(): EventManagerInterface;
-
-    public function isValid(): bool;
+    /** @throws SessionValidationFailedException */
+    public function isValid(): void;
 }

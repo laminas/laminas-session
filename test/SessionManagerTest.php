@@ -11,6 +11,7 @@ use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\Exception\RuntimeException;
+use Laminas\Session\Exception\SessionValidationFailedException;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\SessionArrayStorage;
@@ -31,7 +32,6 @@ use PHPUnit\Framework\TestCase;
 use Traversable;
 
 use function array_merge;
-use function assert;
 use function extension_loaded;
 use function headers_sent;
 use function ini_get;
@@ -39,6 +39,7 @@ use function ob_flush;
 use function preg_match;
 use function range;
 use function restore_error_handler;
+use function serialize;
 use function session_destroy;
 use function session_id;
 use function session_name;
@@ -745,17 +746,11 @@ final class SessionManagerTest extends TestCase
     #[RunInSeparateProcess]
     public function testStartingSessionThatFailsAValidatorShouldRaiseException(): void
     {
-        $this->manager = new SessionManager();
-        $chain         = $this->manager->getValidatorChain();
-        $chain->attach('session.validate', [
-            new TestFailingValidator(
-                Environment::fromGlobals($_SERVER),
-                Environment::fromGlobals($_SERVER)
-            ),
-            'isValid',
+        $this->manager = new SessionManager(validators: [
+            TestFailingValidator::class,
         ]);
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('failed');
+        $this->expectException(SessionValidationFailedException::class);
+        $this->expectExceptionMessage('Validation failed');
         $this->manager->start();
     }
 
@@ -764,8 +759,8 @@ final class SessionManagerTest extends TestCase
     public function testResumeSessionThatFailsAValidatorShouldRaiseException(): void
     {
         $this->manager = new SessionManager(validators: [TestFailingValidator::class]);
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('failed');
+        $this->expectException(SessionValidationFailedException::class);
+        $this->expectExceptionMessage('Validation failed');
         $this->manager->start();
     }
 
@@ -783,21 +778,6 @@ final class SessionManagerTest extends TestCase
     }
 
     #[RunInSeparateProcess]
-    public function testSessionValidationDoesNotHaltOnNoopListener(): void
-    {
-        $this->manager   = new SessionManager();
-        $validatorCalled = false;
-        $validator       = static function () use (&$validatorCalled): void {
-            $validatorCalled = true;
-        };
-
-        $this->manager->getValidatorChain()->attach('session.validate', $validator);
-
-        self::assertTrue($this->manager->isValid());
-        self::assertTrue($validatorCalled);
-    }
-
-    #[RunInSeparateProcess]
     #[IgnoreDeprecations]
     public function testProducedSessionManagerWillNotReplaceSessionSuperGlobalValues(): void
     {
@@ -812,54 +792,39 @@ final class SessionManagerTest extends TestCase
 
     #[RunInSeparateProcess]
     #[IgnoreDeprecations]
-    public function testValidatorChainSessionMetadataIsPreserved(): void
+    public function testSessionMetadataIsPreserved(): void
     {
         $this->manager = new SessionManager();
         self::assertFalse($this->manager->sessionExists());
         $this->manager->start();
-        $environment = unserialize((string) $this->manager->getStorage()->getMetadata('environment'));
-        assert($environment instanceof Environment);
-        $this->manager->getValidatorChain()
-            ->attach('session.validate', [
-                new RemoteAddr(
-                    $environment,
-                    Environment::fromGlobals($_SERVER)
-                ),
-                'isValid',
-            ]);
+        $initialEnvironment = unserialize((string) $this->manager->getStorage()->getMetadata('environment'));
+        self::assertInstanceOf(Environment::class, $initialEnvironment);
 
-        self::assertIsArray($_SESSION['__Laminas']['_VALID']);
-        self::assertIsString($_SESSION['__Laminas']['_VALID'][0]);
+        $preservedData  = unserialize((string) $_SESSION['__Laminas']['environment']);
+        $newEnvironment = Environment::fromGlobals($_SERVER);
+
+        self::assertInstanceOf(Environment::class, $preservedData);
         self::assertEquals(
             Environment::fromGlobals($_SERVER),
             unserialize((string) $_SESSION['__Laminas']['environment'])
         );
+        self::assertEquals($newEnvironment, $initialEnvironment);
     }
 
     #[RunInSeparateProcess]
     #[IgnoreDeprecations]
-    public function testValidatorChainSessionMetadataIsPreservedWithCustomEnvironment(): void
+    public function testSessionMetadataIsPreservedWithCustomEnvironment(): void
     {
         $this->manager = new SessionManager(environmentFactory: new TestCustomEnvironmentFactory());
         self::assertFalse($this->manager->sessionExists());
         $this->manager->start();
-        $environment = unserialize((string) $this->manager->getStorage()->getMetadata('environment'));
-        assert($environment instanceof TestCustomEnvironment);
-        $this->manager->getValidatorChain()
-            ->attach('session.validate', [
-                new RemoteAddr(
-                    $environment,
-                    TestCustomEnvironment::fromGlobals($_SERVER)
-                ),
-                'isValid',
-            ]);
+        $initialEnvironment = unserialize((string) $this->manager->getStorage()->getMetadata('environment'));
+        self::assertInstanceOf(TestCustomEnvironment::class, $initialEnvironment);
+
         $preservedData  = unserialize((string) $_SESSION['__Laminas']['environment']);
         $newEnvironment = TestCustomEnvironment::fromGlobals($_SERVER);
 
-        self::assertIsArray($_SESSION['__Laminas']['_VALID']);
-        self::assertIsString($_SESSION['__Laminas']['_VALID'][0]);
         self::assertInstanceOf(TestCustomEnvironment::class, $preservedData);
-
         self::assertEquals('fistCustomValue', $preservedData->getFirstCustomProperty());
         self::assertEquals('secondCustomValue', $preservedData->getSecondCustomProperty());
         self::assertEquals($newEnvironment, $preservedData);
@@ -868,18 +833,16 @@ final class SessionManagerTest extends TestCase
     #[RunInSeparateProcess]
     public function testRemoteAddressValidationWillFailOnInvalidAddress(): void
     {
-        $this->manager = new SessionManager();
-        $this->manager->getValidatorChain()
-            ->attach('session.validate', [
-                new RemoteAddr(
-                    Environment::fromGlobals($_SERVER),
-                    new Environment(remoteAddr: '123.123.123.123')
-                ),
-                'isValid',
-            ]);
+        // Setting the initial Environment to a false value
+        // as the current Environment is generated automatically when validating
+        $storage       = (new ArrayStorage())->setMetadata(
+            'environment',
+            serialize(new Environment(remoteAddr: 'invalid data'))
+        );
+        $this->manager = new SessionManager(storage: $storage, validators: [RemoteAddr::class]);
 
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Session validation failed');
+        $this->expectException(SessionValidationFailedException::class);
+        $this->expectExceptionMessage('Remote address validation failed');
         $this->manager->start();
     }
 
@@ -887,37 +850,21 @@ final class SessionManagerTest extends TestCase
     #[IgnoreDeprecations]
     public function testRemoteAddressValidationWillSucceedWithValidPreSetData(): void
     {
-        $this->manager = new SessionManager();
-        $_SESSION      = [
-            '__Laminas' => [
-                '_VALID' => [
-                    RemoteAddr::class,
-                ],
-            ],
-        ];
+        // Setting the initial Environment to a false value
+        // as the current Environment is generated automatically when validating
+        $storage       = (new ArrayStorage())->setMetadata(
+            'environment',
+            serialize(new Environment())
+        );
+        $this->manager = new SessionManager(storage: $storage, validators: [RemoteAddr::class]);
 
-        $this->manager->start();
+        $this->expectNotToPerformAssertions();
 
-        self::assertTrue($this->manager->isValid());
-    }
-
-    #[RunInSeparateProcess]
-    #[IgnoreDeprecations]
-    public function testIdValidationWillFailOnInvalidData(): void
-    {
-        $this->manager = new SessionManager();
-        $this->manager->getValidatorChain()
-            ->attach('session.validate', [
-                new Id(
-                    Environment::fromGlobals($_SERVER),
-                    new Environment(sessionId: 'invalid_value')
-                ),
-                'isValid',
-            ]);
-
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Session validation failed');
-        $this->manager->start();
+        try {
+            $this->manager->start();
+        } catch (SessionValidationFailedException $e) {
+            $this->fail($e->getMessage());
+        }
     }
 
     #[RunInSeparateProcess]
