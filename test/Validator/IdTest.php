@@ -11,14 +11,13 @@ use Laminas\Session\Validator\Id;
 use LaminasTest\Session\TestAsset\TestCustomEnvironment;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
 use function ini_set;
 use function session_id;
 use function session_start;
-
-use const PHP_VERSION_ID;
 
 final class IdTest extends TestCase
 {
@@ -39,79 +38,105 @@ final class IdTest extends TestCase
         yield '6, invalid (out of the range)' => [6, '0123456789.abcdefghijklmnopqrstuvwxyz', false, false];
     }
 
-    #[IgnoreDeprecations]
     #[DataProvider('id')]
-    #[RunInSeparateProcess]
-    public function testIsValidPhp(int $bitsPerCharacter, string $id, bool $isValidPhpPre84, bool $isValidPhp84): void
-    {
-        ini_set('session.sid_bits_per_character', $bitsPerCharacter);
-
-        $validator = new Id();
-        if (PHP_VERSION_ID >= 80400) {
-            try {
-                $validator->validate(Environment::fromGlobals($_SERVER), new Environment(sessionId: $id));
-                $isValid = true;
-            } catch (SessionValidationFailedException $e) {
-                $isValid = false;
-            } finally {
-                $this->assertSame($isValidPhp84, $isValid);
-            }
-        } else {
-            try {
-                $validator->validate(Environment::fromGlobals($_SERVER), new Environment(sessionId: $id));
-                $isValid = true;
-            } catch (SessionValidationFailedException $e) {
-                $isValid = false;
-            } finally {
-                $this->assertSame($isValidPhpPre84, $isValid);
-            }
-        }
-    }
-
     #[IgnoreDeprecations]
-    #[DataProvider('id')]
     #[RunInSeparateProcess]
-    public function testIsValidPhpWithCustomEnvironment(
+    #[RequiresPhp('>=8.4')]
+    public function testIsValidPhp84AndNewer(
         int $bitsPerCharacter,
         string $id,
         bool $isValidPhpPre84,
         bool $isValidPhp84
     ): void {
         ini_set('session.sid_bits_per_character', $bitsPerCharacter);
-
         $validator = new Id();
-        if (PHP_VERSION_ID >= 80400) {
-            try {
-                $validator->validate(
-                    TestCustomEnvironment::fromGlobals($_SERVER),
-                    new TestCustomEnvironment(
-                        sessionId: $id,
-                        firstCustomProperty: 'fistCustomValue',
-                        secondCustomProperty: 'secondCustomValue'
-                    )
-                );
-                $isValid = true;
-            } catch (SessionValidationFailedException $e) {
-                $isValid = false;
-            } finally {
-                $this->assertSame($isValidPhp84, $isValid);
-            }
-        } else {
-            try {
-                $validator->validate(
-                    TestCustomEnvironment::fromGlobals($_SERVER),
-                    new TestCustomEnvironment(
-                        sessionId: $id,
-                        firstCustomProperty: 'fistCustomValue',
-                        secondCustomProperty: 'secondCustomValue'
-                    )
-                );
-                $isValid = true;
-            } catch (SessionValidationFailedException $e) {
-                $isValid = false;
-            } finally {
-                $this->assertSame($isValidPhpPre84, $isValid);
-            }
+        try {
+            $validator->validate(Environment::fromGlobals($_SERVER), new Environment(sessionId: $id));
+            $isValid = true;
+        } catch (SessionValidationFailedException $e) {
+            $isValid = false;
+        } finally {
+            $this->assertSame($isValidPhp84, $isValid);
+        }
+    }
+
+    #[DataProvider('id')]
+    #[IgnoreDeprecations]
+    #[RunInSeparateProcess]
+    #[RequiresPhp('<8.4')]
+    public function testIsValidPhpPre84(
+        int $bitsPerCharacter,
+        string $id,
+        bool $isValidPhpPre84,
+        bool $isValidPhp84
+    ): void {
+        ini_set('session.sid_bits_per_character', $bitsPerCharacter);
+        $validator = new Id();
+        try {
+            $validator->validate(Environment::fromGlobals($_SERVER), new Environment(sessionId: $id));
+            $isValid = true;
+        } catch (SessionValidationFailedException $e) {
+            $isValid = false;
+        } finally {
+            $this->assertSame($isValidPhpPre84, $isValid);
+        }
+    }
+
+    #[DataProvider('id')]
+    #[IgnoreDeprecations]
+    #[RunInSeparateProcess]
+    #[RequiresPhp('>=8.4')]
+    public function testIsValidPhp84AndNewerWithCustomEnvironment(
+        int $bitsPerCharacter,
+        string $id,
+        bool $isValidPhpPre84,
+        bool $isValidPhp84
+    ): void {
+        ini_set('session.sid_bits_per_character', $bitsPerCharacter);
+        $validator = new Id();
+        try {
+            $validator->validate(
+                TestCustomEnvironment::fromGlobals($_SERVER),
+                new TestCustomEnvironment(
+                    sessionId: $id,
+                    firstCustomProperty: 'fistCustomValue',
+                    secondCustomProperty: 'secondCustomValue'
+                )
+            );
+            $isValid = true;
+        } catch (SessionValidationFailedException $e) {
+            $isValid = false;
+        } finally {
+            $this->assertSame($isValidPhp84, $isValid);
+        }
+    }
+
+    #[DataProvider('id')]
+    #[IgnoreDeprecations]
+    #[RunInSeparateProcess]
+    #[RequiresPhp('<8.4')]
+    public function testIsValidPhpPre84WithCustomEnvironment(
+        int $bitsPerCharacter,
+        string $id,
+        bool $isValidPhpPre84,
+        bool $isValidPhp84
+    ): void {
+        ini_set('session.sid_bits_per_character', $bitsPerCharacter);
+        $validator = new Id();
+        try {
+            $validator->validate(
+                TestCustomEnvironment::fromGlobals($_SERVER),
+                new TestCustomEnvironment(
+                    sessionId: $id,
+                    firstCustomProperty: 'fistCustomValue',
+                    secondCustomProperty: 'secondCustomValue'
+                )
+            );
+            $isValid = true;
+        } catch (SessionValidationFailedException $e) {
+            $isValid = false;
+        } finally {
+            $this->assertSame($isValidPhpPre84, $isValid);
         }
     }
 
@@ -122,12 +147,7 @@ final class IdTest extends TestCase
         $sessionId  = session_id();
         $id         = new Id();
         $initialEnv = Environment::fromGlobals($_SERVER);
-        try {
-            $id->validate($initialEnv, Environment::fromGlobals($_SERVER));
-        } catch (SessionValidationFailedException $e) {
-            $this->fail($e->getMessage());
-        } finally {
-            $this->assertSame($sessionId, $initialEnv->getSessionId());
-        }
+        $id->validate($initialEnv, Environment::fromGlobals($_SERVER));
+        $this->assertSame($sessionId, $initialEnv->getSessionId());
     }
 }

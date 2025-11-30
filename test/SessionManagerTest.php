@@ -17,7 +17,6 @@ use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\SessionArrayStorage;
 use Laminas\Session\Storage\SessionStorage;
 use Laminas\Session\Validator\Environment;
-use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
 use LaminasTest\Session\TestAsset\Php81CompatibleStorageInterface;
 use LaminasTest\Session\TestAsset\TestCustomEnvironment;
@@ -31,7 +30,6 @@ use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 use Traversable;
 
-use function array_merge;
 use function extension_loaded;
 use function headers_sent;
 use function ini_get;
@@ -128,31 +126,11 @@ final class SessionManagerTest extends TestCase
 
     public function testCanPassValidatorsToConstructor(): void
     {
-        $validators = [
-            TestFailingValidator::class,
-        ];
+        $validators = [new TestFailingValidator()];
         $manager    = new SessionManager(null, null, null, $validators);
         foreach ($validators as $validator) {
             $this->assertAttributeContains($validator, 'validators', $manager);
         }
-    }
-
-    public function testAttachDefaultValidatorsByDefault(): void
-    {
-        $manager = new SessionManager();
-        $this->assertAttributeEquals([Id::class], 'validators', $manager);
-    }
-
-    public function testCanMergeValidatorsWithDefault(): void
-    {
-        $defaultValidators = [
-            Id::class,
-        ];
-        $validators        = [
-            TestFailingValidator::class,
-        ];
-        $manager           = new SessionManager(null, null, null, $validators);
-        $this->assertAttributeEquals(array_merge($defaultValidators, $validators), 'validators', $manager);
     }
 
     public function testCanDisableAttachDefaultValidators(): void
@@ -746,9 +724,7 @@ final class SessionManagerTest extends TestCase
     #[RunInSeparateProcess]
     public function testStartingSessionThatFailsAValidatorShouldRaiseException(): void
     {
-        $this->manager = new SessionManager(validators: [
-            TestFailingValidator::class,
-        ]);
+        $this->manager = new SessionManager(validators: [new TestFailingValidator()]);
         $this->expectException(SessionValidationFailedException::class);
         $this->expectExceptionMessage('Validation failed');
         $this->manager->start();
@@ -758,7 +734,7 @@ final class SessionManagerTest extends TestCase
     #[IgnoreDeprecations]
     public function testResumeSessionThatFailsAValidatorShouldRaiseException(): void
     {
-        $this->manager = new SessionManager(validators: [TestFailingValidator::class]);
+        $this->manager = new SessionManager(validators: [new TestFailingValidator()]);
         $this->expectException(SessionValidationFailedException::class);
         $this->expectExceptionMessage('Validation failed');
         $this->manager->start();
@@ -839,7 +815,7 @@ final class SessionManagerTest extends TestCase
             'environment',
             serialize(new Environment(remoteAddr: 'invalid data'))
         );
-        $this->manager = new SessionManager(storage: $storage, validators: [RemoteAddr::class]);
+        $this->manager = new SessionManager(storage: $storage, validators: [new RemoteAddr()]);
 
         $this->expectException(SessionValidationFailedException::class);
         $this->expectExceptionMessage('Remote address validation failed');
@@ -856,15 +832,11 @@ final class SessionManagerTest extends TestCase
             'environment',
             serialize(new Environment())
         );
-        $this->manager = new SessionManager(storage: $storage, validators: [RemoteAddr::class]);
+        $this->manager = new SessionManager(storage: $storage, validators: [new RemoteAddr()]);
 
         $this->expectNotToPerformAssertions();
 
-        try {
-            $this->manager->start();
-        } catch (SessionValidationFailedException $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->manager->start();
     }
 
     #[RunInSeparateProcess]

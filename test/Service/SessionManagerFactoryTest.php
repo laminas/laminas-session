@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace LaminasTest\Session\Service;
 
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
+use Laminas\Session\Service\RemoteAddressFactory;
 use Laminas\Session\Service\SessionManagerFactory;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\StorageInterface;
 use Laminas\Session\Validator;
+use Laminas\Session\Validator\HttpUserAgent;
+use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
 use LaminasTest\Session\ReflectionPropertyTrait;
 use LaminasTest\Session\TestAsset\TestManager;
@@ -40,6 +44,9 @@ final class SessionManagerFactoryTest extends TestCase
                 ManagerInterface::class => SessionManagerFactory::class,
                 TestManager::class      => SessionManagerFactory::class,
                 TestSaveHandler::class  => SessionManagerFactory::class,
+                Id::class               => InvokableFactory::class,
+                HttpUserAgent::class    => InvokableFactory::class,
+                RemoteAddr::class       => RemoteAddressFactory::class,
             ],
         ]);
     }
@@ -94,6 +101,14 @@ final class SessionManagerFactoryTest extends TestCase
         $this->services->setService('config', $config);
         $manager = $this->services->get(ManagerInterface::class);
         self::assertNotSame($manager, Container::getDefaultManager());
+    }
+
+    public function testAttachDefaultValidatorsByDefault(): void
+    {
+        $manager = $this->services->get(ManagerInterface::class);
+        $value   = $this->getReflectionProperty($manager, 'validators');
+        $this->assertIsArray($value);
+        $this->assertInstanceOf(Id::class, $value[0]);
     }
 
     #[IgnoreDeprecations]

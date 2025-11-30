@@ -47,13 +47,8 @@ final class RemoteAddrTest extends TestCase
         $_SERVER['REMOTE_ADDR'] = '0.1.2.3';
         $validator              = new RemoteAddr();
         $this->expectNotToPerformAssertions();
-        try {
-            $validator->validate(new Environment(remoteAddr:  '0.1.2.3'), Environment::fromGlobals($_SERVER));
-        } catch (SessionValidationFailedException $e) {
-            $this->fail($e->getMessage());
-        } finally {
-            $this->restore();
-        }
+        $validator->validate(new Environment(remoteAddr:  '0.1.2.3'), Environment::fromGlobals($_SERVER));
+        $this->restore();
     }
 
     public function testValidationFailure(): void
@@ -201,20 +196,15 @@ final class RemoteAddrTest extends TestCase
         $_SERVER['REMOTE_ADDR'] = '0.1.2.3';
         $validator              = new RemoteAddr();
         $this->expectNotToPerformAssertions();
-        try {
-            $validator->validate(
-                new TestCustomEnvironment(
-                    remoteAddr:  '0.1.2.3',
-                    firstCustomProperty: 'fistCustomValue',
-                    secondCustomProperty: 'secondCustomValue'
-                ),
-                TestCustomEnvironment::fromGlobals($_SERVER)
-            );
-        } catch (SessionValidationFailedException $e) {
-            $this->fail($e->getMessage());
-        } finally {
-            $this->restore();
-        }
+        $validator->validate(
+            new TestCustomEnvironment(
+                remoteAddr:  '0.1.2.3',
+                firstCustomProperty: 'fistCustomValue',
+                secondCustomProperty: 'secondCustomValue'
+            ),
+            TestCustomEnvironment::fromGlobals($_SERVER)
+        );
+        $this->restore();
     }
 
     public function testValidationFailureWithCustomEnvironment(): void

@@ -193,6 +193,14 @@
       <code><![CDATA[$sessionManager]]></code>
     </MixedAssignment>
   </file>
+  <file src="src/Service/RemoteAddressFactory.php">
+    <MixedArrayAccess>
+      <code><![CDATA[$config['options']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$config]]></code>
+    </MixedAssignment>
+  </file>
   <file src="src/Service/SessionConfigFactory.php">
     <MixedMethodCall>
       <code><![CDATA[new $class()]]></code>
@@ -206,7 +214,6 @@
       <code><![CDATA[$options]]></code>
       <code><![CDATA[$saveHandler]]></code>
       <code><![CDATA[$storage]]></code>
-      <code><![CDATA[$validators]]></code>
     </MixedAssignment>
   </file>
   <file src="src/Service/StorageFactory.php">
@@ -221,11 +228,6 @@
     </MixedAssignment>
   </file>
   <file src="src/SessionManager.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[[
-        Validator\Id::class,
-    ]]]></code>
-    </InvalidPropertyAssignmentValue>
     <NoValue>
       <code><![CDATA[$oldSessionData]]></code>
     </NoValue>
@@ -242,9 +244,6 @@
     <TypeDoesNotContainType>
       <code><![CDATA[$oldSessionData instanceof Traversable]]></code>
     </TypeDoesNotContainType>
-    <UnusedProperty>
-      <code><![CDATA[$defaultValidators]]></code>
-    </UnusedProperty>
     <UnusedReturnValue>
       <code><![CDATA[bool]]></code>
     </UnusedReturnValue>
@@ -403,16 +402,6 @@
       <code><![CDATA[static]]></code>
       <code><![CDATA[static]]></code>
     </PossiblyUnusedReturnValue>
-  </file>
-  <file src="src/Validator/HttpUserAgent.php">
-    <UnusedParam>
-      <code><![CDATA[$options]]></code>
-    </UnusedParam>
-  </file>
-  <file src="src/Validator/Id.php">
-    <UnusedParam>
-      <code><![CDATA[$options]]></code>
-    </UnusedParam>
   </file>
   <file src="test/AbstractContainerTest.php">
     <PossiblyUnusedProperty>
@@ -709,9 +698,6 @@
     </RedundantCondition>
   </file>
   <file src="test/TestAsset/TestFailingValidator.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[__construct]]></code>
-    </PossiblyUnusedMethod>
     <UnusedParam>
       <code><![CDATA[$options]]></code>
     </UnusedParam>
@@ -755,5 +741,11 @@
       <code><![CDATA[$isValid]]></code>
       <code><![CDATA[$isValid]]></code>
     </PossiblyUndefinedVariable>
+    <UnusedParam>
+      <code><![CDATA[$isValidPhp84]]></code>
+      <code><![CDATA[$isValidPhp84]]></code>
+      <code><![CDATA[$isValidPhpPre84]]></code>
+      <code><![CDATA[$isValidPhpPre84]]></code>
+    </UnusedParam>
   </file>
 </files>

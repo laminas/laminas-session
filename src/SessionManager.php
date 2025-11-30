@@ -12,7 +12,6 @@ use Laminas\Session\Validator\ValidatorInterface;
 use Traversable;
 
 use function array_merge;
-use function array_unique;
 use function assert;
 use function headers_sent;
 use function is_array;
@@ -50,22 +49,20 @@ final class SessionManager extends AbstractManager
     private bool $sendExpireCookie;
     private bool $clearStorage;
 
-    /** @var list<ValidatorInterface> */
-    private array $defaultValidators = [
+    /** @var list<class-string<ValidatorInterface>> */
+    public const DEFAULT_VALIDATORS = [
         Validator\Id::class,
     ];
 
     /** value returned by session_name() */
     private string|null $name = null;
 
-    private array $options = [];
-
     private EnvironmentFactoryInterface $environmentFactory;
 
     /**
      * Constructor
      *
-     * @param list<class-string<ValidatorInterface>> $validators
+     * @param list<ValidatorInterface> $validators
      * @param OptionsArgument $options
      * @throws Exception\RuntimeException
      */
@@ -82,16 +79,7 @@ final class SessionManager extends AbstractManager
         $this->clearStorage       = $options['clear_storage'] ?? false;
         $this->environmentFactory = $environmentFactory ?? new GlobalEnvironmentFactory();
 
-        if ($options['attach_default_validators'] ?? true) {
-            $validators = array_merge($this->defaultValidators, $validators);
-        }
-
-        $this->options = $options;
-
-        /** @psalm-var list<ValidatorInterface> $uniqueValidators */
-        $uniqueValidators = array_unique($validators);
-
-        parent::__construct($config, $storage, $saveHandler, $uniqueValidators);
+        parent::__construct($config, $storage, $saveHandler, $validators);
         register_shutdown_function($this->writeClose(...));
     }
 
@@ -356,9 +344,7 @@ final class SessionManager extends AbstractManager
             $this->getStorage()->setMetadata('environment', serialize($initialEnvironment));
         }
 
-        foreach ($this->validators as $validatorName) {
-            $validator = new $validatorName($this->options);
-
+        foreach ($this->validators as $validator) {
             if (! $validator instanceof ValidatorInterface) {
                 continue;
             }

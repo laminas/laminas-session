@@ -18,13 +18,6 @@ use const PHP_VERSION_ID;
 final class Id implements ValidatorInterface
 {
     /**
-     * Constructor
-     */
-    public function __construct(array $options = [])
-    {
-    }
-
-    /**
      * Is the current session identifier valid?
      *
      * Tests that the identifier does not contain invalid characters.

@@ -14,15 +14,20 @@ use Laminas\Session\ManagerInterface;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\StorageInterface;
+use Laminas\Session\Validator\ValidatorInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_merge;
+use function array_unique;
 use function class_exists;
 use function get_debug_type;
 use function is_array;
 use function is_subclass_of;
 use function sprintf;
 
+/**
+ * @psalm-import-type OptionsArgument from SessionManager
+ */
 final class SessionManagerFactory implements FactoryInterface
 {
     /**
@@ -41,10 +46,11 @@ final class SessionManagerFactory implements FactoryInterface
      * - Laminas\Session\Config\ConfigInterface
      * - Laminas\Session\Storage\StorageInterface
      * - Laminas\Session\SaveHandler\SaveHandlerInterface
+     * - Laminas\Session\Validator\ValidatorInterface
      *
-     * The first two have corresponding factories inside this namespace. The
-     * last, however, does not, due to the differences in implementations, and
-     * the fact that save handlers will often be written in userland. As such
+     * The first two have corresponding factories inside this namespace.
+     * "SaveHandlerInterface", however, does not, due to the differences in implementations,
+     * and the fact that save handlers will often be written in userland. As such
      * if you wish to attach a save handler to the manager, you will need to
      * write your own factory, and assign it to the service name
      * "Laminas\Session\SaveHandler\SaveHandlerInterface", (or alias that name
@@ -118,6 +124,7 @@ final class SessionManagerFactory implements FactoryInterface
             }
 
             if (isset($managerConfig['validators'])) {
+                /** @var list<class-string<ValidatorInterface>> $validators */
                 $validators = $managerConfig['validators'];
             }
 
@@ -147,7 +154,36 @@ final class SessionManagerFactory implements FactoryInterface
             ));
         }
 
-        $manager = new $managerClass($config, $storage, $saveHandler, $validators, $options, $environmentFactory);
+        /** @psalm-var OptionsArgument $options */
+        if ($options['attach_default_validators'] ?? true) {
+            $validators = array_merge(SessionManager::DEFAULT_VALIDATORS, $validators);
+        }
+
+        /** @psalm-var list<class-string<ValidatorInterface>> $uniqueValidators */
+        $uniqueValidators   = array_unique($validators);
+        $validatorInstances = [];
+        foreach ($uniqueValidators as $validator) {
+            if ($container->has($validator)) {
+                $validatorInstance = $container->get($validator);
+                if (! $validatorInstance instanceof ValidatorInterface) {
+                    throw new ServiceNotCreatedException(sprintf(
+                        'SessionManager requires that the validators implement %s; received "%s"',
+                        ValidatorInterface::class,
+                        get_debug_type($validatorInstance)
+                    ));
+                }
+                $validatorInstances[] = $validatorInstance;
+            }
+        }
+
+        $manager = new $managerClass(
+            $config,
+            $storage,
+            $saveHandler,
+            $validatorInstances,
+            $options,
+            $environmentFactory
+        );
 
         // If configuration enables the session manager as the default manager for container
         // instances, do so.
