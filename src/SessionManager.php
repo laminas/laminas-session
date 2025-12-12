@@ -344,12 +344,9 @@ final class SessionManager extends AbstractManager
             $this->getStorage()->setMetadata('environment', serialize($initialEnvironment));
         }
 
+        $currentEnvironment = $this->environmentFactory->getEnvironment();
         foreach ($this->validators as $validator) {
-            if (! $validator instanceof ValidatorInterface) {
-                continue;
-            }
-
-            $validator->validate($initialEnvironment, $this->environmentFactory->getEnvironment());
+            $validator->validate($initialEnvironment, $currentEnvironment);
         }
     }
 

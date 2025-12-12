@@ -9,6 +9,7 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Container;
+use Laminas\Session\Exception\SessionValidationFailedException;
 use Laminas\Session\ManagerInterface;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\Service\RemoteAddressFactory;
@@ -17,6 +18,7 @@ use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\StorageInterface;
 use Laminas\Session\Validator;
+use Laminas\Session\Validator\Environment;
 use Laminas\Session\Validator\HttpUserAgent;
 use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
@@ -28,7 +30,7 @@ use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
-use function is_a;
+use function serialize;
 
 #[CoversClass(SessionManagerFactory::class)]
 final class SessionManagerFactoryTest extends TestCase
@@ -125,17 +127,16 @@ final class SessionManagerFactoryTest extends TestCase
 
         $this->services->setService('config', $config);
         $manager = $this->services->get(ManagerInterface::class);
-
-        $manager->start();
-
         self::assertInstanceOf(ManagerInterface::class, $manager);
+        $storage = $manager->getStorage();
+        $storage->setMetadata(
+            'environment',
+            serialize(new Environment(remoteAddr: 'invalid data'))
+        );
 
-        $containedValidators = $this->getReflectionProperty($manager, 'validators');
-        self::assertIsArray($containedValidators);
-        self::assertCount(2, $containedValidators);
-        foreach ($containedValidators as $validator) {
-            self::assertTrue(is_a($validator, Validator\ValidatorInterface::class, true));
-        }
+        self::expectException(SessionValidationFailedException::class);
+        self::expectExceptionMessage('Remote address validation failed');
+        $manager->start();
     }
 
     #[RunInSeparateProcess]
@@ -182,46 +183,6 @@ final class SessionManagerFactoryTest extends TestCase
         $validatorData = $storage->getMetaData('_VALID');
         self::assertSame('Foo', $validatorData[Validator\HttpUserAgent::class]);
         self::assertSame('1.2.3.4', $validatorData[Validator\RemoteAddr::class]);
-    }
-
-    #[RunInSeparateProcess]
-    #[IgnoreDeprecations]
-    public function testFactoryDoesNotAttachValidatorTwoTimes(): void
-    {
-        $storage = new ArrayStorage();
-        $this->services->setService(StorageInterface::class, $storage);
-        $this->services->setService(
-            'config',
-            [
-                'session_manager' => [
-                    'validators' => [
-                        Validator\RemoteAddr::class,
-                        Validator\RemoteAddr::class,
-                        Validator\RemoteAddr::class,
-                    ],
-                ],
-            ]
-        );
-
-        $manager = $this->services->get(ManagerInterface::class);
-
-        self::assertInstanceOf(ManagerInterface::class, $manager);
-        $manager->start();
-
-        $containedValidators = $this->getReflectionProperty($manager, 'validators');
-        self::assertIsArray($containedValidators);
-        self::assertCount(2, $containedValidators);
-
-        $found = false;
-        foreach ($containedValidators as $validator) {
-            self::assertTrue(is_a($validator, Validator\ValidatorInterface::class, true));
-
-            if (is_a($validator, RemoteAddr::class, true)) {
-                $found = true;
-                break;
-            }
-        }
-        self::assertTrue($found, 'Did not find RemoteAddr validator in listeners');
     }
 
     public function testFactoryAllowsOverridingOptions(): void

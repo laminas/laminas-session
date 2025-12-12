@@ -9,7 +9,8 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\Session\Validator\RemoteAddr;
 use Psr\Container\ContainerInterface;
 
-use function is_array;
+use function is_iterable;
+use function iterator_to_array;
 
 /** @psalm-import-type OptionsArgument from RemoteAddr */
 final class RemoteAddressFactory implements FactoryInterface
@@ -19,8 +20,9 @@ final class RemoteAddressFactory implements FactoryInterface
         string $requestedName,
         ?array $options = null
     ): RemoteAddr {
-        $config = $container->get('config');
-        if (! isset($config['session_manager']) || ! is_array($config['session_manager'])) {
+        $config = $container->has('config') ? $container->get('config') : [];
+        $config = is_iterable($config) ? iterator_to_array($config) : [];
+        if (! isset($config['session_manager'])) {
             throw new ServiceNotCreatedException(
                 'Configuration is missing a "session_manager" key, or the value of that key is not an array'
             );
@@ -28,8 +30,7 @@ final class RemoteAddressFactory implements FactoryInterface
 
         $config = $config['session_manager'];
         /** @var OptionsArgument $options */
-        $options = $config['options'] ?? [];
-
+        $options = $config['remoteAddressOptions'] ?? [];
         return new RemoteAddr($options);
     }
 }

@@ -41,6 +41,10 @@ return [
             Session\Validator\RemoteAddr::class,
             Session\Validator\HttpUserAgent::class,
         ],
+        'remoteAddressOptions' => [
+            'use_proxy' => false,
+            'trusted_proxies' => [],
+        ],
     ],
 ];
 ```
