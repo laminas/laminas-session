@@ -26,6 +26,10 @@ use function is_subclass_of;
 use function sprintf;
 
 /**
+ * @internal
+ *
+ * @psalm-internal Laminas\Session
+ * @psalm-internal LaminasTest\Session
  * @psalm-import-type OptionsArgument from SessionManager
  */
 final class SessionManagerFactory implements FactoryInterface

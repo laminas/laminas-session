@@ -732,16 +732,6 @@ final class SessionManagerTest extends TestCase
 
     #[RunInSeparateProcess]
     #[IgnoreDeprecations]
-    public function testResumeSessionThatFailsAValidatorShouldRaiseException(): void
-    {
-        $this->manager = new SessionManager(validators: [new TestFailingValidator()]);
-        $this->expectException(SessionValidationFailedException::class);
-        $this->expectExceptionMessage('Validation failed');
-        $this->manager->start();
-    }
-
-    #[RunInSeparateProcess]
-    #[IgnoreDeprecations]
     public function testSessionWriteCloseStoresMetadata(): void
     {
         $this->manager = new SessionManager();

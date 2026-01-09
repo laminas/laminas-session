@@ -194,11 +194,7 @@
     </MixedAssignment>
   </file>
   <file src="src/Service/RemoteAddressFactory.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$config['remoteAddressOptions']]]></code>
-    </MixedArrayAccess>
     <MixedAssignment>
-      <code><![CDATA[$config]]></code>
       <code><![CDATA[$config]]></code>
     </MixedAssignment>
   </file>
@@ -737,9 +733,6 @@
   </file>
   <file src="test/Validator/IdTest.php">
     <PossiblyUndefinedVariable>
-      <code><![CDATA[$isValid]]></code>
-      <code><![CDATA[$isValid]]></code>
-      <code><![CDATA[$isValid]]></code>
       <code><![CDATA[$isValid]]></code>
     </PossiblyUndefinedVariable>
     <UnusedParam>

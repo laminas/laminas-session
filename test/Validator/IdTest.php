@@ -50,6 +50,7 @@ final class IdTest extends TestCase
     ): void {
         ini_set('session.sid_bits_per_character', $bitsPerCharacter);
         $validator = new Id();
+        $isValid   = null;
         try {
             $validator->validate(Environment::fromGlobals($_SERVER), new Environment(sessionId: $id));
             $isValid = true;
@@ -72,6 +73,7 @@ final class IdTest extends TestCase
     ): void {
         ini_set('session.sid_bits_per_character', $bitsPerCharacter);
         $validator = new Id();
+        $isValid   = null;
         try {
             $validator->validate(Environment::fromGlobals($_SERVER), new Environment(sessionId: $id));
             $isValid = true;
@@ -123,6 +125,7 @@ final class IdTest extends TestCase
     ): void {
         ini_set('session.sid_bits_per_character', $bitsPerCharacter);
         $validator = new Id();
+        $isValid   = null;
         try {
             $validator->validate(
                 TestCustomEnvironment::fromGlobals($_SERVER),
