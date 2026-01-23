@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Laminas\Session\Service;
 
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\Session\Validator\RemoteAddr;
 use Psr\Container\ContainerInterface;
@@ -28,16 +27,11 @@ final class RemoteAddressFactory implements FactoryInterface
         string $requestedName,
         ?array $options = null
     ): RemoteAddr {
-        $config = $container->has('config') ? $container->get('config') : [];
-        $config = is_iterable($config) ? iterator_to_array($config) : [];
-        if (! isset($config['session_manager'])) {
-            throw new ServiceNotCreatedException(
-                'Configuration is missing a "session_manager" key, or the value of that key is not an array'
-            );
-        }
-        /** @psalm-var array<string, mixed> $sessionOptions */
-        $sessionOptions = $config['session_manager'];
-        $validators     = $sessionOptions['validators'] ?? [];
+        $config         = $container->has('config') ? $container->get('config') : [];
+        $config         = is_iterable($config) ? iterator_to_array($config) : [];
+        $sessionOptions = $config['session_manager'] ?? [];
+        assert(is_array($sessionOptions));
+        $validators = $sessionOptions['validators'] ?? [];
         assert(is_array($validators));
         $validatorsOptions = $validators['options'] ?? [];
         assert(is_array($validatorsOptions));

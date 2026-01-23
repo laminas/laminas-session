@@ -10,6 +10,7 @@ use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Container;
+use Laminas\Session\Exception\RuntimeException;
 use Laminas\Session\ManagerInterface;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use Laminas\Session\SessionManager;
@@ -173,7 +174,7 @@ final class SessionManagerFactory implements FactoryInterface
             if ($container->has($validator)) {
                 $validatorInstance = $container->get($validator);
                 if (! $validatorInstance instanceof ValidatorInterface) {
-                    throw new ServiceNotCreatedException(sprintf(
+                    throw new RuntimeException(sprintf(
                         'SessionManager requires that the validators implement %s; received "%s"',
                         ValidatorInterface::class,
                         get_debug_type($validatorInstance)
