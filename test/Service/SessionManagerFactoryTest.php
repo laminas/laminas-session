@@ -120,7 +120,9 @@ final class SessionManagerFactoryTest extends TestCase
         $config = [
             'session_manager' => [
                 'validators' => [
-                    Validator\RemoteAddr::class,
+                    'classes' => [
+                        Validator\RemoteAddr::class,
+                    ],
                 ],
             ],
         ];
@@ -170,11 +172,13 @@ final class SessionManagerFactoryTest extends TestCase
             [
                 'session_manager' => [
                     'validators' => [
-                        Validator\HttpUserAgent::class,
-                        Validator\RemoteAddr::class,
+                        'classes' => [
+                            Validator\HttpUserAgent::class,
+                            Validator\RemoteAddr::class,
+                        ],
                     ],
                 ],
-            ]
+            ],
         );
 
         // This call is needed to make sure session storage data is not overwritten by the factory

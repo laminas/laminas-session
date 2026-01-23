@@ -19,6 +19,7 @@ use Psr\Container\ContainerInterface;
 
 use function array_merge;
 use function array_unique;
+use function assert;
 use function class_exists;
 use function get_debug_type;
 use function is_array;
@@ -128,8 +129,10 @@ final class SessionManagerFactory implements FactoryInterface
             }
 
             if (isset($managerConfig['validators'])) {
+                $validatorsConfig = $managerConfig['validators'];
+                assert(is_array($validatorsConfig));
                 /** @var list<class-string<ValidatorInterface>> $validators */
-                $validators = $managerConfig['validators'];
+                $validators = $validatorsConfig['classes'];
             }
 
             if (isset($managerConfig['options'])) {

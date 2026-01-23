@@ -35,12 +35,14 @@ final class RemoteAddressFactory implements FactoryInterface
                 'Configuration is missing a "session_manager" key, or the value of that key is not an array'
             );
         }
-        /** @psalm-var array<string, mixed> $config */
-        $config         = $config['session_manager'];
-        $sessionOptions = $config['session_manager'] ?? [];
-        assert(is_array($sessionOptions));
+        /** @psalm-var array<string, mixed> $sessionOptions */
+        $sessionOptions = $config['session_manager'];
+        $validators     = $sessionOptions['validators'] ?? [];
+        assert(is_array($validators));
+        $validatorsOptions = $validators['options'] ?? [];
+        assert(is_array($validatorsOptions));
         /** @var OptionsArgument $options */
-        $options = $config['remoteAddressOptions'] ?? [];
+        $options = $validatorsOptions['remote_addr'] ?? [];
         return new RemoteAddr($options);
     }
 }

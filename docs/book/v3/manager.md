@@ -38,12 +38,16 @@ return [
         ],
         'storage' => Session\Storage\SessionArrayStorage::class,
         'validators' => [
-            Session\Validator\RemoteAddr::class,
-            Session\Validator\HttpUserAgent::class,
-        ],
-        'remoteAddressOptions' => [
-            'use_proxy' => false,
-            'trusted_proxies' => [],
+            'classes' => [
+                Session\Validator\RemoteAddr::class,
+                Session\Validator\HttpUserAgent::class,
+            ],
+            'options' => [
+                'remote_addr' => [
+                    'use_proxy' => false,
+                    'trusted_proxies' => [],
+                ],
+            ]
         ],
     ],
 ];
