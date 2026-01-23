@@ -4,19 +4,24 @@ declare(strict_types=1);
 
 namespace LaminasTest\Session\Service;
 
-use Laminas\EventManager\EventManager;
-use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Config\ConfigInterface;
 use Laminas\Session\Container;
+use Laminas\Session\Exception\SessionValidationFailedException;
 use Laminas\Session\ManagerInterface;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
+use Laminas\Session\Service\RemoteAddressFactory;
 use Laminas\Session\Service\SessionManagerFactory;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\ArrayStorage;
 use Laminas\Session\Storage\StorageInterface;
 use Laminas\Session\Validator;
+use Laminas\Session\Validator\Environment;
+use Laminas\Session\Validator\HttpUserAgent;
+use Laminas\Session\Validator\Id;
+use Laminas\Session\Validator\RemoteAddr;
 use LaminasTest\Session\ReflectionPropertyTrait;
 use LaminasTest\Session\TestAsset\TestManager;
 use LaminasTest\Session\TestAsset\TestSaveHandler;
@@ -24,14 +29,12 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
-use function iterator_to_array;
+use function serialize;
 
 #[CoversClass(SessionManagerFactory::class)]
 final class SessionManagerFactoryTest extends TestCase
 {
-    use EventListenerIntrospectionTrait;
     use ReflectionPropertyTrait;
 
     private ServiceManager $services;
@@ -43,6 +46,9 @@ final class SessionManagerFactoryTest extends TestCase
                 ManagerInterface::class => SessionManagerFactory::class,
                 TestManager::class      => SessionManagerFactory::class,
                 TestSaveHandler::class  => SessionManagerFactory::class,
+                Id::class               => InvokableFactory::class,
+                HttpUserAgent::class    => InvokableFactory::class,
+                RemoteAddr::class       => RemoteAddressFactory::class,
             ],
         ]);
     }
@@ -99,6 +105,14 @@ final class SessionManagerFactoryTest extends TestCase
         self::assertNotSame($manager, Container::getDefaultManager());
     }
 
+    public function testAttachDefaultValidatorsByDefault(): void
+    {
+        $manager = $this->services->get(ManagerInterface::class);
+        $value   = $this->getReflectionProperty($manager, 'validators');
+        $this->assertIsArray($value);
+        $this->assertInstanceOf(Id::class, $value[0]);
+    }
+
     #[IgnoreDeprecations]
     #[RunInSeparateProcess]
     public function testFactoryWillAddValidatorViaConfiguration(): void
@@ -106,25 +120,25 @@ final class SessionManagerFactoryTest extends TestCase
         $config = [
             'session_manager' => [
                 'validators' => [
-                    Validator\RemoteAddr::class,
+                    'classes' => [
+                        Validator\RemoteAddr::class,
+                    ],
                 ],
             ],
         ];
 
         $this->services->setService('config', $config);
         $manager = $this->services->get(ManagerInterface::class);
-
-        $manager->start();
-
         self::assertInstanceOf(ManagerInterface::class, $manager);
+        $storage = $manager->getStorage();
+        $storage->setMetadata(
+            'environment',
+            serialize(new Environment(remoteAddr: 'invalid data'))
+        );
 
-        $chain = $manager->getValidatorChain();
-
-        self::assertInstanceOf(EventManager::class, $chain);
-
-        $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
-
-        self::assertCount(2, $listeners);
+        self::expectException(SessionValidationFailedException::class);
+        self::expectExceptionMessage('Remote address validation failed');
+        $manager->start();
     }
 
     #[RunInSeparateProcess]
@@ -158,11 +172,13 @@ final class SessionManagerFactoryTest extends TestCase
             [
                 'session_manager' => [
                     'validators' => [
-                        Validator\HttpUserAgent::class,
-                        Validator\RemoteAddr::class,
+                        'classes' => [
+                            Validator\HttpUserAgent::class,
+                            Validator\RemoteAddr::class,
+                        ],
                     ],
                 ],
-            ]
+            ],
         );
 
         // This call is needed to make sure session storage data is not overwritten by the factory
@@ -171,57 +187,6 @@ final class SessionManagerFactoryTest extends TestCase
         $validatorData = $storage->getMetaData('_VALID');
         self::assertSame('Foo', $validatorData[Validator\HttpUserAgent::class]);
         self::assertSame('1.2.3.4', $validatorData[Validator\RemoteAddr::class]);
-    }
-
-    #[RunInSeparateProcess]
-    #[IgnoreDeprecations]
-    public function testFactoryDoesNotAttachValidatorTwoTimes(): void
-    {
-        $storage = new ArrayStorage();
-        $storage->setMetadata(
-            '_VALID',
-            [
-                Validator\RemoteAddr::class,
-            ]
-        );
-
-        $this->services->setService(StorageInterface::class, $storage);
-        $this->services->setService(
-            'config',
-            [
-                'session_manager' => [
-                    'validators' => [
-                        Validator\RemoteAddr::class,
-                    ],
-                ],
-            ]
-        );
-
-        $manager = $this->services->get(ManagerInterface::class);
-
-        self::assertInstanceOf(ManagerInterface::class, $manager);
-
-        try {
-            $manager->start();
-        } catch (RuntimeException) {
-            // Ignore exception, because we are not interested whether session validation passes in this test
-        }
-
-        $chain = $manager->getValidatorChain();
-
-        self::assertInstanceOf(EventManager::class, $chain);
-        $listeners = iterator_to_array($this->getListenersForEvent('session.validate', $chain));
-        self::assertCount(2, $listeners);
-
-        $found = false;
-        foreach ($listeners as $listener) {
-            // Listeners are all [$validator, 'isValid'] callbacks
-            if ($listener[0] instanceof Validator\RemoteAddr) {
-                $found = true;
-                break;
-            }
-        }
-        self::assertTrue($found, 'Did not find RemoteAddr validator in listeners');
     }
 
     public function testFactoryAllowsOverridingOptions(): void

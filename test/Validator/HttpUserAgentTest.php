@@ -14,38 +14,31 @@ final class HttpUserAgentTest extends TestCase
     public function testIsValid(): void
     {
         $_SERVER['HTTP_USER_AGENT'] = 'Test-User-Agent';
-        $validator                  = new HttpUserAgent(
-            Environment::fromGlobals($_SERVER),
-            Environment::fromGlobals($_SERVER)
-        );
+        $validator                  = new HttpUserAgent();
 
-        self::assertTrue($validator->isValid());
+        $this->expectNotToPerformAssertions();
+        $validator->validate(Environment::fromGlobals($_SERVER), Environment::fromGlobals($_SERVER));
     }
 
     public function testIsValidWithCustomEnvironment(): void
     {
         $_SERVER['HTTP_USER_AGENT'] = 'Test-User-Agent';
-        $validator                  = new HttpUserAgent(
+        $validator                  = new HttpUserAgent();
+
+        $this->expectNotToPerformAssertions();
+        $validator->validate(
             TestCustomEnvironment::fromGlobals($_SERVER),
             TestCustomEnvironment::fromGlobals($_SERVER)
         );
-
-        self::assertTrue($validator->isValid());
     }
 
     public function testIsValidWhenNoUserAgentIsSet(): void
     {
         // technically not needed in CLI
         unset($_SERVER['HTTP_USER_AGENT']);
-        $validator = new HttpUserAgent(new Environment(userAgent: null), Environment::fromGlobals($_SERVER));
+        $validator = new HttpUserAgent();
 
-        self::assertTrue($validator->isValid());
-    }
-
-    public function testGetNameReturnsClassName(): void
-    {
-        $validator = new HttpUserAgent(new Environment(userAgent: null), Environment::fromGlobals($_SERVER));
-
-        self::assertSame(HttpUserAgent::class, $validator->getName());
+        $this->expectNotToPerformAssertions();
+        $validator->validate(new Environment(userAgent: null), Environment::fromGlobals($_SERVER));
     }
 }

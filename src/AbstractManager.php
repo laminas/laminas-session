@@ -47,7 +47,7 @@ abstract class AbstractManager implements Manager
         ?Config $config = null,
         ?Storage $storage = null,
         ?SaveHandler $saveHandler = null,
-        /** @var list<class-string<ValidatorInterface>> */
+        /** @var list<ValidatorInterface> */
         protected array $validators = []
     ) {
         // init config

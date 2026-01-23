@@ -8,6 +8,10 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Service\EnvironmentFactoryInterface;
 use Laminas\Session\Service\GlobalEnvironmentFactory;
+use Laminas\Session\Service\RemoteAddressFactory;
+use Laminas\Session\Validator\HttpUserAgent;
+use Laminas\Session\Validator\Id;
+use Laminas\Session\Validator\RemoteAddr;
 
 /** @psalm-import-type ServiceManagerConfiguration from ServiceManager */
 final class ConfigProvider
@@ -51,6 +55,9 @@ final class ConfigProvider
                 ManagerInterface::class         => Service\SessionManagerFactory::class,
                 Storage\StorageInterface::class => Service\StorageFactory::class,
                 GlobalEnvironmentFactory::class => InvokableFactory::class,
+                Id::class                       => InvokableFactory::class,
+                HttpUserAgent::class            => InvokableFactory::class,
+                RemoteAddr::class               => RemoteAddressFactory::class,
             ],
         ];
     }

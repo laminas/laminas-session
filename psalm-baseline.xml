@@ -166,7 +166,6 @@
       <code><![CDATA[static]]></code>
       <code><![CDATA[static]]></code>
       <code><![CDATA[static]]></code>
-      <code><![CDATA[static]]></code>
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/SaveHandler/Cache.php">
@@ -194,6 +193,11 @@
       <code><![CDATA[$sessionManager]]></code>
     </MixedAssignment>
   </file>
+  <file src="src/Service/RemoteAddressFactory.php">
+    <MixedAssignment>
+      <code><![CDATA[$config]]></code>
+    </MixedAssignment>
+  </file>
   <file src="src/Service/SessionConfigFactory.php">
     <MixedMethodCall>
       <code><![CDATA[new $class()]]></code>
@@ -207,7 +211,6 @@
       <code><![CDATA[$options]]></code>
       <code><![CDATA[$saveHandler]]></code>
       <code><![CDATA[$storage]]></code>
-      <code><![CDATA[$validators]]></code>
     </MixedAssignment>
   </file>
   <file src="src/Service/StorageFactory.php">
@@ -222,12 +225,6 @@
     </MixedAssignment>
   </file>
   <file src="src/SessionManager.php">
-    <MissingClosureParamType>
-      <code><![CDATA[$test]]></code>
-    </MissingClosureParamType>
-    <MixedAssignment>
-      <code><![CDATA[$validatorValues]]></code>
-    </MixedAssignment>
     <NoValue>
       <code><![CDATA[$oldSessionData]]></code>
     </NoValue>
@@ -244,9 +241,6 @@
     <TypeDoesNotContainType>
       <code><![CDATA[$oldSessionData instanceof Traversable]]></code>
     </TypeDoesNotContainType>
-    <UnusedProperty>
-      <code><![CDATA[$defaultValidators]]></code>
-    </UnusedProperty>
     <UnusedReturnValue>
       <code><![CDATA[bool]]></code>
     </UnusedReturnValue>
@@ -404,28 +398,6 @@
       <code><![CDATA[static]]></code>
       <code><![CDATA[static]]></code>
       <code><![CDATA[static]]></code>
-    </PossiblyUnusedReturnValue>
-  </file>
-  <file src="src/ValidatorChain.php">
-    <ConstructorSignatureMismatch>
-      <code><![CDATA[$storage]]></code>
-    </ConstructorSignatureMismatch>
-    <ImplementedParamTypeMismatch>
-      <code><![CDATA[$storage]]></code>
-    </ImplementedParamTypeMismatch>
-    <InvalidExtendClass>
-      <code><![CDATA[EventManager]]></code>
-    </InvalidExtendClass>
-    <MethodSignatureMismatch>
-      <code><![CDATA[public function __construct(protected StorageInterface $storage)]]></code>
-      <code><![CDATA[public function __construct(protected StorageInterface $storage)]]></code>
-      <code><![CDATA[public function attach($eventName, callable $listener, $priority = 1)]]></code>
-    </MethodSignatureMismatch>
-    <ParamNameMismatch>
-      <code><![CDATA[$storage]]></code>
-    </ParamNameMismatch>
-    <PossiblyUnusedReturnValue>
-      <code><![CDATA[callable]]></code>
     </PossiblyUnusedReturnValue>
   </file>
   <file src="test/AbstractContainerTest.php">
@@ -595,12 +567,10 @@
   </file>
   <file src="test/Service/SessionManagerFactoryTest.php">
     <MixedArrayAccess>
-      <code><![CDATA[$listener[0]]]></code>
       <code><![CDATA[$validatorData[Validator\HttpUserAgent::class]]]></code>
       <code><![CDATA[$validatorData[Validator\RemoteAddr::class]]]></code>
     </MixedArrayAccess>
     <MixedAssignment>
-      <code><![CDATA[$listener]]></code>
       <code><![CDATA[$validatorData]]></code>
     </MixedAssignment>
     <UnusedVariable>
@@ -655,8 +625,7 @@
     <MixedArrayAccess>
       <code><![CDATA[$_SESSION[$key]]]></code>
       <code><![CDATA[$_SESSION[$key]]]></code>
-      <code><![CDATA[$_SESSION['__Laminas']['_VALID']]]></code>
-      <code><![CDATA[$_SESSION['__Laminas']['_VALID']]]></code>
+      <code><![CDATA[$_SESSION['__Laminas']['environment']]]></code>
       <code><![CDATA[$_SESSION['__Laminas']['environment']]]></code>
       <code><![CDATA[$_SESSION['__Laminas']['environment']]]></code>
     </MixedArrayAccess>
@@ -726,12 +695,9 @@
     </RedundantCondition>
   </file>
   <file src="test/TestAsset/TestFailingValidator.php">
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$current]]></code>
-    </PossiblyUnusedProperty>
-    <PossiblyUnusedReturnValue>
-      <code><![CDATA[bool]]></code>
-    </PossiblyUnusedReturnValue>
+    <UnusedParam>
+      <code><![CDATA[$options]]></code>
+    </UnusedParam>
   </file>
   <file src="test/TestAsset/TestManager.php">
     <PossiblyUnusedMethod>
@@ -764,5 +730,16 @@
     <MixedAssignment>
       <code><![CDATA[$result]]></code>
     </MixedAssignment>
+  </file>
+  <file src="test/Validator/IdTest.php">
+    <PossiblyUndefinedVariable>
+      <code><![CDATA[$isValid]]></code>
+    </PossiblyUndefinedVariable>
+    <UnusedParam>
+      <code><![CDATA[$isValidPhp84]]></code>
+      <code><![CDATA[$isValidPhp84]]></code>
+      <code><![CDATA[$isValidPhpPre84]]></code>
+      <code><![CDATA[$isValidPhpPre84]]></code>
+    </UnusedParam>
   </file>
 </files>
