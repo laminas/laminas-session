@@ -55,7 +55,7 @@ final class SessionManagerFactory implements FactoryInterface
      * - Laminas\Session\Validator\ValidatorInterface
      *
      * The first two have corresponding factories inside this namespace.
-     * "SaveHandlerInterface", however, does not, due to the differences in implementations,
+     * {@see SaveHandlerInterface}, however, does not, due to the differences in implementations,
      * and the fact that save handlers will often be written in userland. As such
      * if you wish to attach a save handler to the manager, you will need to
      * write your own factory, and assign it to the service name
@@ -126,6 +126,20 @@ final class SessionManagerFactory implements FactoryInterface
                 isset($configService['session_manager'])
                 && is_array($configService['session_manager'])
             ) {
+                /**
+                 * @psalm-var array{
+                 *     config: array{
+                 *         class: string,
+                 *         options: array<string, mixed>
+                 *     },
+                 *     storage: string,
+                 *     validators: array{
+                 *         classes: list<class-string<ValidatorInterface>>,
+                 *         options: array<string, array<string, mixed>>,
+                 *     },
+                 *     enable_default_container_manager: bool
+                 * } $managerConfig
+                 */
                 $managerConfig = array_merge($managerConfig, $configService['session_manager']);
             }
 

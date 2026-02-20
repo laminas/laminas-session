@@ -12,6 +12,7 @@ use function array_map;
 use function array_pop;
 use function explode;
 use function in_array;
+use function sprintf;
 
 /**
  * @psalm-type OptionsArgument = array{
@@ -25,9 +26,6 @@ final class RemoteAddr implements SessionValidator
     public ?string $currentData = null;
 
     /**
-     * Constructor
-     * get the current user IP and store it in the session as 'valid data'
-     *
      * @param OptionsArgument $options
      */
     public function __construct(protected array $options = [])
@@ -51,7 +49,11 @@ final class RemoteAddr implements SessionValidator
         }
 
         if ($this->initialData !== $this->currentData) {
-            throw new SessionValidationFailedException('Remote address validation failed');
+            throw new SessionValidationFailedException(sprintf(
+                'Remote address validation failed. Expected "%s", got "%s"',
+                (string) $this->initialData,
+                (string) $this->currentData
+            ));
         }
     }
 

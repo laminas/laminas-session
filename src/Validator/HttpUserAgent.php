@@ -6,10 +6,12 @@ namespace Laminas\Session\Validator;
 
 use Laminas\Session\Exception\SessionValidationFailedException;
 
+use function sprintf;
+
 final class HttpUserAgent implements ValidatorInterface
 {
     /**
-     * isValid() - this method will determine if the current user agent matches the
+     * This method will determine if the current user agent matches the
      * user agent we stored when we initialized this variable.
      *
      * @throws SessionValidationFailedException
@@ -17,7 +19,11 @@ final class HttpUserAgent implements ValidatorInterface
     public function validate(EnvironmentInterface $initial, EnvironmentInterface $current): void
     {
         if ($initial->getUserAgent() !== $current->getUserAgent()) {
-            throw new SessionValidationFailedException('Http user agent validation failed');
+            throw new SessionValidationFailedException(sprintf(
+                'Http user agent validation failed. Expected %s, got %s.',
+                (string) $initial->getUserAgent(),
+                (string) $current->getUserAgent()
+            ));
         }
     }
 }

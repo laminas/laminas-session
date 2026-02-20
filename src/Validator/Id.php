@@ -9,6 +9,7 @@ use Laminas\Session\Exception\SessionValidationFailedException;
 use function ini_get;
 use function is_numeric;
 use function preg_match;
+use function sprintf;
 
 use const PHP_VERSION_ID;
 
@@ -29,7 +30,7 @@ final class Id implements ValidatorInterface
         $sessionId = $current->getSessionId();
 
         if ($sessionId === null) {
-            throw new SessionValidationFailedException('Session id validation failed');
+            throw new SessionValidationFailedException('Session id validation failed. Missing session id.');
         }
 
         if (PHP_VERSION_ID >= 80400) {
@@ -51,7 +52,11 @@ final class Id implements ValidatorInterface
         };
 
         if (! (bool) preg_match($pattern, $sessionId)) {
-            throw new SessionValidationFailedException('Session id validation failed');
+            throw new SessionValidationFailedException(sprintf(
+                'Session id validation failed. Provided id %s does not match the expected %s pattern.',
+                $sessionId,
+                $pattern
+            ));
         }
     }
 }
