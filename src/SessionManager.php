@@ -327,7 +327,7 @@ final class SessionManager extends AbstractManager
     /**
      * Is this session valid?
      *
-     * Notifies the Validator Chain until either all validators have returned
+     * Runs the configured validators until either all have returned
      * true or one has failed.
      */
     public function isValid(): void
