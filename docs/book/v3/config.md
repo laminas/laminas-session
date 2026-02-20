@@ -99,12 +99,6 @@ appropriate factory definition:
 ],
 ```
 
-> #### Automated factory registration
->
-> Starting with laminas-mvc v3, if you are using the [component installer](https://docs.laminas.dev/laminas-component-installer)
-> in your application, the above registration will be made automatically for
-> you when you install laminas-session.
-
 Then place your application's session configuration in the root-level
 configuration key `session_config`:
 

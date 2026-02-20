@@ -48,8 +48,9 @@ In addition to these changes, there are several other important modifications:
 5. The implementation of the `sessionExists()` method has been simplified and no longer uses the PHP constant `SID` because this is [deprecated since PHP 8.4](https://wiki.php.net/rfc/deprecations_php_8_4#constant_sid).
 6. The `isValid` method no longer returns a boolean value, with validation failures throwing `SessionValidationFailedException`.
 
-> NOTE: **Logical change**
-> Due to this implementation change, `sessionExists()` will now return `false` after `session_close()` has been called, whereas in version 2 it would return `true`.
+NOTE: **Logical change**
+
+Due to this implementation change, `sessionExists()` will now return `false` after `session_close()` has been called, whereas in version 2 it would return `true`.
 
 The following properties have been removed:
 
