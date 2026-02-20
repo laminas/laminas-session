@@ -1,14 +1,14 @@
 # Session Manager
 
 The session manager, `Laminas\Session\SessionManager`, is the class responsible for
-all aspects of session management. It initializes configuration, storage, and
-save handlers.  Additionally the session manager can be injected into the
+all aspects of session management. It initializes configuration, storage, validators
+and save handlers.  Additionally the session manager can be injected into the
 session container to provide a wrapper or namespace around your session data.
 
 The session manager is responsible for starting a session, testing if a session
 exists, writing to the session, regenerating the session identifier, setting the
 session time-to-live, and destroying the session. The session manager can
-validate sessions from a validator chain to ensure that the session data is
+validate sessions using the configured validators to ensure that the session data is
 correct.
 
 ## Initializing the Session Manager
@@ -53,8 +53,34 @@ return [
 ];
 ```
 
+The following illustrates a simple `SessionMiddleware` implementation that makes use
+of the session manager:
+
+```php
+use Laminas\Session\Container;
+use Laminas\Session\SessionManager;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+class SessionMiddleware implements MiddlewareInterface
+{
+    public function __construct(protected SessionManager $sessionManager) {
+        $this->defaultSessionManager = $sessionManager;
+        Container::setDefaultManager($sessionManager);
+    }
+
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+        $this->defaultSessionManager->start();
+
+        return $handler->handle($request);
+    }
+}
+```
+
 The following illustrates how you might utilize the above configuration to
-create the session manager:
+create the session manager in a `laminas-mvc` application:
 
 ```php
 use Laminas\Mvc\ModuleRouteListener;
