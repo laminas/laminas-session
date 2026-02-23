@@ -28,14 +28,13 @@ nav:
         - "Session Storage": v3/storage.md
         - Validators:
             - Introduction: v3/validators/introduction.md
+            - "Session Id": v3/validators/id.md
             - "Http User Agent": v3/validators/httpuseragent.md
             - "Remote Address": v3/validators/remoteaddr.md
             - "CSRF Validator": v3/validators/csrf.md
             - "Writing Custom Validators": v3/validators/writing-custom-validators.md
         - Migration:
             - "Migration from Version 2 to 3": v3/migration/v2-to-v3.md
-        - "Application Integration":
-            - "Usage in a laminas-mvc application": v3/application-integration/usage-in-a-laminas-mvc-application.md
 
 site_name: laminas-session
 site_description: 'Object-oriented interface to PHP sessions and storage.'
@@ -63,5 +62,4 @@ plugins:
               validators/remoteaddr.md: v3/validators/remoteaddr.md
               validators/csrf.md: v3/validators/csrf.md
               validators/writing-custom-validators.md: v3/validators/writing-custom-validators.md
-              application-integration/usage-in-a-laminas-mvc-application.md: v3/application-integration/usage-in-a-laminas-mvc-application.md
               validator.md: v3/validators/introduction.md
