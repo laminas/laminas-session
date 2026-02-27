@@ -25,6 +25,8 @@ as well as native types where needed.
 
 ## Signature and Behaviour Changes
 
+Note that the changes made for version 3 makes `laminas-session` incompatible with use in `laminas-mvc` applications.
+
 ### SessionManager Changes
 
 In addition to general PHP 8.2 syntax changes, the `SessionManager` class has been updated to make use of the new validator structure.
@@ -259,6 +261,10 @@ by creating a class that implements `Laminas\Session\SaveHandler\SaveHandlerInte
 ### ValidatorChain Removal
 
 As of version 3.0, the `ValidatorChain` class has been removed, as building the validator list was moved to the `SessionManager` itself.
+
+### Module Removal
+
+As usage in `laminas-mvc` applications is no longer supported, the `Module` class has been removed, alongside its tests.
 
 ### Legacy Deprecated Classes Removal
 

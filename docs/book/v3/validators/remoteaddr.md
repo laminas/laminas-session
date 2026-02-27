@@ -9,7 +9,7 @@ after `session_start()` has been called.
 ## Supported Options
 
 The following options are supported for `Laminas\Session\Validator\RemoteAddr`.
-The options can be configured under the `config.session_manager.remoteAddressOptions` key.
+The options can be configured under the `config.session_manager.validators.options.remote_addr` key.
 
 | Option            | Description                                              | Optional/Mandatory |
 |-------------------|----------------------------------------------------------|--------------------|

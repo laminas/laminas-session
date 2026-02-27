@@ -43,7 +43,6 @@ extra:
     project: Components
     installation:
       config_provider_class: 'Laminas\Session\ConfigProvider'
-      module_class: 'Laminas\Session\Module'
     current_version: v3
     versions:
         - v3
