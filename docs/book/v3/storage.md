@@ -2,8 +2,20 @@
 
 laminas-session comes with a standard set of storage handlers. Storage handlers are
 the intermediary between when the session starts and when the session writes and
-closes.  The default session storage is
-`Laminas\Session\Storage\SessionArrayStorage`.
+closes. The default session storage is `Laminas\Session\Storage\SessionArrayStorage`.
+
+The session storage is configured under the `session_config` key:
+
+```php
+    'session_storage' => [
+        'type' => SessionArrayStorage::class,
+        'options' => [
+            'input' => [],
+            'flags' => ArrayObject::ARRAY_AS_PROPS,
+            'iterator_class' => ArrayIterator::class,
+        ],
+    ],
+```
 
 ## Array Storage
 

@@ -1,9 +1,8 @@
 # Session Save Handlers
 
-laminas-session comes with a set of save handler classes.  Save handlers themselves
-are decoupled from PHP's save handler functions and are only implemented as a
-PHP save handler when utilized in conjunction with
-`Laminas\Session\SessionManager`.
+laminas-session comes with an implementation of a save handler class.
+Save handlers themselves are decoupled from PHP's save handler functions and are
+only implemented as a PHP save handler when utilized in conjunction with `Laminas\Session\SessionManager`.
 
 ## Cache
 
@@ -11,6 +10,9 @@ PHP save handler when utilized in conjunction with
 `Psr\SimpleCache\CacheInterface` to be utilized as a session save
 handler. Generally if you are utilizing the `Cache` save handler; you are likely
 using products such as memcached.
+
+Note that `laminas-session` does **not** provide a `simple cache` implementation, and as such
+you will need to provide one of your choosing in order to use the shipped `Cache` save handler.
 
 ### Basic usage
 

@@ -49,15 +49,22 @@ return [
                 ],
             ]
         ],
+        'options' => [
+            'preserve_storage' => false,
+            'send_expire_cookie' => true,
+            'clear_storage' => false,
+            'attach_default_validators' => true,
+        ],
     ],
 ];
 ```
 
-The following illustrates a simple `SessionMiddleware` implementation that makes use
-of the session manager:
+The session manager can be injected into your application's classes in order to make use of its features.
+The following illustrates a simple `SessionMiddleware` implementation that uses the `SessionManager` to customize
+the session before initialising it:
 
 ```php
-use Laminas\Session\Container;
+
 use Laminas\Session\SessionManager;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -67,12 +74,12 @@ use Psr\Http\Server\RequestHandlerInterface;
 class SessionMiddleware implements MiddlewareInterface
 {
     public function __construct(protected SessionManager $sessionManager) {
-        $this->defaultSessionManager = $sessionManager;
-        Container::setDefaultManager($sessionManager);
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-        $this->defaultSessionManager->start();
+        $this->sessionManager->setId('customSessionId');
+        $this->sessionManager->setName('customSessionName');
+        $this->sessionManager->start();
 
         return $handler->handle($request);
     }
