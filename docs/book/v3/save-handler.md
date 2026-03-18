@@ -11,8 +11,8 @@ only implemented as a PHP save handler when utilized in conjunction with `Lamina
 handler. Generally if you are utilizing the `Cache` save handler; you are likely
 using products such as memcached.
 
-Note that `laminas-session` does **not** provide a `simple cache` implementation, and as such
-you will need to provide one of your choosing in order to use the shipped `Cache` save handler.
+You have the flexibility to choose any `Psr\SimpleCache` implementation, such as the `SimpleCacheDecorator` from [laminas/laminas-cache](https://github.com/laminas/laminas-cache).
+Once selected, this will enable you to utilize the shipped `Cache` save handler within `laminas-session`.
 
 ### Basic usage
 

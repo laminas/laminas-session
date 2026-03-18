@@ -30,13 +30,6 @@ use Laminas\Session;
 
 return [
     'session_manager' => [
-        'config' => [
-            'class' => Session\Config\SessionConfig::class,
-            'options' => [
-                'name' => 'myapp',
-            ],
-        ],
-        'storage' => Session\Storage\SessionArrayStorage::class,
         'validators' => [
             'classes' => [
                 Session\Validator\RemoteAddr::class,
@@ -55,9 +48,24 @@ return [
             'clear_storage' => false,
             'attach_default_validators' => true,
         ],
+        'enable_default_container_manager' => true,
     ],
 ];
 ```
+
+## Supported Options
+
+| Option                              | Data Type | Default value | Description                                                                                                     |
+|-------------------------------------|-----------|---------------|-----------------------------------------------------------------------------------------------------------------|
+| `validators.classes`                | `array`   | `[]`          | List of fully-qualified validator class names implementing the shipped `ValidatorInterface`.                    |
+| `validators.options`                | `array`   | `[]`          | Validator specific options, keyed by validator name.                                                            |
+| `options.preserve_storage`          | `boolean` | `false`       | Whether to preserve the data found on the storage object on session start.                                      |
+| `options.send_expire_cookie`        | `boolean` | `true`        | Whether to send an expiry cookie the moment `SessionManager::destroy()` is called, deleting the session cookie. |
+| `options.clear_storage`             | `boolean` | `false`       | Whether to clear all data from the storage object when calling `SessionManager::destroy()`.                     |
+| `options.attach_default_validators` | `boolean` | `true`        | Whether to attach the default `Id` validator.                                                                   |
+| `enable_default_container_manager`  | `boolean` | `true`        | Whether to inject the created manager as the default manager for `Container` instances.                         |
+
+## Usage
 
 The session manager can be injected into your application's classes in order to make use of its features.
 The following illustrates a simple `SessionMiddleware` implementation that uses the `SessionManager` to customize

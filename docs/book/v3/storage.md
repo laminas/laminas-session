@@ -17,6 +17,22 @@ The session storage is configured under the `session_config` key:
     ],
 ```
 
+## Supported Options
+
+| Option           | Data Type      | Default value               | Description                                                                                              |
+|------------------|----------------|-----------------------------|----------------------------------------------------------------------------------------------------------|
+| `input`          | `mixed`        | situation specific          | Used to populate the storage with initial data.                                                          |
+| `flags`          | `integer`      | ArrayObject::ARRAY_AS_PROPS | Specifies the `ArrayObject` flags to use for `ArrayStorage`, `SessionStorage` or any custom descendants. |
+| `iterator_class` | `class-string` | ArrayIterator               | Specifies the iterator class to use for `ArrayStorage`, `SessionStorage` or any custom descendants.      |
+
+Note that the `input` accepted values depend entirely on the set `type`, as follows:
+
+- `SessionArrayStorage`: `null` (falls back to `$_SESSION ?? []`), `array` or an `ArrayAccess` implementation.
+- `SessionStorage`: `null` (checks `$_SESSION` to reuse, defaulting to `[]` if not available) or `array`.
+- `ArrayStorage`: `array`, defaulting to `[]`.
+
+Classes extending `AbstractSessionArrayStorage` will only use the `input` option.
+
 ## Array Storage
 
 `Laminas\Session\Storage\ArrayStorage` provides a facility to store all information
