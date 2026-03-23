@@ -1981,21 +1981,21 @@
         },
         {
             "name": "laminas/laminas-db",
-            "version": "2.20.0",
+            "version": "2.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-db.git",
-                "reference": "207b9ee70a8b518913c1fad688d7a64fe89a8b91"
+                "reference": "758c2ca28c831188edb8d4dd1eaf46ee28b85625"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-db/zipball/207b9ee70a8b518913c1fad688d7a64fe89a8b91",
-                "reference": "207b9ee70a8b518913c1fad688d7a64fe89a8b91",
+                "url": "https://api.github.com/repos/laminas/laminas-db/zipball/758c2ca28c831188edb8d4dd1eaf46ee28b85625",
+                "reference": "758c2ca28c831188edb8d4dd1eaf46ee28b85625",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-stdlib": "^3.7.1",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0"
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
             },
             "conflict": {
                 "zendframework/zend-db": "*"
@@ -2005,7 +2005,7 @@
                 "laminas/laminas-eventmanager": "^3.6.0",
                 "laminas/laminas-hydrator": "^4.7",
                 "laminas/laminas-servicemanager": "^3.19.0",
-                "phpunit/phpunit": "^9.5.25"
+                "phpunit/phpunit": "^9.6.34"
             },
             "suggest": {
                 "laminas/laminas-eventmanager": "Laminas\\EventManager component",
@@ -2048,7 +2048,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2024-04-02T01:04:56+00:00"
+            "time": "2026-03-20T16:11:27+00:00"
         },
         {
             "name": "laminas/laminas-escaper",
@@ -2377,20 +2377,20 @@
         },
         {
             "name": "league/uri",
-            "version": "7.8.0",
+            "version": "7.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/uri.git",
-                "reference": "4436c6ec8d458e4244448b069cc572d088230b76"
+                "reference": "08cf38e3924d4f56238125547b5720496fac8fd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/uri/zipball/4436c6ec8d458e4244448b069cc572d088230b76",
-                "reference": "4436c6ec8d458e4244448b069cc572d088230b76",
+                "url": "https://api.github.com/repos/thephpleague/uri/zipball/08cf38e3924d4f56238125547b5720496fac8fd4",
+                "reference": "08cf38e3924d4f56238125547b5720496fac8fd4",
                 "shasum": ""
             },
             "require": {
-                "league/uri-interfaces": "^7.8",
+                "league/uri-interfaces": "^7.8.1",
                 "php": "^8.1",
                 "psr/http-factory": "^1"
             },
@@ -2463,7 +2463,7 @@
                 "docs": "https://uri.thephpleague.com",
                 "forum": "https://thephpleague.slack.com",
                 "issues": "https://github.com/thephpleague/uri-src/issues",
-                "source": "https://github.com/thephpleague/uri/tree/7.8.0"
+                "source": "https://github.com/thephpleague/uri/tree/7.8.1"
             },
             "funding": [
                 {
@@ -2471,20 +2471,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-01-14T17:24:56+00:00"
+            "time": "2026-03-15T20:22:25+00:00"
         },
         {
             "name": "league/uri-interfaces",
-            "version": "7.8.0",
+            "version": "7.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/uri-interfaces.git",
-                "reference": "c5c5cd056110fc8afaba29fa6b72a43ced42acd4"
+                "reference": "85d5c77c5d6d3af6c54db4a78246364908f3c928"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/uri-interfaces/zipball/c5c5cd056110fc8afaba29fa6b72a43ced42acd4",
-                "reference": "c5c5cd056110fc8afaba29fa6b72a43ced42acd4",
+                "url": "https://api.github.com/repos/thephpleague/uri-interfaces/zipball/85d5c77c5d6d3af6c54db4a78246364908f3c928",
+                "reference": "85d5c77c5d6d3af6c54db4a78246364908f3c928",
                 "shasum": ""
             },
             "require": {
@@ -2547,7 +2547,7 @@
                 "docs": "https://uri.thephpleague.com",
                 "forum": "https://thephpleague.slack.com",
                 "issues": "https://github.com/thephpleague/uri-src/issues",
-                "source": "https://github.com/thephpleague/uri-interfaces/tree/7.8.0"
+                "source": "https://github.com/thephpleague/uri-interfaces/tree/7.8.1"
             },
             "funding": [
                 {
@@ -2555,7 +2555,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-01-15T06:54:53+00:00"
+            "time": "2026-03-08T20:05:35+00:00"
         },
         {
             "name": "mongodb/mongodb",
@@ -2976,16 +2976,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "6.0.2",
+            "version": "6.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "897b5986ece6b4f9d8413fea345c7d49c757d6bf"
+                "reference": "7bae67520aa9f5ecc506d646810bd40d9da54582"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/897b5986ece6b4f9d8413fea345c7d49c757d6bf",
-                "reference": "897b5986ece6b4f9d8413fea345c7d49c757d6bf",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/7bae67520aa9f5ecc506d646810bd40d9da54582",
+                "reference": "7bae67520aa9f5ecc506d646810bd40d9da54582",
                 "shasum": ""
             },
             "require": {
@@ -3035,9 +3035,9 @@
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
             "support": {
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
-                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/6.0.2"
+                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/6.0.3"
             },
-            "time": "2026-03-01T18:43:49+00:00"
+            "time": "2026-03-18T20:49:53+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -3603,16 +3603,16 @@
         },
         {
             "name": "psalm/plugin-phpunit",
-            "version": "0.19.5",
+            "version": "0.19.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/psalm-plugin-phpunit.git",
-                "reference": "143f9d5e049fffcdbc0da3fbb99f6149f9d3e2dc"
+                "reference": "ed7b87080910aad237d652674768a64fc1c80b78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/psalm-plugin-phpunit/zipball/143f9d5e049fffcdbc0da3fbb99f6149f9d3e2dc",
-                "reference": "143f9d5e049fffcdbc0da3fbb99f6149f9d3e2dc",
+                "url": "https://api.github.com/repos/psalm/psalm-plugin-phpunit/zipball/ed7b87080910aad237d652674768a64fc1c80b78",
+                "reference": "ed7b87080910aad237d652674768a64fc1c80b78",
                 "shasum": ""
             },
             "require": {
@@ -3655,9 +3655,9 @@
             "description": "Psalm plugin for PHPUnit",
             "support": {
                 "issues": "https://github.com/psalm/psalm-plugin-phpunit/issues",
-                "source": "https://github.com/psalm/psalm-plugin-phpunit/tree/0.19.5"
+                "source": "https://github.com/psalm/psalm-plugin-phpunit/tree/0.19.6"
             },
-            "time": "2025-03-31T18:49:55+00:00"
+            "time": "2025-04-01T09:10:55+00:00"
         },
         {
             "name": "psr/cache",
@@ -6247,16 +6247,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "6.15.1",
+            "version": "6.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "28dc127af1b5aecd52314f6f645bafc10d0e11f9"
+                "reference": "f1f5de594dc76faf8784e02d3dc4716c91c6f6ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/28dc127af1b5aecd52314f6f645bafc10d0e11f9",
-                "reference": "28dc127af1b5aecd52314f6f645bafc10d0e11f9",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/f1f5de594dc76faf8784e02d3dc4716c91c6f6ac",
+                "reference": "f1f5de594dc76faf8784e02d3dc4716c91c6f6ac",
                 "shasum": ""
             },
             "require": {
@@ -6361,7 +6361,7 @@
                 "issues": "https://github.com/vimeo/psalm/issues",
                 "source": "https://github.com/vimeo/psalm"
             },
-            "time": "2026-02-07T19:27:16+00:00"
+            "time": "2026-03-19T10:56:09+00:00"
         },
         {
             "name": "webimpress/coding-standard",
