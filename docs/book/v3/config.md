@@ -58,14 +58,14 @@ The following configuration options are defined by `Laminas\Session\Config\Sessi
 note that it inherits all configuration from
 `Laminas\Session\Config\StandardConfig`.
 
-| Option              | Data Type | Description                                                                               |
-|---------------------|-----------|-------------------------------------------------------------------------------------------|
-| `cache_limiter`     | `string`  | Specifies the cache control method used for session pages.                                |
-| `hash_function`     | `string`  | Allows you to specify the hash algorithm used to generate the session IDs.                |
-| `php_save_handler`  | `string`  | Defines the name of a PHP save_handler embedded into PHP.                                 |
-| `serialize_handler` | `string`  | Defines the name of the handler which is used to serialize/deserialize data.              |
-| `url_rewriter_tags` | `string`  | Specifies which HTML tags are rewritten to include session id if transparent sid enabled. |
-| `use_trans_sid`     | `boolean` | Whether transparent sid support is enabled or not.                                        |
+ Option              | Data Type | Description
+---------------------|-----------|-------------------------------------------------------------------------------------------
+ `cache_limiter`     | `string`  | Specifies the cache control method used for session pages.
+ `hash_function`     | `string`  | Allows you to specify the hash algorithm used to generate the session IDs.
+ `php_save_handler`  | `string`  | Defines the name of a PHP save_handler embedded into PHP.
+ `serialize_handler` | `string`  | Defines the name of the handler which is used to serialize/deserialize data.
+ `url_rewriter_tags` | `string`  | Specifies which HTML tags are rewritten to include session id if transparent sid enabled.
+ `use_trans_sid`     | `boolean` | Whether transparent sid support is enabled or not.
 
 ### Basic Usage
 
