@@ -1,14 +1,14 @@
 # Session Manager
 
 The session manager, `Laminas\Session\SessionManager`, is the class responsible for
-all aspects of session management. It initializes configuration, storage, and
-save handlers.  Additionally the session manager can be injected into the
+all aspects of session management. It initializes configuration, storage, validators
+and save handlers.  Additionally the session manager can be injected into the
 session container to provide a wrapper or namespace around your session data.
 
 The session manager is responsible for starting a session, testing if a session
 exists, writing to the session, regenerating the session identifier, setting the
 session time-to-live, and destroying the session. The session manager can
-validate sessions from a validator chain to ensure that the session data is
+validate sessions using the configured validators to ensure that the session data is
 correct.
 
 ## Initializing the Session Manager
@@ -30,13 +30,6 @@ use Laminas\Session;
 
 return [
     'session_manager' => [
-        'config' => [
-            'class' => Session\Config\SessionConfig::class,
-            'options' => [
-                'name' => 'myapp',
-            ],
-        ],
-        'storage' => Session\Storage\SessionArrayStorage::class,
         'validators' => [
             'classes' => [
                 Session\Validator\RemoteAddr::class,
@@ -49,134 +42,54 @@ return [
                 ],
             ]
         ],
+        'options' => [
+            'preserve_storage' => false,
+            'send_expire_cookie' => true,
+            'clear_storage' => false,
+            'attach_default_validators' => true,
+        ],
+        'enable_default_container_manager' => true,
     ],
 ];
 ```
 
-The following illustrates how you might utilize the above configuration to
-create the session manager:
+## Supported Options
+
+| Option                              | Data Type | Default value | Description                                                                                                     |
+|-------------------------------------|-----------|---------------|-----------------------------------------------------------------------------------------------------------------|
+| `validators.classes`                | `array`   | `[]`          | List of fully-qualified validator class names implementing the shipped `ValidatorInterface`.                    |
+| `validators.options`                | `array`   | `[]`          | Validator specific options, keyed by validator name.                                                            |
+| `options.preserve_storage`          | `boolean` | `false`       | Whether to preserve the data found on the storage object on session start.                                      |
+| `options.send_expire_cookie`        | `boolean` | `true`        | Whether to send an expiry cookie the moment `SessionManager::destroy()` is called, deleting the session cookie. |
+| `options.clear_storage`             | `boolean` | `false`       | Whether to clear all data from the storage object when calling `SessionManager::destroy()`.                     |
+| `options.attach_default_validators` | `boolean` | `true`        | Whether to attach the default `Id` validator.                                                                   |
+| `enable_default_container_manager`  | `boolean` | `true`        | Whether to inject the created manager as the default manager for `Container` instances.                         |
+
+## Usage
+
+The session manager can be injected into your application's classes in order to make use of its features.
+The following illustrates a simple `SessionMiddleware` implementation that uses the `SessionManager` to customize
+the session before initialising it:
 
 ```php
-use Laminas\Mvc\ModuleRouteListener;
-use Laminas\Mvc\MvcEvent;
+
 use Laminas\Session\SessionManager;
-use Laminas\Session\Config\SessionConfig;
-use Laminas\Session\Container;
-use Laminas\Session\Validator;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class Module
+class SessionMiddleware implements MiddlewareInterface
 {
-    public function onBootstrap(MvcEvent $e)
-    {
-        $eventManager        = $e->getApplication()->getEventManager();
-        $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
-        $this->bootstrapSession($e);
+    public function __construct(protected SessionManager $sessionManager) {
     }
 
-    public function bootstrapSession(MvcEvent $e)
-    {
-        $session = $e->getApplication()
-            ->getServiceManager()
-            ->get(SessionManager::class);
-        $session->start();
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+        $this->sessionManager->setId('customSessionId');
+        $this->sessionManager->setName('customSessionName');
+        $this->sessionManager->start();
 
-        $container = new Container('initialized');
-
-        if (isset($container->init)) {
-            return;
-        }
-
-        $serviceManager = $e->getApplication()->getServiceManager();
-        $request        = $serviceManager->get('Request');
-
-        $session->regenerateId(true);
-        $container->init          = 1;
-        $container->remoteAddr    = $request->getServer()->get('REMOTE_ADDR');
-        $container->httpUserAgent = $request->getServer()->get('HTTP_USER_AGENT');
-
-        $config = $serviceManager->get('Config');
-        if (! isset($config['session'])) {
-            return;
-        }
-
-        $sessionConfig = $config['session'];
-
-        if (! isset($sessionConfig['validators'])) {
-            return;
-        }
-
-        $chain   = $session->getValidatorChain();
-
-        foreach ($sessionConfig['validators'] as $validator) {
-            switch ($validator) {
-                case Validator\HttpUserAgent::class:
-                    $validator = new $validator($container->httpUserAgent);
-                    break;
-                case Validator\RemoteAddr::class:
-                    $validator  = new $validator($container->remoteAddr);
-                    break;
-                default:
-                    $validator = new $validator();
-                    break;
-            }
-
-            $chain->attach('session.validate', array($validator, 'isValid'));
-        }
-    }
-
-    public function getServiceConfig()
-    {
-        return [
-            'factories' => [
-                SessionManager::class => function ($container) {
-                    $config = $container->get('config');
-                    if (! isset($config['session'])) {
-                        $sessionManager = new SessionManager();
-                        Container::setDefaultManager($sessionManager);
-                        return $sessionManager;
-                    }
-
-                    $session = $config['session'];
-
-                    $sessionConfig = null;
-                    if (isset($session['config'])) {
-                        $class = isset($session['config']['class'])
-                            ?  $session['config']['class']
-                            : SessionConfig::class;
-
-                        $options = isset($session['config']['options'])
-                            ?  $session['config']['options']
-                            : [];
-
-                        $sessionConfig = new $class();
-                        $sessionConfig->setOptions($options);
-                    }
-
-                    $sessionStorage = null;
-                    if (isset($session['storage'])) {
-                        $class = $session['storage'];
-                        $sessionStorage = new $class();
-                    }
-
-                    $sessionSaveHandler = null;
-                    if (isset($session['save_handler'])) {
-                        // class should be fetched from service manager
-                        // since it will require constructor arguments
-                        $sessionSaveHandler = $container->get($session['save_handler']);
-                    }
-
-                    $sessionManager = new SessionManager(
-                        $sessionConfig,
-                        $sessionStorage,
-                        $sessionSaveHandler
-                    );
-
-                    Container::setDefaultManager($sessionManager);
-                    return $sessionManager;
-                },
-            ],
-        ];
+        return $handler->handle($request);
     }
 }
 ```

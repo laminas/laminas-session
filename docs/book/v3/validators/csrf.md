@@ -15,6 +15,7 @@ The following options are supported for `Laminas\Session\Validator\Csrf`.
 
 | Option    | Description                                                                     | Optional/Mandatory |
 |-----------|---------------------------------------------------------------------------------|--------------------|
+| `hash`    | The actual hash used by the CSRF element                                        | Optional           |
 | `name`    | The name of the CSRF element                                                    | Optional           |
 | `salt`    | The salt for the CSRF token                                                     | Optional           |
 | `session` | The session container instance that will store the CSRF tokens between requests | **Mandatory**      |

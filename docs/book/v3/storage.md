@@ -2,8 +2,36 @@
 
 laminas-session comes with a standard set of storage handlers. Storage handlers are
 the intermediary between when the session starts and when the session writes and
-closes.  The default session storage is
-`Laminas\Session\Storage\SessionArrayStorage`.
+closes. The default session storage is `Laminas\Session\Storage\SessionArrayStorage`.
+
+The session storage is configured under the `session_config` key:
+
+```php
+    'session_storage' => [
+        'type' => SessionArrayStorage::class,
+        'options' => [
+            'input' => [],
+            'flags' => ArrayObject::ARRAY_AS_PROPS,
+            'iterator_class' => ArrayIterator::class,
+        ],
+    ],
+```
+
+## Supported Options
+
+| Option           | Data Type      | Default value               | Description                                                                                              |
+|------------------|----------------|-----------------------------|----------------------------------------------------------------------------------------------------------|
+| `input`          | `mixed`        | situation specific          | Used to populate the storage with initial data.                                                          |
+| `flags`          | `integer`      | ArrayObject::ARRAY_AS_PROPS | Specifies the `ArrayObject` flags to use for `ArrayStorage`, `SessionStorage` or any custom descendants. |
+| `iterator_class` | `class-string` | ArrayIterator               | Specifies the iterator class to use for `ArrayStorage`, `SessionStorage` or any custom descendants.      |
+
+Note that the `input` accepted values depend entirely on the set `type`, as follows:
+
+- `SessionArrayStorage`: `null` (falls back to `$_SESSION ?? []`), `array` or an `ArrayAccess` implementation.
+- `SessionStorage`: `null` (checks `$_SESSION` to reuse, defaulting to `[]` if not available) or `array`.
+- `ArrayStorage`: `array`, defaulting to `[]`.
+
+Classes extending `AbstractSessionArrayStorage` will only use the `input` option.
 
 ## Array Storage
 
