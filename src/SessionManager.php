@@ -60,7 +60,11 @@ class SessionManager extends AbstractManager
         'attach_default_validators' => true,
     ];
 
-    /** @var array Default validators */
+    /**
+     * @deprecated This property will be removed in version 3.0
+     *
+     * @var array Default validators
+     */
     protected $defaultValidators = [
         Validator\Id::class,
     ];
@@ -184,6 +188,8 @@ class SessionManager extends AbstractManager
 
     /**
      * Create validators, insert reference value and add them to the validator chain
+     *
+     * @deprecated This method will be removed in version 3.0
      */
     protected function initializeValidatorChain()
     {
@@ -397,6 +403,8 @@ class SessionManager extends AbstractManager
      *
      * In most cases, you should use an instance of {@link ValidatorChain}.
      *
+     * @deprecated This method will be removed in version 3.0
+     *
      * @return SessionManager
      */
     public function setValidatorChain(EventManagerInterface $chain)
@@ -409,6 +417,8 @@ class SessionManager extends AbstractManager
      * Get the validator chain to use when validating a session
      *
      * By default, uses an instance of {@link ValidatorChain}.
+     *
+     * @deprecated This method will be removed in version 3.0
      *
      * @return EventManagerInterface
      */

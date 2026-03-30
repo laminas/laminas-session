@@ -27,6 +27,8 @@ class RemoteAddr implements SessionValidator
      * just for more flexibility, but if user uses proxy to connect to trusted services
      * it's his/her own risk, only reliable field for IP address is $_SERVER['REMOTE_ADDR'].
      *
+     * @deprecated This property will be removed in version 3.0
+     *
      * @var bool
      */
     protected static $useProxy = false;
@@ -34,12 +36,16 @@ class RemoteAddr implements SessionValidator
     /**
      * List of trusted proxy IP addresses
      *
+     * @deprecated This property will be removed in version 3.0
+     *
      * @var array
      */
     protected static $trustedProxies = [];
 
     /**
      * HTTP header to introspect for proxies
+     *
+     * @deprecated This property will be removed in version 3.0
      *
      * @var string
      */
@@ -63,6 +69,8 @@ class RemoteAddr implements SessionValidator
      * isValid() - this method will determine if the current user IP matches the
      * IP we stored when we initialized this variable.
      *
+     * @deprecated This method will be removed in version 3.0
+     *
      * @return bool
      */
     public function isValid()
@@ -76,6 +84,8 @@ class RemoteAddr implements SessionValidator
      * This must be static method, since validators are recovered automatically
      * at session read, so this is the only way to switch setting.
      *
+     * @deprecated This method will be removed in version 3.0
+     *
      * @param bool  $useProxy Whether to check also proxied IP addresses.
      * @return void
      */
@@ -87,6 +97,8 @@ class RemoteAddr implements SessionValidator
     /**
      * Checks proxy handling setting.
      *
+     * @deprecated This method will be removed in version 3.0
+     *
      * @return bool Current setting value.
      */
     public static function getUseProxy()
@@ -97,6 +109,8 @@ class RemoteAddr implements SessionValidator
     /**
      * Set list of trusted proxy addresses
      *
+     * @deprecated This method will be removed in version 3.0
+     *
      * @return void
      */
     public static function setTrustedProxies(array $trustedProxies)
@@ -106,6 +120,8 @@ class RemoteAddr implements SessionValidator
 
     /**
      * Set the header to introspect for proxy IPs
+     *
+     * @deprecated This method will be removed in version 3.0
      *
      * @param  string $header
      * @return void
@@ -143,6 +159,8 @@ class RemoteAddr implements SessionValidator
 
     /**
      * Return validator name
+     *
+     * @deprecated This method will be removed in version 3.0
      *
      * @return string
      */

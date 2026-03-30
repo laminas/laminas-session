@@ -2,6 +2,9 @@
 
 namespace Laminas\Session;
 
+/**
+ * @deprecated This class will be removed without replacement in version 3.0.
+ */
 class Module
 {
     /**

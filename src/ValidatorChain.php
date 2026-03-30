@@ -10,6 +10,11 @@ use function array_shift;
 use function array_unshift;
 use function is_array;
 
+/**
+ * @deprecated This class will be removed without replacement in version 3.0.
+ *
+ * The validator list will be built in the {@see SessionManager} itself, based of the provided configuration.
+ */
 class ValidatorChain extends EventManager
 {
     public function __construct(protected StorageInterface $storage)
