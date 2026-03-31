@@ -5,11 +5,6 @@ This document is intended to help you prepare for these changes.
 
 ## Upcoming Behaviour & Signature Changes
 
-### laminas-mvc Incompatibility
-
-Version 3 will make `laminas-session` incompatible with use in `laminas-mvc` applications.
-If your application relies on `laminas-mvc`, you will need to plan for this before upgrading.
-
 ### Dependencies Version Bumps
 
 Version 3.0 will update the `laminas/laminas-servicemanager` dependency to version 4 and `laminas/laminas-validator`
@@ -106,12 +101,12 @@ The following methods will be removed from the interface as well as from any imp
 - `getData`
 - `getName`
 
-## Features That Will Be Removed
-
 ### `laminas/laminas-cache` Replacement
 
 From version 3.0 onwards, `laminas-session` will remove the `laminas/laminas-cache`
 dependency and replace it with `psr/simple-cache` to adhere to PSR-16.
+This change will also bring the benefit of flexibility in allowing you to use any PSR-16 implementation desired,
+instead of the hard `laminas/laminas-cache` dependency.
 
 The `Laminas\Session\SaveHandler\Cache` class will be updated to reflect this change.
 Starting from version 3.0 the class will be made `final` and has been marked as such in the current version.
@@ -140,6 +135,17 @@ As such, any try/catch blocks for exceptions thrown by the `Cache` save handler 
 
 Going forward, you may move `laminas/laminas-cache` to your application's direct requirements to keep using it,
 or find a PSR-16 implementation in the `psr/simple-cache-implementation` virtual repository or [Laminas Integrations Page](https://getlaminas.org/integrations/).
+
+## Features That Will Be Removed
+
+### laminas-mvc Incompatibility
+
+As `laminas-mvc` has entered `security-only` status, version 3 of `laminas-session` will make it incompatible
+with use in `laminas-mvc` applications.
+
+If your application relies on `laminas-mvc`, you will need to plan for this before upgrading.
+As Laminas moves forward, we encourage using [Mezzio](https://docs.mezzio.dev/) as a
+[modern alternative](https://getlaminas.org/blog/2026-03-06-laminas-mvc-eol-schedule.html#content-the-future-is-mezzio).
 
 ### `laminas/laminas-db` Removal
 
@@ -170,7 +176,7 @@ Make sure to explicitly require this package if your custom code is making use o
 
 ### `laminas/laminas-eventmanager` Removal
 
-The `laminas/laminas-eventmanager` dependency will be removed in version 3.0. It was previously used internally
+The `laminas/laminas-eventmanager` dependency will be removed in version 3.0. It was previously used **internally**
 by `SessionManager` to drive the validator chain, which has been replaced with a direct validation loop.
 
 Make sure to explicitly require this package if your custom code is making use of it.

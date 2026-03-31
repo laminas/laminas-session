@@ -3,7 +3,8 @@
 namespace Laminas\Session;
 
 /**
- * @deprecated This class will be removed without replacement in version 3.0.
+ * @deprecated This class will be removed without replacement in version 3.0,
+ * see https://docs.laminas.dev/laminas-session/v2/migration/preparing-for-v3/.
  */
 class Module
 {
