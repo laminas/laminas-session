@@ -106,7 +106,9 @@ The following methods will be removed from the interface as well as from any imp
 From version 3.0 onwards, `laminas-session` will remove the `laminas/laminas-cache`
 dependency and replace it with `psr/simple-cache` to adhere to PSR-16.
 This change will also bring the benefit of flexibility in allowing you to use any PSR-16 implementation desired,
-instead of the hard `laminas/laminas-cache` dependency.
+instead of the hard `laminas-cache` dependency.
+However, this does not mean that `laminas-cache` needs to be replaced in an application;
+on the contrary, `laminas-cache` supports both PSR-16 and PSR-6, so it will continue to work seamlessly with the new major release.
 
 The `Laminas\Session\SaveHandler\Cache` class will be updated to reflect this change.
 Starting from version 3.0 the class will be made `final` and has been marked as such in the current version.
