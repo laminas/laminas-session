@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
+<files psalm-version="6.16.1@f1f5de594dc76faf8784e02d3dc4716c91c6f6ac">
   <file src="src/AbstractContainer.php">
     <DocblockTypeContradiction>
       <code><![CDATA[(null === $key)
@@ -690,10 +690,20 @@
     </ParamNameMismatch>
   </file>
   <file src="src/SessionManager.php">
+    <DeprecatedClass>
+      <code><![CDATA[new ValidatorChain($this->getStorage())]]></code>
+    </DeprecatedClass>
+    <DeprecatedMethod>
+      <code><![CDATA[getValidatorChain]]></code>
+      <code><![CDATA[getValidatorChain]]></code>
+      <code><![CDATA[initializeValidatorChain]]></code>
+      <code><![CDATA[setValidatorChain]]></code>
+    </DeprecatedMethod>
     <DeprecatedProperty>
       <code><![CDATA[$this->defaultDestroyOptions]]></code>
       <code><![CDATA[$this->defaultDestroyOptions]]></code>
       <code><![CDATA[$this->defaultOptions]]></code>
+      <code><![CDATA[$this->defaultValidators]]></code>
     </DeprecatedProperty>
     <DocblockTypeContradiction>
       <code><![CDATA[$_SESSION !== $storage]]></code>
@@ -1050,6 +1060,7 @@
   <file src="src/Validator/ValidatorChainTrait.php">
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
+      <code><![CDATA[getName]]></code>
     </DeprecatedMethod>
     <MixedAssignment>
       <code><![CDATA[$data]]></code>
@@ -1064,6 +1075,7 @@
     </ConstructorSignatureMismatch>
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
+      <code><![CDATA[getName]]></code>
     </DeprecatedMethod>
     <ImplementedParamTypeMismatch>
       <code><![CDATA[$storage]]></code>
@@ -1392,6 +1404,11 @@
       <code><![CDATA[$container]]></code>
     </UnusedVariable>
   </file>
+  <file src="test/ModuleTest.php">
+    <DeprecatedClass>
+      <code><![CDATA[new Module()]]></code>
+    </DeprecatedClass>
+  </file>
   <file src="test/SaveHandler/AbstractDbTableGatewayTestCase.php">
     <DeprecatedClass>
       <code><![CDATA[DbTableGatewayOptions]]></code>
@@ -1706,6 +1723,13 @@
     </TypeDoesNotContainType>
   </file>
   <file src="test/SessionManagerTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getValidatorChain]]></code>
+      <code><![CDATA[getValidatorChain]]></code>
+      <code><![CDATA[getValidatorChain]]></code>
+      <code><![CDATA[getValidatorChain]]></code>
+      <code><![CDATA[getValidatorChain]]></code>
+    </DeprecatedMethod>
     <DocblockTypeContradiction>
       <code><![CDATA[assertIsArray]]></code>
     </DocblockTypeContradiction>
@@ -1967,6 +1991,9 @@
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
       <code><![CDATA[getData]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[isValid]]></code>
+      <code><![CDATA[isValid]]></code>
     </DeprecatedMethod>
     <DocblockTypeContradiction>
       <code><![CDATA[assertNull]]></code>
@@ -1979,10 +2006,31 @@
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
       <code><![CDATA[getData]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[isValid]]></code>
+      <code><![CDATA[isValid]]></code>
     </DeprecatedMethod>
   </file>
   <file src="test/Validator/RemoteAddrTest.php">
     <DeprecatedMethod>
+      <code><![CDATA[RemoteAddr::getUseProxy()]]></code>
+      <code><![CDATA[RemoteAddr::setProxyHeader('Client-Ip')]]></code>
+      <code><![CDATA[RemoteAddr::setProxyHeader()]]></code>
+      <code><![CDATA[RemoteAddr::setProxyHeader()]]></code>
+      <code><![CDATA[RemoteAddr::setTrustedProxies(['0.1.2.3'])]]></code>
+      <code><![CDATA[RemoteAddr::setTrustedProxies(['0.1.2.3'])]]></code>
+      <code><![CDATA[RemoteAddr::setTrustedProxies(['0.1.2.3'])]]></code>
+      <code><![CDATA[RemoteAddr::setTrustedProxies(['1.1.2.3'])]]></code>
+      <code><![CDATA[RemoteAddr::setTrustedProxies([])]]></code>
+      <code><![CDATA[RemoteAddr::setTrustedProxies([])]]></code>
+      <code><![CDATA[RemoteAddr::setUseProxy(false)]]></code>
+      <code><![CDATA[RemoteAddr::setUseProxy(false)]]></code>
+      <code><![CDATA[RemoteAddr::setUseProxy(true)]]></code>
+      <code><![CDATA[RemoteAddr::setUseProxy(true)]]></code>
+      <code><![CDATA[RemoteAddr::setUseProxy(true)]]></code>
+      <code><![CDATA[RemoteAddr::setUseProxy(true)]]></code>
+      <code><![CDATA[RemoteAddr::setUseProxy(true)]]></code>
+      <code><![CDATA[RemoteAddr::setUseProxy(true)]]></code>
       <code><![CDATA[getData]]></code>
       <code><![CDATA[getData]]></code>
       <code><![CDATA[getData]]></code>
@@ -1992,12 +2040,18 @@
       <code><![CDATA[getData]]></code>
       <code><![CDATA[getData]]></code>
       <code><![CDATA[getData]]></code>
+      <code><![CDATA[isValid]]></code>
     </DeprecatedMethod>
     <MissingConstructor>
       <code><![CDATA[$backup]]></code>
     </MissingConstructor>
   </file>
   <file src="test/Validator/ValidatorChainTest.php">
+    <DeprecatedClass>
+      <code><![CDATA[ValidatorChain]]></code>
+      <code><![CDATA[new ValidatorChain($storage)]]></code>
+      <code><![CDATA[new ValidatorChain($storage)]]></code>
+    </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[getData]]></code>
     </DeprecatedMethod>

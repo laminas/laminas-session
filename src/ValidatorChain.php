@@ -10,6 +10,13 @@ use function array_shift;
 use function array_unshift;
 use function is_array;
 
+/**
+ * @deprecated This class will be removed without replacement in version 3.0.
+ *
+ * @see https://docs.laminas.dev/laminas-session/v2/migration/preparing-for-v3/
+ *
+ * The validator list will be built in the {@see SessionManager} itself, based of the provided configuration.
+ */
 class ValidatorChain extends EventManager
 {
     public function __construct(protected StorageInterface $storage)

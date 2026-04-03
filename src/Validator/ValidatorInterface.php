@@ -12,6 +12,8 @@ interface ValidatorInterface
      * every session to determine if the current environment matches
      * that which was store in the setup() procedure.
      *
+     * @deprecated This method will be removed in version 3.0
+     *
      * @return bool
      */
     public function isValid();
@@ -27,6 +29,8 @@ interface ValidatorInterface
 
     /**
      * Get validator name for use with storing validators between requests
+     *
+     * @deprecated This method will be removed in version 3.0
      *
      * @return string
      */

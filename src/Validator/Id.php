@@ -35,6 +35,8 @@ class Id implements ValidatorInterface
      * Allows passing the current session_id; if none provided, uses the PHP
      * session_id() function to retrieve it.
      *
+     * @deprecated This method will be removed in version 3.0
+     *
      * @param null|string $id
      */
     public function __construct($id = null)
@@ -51,6 +53,8 @@ class Id implements ValidatorInterface
      * Is the current session identifier valid?
      *
      * Tests that the identifier does not contain invalid characters.
+     *
+     * @deprecated This method will be removed in version 3.0
      *
      * @return bool
      */
@@ -100,6 +104,8 @@ class Id implements ValidatorInterface
 
     /**
      * Return validator name
+     *
+     * @deprecated This method will be removed in version 3.0
      *
      * @return string
      */

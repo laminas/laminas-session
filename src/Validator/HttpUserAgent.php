@@ -20,6 +20,8 @@ class HttpUserAgent implements ValidatorInterface
      * Constructor
      * get the current user agent and store it in the session as 'valid data'
      *
+     * @deprecated This method will be removed in version 3.0
+     *
      * @param string|null $data
      */
     public function __construct($data = null)
@@ -33,6 +35,8 @@ class HttpUserAgent implements ValidatorInterface
     /**
      * isValid() - this method will determine if the current user agent matches the
      * user agent we stored when we initialized this variable.
+     *
+     * @deprecated This method will be removed in version 3.0
      *
      * @return bool
      */
@@ -57,6 +61,8 @@ class HttpUserAgent implements ValidatorInterface
 
     /**
      * Return validator name
+     *
+     * @deprecated This method will be removed in version 3.0
      *
      * @return string
      */
