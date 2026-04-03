@@ -88,7 +88,7 @@ final class SessionManager extends AbstractManager
      */
     public function sessionExists(): bool
     {
-        return session_status() === PHP_SESSION_ACTIVE || headers_sent();
+        return session_status() === PHP_SESSION_ACTIVE;
     }
 
     /**
