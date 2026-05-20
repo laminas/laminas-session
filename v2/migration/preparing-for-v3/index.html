@@ -370,6 +370,38 @@
 <p>Version 3 will introduce a number of backward incompatible changes.
 This document is intended to help you prepare for these changes.</p>
 <h2 id="upcoming-behaviour-signature-changes">Upcoming Behaviour &amp; Signature Changes</h2>
+<h3 id="dependencies-version-bumps">Dependencies Version Bumps</h3>
+<p>Version 3.0 will update the <code>laminas/laminas-servicemanager</code> dependency to version 4 and <code>laminas/laminas-validator</code>
+to version 3. If your project has other dependencies constrained to <code>laminas-servicemanager</code> 3.x (such as
+<code>laminas-captcha</code> 2.x), you will have a conflict that must be resolved before upgrading.</p>
+<p>Any custom code using <code>laminas/laminas-validator</code> 2.x will also need to be verified and updated as necessary.</p>
+<h3 id="sessionmanager-changes">SessionManager Changes</h3>
+<p>The <code>SessionManager</code> class will be marked as <code>final</code> in version 3.0, so it can no longer be extended.
+Plan to remove any classes that extend <code>SessionManager</code>.</p>
+<p>The <code>setId()</code> method will only accept <code>string</code> type, dropping support for the previous <code>int|string</code> union type.</p>
+<p>Options like <code>send_expire_cookie</code>, <code>clear_storage</code>, and <code>preserve_storage</code> will be settable during construction
+and will be used in <code>destroy()</code> and <code>start()</code> method calls when the parameter is passed as <code>null</code>.</p>
+<p>The <code>isValid</code> method will no longer return a boolean value — validation failures will throw
+<code>SessionValidationFailedException</code> instead.</p>
+<p>The <code>SessionManager</code> will no longer use <code>ValidatorChain</code> internally. Any requested validators are to be added
+to the <code>SessionManager</code> config section directly in order to be checked. The following properties will be removed:</p>
+<ul>
+<li><code>defaultDestroyOptions</code></li>
+<li><code>defaultOptions</code></li>
+<li><code>defaultValidators</code></li>
+<li><code>validatorChain</code></li>
+</ul>
+<p>The following methods will also be removed:</p>
+<ul>
+<li><code>initializeValidatorChain</code></li>
+<li><code>setValidatorChain</code></li>
+<li><code>getValidatorChain</code></li>
+</ul>
+<p>The constructor's signature will also be updated to accommodate the new usage in version 3.</p>
+<h3 id="native-types-for-managerinterface">Native Types for <code>ManagerInterface</code></h3>
+<p>Starting from version 3.0, the <code>ManagerInterface</code> will use native PHP type hints for all its methods.</p>
+<p>If you have custom classes implementing <code>ManagerInterface</code>, you will need to update your method signatures
+to match the new interface.</p>
 <h3 id="configprovider-changes">ConfigProvider Changes</h3>
 <p>The <code>ConfigProvider</code> will be made <code>final</code> in version 3.0 so it will no longer be possible to extend.
 In the current version it has been annotated as <code>final</code>.</p>
@@ -386,21 +418,35 @@ In preparation for this change, make sure any of your classes extending them are
 </ul>
 <p>The <code>createService()</code> method implemented in each of the factories is to be removed and has been marked as <code>deprecated</code> in the current version.</p>
 <p>These factories will also be made <code>final</code> in version 3.0 and have been annotated as such in the current version.</p>
-<h3 id="validatorinterface-defining-constructor">ValidatorInterface Defining Constructor</h3>
-<p>Starting from version 3.0, the <code>ValidatorInterface</code> will define a new specific signature for implementing classes' constructors.
-In consequence, any custom validators implementing this interface will have to be updated with the following <code>__construct</code> signature:</p>
-<pre class="highlight"><code class="language-php">public function __construct(Environment $initial, Environment $current, array $options = []);</code></pre>
-<p>The following validator classes, all implementing <code>ValidatorInterface</code>, will use the shown constructor signature:</p>
+<h3 id="validatorinterface-changes">ValidatorInterface Changes</h3>
+<p>Starting from version 3.0, the <code>ValidatorInterface</code> will only specify a <code>validate</code> method, with mandatory
+<code>Environment</code> objects representing the initial and current states to be used by the validators.</p>
+<p>The new method signature is:</p>
+<pre class="highlight"><code class="language-php">public function validate(EnvironmentInterface $initial, EnvironmentInterface $current): void;</code></pre>
+<p>The following validator classes, all implementing <code>ValidatorInterface</code>, make use of the new method:</p>
 <ul>
 <li><code>HttpUserAgent</code></li>
 <li><code>Id</code></li>
 <li><code>RemoteAddr</code></li>
 </ul>
-<h2 id="features-that-will-be-removed">Features That Will Be Removed</h2>
+<p>If you have custom validators implementing <code>ValidatorInterface</code>, you will need to update them to work with
+<code>EnvironmentInterface</code> objects.</p>
+<p>As opposed to the old <code>isValid</code> usage, any failing <code>validate</code> call will throw the <code>SessionValidationFailedException</code>
+added in version 3 instead of returning boolean values.</p>
+<p>The following methods will be removed from the interface as well as from any implementing class:</p>
+<ul>
+<li><code>isValid</code></li>
+<li><code>getData</code></li>
+<li><code>getName</code></li>
+</ul>
 <h3 id="laminaslaminas-cache-replacement"><code>laminas/laminas-cache</code> Replacement</h3>
 <p>From version 3.0 onwards, <code>laminas-session</code> will remove the <code>laminas/laminas-cache</code>
-dependency and replace it with <code>psr/simple-cache</code> to adhere to PSR-16.</p>
-<p>The <code>Laminas\Session\SaveHandler\Cache.php</code> class will be updated to reflect this change.
+dependency and replace it with <code>psr/simple-cache</code> to adhere to PSR-16.
+This change will also bring the benefit of flexibility in allowing you to use any PSR-16 implementation desired,
+instead of the hard <code>laminas-cache</code> dependency.
+However, this does not mean that <code>laminas-cache</code> needs to be replaced in an application;
+on the contrary, <code>laminas-cache</code> supports both PSR-16 and PSR-6, so it will continue to work seamlessly with the new major release.</p>
+<p>The <code>Laminas\Session\SaveHandler\Cache</code> class will be updated to reflect this change.
 Starting from version 3.0 the class will be made <code>final</code> and has been marked as such in the current version.
 The following properties have been marked as deprecated in version 2.25 and will be removed in version 3.0:</p>
 <ul>
@@ -413,8 +459,25 @@ The following properties have been marked as deprecated in version 2.25 and will
 <li><code>getCacheStorage</code></li>
 <li><code>getCacheStorge</code></li>
 </ul>
+<p>To ensure all session IDs used as PSR-16 cache keys are spec-compliant, version 3.0 will hash session IDs
+internally before passing them to the cache. This means you can no longer look up session data in the cache
+directly by raw session ID.</p>
+<p>Two new exception classes will be introduced to wrap PSR-16 cache exceptions and rethrow them in
+the package's own namespace:</p>
+<ul>
+<li><code>Laminas\Session\Exception\SimpleCacheException</code></li>
+<li><code>Laminas\Session\Exception\SimpleCacheInvalidArgumentException</code></li>
+</ul>
+<p>As such, any try/catch blocks for exceptions thrown by the <code>Cache</code> save handler will need to be updated.</p>
 <p>Going forward, you may move <code>laminas/laminas-cache</code> to your application's direct requirements to keep using it,
 or find a PSR-16 implementation in the <code>psr/simple-cache-implementation</code> virtual repository or <a href="https://getlaminas.org/integrations/">Laminas Integrations Page</a>.</p>
+<h2 id="features-that-will-be-removed">Features That Will Be Removed</h2>
+<h3 id="laminas-mvc-incompatibility">laminas-mvc Incompatibility</h3>
+<p>As <code>laminas-mvc</code> has entered <code>security-only</code> status, version 3 of <code>laminas-session</code> will make it incompatible
+with use in <code>laminas-mvc</code> applications.</p>
+<p>If your application relies on <code>laminas-mvc</code>, you will need to plan for this before upgrading.
+As Laminas moves forward, we encourage using <a href="https://docs.mezzio.dev/">Mezzio</a> as a
+<a href="https://getlaminas.org/blog/2026-03-06-laminas-mvc-eol-schedule.html#content-the-future-is-mezzio">modern alternative</a>.</p>
 <h3 id="laminaslaminas-db-removal"><code>laminas/laminas-db</code> Removal</h3>
 <p>Starting from version 3.0 the <code>laminas/laminas-db</code> dependency will be removed.
 The following classes are based on this package and have been marked as <code>deprecated</code> in the current version:</p>
@@ -428,17 +491,27 @@ as per <a href="../../save-handler/">the custom save handler documentation</a>,
 with an <code>options</code> class for it if the save handler is configurable.</p>
 <h3 id="laminaslaminas-http-removal"><code>laminas/laminas-http</code> Removal</h3>
 <p>The <code>laminas/laminas-http</code> dependency will be removed without replacement starting from version 3.0.
-The role of getting the user's IP address will be moved to a public <code>RemoteAddr::getIpAddress()</code> method that will be statically accessible if needed.</p>
+The role of getting the user's IP address will be moved to a public static <code>RemoteAddr::getIpAddress()</code> method.</p>
 <p>Make sure to explicitly require this package if your custom code is making use of it.</p>
 <h3 id="laminaslaminas-stdlib-removal"><code>laminas/laminas-stdlib</code> Removal</h3>
 <p>The <code>laminas/laminas-stdlib</code> dependency will be removed starting from version 3.0, to be replaced with native PHP alternatives
 with no signature or behaviour changes.</p>
+<p>Make sure to explicitly require this package if your custom code is making use of it.</p>
+<h3 id="laminaslaminas-eventmanager-removal"><code>laminas/laminas-eventmanager</code> Removal</h3>
+<p>The <code>laminas/laminas-eventmanager</code> dependency will be removed in version 3.0. It was previously used <strong>internally</strong>
+by <code>SessionManager</code> to drive the validator chain, which has been replaced with a direct validation loop.</p>
 <p>Make sure to explicitly require this package if your custom code is making use of it.</p>
 <h3 id="mongodb-removal"><code>MongoDB</code> Removal</h3>
 <p><code>Laminas\Session\SaveHandler\MongoDB</code> and its options class <code>Laminas\Session\SaveHandler\MongoDBOptions</code>
 are now deprecated and will be removed without replacement in version 3.0.
 As such, these classes are to be removed from your inheritance tree.</p>
 <p>With this step, the <code>mongodb/mongodb</code> dependency will also be removed starting from version 3.0.</p>
+<h3 id="validatorchain-removal"><code>ValidatorChain</code> Removal</h3>
+<p>As of version 3.0, the <code>ValidatorChain</code> class will be removed, as building the validator list is being moved
+to the <code>SessionManager</code> itself. Remove any usage of <code>ValidatorChain</code> from your application.</p>
+<h3 id="module-removal">Module Removal</h3>
+<p>As usage in <code>laminas-mvc</code> applications will no longer be supported, the <code>Module</code> class will be removed
+and has been marked as deprecated in the current version.</p>
 <h3 id="legacy-deprecated-classes-removal">Legacy Deprecated Classes Removal</h3>
 <p>The following classes currently marked as deprecated and left for backward compatibility will be removed beginning with version 3.0:</p>
 <ul>
@@ -450,13 +523,15 @@ As such, these classes are to be removed from your inheritance tree.</p>
 </ul>
 <p>Their usage is to be removed from your application in preparation for the next version.</p>
 <h3 id="validatorinterface-deprecation">ValidatorInterface Deprecation</h3>
-<p>Starting from version 3.0 the following method of <code>ValidatorInterface</code> will be removed:</p>
+<p>Starting from version 3.0 the following methods of <code>ValidatorInterface</code> will be removed:</p>
 <ul>
 <li><code>getData</code></li>
+<li><code>getName</code></li>
 </ul>
-<p>The method has been annotated as <code>deprecated</code> in version 2.25.</p>
+<p>These methods have been annotated as <code>deprecated</code> in the current version.</p>
 <h3 id="csrf-deprecations">Csrf Deprecations</h3>
-<p>The <code>Csrf</code> validator will be updated in version 3.0, and the following getters and setters will be removed:</p>
+<p>The <code>Csrf</code> validator will be updated in version 3.0. All required configuration will have to be passed via the
+constructor options array - the following public getters and setters will be removed:</p>
 <ul>
 <li><code>setName</code></li>
 <li><code>getName</code></li>
@@ -474,15 +549,22 @@ As such, these classes are to be removed from your inheritance tree.</p>
 <ul>
 <li><code>getData</code></li>
 </ul>
-<p>They have been marked as <code>deprecated</code> in the current version.</p>
+<p>The constructor will also be removed. They have been marked as <code>deprecated</code> in the current version.</p>
 <h3 id="id-deprecations">Id Deprecations</h3>
 <p>With version 3.0, the <code>id</code> property will be removed alongside its getter:</p>
 <ul>
 <li><code>getData</code></li>
 </ul>
-<p>In the current version, they have both been as annotated as <code>deprecated</code>.</p>
+<p>The constructor will also be removed. In the current version, they have both been annotated as <code>deprecated</code>.</p>
 <h3 id="remoteaddr-deprecations">RemoteAddr Deprecations</h3>
-<p>The <code>data</code> property will be removed in version 3.0, as well as the following getters and setters:</p>
+<p>The following properties will be removed in version 3.0:</p>
+<ul>
+<li><code>data</code></li>
+<li><code>useProxy</code></li>
+<li><code>trustedProxies</code></li>
+<li><code>proxyHeader</code></li>
+</ul>
+<p>The following getters and setters will also be removed:</p>
 <ul>
 <li><code>getData</code></li>
 <li><code>setUseProxy</code></li>
@@ -490,7 +572,10 @@ As such, these classes are to be removed from your inheritance tree.</p>
 <li><code>setTrustedProxies</code></li>
 <li><code>setProxyHeader</code></li>
 </ul>
-<p>The <code>data</code> property and the listed methods have been marked as <code>deprecated</code> starting from version 2.25.</p>
+<p>The constructor's signature will change to only accept an associative array of options. Note that the old
+static properties (<code>$useProxy</code>, <code>$trustedProxies</code>, <code>$proxyHeader</code>) will be replaced by the constructor
+options array.</p>
+<p>These properties and methods have been marked as <code>deprecated</code> starting from version 2.25.</p>
 
 
 
