@@ -116,10 +116,6 @@ class SessionManager extends AbstractManager
             return true;
         }
 
-        if (headers_sent()) {
-            return true;
-        }
-
         return false;
     }
 
