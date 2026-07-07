@@ -7,20 +7,24 @@ namespace Laminas\Session\Service;
 // phpcs:disable WebimpressCodingStandard.PHP.CorrectClassNameCase
 
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
+use Laminas\Session\AbstractContainer;
 use Laminas\Session\Container;
+use Laminas\Session\Exception\InvalidArgumentException;
 use Laminas\Session\ManagerInterface;
 use Psr\Container\ContainerInterface;
 
-use function array_change_key_case;
-use function array_flip;
 use function array_key_exists;
+use function is_a;
 use function is_array;
+use function is_int;
+use function is_string;
+use function sprintf;
 use function strtolower;
 
 /**
  * Session container abstract service factory.
  *
- * Allows creating Container instances, using the ManagerInterface
+ * Allows creating AbstractContainer instances, using the ManagerInterface
  * if present. Containers are named in a "session_containers" array in the
  * Config service:
  *
@@ -35,7 +39,8 @@ use function strtolower;
  * </code>
  *
  * <code>
- * $container = $services->get('MySessionContainer');
+ * $container     = $services->get('MySessionContainer');
+ * $lazyContainer = $services->get('MyLazyContainer');
  * </code>
  */
 final class ContainerAbstractServiceFactory implements AbstractFactoryInterface
@@ -49,6 +54,10 @@ final class ContainerAbstractServiceFactory implements AbstractFactoryInterface
      * Configuration key in which session containers live
      */
     private string $configKey = 'session_containers';
+
+    private string $defaultClassKey = Container::class;
+
+    private string $defaultContainerClass = Container::class;
 
     private ?ManagerInterface $sessionManager = null;
 
@@ -68,10 +77,16 @@ final class ContainerAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Create and return a named container.
      */
-    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): Container
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        ?array $options = null
+    ): AbstractContainer {
+        $config  = $this->getConfig($container);
+        $class   = $config[strtolower($requestedName)];
         $manager = $this->getSessionManager($container);
-        return new Container($requestedName, $manager);
+
+        return new $class($requestedName, $manager);
     }
 
     /**
@@ -83,27 +98,72 @@ final class ContainerAbstractServiceFactory implements AbstractFactoryInterface
             return $this->config;
         }
 
+        $this->config = [];
+
         if (! $container->has('config')) {
-            $this->config = [];
             return $this->config;
         }
 
         $config = $container->get('config');
-        if (! isset($config[$this->configKey]) || ! is_array($config[$this->configKey])) {
-            $this->config = [];
+
+        if (
+            ! is_array($config)
+            || ! isset($config[$this->configKey])
+            || ! is_array($config[$this->configKey])
+        ) {
             return $this->config;
         }
 
-        $config = $config[$this->configKey];
-        $config = array_flip($config);
+        $configuredContainers = $config[$this->configKey];
 
-        $this->config = array_change_key_case($config);
+        if (
+            isset($configuredContainers[$this->defaultClassKey])
+            && is_string($configuredContainers[$this->defaultClassKey])
+        ) {
+            $this->defaultContainerClass = $this->resolveClass($configuredContainers[$this->defaultClassKey]);
+        }
+
+        foreach ($configuredContainers as $key => $value) {
+            // Do not allow overwriting the default Container
+            if ($key === $this->defaultClassKey) {
+                continue;
+            }
+
+            if (is_int($key) && is_string($value)) {
+                $name  = strtolower($value);
+                $class = $this->defaultContainerClass;
+            } elseif (is_string($key) && is_string($value)) {
+                $name  = strtolower($key);
+                $class = $this->resolveClass($value);
+            } else {
+                continue;
+            }
+
+            $this->config[$name] = $class;
+        }
 
         return $this->config;
     }
 
     /**
-     * Retrieve the session manager instance, if any
+     * @return class-string<AbstractContainer>
+     * @throws InvalidArgumentException
+     */
+    private function resolveClass(string $class): string
+    {
+        if (! is_a($class, AbstractContainer::class, true)) {
+            throw new InvalidArgumentException(sprintf(
+                'Container class "%s" is invalid; must be a subclass of %s',
+                $class,
+                AbstractContainer::class
+            ));
+        }
+
+        return $class;
+    }
+
+    /**
+     * Retrieve the session manager instance, if any.
      */
     private function getSessionManager(ContainerInterface $container): ?ManagerInterface
     {
