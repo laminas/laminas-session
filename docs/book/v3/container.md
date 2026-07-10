@@ -18,6 +18,12 @@ $container = new Container('namespace');
 $container->item = 'foo';
 ```
 
+## Lazy Container
+
+`Laminas\Session\LazyContainer` is another `Laminas\Session\AbstractContainer` implementation,
+which defers starting the session until it's needed: reading does not start it unless a session cookie is already present,
+while writing always does.
+
 ## Setting the Default Session Manager
 
 In the event you are using multiple session managers or prefer to be explicit,
@@ -30,3 +36,18 @@ use Laminas\Session\SessionManager;
 $manager = new SessionManager();
 Container::setDefaultManager($manager);
 ```
+
+## Creating Abstract Container Using The ManagerInterface
+
+`Laminas\Session\Service\ContainerAbstractServiceFactory` can be used to create `AbstractContainer` instances.
+The `session_containers` config array is used to hold the explicit instances, using a `ContainerName => class-string` naming convention.
+
+```php
+'session_containers' => [
+    'DefaultContainer',
+    'CustomLazyContainer' => \Laminas\Session\LazyContainer::class,
+]
+```
+
+The default `AbstractContainer` implementation is `Laminas\Session\Container::class`, and as such
+any container added without explicitly defining the implementation type will default to using it.
