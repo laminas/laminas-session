@@ -208,9 +208,6 @@
     <PossiblyUnusedReturnValue>
       <code><![CDATA[SessionConfig]]></code>
     </PossiblyUnusedReturnValue>
-    <RedundantCast>
-      <code><![CDATA[(string) $iniGet]]></code>
-    </RedundantCast>
     <RedundantCastGivenDocblockType>
       <code><![CDATA[(int) $hashBitsPerCharacter]]></code>
       <code><![CDATA[(int) $sidBitsPerCharacter]]></code>

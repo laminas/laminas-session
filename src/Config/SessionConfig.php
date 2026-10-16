@@ -168,9 +168,15 @@ class SessionConfig extends StandardConfig
                 break;
         }
 
-        $iniGet       = ini_get($key);
+        $iniGet = ini_get($key);
+        if (false === $iniGet) {
+            throw new Exception\InvalidArgumentException(
+                "'{$key}' is not a valid sessions-related ini setting."
+            );
+        }
+
         $storageValue = (string) $storageValue;
-        if (false !== $iniGet && (string) $iniGet === $storageValue) {
+        if ($iniGet === $storageValue) {
             return $this;
         }
 
@@ -188,7 +194,7 @@ class SessionConfig extends StandardConfig
 
         if (false === $result) {
             throw new Exception\InvalidArgumentException(
-                "'{$key}' is not a valid sessions-related ini setting."
+                "Unable to modify session setting '{$key}'."
             );
         }
         return $this;

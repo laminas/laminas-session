@@ -765,13 +765,26 @@ final class SessionConfigTest extends TestCase
         self::markTestIncomplete('I have no idea how to test this.');
     }
 
-    public function testSetOptionsThrowsExceptionOnInvalidKey(): void
+    #[DataProvider('invalidOptionProvider')]
+    public function testSetOptionsThrowsExceptionOnInvalidKeyOrValue(string $key, string $value): void
     {
-        $badKey = 'snarfblat';
-        $value  = 'foobar';
-
         $this->expectException('InvalidArgumentException');
-        $this->config->setStorageOption($badKey, $value);
+        $this->config->setStorageOption($key, $value);
+    }
+
+    /** @psalm-return array<array-key, array{0: string, 1: string}> */
+    public static function invalidOptionProvider(): array
+    {
+        return [
+            [
+                'snarfblat',
+                'foobar',
+            ],
+            [
+                'auto_start',
+                'invalidValue',
+            ],
+        ];
     }
 
     // setOptions
