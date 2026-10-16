@@ -50,7 +50,6 @@ class SessionConfig extends StandardConfig
     /**
      * @internal
      *
-     * @psalm-internal LaminasTest\Session
      * @var callable
      */
     public static $phpinfo = 'phpinfo';
@@ -58,7 +57,6 @@ class SessionConfig extends StandardConfig
     /**
      * @internal
      *
-     * @psalm-internal LaminasTest\Session
      * @var callable
      */
     public static $sessionModuleName = 'session_module_name';
