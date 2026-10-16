@@ -18,7 +18,7 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.2.99"
+            "php": "8.3.99"
         },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
@@ -32,7 +32,7 @@
         }
     },
     "require": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+        "php": "~8.3.0 || ~8.4.0 || ~8.5.0 || ~8.6.0",
         "laminas/laminas-servicemanager": "^4.0",
         "laminas/laminas-validator": "^3.0",
         "psr/simple-cache": "^3.0"
