@@ -62,7 +62,7 @@ return [
 | `options.preserve_storage`          | `boolean` | `false`       | Whether to preserve the data found on the storage object on session start.                                      |
 | `options.send_expire_cookie`        | `boolean` | `true`        | Whether to send an expiry cookie the moment `SessionManager::destroy()` is called, deleting the session cookie. |
 | `options.clear_storage`             | `boolean` | `false`       | Whether to clear all data from the storage object when calling `SessionManager::destroy()`.                     |
-| `options.attach_default_validators` | `boolean` | `true`        | Whether to attach the default `Id` validator (when using `SessionManagerFactory`).                                                                   |
+| `options.attach_default_validators` | `boolean` | `true`        | Whether to attach the default `Id` validator (when using `SessionManagerFactory`).                              |
 | `enable_default_container_manager`  | `boolean` | `true`        | Whether to inject the created manager as the default manager for `Container` instances.                         |
 
 ## Usage
