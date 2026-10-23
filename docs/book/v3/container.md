@@ -9,6 +9,8 @@ Each instance of `Laminas\Session\Container` corresponds to an entry of the
 `Laminas\Session\Storage`, where the namespace is used as the key.
 `Laminas\Session\Container` itself is an instance of an `ArrayObject`.
 
+Creating a `Container` instance will start the session and run the configured validators.
+
 ## Basic Usage
 
 ```php
@@ -17,6 +19,8 @@ use Laminas\Session\Container;
 $container = new Container('namespace');
 $container->item = 'foo';
 ```
+
+Note that the container name must consist of alphanumerics, backslashes and underscores only.
 
 ## Setting the Default Session Manager
 

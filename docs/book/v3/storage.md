@@ -4,7 +4,7 @@ laminas-session comes with a standard set of storage handlers. Storage handlers 
 the intermediary between when the session starts and when the session writes and
 closes. The default session storage is `Laminas\Session\Storage\SessionArrayStorage`.
 
-The session storage is configured under the `session_config` key:
+The session storage is configured under the `session_storage` key:
 
 ```php
     'session_storage' => [
@@ -27,7 +27,7 @@ The session storage is configured under the `session_config` key:
 
 Note that the `input` accepted values depend entirely on the set `type`, as follows:
 
-- `SessionArrayStorage`: `null` (falls back to `$_SESSION ?? []`), `array` or an `ArrayAccess` implementation.
+- `SessionArrayStorage`: `null` (falls back to `$_SESSION ?? []` when directly instantiating), `array` or an `ArrayAccess` implementation.
 - `SessionStorage`: `null` (checks `$_SESSION` to reuse, defaulting to `[]` if not available) or `array`.
 - `ArrayStorage`: `array`, defaulting to `[]`.
 
@@ -97,20 +97,20 @@ methods those define that the majority of implementation occurs. The following
 methods must also be implemented:
 
 ```php
-public function getRequestAccessTime() : int;
+public function getRequestAccessTime() : float;
 
-public function lock(int|string $key = null) : void;
-public function isLocked(int|string $key = null) : bool;
-public function unlock(int|string $key = null) : void;
+public function lock(?string $key = null) : static;
+public function isLocked(?string $key = null) : bool;
+public function unlock(?string $key = null) : static;
 
-public function markImmutable() : void;
+public function markImmutable() : static;
 public function isImmutable() : bool;
 
-public function setMetadata(string $key, mixed $value, bool $overwriteArray = false) : void;
-public function getMetadata(string $key = null) : mixed;
+public function setMetadata(string $key, mixed $value, bool $overwriteArray = false) : static;
+public function getMetadata(?string $key = null) : mixed;
 
-public function clear(int|string $key = null) : void;
+public function clear(?string $key = null) : static;
 
-public function fromArray(array $array) : void;
+public function fromArray(array $array) : static;
 public function toArray(bool $metaData = false) : array;
 ```

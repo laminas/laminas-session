@@ -154,6 +154,11 @@ final class Csrf extends AbstractValidator
             . strtr($this->name, ['[' => '_', ']' => '']);
     }
 
+    public function getHash(): string
+    {
+        return $this->hash;
+    }
+
     /**
      * Initialize CSRF token in session
      */
