@@ -16,7 +16,7 @@ correct.
 Generally speaking, you will always want to initialize the session manager and
 ensure that your application was responsible for its initialization; this puts
 in place a simple solution to prevent against session fixation. Generally you
-will setup configuration and then inside of an application module bootstrap the
+will setup configuration and then inside of an application bootstrap the
 session manager.
 
 Additionally you will likely want to supply validators to prevent against
@@ -62,7 +62,7 @@ return [
 | `options.preserve_storage`          | `boolean` | `false`       | Whether to preserve the data found on the storage object on session start.                                      |
 | `options.send_expire_cookie`        | `boolean` | `true`        | Whether to send an expiry cookie the moment `SessionManager::destroy()` is called, deleting the session cookie. |
 | `options.clear_storage`             | `boolean` | `false`       | Whether to clear all data from the storage object when calling `SessionManager::destroy()`.                     |
-| `options.attach_default_validators` | `boolean` | `true`        | Whether to attach the default `Id` validator.                                                                   |
+| `options.attach_default_validators` | `boolean` | `true`        | Whether to attach the default `Id` validator (when using `SessionManagerFactory`).                              |
 | `enable_default_container_manager`  | `boolean` | `true`        | Whether to inject the created manager as the default manager for `Container` instances.                         |
 
 ## Usage
@@ -85,7 +85,7 @@ class SessionMiddleware implements MiddlewareInterface
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-        $this->sessionManager->setId('customSessionId');
+        $this->sessionManager->setId('0123456789abcdef');
         $this->sessionManager->setName('customSessionName');
         $this->sessionManager->start();
 

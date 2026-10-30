@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Laminas\Session;
 
-use Laminas\Session\Exception\SessionValidationFailedException;
 use Laminas\Session\Service\EnvironmentFactoryInterface;
 use Laminas\Session\Service\GlobalEnvironmentFactory;
 use Laminas\Session\Validator\EnvironmentInterface;
@@ -149,12 +148,6 @@ final class SessionManager extends AbstractManager
 
         $this->isValid();
     }
-
-    /**
-     * Create validators, insert reference value and add them to the validator chain
-     *
-     * @throws SessionValidationFailedException
-     */
 
     /**
      * Destroy/end a session

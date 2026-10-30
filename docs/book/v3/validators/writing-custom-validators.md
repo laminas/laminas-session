@@ -6,6 +6,14 @@ Two validator interfaces are supported:
 
 - Validators implementing `Laminas\Session\Validator\ValidatorInterface` can be added to the `Laminas\Session\SessionManager` config
 to run on every `session_start()` call.
+    - Note that in order to have `Laminas\Session\Service\SessionManagerFactory` instantiate these custom validators, you **must** register them in your `ConfigProvider`, as the shipped validators are:
+
+```php
+    'factories'  => [
+        CustomValidator::class => InvokableFactory::class,
+    ],
+```
+
 - Validators implementing `Laminas\Validator\ValidatorInterface` (such as the shipped `Laminas\Session\Validator\Csrf`) cannot be
 wired into the session manager's automatic validation chain by default.
 

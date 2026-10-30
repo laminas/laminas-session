@@ -18,7 +18,7 @@ The following options are supported for `Laminas\Session\Validator\Csrf`.
 | `hash`    | The actual hash used by the CSRF element                                        | Optional           |
 | `name`    | The name of the CSRF element                                                    | Optional           |
 | `salt`    | The salt for the CSRF token                                                     | Optional           |
-| `session` | The session container instance that will store the CSRF tokens between requests | **Mandatory**      |
+| `session` | The session container instance that will store the CSRF tokens between requests | Optional           |
 | `timeout` | The [TTL](https://en.wikipedia.org/wiki/Time_to_live) for the CSRF token        | Optional           |
 
 ## Basic Usage
@@ -31,7 +31,7 @@ Here is a basic example.
 $session = new Laminas\Session\Container();
 
 // Create the validator
-$validator = new Laminas\Validator\Csrf([
+$validator = new Laminas\Session\Validator\Csrf([
     'session' => $session,
 ]);
 $hash = $validator->getHash();

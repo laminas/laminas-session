@@ -105,7 +105,7 @@ final class CsrfTest extends TestCase
         ];
         $validator = new Csrf($options);
 
-        self::assertSame('bar', $this->getReflectionProperty($validator, 'hash'));
+        self::assertSame('bar', $validator->getHash());
         self::assertSame('baz', $this->getReflectionProperty($validator, 'name'));
         self::assertSame('salty', $this->getReflectionProperty($validator, 'salt'));
         self::assertSame($container, $this->getReflectionProperty($validator, 'session'));
@@ -115,11 +115,8 @@ final class CsrfTest extends TestCase
     #[IgnoreDeprecations]
     public function testHashIsGeneratedOnFirstRetrieval(): void
     {
-        $hash = $this->getValidatorPropertyValue('hash');
-        self::assertIsString($hash);
-
-        $test = $this->getValidatorPropertyValue('hash');
-        self::assertIsString($test);
+        $hash = $this->validator->getHash();
+        $test = $this->validator->getHash();
 
         self::assertSame($hash, $test);
     }
@@ -180,8 +177,7 @@ final class CsrfTest extends TestCase
     #[IgnoreDeprecations]
     public function testIsValidReturnsTrueWhenValueMatchesHash(): void
     {
-        $hash = $this->getValidatorPropertyValue('hash');
-        self::assertIsString($hash);
+        $hash = $this->validator->getHash();
         self::assertTrue($this->validator->isValid($hash));
     }
 
@@ -195,8 +191,7 @@ final class CsrfTest extends TestCase
         $method       = new ReflectionMethod($this->validator::class, 'getTokenIdFromHash');
         $formatMethod = new ReflectionMethod($this->validator::class, 'formatHash');
 
-        $hash = $this->getValidatorPropertyValue('hash');
-        self::assertIsString($hash);
+        $hash    = $this->validator->getHash();
         $tokenId = $method->invoke($this->validator, $hash);
         self::assertIsString($tokenId);
         self::assertIsArray($container->tokenList);
@@ -222,10 +217,8 @@ final class CsrfTest extends TestCase
 
         self::assertSame($containerOne, $containerTwo);
 
-        $hashOne = $this->getReflectionProperty($validatorOne, 'hash');
-        self::assertIsString($hashOne);
-        $hashTwo = $this->getReflectionProperty($validatorTwo, 'hash');
-        self::assertIsString($hashTwo);
+        $hashOne = $validatorOne->getHash();
+        $hashTwo = $validatorTwo->getHash();
 
         self::assertNotSame($hashOne, $hashTwo);
     }
@@ -236,10 +229,8 @@ final class CsrfTest extends TestCase
         $validatorOne = new Csrf();
         $validatorTwo = new Csrf();
 
-        $hashOne = $this->getReflectionProperty($validatorOne, 'hash');
-        self::assertIsString($hashOne);
-        $hashTwo = $this->getReflectionProperty($validatorTwo, 'hash');
-        self::assertIsString($hashTwo);
+        $hashOne = $validatorOne->getHash();
+        $hashTwo = $validatorTwo->getHash();
 
         self::assertTrue($validatorOne->isValid($hashOne));
         self::assertTrue($validatorOne->isValid($hashTwo));
@@ -260,10 +251,8 @@ final class CsrfTest extends TestCase
 
         self::assertNotSame($containerOne, $containerTwo);
 
-        $hashOne = $this->getReflectionProperty($validatorOne, 'hash');
-        self::assertIsString($hashOne);
-        $hashTwo = $this->getReflectionProperty($validatorTwo, 'hash');
-        self::assertIsString($hashTwo);
+        $hashOne = $validatorOne->getHash();
+        $hashTwo = $validatorTwo->getHash();
 
         self::assertTrue($validatorOne->isValid($hashOne));
         self::assertFalse($validatorOne->isValid($hashTwo));
@@ -274,8 +263,7 @@ final class CsrfTest extends TestCase
     #[IgnoreDeprecations]
     public function testCannotReValidateAnExpiredHash(): void
     {
-        $hash = $this->getValidatorPropertyValue('hash');
-        self::assertIsString($hash);
+        $hash = $this->validator->getHash();
 
         self::assertTrue($this->validator->isValid($hash));
         $requestTime = $_SERVER['REQUEST_TIME'] ?? null;
