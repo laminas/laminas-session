@@ -23,7 +23,7 @@ use function var_export;
 
 class TestSimpleCacheAdapter implements CacheInterface
 {
-    public const INVALID_KEY_CHARS = ':@{}()/\\';
+    public const string INVALID_KEY_CHARS = ':@{}()/\\';
 
     /** @var array<string, mixed> $storage*/
     private array $storage        = [];

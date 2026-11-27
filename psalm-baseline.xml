@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
+<files psalm-version="6.20.0@804f03c0c183d149fcd4b8c7c0c9b3fbf836d34c">
   <file src="src/AbstractContainer.php">
     <DocblockTypeContradiction>
       <code><![CDATA[$old instanceof ArrayObject]]></code>
@@ -174,7 +174,9 @@
     </ParamNameMismatch>
     <PossiblyUnusedMethod>
       <code><![CDATA[close]]></code>
+      <code><![CDATA[create_sid]]></code>
       <code><![CDATA[gc]]></code>
+      <code><![CDATA[validateId]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[bool]]></code>
@@ -720,8 +722,13 @@
     </ParamNameMismatch>
     <PossiblyUnusedMethod>
       <code><![CDATA[close]]></code>
+      <code><![CDATA[create_sid]]></code>
       <code><![CDATA[gc]]></code>
+      <code><![CDATA[validateId]]></code>
     </PossiblyUnusedMethod>
+    <UnusedParam>
+      <code><![CDATA[$id]]></code>
+    </UnusedParam>
   </file>
   <file src="test/TestAsset/TestSimpleCacheAdapter.php">
     <ClassMustBeFinal>

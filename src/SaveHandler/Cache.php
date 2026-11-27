@@ -8,7 +8,10 @@ use Laminas\Session\Exception\SimpleCacheInvalidArgumentException;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
+use function assert;
 use function hash;
+use function is_string;
+use function session_create_id;
 
 /**
  * Cache session save handler
@@ -88,5 +91,19 @@ final class Cache implements SaveHandlerInterface
     private function getCacheKey(string $id): string
     {
         return hash('xxh32', $id);
+    }
+
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function create_sid(): string
+    {
+        $id = session_create_id();
+        assert(is_string($id));
+
+        return $id;
+    }
+
+    public function validateId(string $id): bool
+    {
+        return $this->cacheStorage->has($this->getCacheKey($id));
     }
 }
