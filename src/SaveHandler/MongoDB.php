@@ -11,9 +11,12 @@ use MongoDB\Collection as MongoCollection;
 use ReturnTypeWillChange;
 
 use function array_replace;
+use function assert;
 use function floor;
 use function ini_get;
+use function is_string;
 use function microtime;
+use function session_create_id;
 use function time;
 
 /**
@@ -233,5 +236,35 @@ class MongoDB implements SaveHandlerInterface
         );
 
         return $result->isAcknowledged();
+    }
+
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function create_sid(): string
+    {
+        $id = session_create_id();
+        assert(is_string($id));
+
+        return $id;
+    }
+
+    public function validateId(string $id): bool
+    {
+        $session = $this->mongoCollection->findOne([
+            '_id'                          => $id,
+            $this->options->getNameField() => $this->sessionName,
+        ]);
+
+        if (null === $session) {
+            return false;
+        }
+
+        if (! $this->options->useExpireAfterSecondsIndex()) {
+            $timestamp  = (int) $session[$this->options->getLifetimeField()];
+            $timestamp += floor(((string) $session[$this->options->getModifiedField()]) / 1000);
+
+            return $timestamp > time();
+        }
+
+        return true;
     }
 }

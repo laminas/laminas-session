@@ -8,6 +8,7 @@ use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Session\SaveHandler\DbTableGateway;
 use Laminas\Session\SaveHandler\DbTableGatewayOptions;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function is_string;
@@ -206,6 +207,31 @@ EOD;
             "DELETE FROM sessions WHERE {$this->options->getIdColumn()} = {$id};",
             Adapter::QUERY_MODE_EXECUTE
         );
+    }
+
+    /** @psalm-return iterable<string, array{0: bool, 1: string, 2: bool}> */
+    public static function validateIdProvider(): iterable
+    {
+        yield 'session does not exist'                => [false, 'sessionname', false];
+        yield 'session exists'                        => [true, 'sessionname', true];
+        yield 'session exists under a different name' => [true, 'othersessionname', false];
+    }
+
+    #[DataProvider('validateIdProvider')]
+    public function testValidateId(bool $sessionExists, string $validationSessionName, bool $expected): void
+    {
+        $this->usedSaveHandlers[] = $saveHandler = new DbTableGateway($this->tableGateway, $this->options);
+        $saveHandler->open('savepath', 'sessionname');
+
+        $id = '242';
+
+        if ($sessionExists) {
+            self::assertTrue($saveHandler->write($id, serialize($this->testArray)));
+        }
+
+        $saveHandler->open('savepath', $validationSessionName);
+
+        self::assertSame($expected, $saveHandler->validateId($id));
     }
 
     /**

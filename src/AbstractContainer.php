@@ -6,6 +6,7 @@ use ArrayIterator;
 use Laminas\Session\ManagerInterface as Manager;
 use Laminas\Session\Storage\StorageInterface as Storage;
 use Laminas\Stdlib\ArrayObject;
+use ReturnTypeWillChange;
 use Traversable;
 
 use function array_filter;
@@ -478,18 +479,21 @@ abstract class AbstractContainer extends ArrayObject
         return $old instanceof ArrayObject ? $old->getArrayCopy() : $old;
     }
 
-    /** @inheritDoc */
+    /**
+     * Create a new iterator from an ArrayObject instance
+     *
+     * @return Traversable<TKey, TValue>
+     */
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
         $this->expireKeys();
         $storage   = $this->getStorage();
         $container = $storage[$this->getName()];
 
-        if ($container instanceof Traversable) {
-            return $container;
-        }
-
-        return new ArrayIterator($container);
+        /** @var Traversable<TKey, TValue> $return */
+        $return = $container instanceof Traversable ? $container : new ArrayIterator($container);
+        return $return;
     }
 
     /**

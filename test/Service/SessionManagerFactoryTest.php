@@ -72,7 +72,7 @@ final class SessionManagerFactoryTest extends TestCase
 
     public function testFactoryWillInjectSaveHandlerIfPresentInServices(): void
     {
-        $saveHandler = $this->createMock(SaveHandlerInterface::class);
+        $saveHandler = new TestSaveHandler();
         $this->services->setService(SaveHandlerInterface::class, $saveHandler);
         $manager = $this->services->get(ManagerInterface::class);
         $test    = $manager->getSaveHandler();

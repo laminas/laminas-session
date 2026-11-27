@@ -18,6 +18,7 @@ use Laminas\Session\Validator\Id;
 use Laminas\Session\Validator\RemoteAddr;
 use LaminasTest\Session\TestAsset\Php81CompatibleStorageInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -29,6 +30,7 @@ use function array_merge;
 use function extension_loaded;
 use function headers_sent;
 use function ini_get;
+use function ini_set;
 use function ob_flush;
 use function preg_match;
 use function range;
@@ -46,6 +48,7 @@ use function xdebug_get_headers;
 
 use const E_WARNING;
 use const PHP_SAPI;
+use const PHP_VERSION_ID;
 
 #[PreserveGlobalState(false)]
 #[CoversClass(SessionManager::class)]
@@ -832,10 +835,25 @@ final class SessionManagerTest extends TestCase
         $this->manager->start();
     }
 
-    #[RunInSeparateProcess]
-    #[IgnoreDeprecations]
-    public function testSettingTheIdentifierBeforeStartingTheSessionYieldsTheExpectedId(): void
+    /** @psalm-return iterable<string, array{0: null|string, 1: bool}> */
+    public static function strictModeProvider(): iterable
     {
+        yield 'strict mode off' => ['0', true];
+        yield 'strict mode on' => ['1', false];
+        yield 'php default' => [null, PHP_VERSION_ID < 80600];
+    }
+
+    #[DataProvider('strictModeProvider')]
+    #[IgnoreDeprecations]
+    #[RunInSeparateProcess]
+    public function testSettingTheIdentifierBeforeStartingTheSessionYieldsTheExpectedId(
+        ?string $strictMode,
+        bool $assertSameId
+    ): void {
+        if ($strictMode !== null) {
+            ini_set('session.use_strict_mode', $strictMode);
+        }
+
         $manager = new SessionManager();
 
         $id = uniqid();
@@ -853,7 +871,13 @@ final class SessionManagerTest extends TestCase
 
         // calling writeClose() does not mark the session as closed
         self::assertTrue($manager->sessionExists());
-        self::assertSame($id, $manager->getId());
+
+        if ($assertSameId) {
+            self::assertSame($id, $manager->getId());
+        } else {
+            // with strict mode, an id unknown to the save handler is replaced
+            self::assertNotSame($id, $manager->getId());
+        }
     }
 
     /** @param non-empty-string $property */

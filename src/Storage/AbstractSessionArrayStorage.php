@@ -7,6 +7,7 @@ use ArrayObject;
 use IteratorAggregate;
 use Laminas\Session\Exception;
 use ReturnTypeWillChange;
+use Traversable;
 
 use function array_flip;
 use function array_key_exists;
@@ -194,11 +195,17 @@ abstract class AbstractSessionArrayStorage implements
         return unserialize($session);
     }
 
-    /** @inheritDoc */
+    /**
+     * Retrieve an external iterator
+     *
+     * @return Traversable<TKey, TValue>
+     */
     #[ReturnTypeWillChange]
     public function getIterator()
     {
-        return new ArrayIterator($_SESSION);
+        /** @var Traversable<TKey, TValue> $return */
+        $return = new ArrayIterator($_SESSION);
+        return $return;
     }
 
     /**

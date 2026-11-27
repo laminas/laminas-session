@@ -7,6 +7,9 @@ namespace LaminasTest\Session\TestAsset;
 use Laminas\Session\SaveHandler\SaveHandlerInterface as SaveHandler;
 use ReturnTypeWillChange;
 
+use function bin2hex;
+use function random_bytes;
+
 /**
  * @see ReturnTypeWillChange
  */
@@ -57,6 +60,17 @@ final class TestSaveHandlerWithValidator implements SaveHandler
      */
     #[ReturnTypeWillChange]
     public function gc($maxlifetime)
+    {
+        return true;
+    }
+
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function create_sid(): string
+    {
+        return bin2hex(random_bytes(16));
+    }
+
+    public function validateId(string $id): bool
     {
         return true;
     }
