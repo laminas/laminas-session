@@ -5,7 +5,10 @@ namespace Laminas\Session\SaveHandler;
 use Laminas\Db\TableGateway\TableGateway;
 use ReturnTypeWillChange;
 
+use function assert;
 use function ini_get;
+use function is_string;
+use function session_create_id;
 use function sprintf;
 use function time;
 
@@ -178,5 +181,30 @@ class DbTableGateway implements SaveHandlerInterface
                 time() - $this->lifetime
             )
         );
+    }
+
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function create_sid(): string
+    {
+        $id = session_create_id();
+        assert(is_string($id));
+
+        return $id;
+    }
+
+    public function validateId(string $id): bool
+    {
+        /** @var null|object $row */
+        $row = $this->tableGateway->select([
+            $this->options->getIdColumn()   => $id,
+            $this->options->getNameColumn() => $this->sessionName,
+        ])->current();
+
+        if (! $row) {
+            return false;
+        }
+
+        return $row->{$this->options->getModifiedColumn()}
+            + $row->{$this->options->getLifetimeColumn()} > time();
     }
 }

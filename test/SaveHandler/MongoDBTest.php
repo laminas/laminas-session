@@ -10,6 +10,7 @@ use MongoDB\Client as MongoClient;
 use MongoDB\Collection as MongoCollection;
 use MongoDB\Driver\Exception\RuntimeException;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
@@ -187,5 +188,31 @@ final class MongoDBTest extends TestCase
         $data = $saveHandler->read($id);
 
         self::assertTrue(is_string($data));
+    }
+
+    /** @psalm-return iterable<string, array{0: bool, 1: string, 2: bool}> */
+    public static function validateIdProvider(): iterable
+    {
+        yield 'session does not exist'                => [false, 'sessionname', false];
+        yield 'session exists'                        => [true, 'sessionname', true];
+        yield 'session exists under a different name' => [true, 'othersessionname', false];
+    }
+
+    #[DataProvider('validateIdProvider')]
+    public function testValidateId(bool $sessionExists, string $validationSessionName, bool $expected): void
+    {
+        $saveHandler = new MongoDB($this->mongoClient, $this->options);
+        self::assertTrue($saveHandler->open('savepath', 'sessionname'));
+
+        $id = '242';
+
+        if ($sessionExists) {
+            self::assertTrue($saveHandler->write($id, serialize(['foo' => 'bar'])));
+        }
+
+        // validateId() looks the session up by the name the handler was last opened with
+        self::assertTrue($saveHandler->open('savepath', $validationSessionName));
+
+        self::assertSame($expected, $saveHandler->validateId($id));
     }
 }

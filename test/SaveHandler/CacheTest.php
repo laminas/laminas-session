@@ -7,6 +7,7 @@ namespace LaminasTest\Session\SaveHandler;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Session\SaveHandler\Cache;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function is_string;
@@ -166,5 +167,26 @@ final class CacheTest extends TestCase
         $result = $saveHandler->destroy($id);
 
         self::assertTrue($result);
+    }
+
+    /** @psalm-return iterable<string, array{0: bool}> */
+    public static function validateIdProvider(): iterable
+    {
+        yield 'cache has item'           => [true];
+        yield 'cache does not have item' => [false];
+    }
+
+    #[DataProvider('validateIdProvider')]
+    public function testValidateId(bool $cacheHasItem): void
+    {
+        $cacheStorage = $this->createMock(StorageInterface::class);
+        $cacheStorage->expects(self::once())
+            ->method('hasItem')
+            ->with('242')
+            ->willReturn($cacheHasItem);
+
+        $this->usedSaveHandlers[] = $saveHandler = new Cache($cacheStorage);
+
+        self::assertSame($cacheHasItem, $saveHandler->validateId('242'));
     }
 }

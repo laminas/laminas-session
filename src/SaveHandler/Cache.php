@@ -6,6 +6,10 @@ use Laminas\Cache\Storage\ClearExpiredInterface as ClearExpiredCacheStorage;
 use Laminas\Cache\Storage\StorageInterface as CacheStorage;
 use ReturnTypeWillChange;
 
+use function assert;
+use function is_string;
+use function session_create_id;
+
 /**
  * Cache session save handler
  *
@@ -166,5 +170,19 @@ class Cache implements SaveHandlerInterface
     public function getCacheStorge()
     {
         return $this->getCacheStorage();
+    }
+
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function create_sid(): string
+    {
+        $id = session_create_id();
+        assert(is_string($id));
+
+        return $id;
+    }
+
+    public function validateId(string $id): bool
+    {
+        return $this->getCacheStorage()->hasItem($id);
     }
 }
