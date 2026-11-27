@@ -16,7 +16,6 @@ use PHPUnit\Framework\Attributes\RequiresPhp;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
-use SessionHandlerInterface;
 use stdClass;
 
 use function extension_loaded;
@@ -962,7 +961,7 @@ final class SessionConfigTest extends TestCase
             $spy->seen = true;
         };
 
-        $saveHandler = $this->createMock(SessionHandlerInterface::class);
+        $saveHandler = new TestSaveHandler();
         $this->config->setPhpSaveHandler($saveHandler);
         self::assertFalse($spy->seen, 'phpinfo was called and should not have been');
     }
